@@ -18,6 +18,41 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/About.vue")
+  },
+  {
+    path: "/funding",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/Funding.vue"),
+    children: [
+      {
+        // UserProfile will be rendered inside User's <router-view>
+        // when /user/:id/profile is matched
+        path: "federal",
+        component: () =>
+          import(/* webpackChunkName: "about" */ "../views/Federal.vue")
+      },
+      {
+        // UserPosts will be rendered inside User's <router-view>
+        // when /user/:id/posts is matched
+        path: "state",
+        component: () =>
+          import(/* webpackChunkName: "about" */ "../views/State.vue")
+      },
+      {
+        // UserPosts will be rendered inside User's <router-view>
+        // when /user/:id/posts is matched
+        path: "state/heap",
+        component: () =>
+          import(/* webpackChunkName: "about" */ "../views/Heap.vue")
+      },
+      {
+        // UserPosts will be rendered inside User's <router-view>
+        // when /user/:id/posts is matched
+        path: "county",
+        component: () =>
+          import(/* webpackChunkName: "about" */ "../views/County.vue")
+      }
+    ]
   }
 ];
 
