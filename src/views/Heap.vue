@@ -1,14 +1,14 @@
 <template>
-  <div id="heap">
-    <v-container style="max-width:1080px;">
-      <div>
-        <v-breadcrumbs :items="breadcrumbs" large></v-breadcrumbs>
-      </div>
-      <div>
-        <h1 class="font-weight-light mb-12">
-          Homeless Emergency Aid Program (HEAP)
-        </h1>
-      </div>
+  <v-container style="max-width:1080px;">
+    <div>
+      <v-breadcrumbs :items="breadcrumbs" large></v-breadcrumbs>
+    </div>
+    <div>
+      <h1 class="font-weight-light mb-12">
+        Homeless Emergency Aid Program (HEAP)
+      </h1>
+    </div>
+    <div>
       <v-simple-table>
         <template v-slot:default>
           <thead>
@@ -47,51 +47,51 @@
           </tbody>
         </template>
       </v-simple-table>
-      <div>
+
+      <div class="caption my-5">
+        Source: https://www.bcsh.ca.gov/hcfc/documents/heap_overview.pdf
+      </div>
+      <p>
+        Roune 1 Standard Distribution of Funds Began Apr 2019. Round 2 Standard
+        Distribution of Funds Began July 2019. 100 percent of the funds must be
+        expended by June 30, 2021.
+      </p>
+    </div>
+    <div>
+      <h2 class="font-weight-regular mb-5">
+        About the Homeless Emergency Aid Program
+      </h2>
+      <div class="body-1 my-5">
+        <p>
+          The Homeless Emergency Aid Program was established by statute to
+          provide localities with flexible block grant funds to address their
+          immediate homelessness challenges. The Homeless Emergency Aid Block
+          Grants will provide $500 million in one-time funding to enable local
+          governments to respond to homelessness. Allocations are as follows:
+          $250 million to Continuums of Care based on 2017 homeless point in
+          time count; $150 million direct allocation to a city or city that is
+          also a county with a population of 330,000 or more as of January 1,
+          2018; and $100 million to Continuums of Care based on their percentage
+          of the statewide 2017 homeless population.
+        </p>
+        <p>
+          <code>Requirements:</code> City, county, or joint power must declared
+          an emergency shelter crisis (waiver process for smaller cities and
+          counties that do not declare a shelter emergency). Continuum of Care
+          must demonstrate collaboration with other city, county, or nonprofit
+          partners.
+        </p>
+        <p>
+          <code>Eligible Activities:</code> Emergency housing vouchers Rapid
+          rehousing Emergency shelter construction, and Use of armories to
+          provide temporary shelters, among other activities.
+        </p>
         <div class="caption my-5">
-          Source: https://www.bcsh.ca.gov/hcfc/documents/heap_overview.pdf
-        </div>
-        <h2 class="font-weight-light mb-5">
-          About the Homeless Emergency Aid Program
-        </h2>
-        <div class="body-1 my-5">
-          <p>
-            Roune 1 Standard Distribution of Funds Began Apr 2019. Round 2
-            Standard Distribution of Funds Began July 2019. 100 percent of the
-            funds must be expended by June 30, 2021.
-          </p>
-          <p>
-            The Homeless Emergency Aid Program was established by statute to
-            provide localities with flexible block grant funds to address their
-            immediate homelessness challenges. The Homeless Emergency Aid Block
-            Grants will provide $500 million in one-time funding to enable local
-            governments to respond to homelessness. Allocations are as follows:
-            $250 million to Continuums of Care based on 2017 homeless point in
-            time count; $150 million direct allocation to a city or city that is
-            also a county with a population of 330,000 or more as of January 1,
-            2018; and $100 million to Continuums of Care based on their
-            percentage of the statewide 2017 homeless population.
-          </p>
-          <p>
-            <code>Requirements:</code> City, county, or joint power must
-            declared an emergency shelter crisis (waiver process for smaller
-            cities and counties that do not declare a shelter emergency).
-            Continuum of Care must demonstrate collaboration with other city,
-            county, or nonprofit partners.
-          </p>
-          <p>
-            <code>Eligible Activities:</code> Emergency housing vouchers Rapid
-            rehousing Emergency shelter construction, and Use of armories to
-            provide temporary shelters, among other activities.
-          </p>
-          <p>For more information, contact: hcfc@bcsh.ca.gov.</p>
-          <div class="caption my-5">
-            Source: https://www.bcsh.ca.gov/hcfc/aid_program.html
-          </div>
+          Source: https://www.bcsh.ca.gov/hcfc/aid_program.html
         </div>
       </div>
-    </v-container>
-  </div>
+    </div>
+  </v-container>
 </template>
 <script lang="ts">
 import Vue from "vue";
