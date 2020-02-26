@@ -21,38 +21,41 @@ const routes = [
   },
   {
     path: "/funding",
+    name: "Funding",
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/Funding.vue"),
-    children: [
-      {
-        // UserProfile will be rendered inside User's <router-view>
-        // when /user/:id/profile is matched
-        path: "federal",
-        component: () =>
-          import(/* webpackChunkName: "about" */ "../views/Federal.vue")
-      },
-      {
-        // UserPosts will be rendered inside User's <router-view>
-        // when /user/:id/posts is matched
-        path: "state",
-        component: () =>
-          import(/* webpackChunkName: "about" */ "../views/State.vue")
-      },
-      {
-        // UserPosts will be rendered inside User's <router-view>
-        // when /user/:id/posts is matched
-        path: "state/heap",
-        component: () =>
-          import(/* webpackChunkName: "about" */ "../views/Heap.vue")
-      },
-      {
-        // UserPosts will be rendered inside User's <router-view>
-        // when /user/:id/posts is matched
-        path: "county",
-        component: () =>
-          import(/* webpackChunkName: "about" */ "../views/County.vue")
-      }
-    ]
+      import(/* webpackChunkName: "about" */ "../views/Funding.vue")
+  },
+  {
+    // UserProfile will be rendered inside User's <router-view>
+    // when /user/:id/profile is matched
+    path: "/funding/federal",
+    name: "Federal",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/Federal.vue")
+  },
+  {
+    // UserPosts will be rendered inside User's <router-view>
+    // when /user/:id/posts is matched
+    path: "/funding/state",
+    name: "State",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/State.vue")
+  },
+
+  {
+    // UserPosts will be rendered inside User's <router-view>
+    // when /user/:id/posts is matched
+    path: "/funding/state/heap",
+    name: "Heap",
+    component: () => import(/* webpackChunkName: "about" */ "../views/Heap.vue")
+  },
+  {
+    // UserPosts will be rendered inside User's <router-view>
+    // when /user/:id/posts is matched
+    path: "/funding/county",
+    name: "County",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/County.vue")
   }
 ];
 

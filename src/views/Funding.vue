@@ -1,6 +1,6 @@
 <template>
   <div class="funding">
-    <router-view></router-view>
+    t
   </div>
 </template>
 <script lang="ts">
