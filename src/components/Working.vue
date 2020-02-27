@@ -5,43 +5,43 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import { Component, Watch } from "vue-property-decorator";
-
+import Vue, { VueConstructor } from "vue";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themesAnimated from "@amcharts/amcharts4/themes/animated";
 
 am4core.useTheme(am4themesAnimated);
 
-@Component({})
-export default class BudgetPie extends Vue {
-  $refs!: {
-    chartdiv: HTMLElement;
-  };
-  private chartData: Array<object> = [
-    {
-      country: "Services",
-      litres: 2841715.88
-    },
-    {
-      country: "Rental Assistance or Subsidies",
-      litres: 1629988.57
-    },
-    {
-      country: "Capital Improvements",
-      litres: 4340920.36
-    },
-    {
-      country: "Homeless Youth Set-Aside",
-      litres: 489590.25
-    },
-    {
-      country: "Administrative Costs",
-      litres: 489590.0
-    }
-  ];
-  public budgetPie(): void {
+export default (Vue as VueConstructor<
+  Vue & { $refs: { chartdiv: HTMLElement } }
+>).extend({
+  name: "BudgetPie",
+  data: () => ({
+    chartData: [
+      {
+        country: "Services",
+        litres: 2841715.88
+      },
+      {
+        country: "Rental Assistance or Subsidies",
+        litres: 1629988.57
+      },
+      {
+        country: "Capital Improvements",
+        litres: 4340920.36
+      },
+      {
+        country: "Homeless Youth Set-Aside",
+        litres: 489590.25
+      },
+      {
+        country: "Administrative Costs",
+        litres: 489590.0
+      }
+    ]
+  }),
+
+  mounted() {
     const chart = am4core.create(this.$refs.chartdiv, am4charts.PieChart);
 
     chart.responsive.enabled = true;
@@ -80,19 +80,15 @@ export default class BudgetPie extends Vue {
       }
     });
     this.chart = chart;
-  }
-  mounted() {
-    this.budgetPie();
-  }
+  },
 
   beforeDestroy() {
     if (this.chart) {
       this.chart.dispose();
     }
   }
-}
+});
 </script>
-
 <style scoped>
 .hello {
   width: 100%;
