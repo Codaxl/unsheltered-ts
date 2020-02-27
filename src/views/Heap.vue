@@ -2,7 +2,7 @@
   <v-container style="max-width:1080px;">
     <section>
       <div>
-        <v-breadcrumbs :items="breadcrumbs" large></v-breadcrumbs>
+        <v-breadcrumbs :budget="breadcrumbs" large></v-breadcrumbs>
       </div>
       <section>
         <div>
@@ -17,38 +17,30 @@
             <template v-slot:default>
               <thead>
                 <tr>
-                  <th class="text-left">CoC Number</th>
-                  <th class="text-left">Jurisdiction</th>
-                  <th class="text-left">Total Homeless, 2017</th>
+                  <th class="text-left">Contract Number</th>
+                  <th class="text-left">Amount</th>
+                  <th class="text-left">Grantee Name</th>
+                  <th class="text-left">Address</th>
                   <th class="text-left">
-                    Percent of Total State Homeless, 2017
+                    City
                   </th>
                   <th class="text-left">
-                    Section 50213(a) Per Jurisdiction portion of $250M
+                    State
                   </th>
                   <th class="text-left">
-                    Section 50213(b) $100M Distribution Based on Percent of
-                    Homeless Population
-                  </th>
-                  <th class="text-left">
-                    Total of CoC Distribution per 50213(a) and (b)
-                  </th>
-                  <th class="text-left">
-                    50214(c) 5% Minimum Youth Set-aside Per Continuum of Care
-                    total of 50213(a) and (b)
+                    ZIP Code
                   </th>
                 </tr>
               </thead>
               <tbody>
                 <tr v-for="item in heap" :key="item.name">
-                  <td>{{ item.cocNumber }}</td>
-                  <td>{{ item.jurisdiction }}</td>
-                  <td>{{ item.totalHomeless }}</td>
-                  <td>{{ item.percentHomeless }}</td>
-                  <td>{{ item.perJurisdiction }}</td>
-                  <td>{{ item.distribution }}</td>
-                  <td>{{ item.total }}</td>
-                  <td>{{ item.youthTotal }}</td>
+                  <td>{{ item.contractNumber }}</td>
+                  <td>{{ item.amount | currency }}</td>
+                  <td>{{ item.granteeName }}</td>
+                  <td>{{ item.address }}</td>
+                  <td>{{ item.city }}</td>
+                  <td>{{ item.state }}</td>
+                  <td>{{ item.zipCode }}</td>
                 </tr>
               </tbody>
             </template>
@@ -101,13 +93,102 @@
           </div>
         </div>
       </section>
+      <section>
+        <div>
+          <v-data-iterator
+            :items="budget"
+            :items-per-page.sync="budgetPerPage"
+            hide-default-footer
+          >
+            <template v-slot:default="props">
+              <v-row>
+                <v-col
+                  v-for="item in props.items"
+                  :key="item.name"
+                  cols="12"
+                  sm="6"
+                >
+                  <v-card style="height:525px;">
+                    <v-card-title class="subheading font-weight-bold">{{
+                      item.name
+                    }}</v-card-title>
+
+                    <v-divider></v-divider>
+
+                    <v-list dense>
+                      <v-list-item>
+                        <v-list-item-content>Services:</v-list-item-content>
+                        <v-list-item-content class="align-end">{{
+                          item.budget1 | currency
+                        }}</v-list-item-content>
+                      </v-list-item>
+
+                      <v-list-item>
+                        <v-list-item-content
+                          >Rental Assistance or Subsidies:</v-list-item-content
+                        >
+                        <v-list-item-content class="align-end">{{
+                          item.budget2 | currency
+                        }}</v-list-item-content>
+                      </v-list-item>
+
+                      <v-list-item>
+                        <v-list-item-content
+                          >Capital Improvements:</v-list-item-content
+                        >
+                        <v-list-item-content class="align-end">{{
+                          item.budget3 | currency
+                        }}</v-list-item-content>
+                      </v-list-item>
+
+                      <v-list-item>
+                        <v-list-item-content
+                          >Homeless Youth Set-Aside:</v-list-item-content
+                        >
+                        <v-list-item-content class="align-end">{{
+                          item.budget4 | currency
+                        }}</v-list-item-content>
+                      </v-list-item>
+
+                      <v-list-item>
+                        <v-list-item-content
+                          >Administrative Costs:</v-list-item-content
+                        >
+                        <v-list-item-content class="align-end">{{
+                          item.budget5 | currency
+                        }}</v-list-item-content>
+                      </v-list-item>
+
+                      <v-list-item>
+                        <v-list-item-content>Total:</v-list-item-content>
+                        <v-list-item-content class="align-end">{{
+                          item.total | currency
+                        }}</v-list-item-content>
+                      </v-list-item>
+                    </v-list>
+                  </v-card>
+                </v-col>
+                <v-col cols="12" sm="6">
+                  <v-card>
+                    <budget-pie></budget-pie>
+                  </v-card>
+                </v-col>
+              </v-row>
+            </template>
+          </v-data-iterator>
+        </div>
+      </section>
     </section>
   </v-container>
 </template>
 <script lang="ts">
 import Vue from "vue";
+import BudgetPie from "../components/BudgetPie.vue";
 
 export default Vue.extend({
+  components: {
+    BudgetPie
+  },
   data: () => ({
     model: null,
     breadcrumbs: [
@@ -134,14 +215,25 @@ export default Vue.extend({
     ],
     heap: [
       {
-        cocNumber: "CA-608",
-        jurisdiction: "Riverside City & County",
-        totalHomeless: "2,406",
-        percentHomeless: "1.792%",
-        perJurisdiction: "$8,000,000.00",
-        distribution: "$1,791,805.06",
-        total: "$9,791,805.06",
-        youthTotal: "$489,590.25"
+        amount: 9791805.06,
+        contractNumber: "18-HEAP-00052",
+        granteeName: "County of Riverside Dept of Public Social Services",
+        address: "1111 Spruce Street",
+        city: "Riverside",
+        state: "CA",
+        zipCode: "92507"
+      }
+    ],
+    budgetPerPage: 1,
+    budget: [
+      {
+        name: "BUDGET BREAKDOWN",
+        budget1: 2841715.88,
+        budget2: 1629988.57,
+        budget3: 4340920.36,
+        budget4: 489590.25,
+        budget5: 489590.0,
+        total: 9791805.06
       }
     ]
   })

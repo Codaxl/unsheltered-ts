@@ -6,6 +6,15 @@ import vuetify from "./plugins/vuetify";
 
 Vue.config.productionTip = false;
 
+Vue.filter("currency", function(value: number) {
+  const formatter = new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: 0
+  });
+  return formatter.format(value);
+});
+
 new Vue({
   router,
   store,
