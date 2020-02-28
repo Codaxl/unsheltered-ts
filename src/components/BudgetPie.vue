@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Component, Watch } from "vue-property-decorator";
+import { Component } from "vue-property-decorator";
 
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
@@ -41,6 +41,7 @@ export default class BudgetPie extends Vue {
       litres: 489590.0
     }
   ];
+
   public budgetPie(): void {
     const chart = am4core.create(this.$refs.chartdiv, am4charts.PieChart);
 
