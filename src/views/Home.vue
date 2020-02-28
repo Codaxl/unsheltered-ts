@@ -1,16 +1,19 @@
 <template>
-  <div class="home">
-    <HelloWorld msg="Welcome to Your Vue.js App" />
-  </div>
+  <v-container style="max-width: 1080px;">
+    <v-layout>
+      <v-flex xs12>
+        <headline-component> </headline-component>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
-
 <script lang="ts">
 import Vue from "vue";
-import HelloWorld from "../components/HelloWorld.vue";
+import HeadlineComponent from "../components/Home/HeadlineComponent.vue";
 
 export default Vue.extend({
   components: {
-    HelloWorld
+    HeadlineComponent
   }
 });
 </script>

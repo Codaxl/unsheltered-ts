@@ -90,6 +90,10 @@
               rehousing Emergency shelter construction, and Use of armories to
               provide temporary shelters, among other activities.
             </p>
+            <p>
+              <b>Contractor:</b> The County of Riverside Dept of Public Social
+              Services administrates the Homeless Emergency Aid Program.
+            </p>
             <div class="caption my-5">
               Source: https://www.bcsh.ca.gov/hcfc/aid_program.html
             </div>
@@ -179,19 +183,6 @@
               </v-row>
             </template>
           </v-data-iterator>
-        </div>
-      </section>
-      <section>
-        <div>
-          <h2 class="font-weight-regular mt-5">
-            Contractor
-          </h2>
-          <div class="body-1 mb-5">
-            <p>
-              The County of Riverside Dept of Public Social Services
-              administrates the Homeless Emergency Aid Program.
-            </p>
-          </div>
         </div>
       </section>
       <section>

@@ -76,20 +76,11 @@ export default class BudgetPie extends Vue {
           tickState.properties.disabled = true;
           return state;
         }
-
-        return null;
       }
     });
-    this.chart = chart;
   }
   mounted() {
     this.budgetPie();
-  }
-
-  beforeDestroy() {
-    if (this.chart) {
-      this.chart.dispose();
-    }
   }
 }
 </script>

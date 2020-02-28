@@ -6,11 +6,14 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "deploy": "vue-cli-service build && mkdir dist/dist && mv dist/*.* dist/dist/ && cp index.html dist/ && firebase deploy"
   },
   "dependencies": {
     "@amcharts/amcharts4": "^4.9.4",
     "core-js": "^3.6.4",
+    "firebase": "^7.9.2",
+    "firebase-tools": "^7.14.0",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.2",
     "vue-property-decorator": "^8.3.0",
