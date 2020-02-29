@@ -27,4 +27,4 @@ firestore.indexes.json
 firebase.json
 .firebaserc
 firebase-debug.log
-/functions
+/.firebase

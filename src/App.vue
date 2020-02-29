@@ -60,8 +60,8 @@
                 </v-list-item-avatar>
 
                 <v-list-item-content>
-                  <v-list-item-title></v-list-item-title>
-                  <v-list-item-subtitle></v-list-item-subtitle>
+                  <v-list-item-title>Firstname Lastname</v-list-item-title>
+                  <v-list-item-subtitle>Email</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
             </v-list>
@@ -154,19 +154,18 @@
     </v-navigation-drawer>
 
     <v-content transition="slide-x-transition">
+      <loading-component></loading-component>
       <router-view></router-view>
     </v-content>
   </v-app>
 </template>
 
 <script lang="ts">
+import LoadingComponent from "@/components/Layout/LoadingComponent.vue";
 import Vue from "vue";
 
 export default Vue.extend({
   name: "App",
-
-  components: {},
-
   data: () => ({
     fav: true,
     menu: false,
@@ -190,8 +189,23 @@ export default Vue.extend({
         text: "Coordinator",
         model: false,
         children: [{ text: "Events", route: "/events" }]
+      },
+      {
+        icon: "mdi-chevron-up",
+        "icon-alt": "mdi-chevron-down",
+        text: "Funding",
+        model: false,
+        children: [
+          { text: "Federal", route: "/funding/federal" },
+          { text: "State", route: "/funding/state" },
+          { text: "HEAP", route: "/funding/state/heap" },
+          { text: "County", route: "/funding/county" }
+        ]
       }
     ]
-  })
+  }),
+  components: {
+    LoadingComponent
+  }
 });
 </script>
