@@ -19,6 +19,7 @@ export default class BudgetPie extends Vue {
   $refs!: {
     chartdiv: HTMLElement;
   };
+  private chart: any;
   private chartData: Array<object> = [
     {
       country: "Services",
@@ -78,9 +79,16 @@ export default class BudgetPie extends Vue {
         }
       }
     });
+
+    this.chart = chart;
   }
   mounted() {
     this.budgetPie();
+  }
+  beforeDestroy() {
+    if (this.chart) {
+      this.chart.dispose();
+    }
   }
 }
 </script>
