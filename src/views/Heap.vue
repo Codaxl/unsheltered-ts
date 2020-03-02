@@ -13,61 +13,38 @@
       </section>
       <section>
         <div>
-          <h2 class="font-weight-regular mt-5">
-            Overview
-          </h2>
-        </div>
-      </section>
-      <section>
-        <div>
           <v-row>
             <v-col cols="12" sm="8">
               <section>
                 <div>
-                  <v-simple-table>
-                    <template v-slot:default>
-                      <thead>
-                        <tr>
-                          <th class="text-left">Contract Number</th>
-                          <th class="text-left">Amount</th>
-                          <th class="text-left">Grantee Name</th>
-                          <th class="text-left">Address</th>
-                          <th class="text-left">
-                            City
-                          </th>
-                          <th class="text-left">
-                            State
-                          </th>
-                          <th class="text-left">
-                            ZIP Code
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr v-for="item in heap" :key="item.name">
-                          <td>{{ item.contractNumber }}</td>
-                          <td>{{ item.amount | currency }}</td>
-                          <td>{{ item.granteeName }}</td>
-                          <td>{{ item.address }}</td>
-                          <td>{{ item.city }}</td>
-                          <td>{{ item.state }}</td>
-                          <td>{{ item.zipCode }}</td>
-                        </tr>
-                      </tbody>
-                    </template>
-                  </v-simple-table>
-                  <div class="body-1 my-5">
-                    <p>
-                      Roune 1 Standard Distribution of Funds Began Apr 2019.
-                      Round 2 Standard Distribution of Funds Began July 2019.
-                      100 percent of the funds must be expended by June 30,
-                      2021.
-                    </p>
-                  </div>
-                  <div class="caption my-5">
-                    Source:
-                    https://www.bcsh.ca.gov/hcfc/documents/heap_overview.pdf
-                  </div>
+                  <v-card>
+                    <v-card-title class="headline">
+                      Overview
+                      <v-spacer></v-spacer>
+                    </v-card-title>
+                    <v-data-table
+                      :headers="heapHeaders"
+                      :items="heap"
+                      hide-default-footer
+                    >
+                      <template v-slot:item.amount="{ item }">
+                        {{ item.amount | currency }}
+                      </template>
+                    </v-data-table>
+                    <v-card-text class="body-1 my-5">
+                      <p>
+                        Roune 1 Standard Distribution of Funds Began Apr 2019.
+                        Round 2 Standard Distribution of Funds Began July 2019.
+                        100 percent of the funds must be expended by June 30,
+                        2021.
+                      </p>
+
+                      <p class="caption">
+                        Source:
+                        https://www.bcsh.ca.gov/hcfc/documents/heap_overview.pdf
+                      </p>
+                    </v-card-text>
+                  </v-card>
                 </div>
               </section>
             </v-col>
@@ -338,6 +315,20 @@ export default class Heap extends Vue {
       disabled: true,
       href: "/"
     }
+  ];
+  private heapHeaders: Array<object> = [
+    {
+      text: "Contract Number",
+      align: "start",
+      sortable: false,
+      value: "contractNumber"
+    },
+    { text: "Amount", sortable: false, value: "amount" },
+    { text: "Grantee Name", sortable: false, value: "granteeName" },
+    { text: "Address", sortable: false, value: "address" },
+    { text: "City", sortable: false, value: "city" },
+    { text: "State", sortable: false, value: "state" },
+    { text: "Zipcode", sortable: false, value: "zipCode" }
   ];
   private heap: Array<object> = [
     {
