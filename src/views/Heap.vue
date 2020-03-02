@@ -136,7 +136,7 @@
       <section>
         <div>
           <v-row>
-            <v-col cols="12" sm="8">
+            <v-col cols="12">
               <section>
                 <div class="body-1 mb-5">
                   <p>
@@ -179,101 +179,101 @@
 
       <section>
         <div>
+          <h2 class="font-weight-regular mt-5">
+            Budget
+          </h2>
+        </div>
+      </section>
+      <section>
+        <div>
           <v-row>
-            <v-col cols="12" sm="8">
+            <v-col cols="12" sm="6">
+              <div v-for="item in budget" :key="item.name">
+                <v-card class="mx-auto">
+                  <v-card-title class="headline">
+                    {{ item.name }}
+                  </v-card-title>
+                  <v-divider></v-divider>
+                  <v-card-text>
+                    <v-row>
+                      <v-col cols="6">
+                        Services:
+                      </v-col>
+                      <v-col cols="6">
+                        {{ item.budget1 | currency }}
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col cols="6">
+                        Rental Assistance or Subsidies:
+                      </v-col>
+                      <v-col cols="6">
+                        {{ item.budget2 | currency }}
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col cols="6">
+                        Capital Improvements:
+                      </v-col>
+                      <v-col cols="6">
+                        {{ item.budget3 | currency }}
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col cols="6">
+                        Homeless Youth Set-Aside:
+                      </v-col>
+                      <v-col cols="6">
+                        {{ item.budget4 | currency }}
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col cols="6">
+                        Administrative Costs:
+                      </v-col>
+                      <v-col cols="6">
+                        {{ item.budget5 | currency }}
+                      </v-col>
+                    </v-row>
+                  </v-card-text>
+                  <v-divider></v-divider>
+                  <v-card-text class="font-weight-medium">
+                    <v-row>
+                      <v-col cols="6">
+                        Total:
+                      </v-col>
+                      <v-col cols="6">
+                        {{ item.total | currency }}
+                      </v-col>
+                    </v-row>
+                  </v-card-text>
+                </v-card>
+              </div>
+            </v-col>
+            <v-col cols="12" sm="6">
+              <v-card>
+                <budget-pie></budget-pie>
+              </v-card>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="12">
               <section>
-                <div>
-                  <h2 class="font-weight-regular mt-5">
-                    Budget Details
-                  </h2>
-                  <div class="my-5">
-                    <v-data-table
-                      :headers="headers"
-                      :items="desserts"
-                      item-key="id"
-                      group-by="category"
-                      class="elevation-1"
-                      show-group-by
-                    >
-                      <template v-slot:item.amount="{ item }">
-                        {{ item.amount | currency }}
-                      </template>
-                    </v-data-table>
-                  </div>
+                <div class="my-5">
+                  <v-data-table
+                    :headers="headers"
+                    :items="desserts"
+                    item-key="id"
+                    group-by="category"
+                    class="elevation-1"
+                    show-group-by
+                  >
+                    <template v-slot:item.amount="{ item }">
+                      {{ item.amount | currency }}
+                    </template>
+                  </v-data-table>
                 </div>
               </section>
-            </v-col>
-            <v-col cols="12" sm="4">
-              <v-row>
-                <v-col cols="12">
-                  <div v-for="item in budget" :key="item.name">
-                    <v-card class="mx-auto">
-                      <v-card-title class="headline">
-                        {{ item.name }}
-                      </v-card-title>
-                      <v-divider></v-divider>
-                      <v-card-text>
-                        <v-row>
-                          <v-col cols="6">
-                            Services:
-                          </v-col>
-                          <v-col cols="6">
-                            {{ item.budget1 | currency }}
-                          </v-col>
-                        </v-row>
-                        <v-row>
-                          <v-col cols="6">
-                            Rental Assistance or Subsidies:
-                          </v-col>
-                          <v-col cols="6">
-                            {{ item.budget2 | currency }}
-                          </v-col>
-                        </v-row>
-                        <v-row>
-                          <v-col cols="6">
-                            Capital Improvements:
-                          </v-col>
-                          <v-col cols="6">
-                            {{ item.budget3 | currency }}
-                          </v-col>
-                        </v-row>
-                        <v-row>
-                          <v-col cols="6">
-                            Homeless Youth Set-Aside:
-                          </v-col>
-                          <v-col cols="6">
-                            {{ item.budget4 | currency }}
-                          </v-col>
-                        </v-row>
-                        <v-row>
-                          <v-col cols="6">
-                            Administrative Costs:
-                          </v-col>
-                          <v-col cols="6">
-                            {{ item.budget5 | currency }}
-                          </v-col>
-                        </v-row>
-                      </v-card-text>
-                      <v-divider></v-divider>
-                      <v-card-text class="font-weight-medium">
-                        <v-row>
-                          <v-col cols="6">
-                            Total:
-                          </v-col>
-                          <v-col cols="6">
-                            {{ item.total | currency }}
-                          </v-col>
-                        </v-row>
-                      </v-card-text>
-                    </v-card>
-                  </div>
-                </v-col>
-                <v-col cols="12">
-                  <v-card>
-                    <budget-pie></budget-pie>
-                  </v-card>
-                </v-col>
-              </v-row>
             </v-col>
           </v-row>
         </div>
@@ -353,7 +353,7 @@ export default class Heap extends Vue {
   private budgetPerPage = 1;
   private budget: Array<object> = [
     {
-      name: "Budget Summary",
+      name: "Summary",
       budget1: 2841715.88,
       budget2: 1629988.57,
       budget3: 4340920.36,
