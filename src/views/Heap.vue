@@ -16,171 +16,112 @@
           <h2 class="font-weight-regular mt-5">
             Overview
           </h2>
-          <v-simple-table>
-            <template v-slot:default>
-              <thead>
-                <tr>
-                  <th class="text-left">Contract Number</th>
-                  <th class="text-left">Amount</th>
-                  <th class="text-left">Grantee Name</th>
-                  <th class="text-left">Address</th>
-                  <th class="text-left">
-                    City
-                  </th>
-                  <th class="text-left">
-                    State
-                  </th>
-                  <th class="text-left">
-                    ZIP Code
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="item in heap" :key="item.name">
-                  <td>{{ item.contractNumber }}</td>
-                  <td>{{ item.amount | currency }}</td>
-                  <td>{{ item.granteeName }}</td>
-                  <td>{{ item.address }}</td>
-                  <td>{{ item.city }}</td>
-                  <td>{{ item.state }}</td>
-                  <td>{{ item.zipCode }}</td>
-                </tr>
-              </tbody>
-            </template>
-          </v-simple-table>
-
-          <div class="caption my-5">
-            Source: https://www.bcsh.ca.gov/hcfc/documents/heap_overview.pdf
-          </div>
-          <p>
-            Roune 1 Standard Distribution of Funds Began Apr 2019. Round 2
-            Standard Distribution of Funds Began July 2019. 100 percent of the
-            funds must be expended by June 30, 2021.
-          </p>
-        </div>
-      </section>
-      <section>
-        <div>
-          <h2 class="font-weight-regular mt-5">
-            About
-          </h2>
-          <div class="body-1 mb-5">
-            <p>
-              The Homeless Emergency Aid Program was established by statute to
-              provide localities with flexible block grant funds to address
-              their immediate homelessness challenges. The Homeless Emergency
-              Aid Block Grants will provide $500 million in one-time funding to
-              enable local governments to respond to homelessness. Allocations
-              are as follows: $250 million to Continuums of Care based on 2017
-              homeless point in time count; $150 million direct allocation to a
-              city or city that is also a county with a population of 330,000 or
-              more as of January 1, 2018; and $100 million to Continuums of Care
-              based on their percentage of the statewide 2017 homeless
-              population.
-            </p>
-            <div class="caption my-5">
-              Source: https://www.bcsh.ca.gov/hcfc/aid_program.html
-            </div>
-            <h3 class="font-weight-regular mt-5">Requirements</h3>
-            <p>
-              City, county, or joint power must declared an emergency shelter
-              crisis (waiver process for smaller cities and counties that do not
-              declare a shelter emergency). Continuum of Care must demonstrate
-              collaboration with other city, county, or nonprofit partners.
-            </p>
-            <h3 class="font-weight-regular mt-5">Eligible Activities</h3>
-            <p>
-              Emergency housing vouchers Rapid rehousing Emergency shelter
-              construction, and Use of armories to provide temporary shelters,
-              among other activities.
-            </p>
-            <h3 class="font-weight-regular mt-5">Contractor</h3>
-            <p>
-              The County of Riverside Dept of Public Social Services
-              administrates the Homeless Emergency Aid Program.
-            </p>
-            <h3 class="font-weight-regular mt-5">Contact Information</h3>
-            <p>
-              <b>Name: </b>Elizabeth Hernandez<br />
-              <b>Title: </b>Senior Program Specialist<br />
-              <b>Organization: </b>Public Social Services<br />
-              <b>Email: </b>ehernan@rivco.org<br />
-              <b>Phone: </b>(951) 999-9999
-            </p>
-          </div>
         </div>
       </section>
       <section>
         <div>
           <v-row>
-            <v-col cols="12" sm="6">
-              <div v-for="item in budget" :key="item.name">
-                <v-card class="mx-auto">
-                  <v-card-text style="height:445px;">
-                    <p class="display-1 text--primary">
-                      {{ item.name }}
+            <v-col cols="12" sm="8">
+              <section>
+                <div>
+                  <v-simple-table>
+                    <template v-slot:default>
+                      <thead>
+                        <tr>
+                          <th class="text-left">Contract Number</th>
+                          <th class="text-left">Amount</th>
+                          <th class="text-left">Grantee Name</th>
+                          <th class="text-left">Address</th>
+                          <th class="text-left">
+                            City
+                          </th>
+                          <th class="text-left">
+                            State
+                          </th>
+                          <th class="text-left">
+                            ZIP Code
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr v-for="item in heap" :key="item.name">
+                          <td>{{ item.contractNumber }}</td>
+                          <td>{{ item.amount | currency }}</td>
+                          <td>{{ item.granteeName }}</td>
+                          <td>{{ item.address }}</td>
+                          <td>{{ item.city }}</td>
+                          <td>{{ item.state }}</td>
+                          <td>{{ item.zipCode }}</td>
+                        </tr>
+                      </tbody>
+                    </template>
+                  </v-simple-table>
+                  <div class="body-1 my-5">
+                    <p>
+                      Roune 1 Standard Distribution of Funds Began Apr 2019.
+                      Round 2 Standard Distribution of Funds Began July 2019.
+                      100 percent of the funds must be expended by June 30,
+                      2021.
                     </p>
-                    <v-row>
-                      <v-col cols="6">
-                        Services:
-                      </v-col>
-                      <v-col cols="6">
-                        {{ item.budget1 | currency }}
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col cols="6">
-                        Rental Assistance or Subsidies:
-                      </v-col>
-                      <v-col cols="6">
-                        {{ item.budget2 | currency }}
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col cols="6">
-                        Capital Improvements:
-                      </v-col>
-                      <v-col cols="6">
-                        {{ item.budget3 | currency }}
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col cols="6">
-                        Homeless Youth Set-Aside:
-                      </v-col>
-                      <v-col cols="6">
-                        {{ item.budget4 | currency }}
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-col cols="6">
-                        Administrative Costs:
-                      </v-col>
-                      <v-col cols="6">
-                        {{ item.budget5 | currency }}
-                      </v-col>
-                    </v-row>
-                  </v-card-text>
+                  </div>
+                  <div class="caption my-5">
+                    Source:
+                    https://www.bcsh.ca.gov/hcfc/documents/heap_overview.pdf
+                  </div>
+                </div>
+              </section>
+            </v-col>
+            <v-col cols="12" sm="4">
+              <div v-for="item in contact" :key="item.name">
+                <v-card class="mx-auto">
+                  <v-card-title class="headline">
+                    {{ item.name }}
+                  </v-card-title>
                   <v-divider></v-divider>
-
-                  <v-card-text class="font-weight-medium">
+                  <v-card-text>
                     <v-row>
                       <v-col cols="6">
-                        Total:
+                        Name:
                       </v-col>
                       <v-col cols="6">
-                        {{ item.total | currency }}
+                        {{ item.firstName }} {{ item.lastName }}
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col cols="6">
+                        Title:
+                      </v-col>
+                      <v-col cols="6">
+                        {{ item.title }}
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col cols="6">
+                        Organization:
+                      </v-col>
+                      <v-col cols="6">
+                        {{ item.organization }}
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col cols="6">
+                        Email:
+                      </v-col>
+                      <v-col cols="6">
+                        {{ item.email }}
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col cols="6">
+                        Phone:
+                      </v-col>
+                      <v-col cols="6">
+                        {{ item.phone }}
                       </v-col>
                     </v-row>
                   </v-card-text>
                 </v-card>
               </div>
-            </v-col>
-
-            <v-col cols="12" sm="6">
-              <v-card>
-                <budget-pie></budget-pie>
-              </v-card>
             </v-col>
           </v-row>
         </div>
@@ -188,22 +129,153 @@
       <section>
         <div>
           <h2 class="font-weight-regular mt-5">
-            Budget Details
+            About
           </h2>
-          <div class="my-5">
-            <v-data-table
-              :headers="headers"
-              :items="desserts"
-              item-key="id"
-              group-by="category"
-              class="elevation-1"
-              show-group-by
-            >
-              <template v-slot:item.amount="{ item }">
-                {{ item.amount | currency }}
-              </template>
-            </v-data-table>
-          </div>
+        </div>
+      </section>
+      <section>
+        <div>
+          <v-row>
+            <v-col cols="12" sm="8">
+              <section>
+                <div class="body-1 mb-5">
+                  <p>
+                    The Homeless Emergency Aid Program was established by
+                    statute to provide localities with flexible block grant
+                    funds to address their immediate homelessness challenges.
+                    The Homeless Emergency Aid Block Grants will provide $500
+                    million in one-time funding to enable local governments to
+                    respond to homelessness. Allocations are as follows: $250
+                    million to Continuums of Care based on 2017 homeless point
+                    in time count; $150 million direct allocation to a city or
+                    city that is also a county with a population of 330,000 or
+                    more as of January 1, 2018; and $100 million to Continuums
+                    of Care based on their percentage of the statewide 2017
+                    homeless population.
+                  </p>
+                  <h3 class="font-weight-regular mt-5">Requirements</h3>
+                  <p>
+                    City, county, or joint power must declared an emergency
+                    shelter crisis (waiver process for smaller cities and
+                    counties that do not declare a shelter emergency). Continuum
+                    of Care must demonstrate collaboration with other city,
+                    county, or nonprofit partners.
+                  </p>
+                  <h3 class="font-weight-regular mt-5">Eligible Activities</h3>
+                  <p>
+                    Emergency housing vouchers Rapid rehousing Emergency shelter
+                    construction, and Use of armories to provide temporary
+                    shelters, among other activities.
+                  </p>
+                  <div class="caption my-5">
+                    Source: https://www.bcsh.ca.gov/hcfc/aid_program.html
+                  </div>
+                </div>
+              </section>
+            </v-col>
+          </v-row>
+        </div>
+      </section>
+
+      <section>
+        <div>
+          <v-row>
+            <v-col cols="12" sm="8">
+              <section>
+                <div>
+                  <h2 class="font-weight-regular mt-5">
+                    Budget Details
+                  </h2>
+                  <div class="my-5">
+                    <v-data-table
+                      :headers="headers"
+                      :items="desserts"
+                      item-key="id"
+                      group-by="category"
+                      class="elevation-1"
+                      show-group-by
+                    >
+                      <template v-slot:item.amount="{ item }">
+                        {{ item.amount | currency }}
+                      </template>
+                    </v-data-table>
+                  </div>
+                </div>
+              </section>
+            </v-col>
+            <v-col cols="12" sm="4">
+              <v-row>
+                <v-col cols="12">
+                  <div v-for="item in budget" :key="item.name">
+                    <v-card class="mx-auto">
+                      <v-card-title class="headline">
+                        {{ item.name }}
+                      </v-card-title>
+                      <v-divider></v-divider>
+                      <v-card-text>
+                        <v-row>
+                          <v-col cols="6">
+                            Services:
+                          </v-col>
+                          <v-col cols="6">
+                            {{ item.budget1 | currency }}
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col cols="6">
+                            Rental Assistance or Subsidies:
+                          </v-col>
+                          <v-col cols="6">
+                            {{ item.budget2 | currency }}
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col cols="6">
+                            Capital Improvements:
+                          </v-col>
+                          <v-col cols="6">
+                            {{ item.budget3 | currency }}
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col cols="6">
+                            Homeless Youth Set-Aside:
+                          </v-col>
+                          <v-col cols="6">
+                            {{ item.budget4 | currency }}
+                          </v-col>
+                        </v-row>
+                        <v-row>
+                          <v-col cols="6">
+                            Administrative Costs:
+                          </v-col>
+                          <v-col cols="6">
+                            {{ item.budget5 | currency }}
+                          </v-col>
+                        </v-row>
+                      </v-card-text>
+                      <v-divider></v-divider>
+                      <v-card-text class="font-weight-medium">
+                        <v-row>
+                          <v-col cols="6">
+                            Total:
+                          </v-col>
+                          <v-col cols="6">
+                            {{ item.total | currency }}
+                          </v-col>
+                        </v-row>
+                      </v-card-text>
+                    </v-card>
+                  </div>
+                </v-col>
+                <v-col cols="12">
+                  <v-card>
+                    <budget-pie></budget-pie>
+                  </v-card>
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
         </div>
       </section>
       <section>
@@ -281,7 +353,7 @@ export default class Heap extends Vue {
   private budgetPerPage = 1;
   private budget: Array<object> = [
     {
-      name: "Summary",
+      name: "Budget Summary",
       budget1: 2841715.88,
       budget2: 1629988.57,
       budget3: 4340920.36,
@@ -551,6 +623,17 @@ export default class Heap extends Vue {
       name: "City of Indio",
       category: "Other (Short-term Housing Interventions)",
       amount: 168384.65
+    }
+  ];
+  private contact: Array<object> = [
+    {
+      name: "Contact",
+      firstName: "Elizabeth",
+      lastName: "Hernandez",
+      title: "Senior Program Specialist",
+      organization: "Public Social Services",
+      email: "ehernan@rivco.org",
+      phone: "(951) 999-9999"
     }
   ];
 }
