@@ -18,8 +18,8 @@
               <section>
                 <div>
                   <v-card>
-                    <v-card-title class="headline">
-                      Overview
+                    <v-card-title>
+                      <h2 class="headline">Overview</h2>
                       <v-spacer></v-spacer>
                     </v-card-title>
                     <v-data-table
@@ -51,8 +51,8 @@
             <v-col cols="12" sm="4">
               <div v-for="item in contact" :key="item.name">
                 <v-card class="mx-auto">
-                  <v-card-title class="headline">
-                    {{ item.name }}
+                  <v-card-title>
+                    <h2 class="headline">{{ item.name }}</h2>
                   </v-card-title>
                   <v-divider></v-divider>
                   <v-card-text>
@@ -109,8 +109,6 @@
             About
           </h2>
         </div>
-      </section>
-      <section>
         <div>
           <v-row>
             <v-col cols="12">
@@ -153,22 +151,15 @@
           </v-row>
         </div>
       </section>
-
-      <section>
-        <div>
-          <h2 class="font-weight-regular mt-5">
-            Budget
-          </h2>
-        </div>
-      </section>
       <section>
         <div>
           <v-row>
             <v-col cols="12" sm="6">
               <div v-for="item in budget" :key="item.name">
-                <v-card class="mx-auto">
-                  <v-card-title class="headline">
-                    {{ item.name }}
+                <v-card>
+                  <v-card-title>
+                    <h2 class="headline">{{ item.name }}</h2>
+                    <v-spacer></v-spacer>
                   </v-card-title>
                   <v-divider></v-divider>
                   <v-card-text>
@@ -236,19 +227,24 @@
           <v-row>
             <v-col cols="12">
               <section>
-                <div class="my-5">
-                  <v-data-table
-                    :headers="headers"
-                    :items="desserts"
-                    item-key="id"
-                    group-by="category"
-                    class="elevation-1"
-                    show-group-by
-                  >
-                    <template v-slot:item.amount="{ item }">
-                      {{ item.amount | currency }}
-                    </template>
-                  </v-data-table>
+                <div>
+                  <v-card>
+                    <v-card-title>
+                      <h2 class="headline">Budget Details</h2>
+                      <v-spacer></v-spacer>
+                    </v-card-title>
+                    <v-data-table
+                      :headers="headers"
+                      :items="desserts"
+                      item-key="id"
+                      group-by="category"
+                      show-group-by
+                    >
+                      <template v-slot:item.amount="{ item }">
+                        {{ item.amount | currency }}
+                      </template>
+                    </v-data-table>
+                  </v-card>
                 </div>
               </section>
             </v-col>
@@ -344,7 +340,7 @@ export default class Heap extends Vue {
   private budgetPerPage = 1;
   private budget: Array<object> = [
     {
-      name: "Summary",
+      name: "Budget Summary",
       budget1: 2841715.88,
       budget2: 1629988.57,
       budget3: 4340920.36,
