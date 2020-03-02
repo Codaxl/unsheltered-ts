@@ -114,16 +114,12 @@
         <div>
           <v-row>
             <v-col cols="12" sm="6">
-              <v-card class="mx-auto">
-                <v-card-text>
-                  <p class="display-1 text--primary">
-                    Summary
-                  </p>
-                  <div
-                    class="text--primary"
-                    v-for="item in budget"
-                    :key="item.name"
-                  >
+              <div v-for="item in budget" :key="item.name">
+                <v-card class="mx-auto">
+                  <v-card-text style="height:445px;">
+                    <p class="display-1 text--primary">
+                      {{ item.name }}
+                    </p>
                     <v-row>
                       <v-col cols="6">
                         Services:
@@ -164,6 +160,10 @@
                         {{ item.budget5 | currency }}
                       </v-col>
                     </v-row>
+                  </v-card-text>
+                  <v-divider></v-divider>
+
+                  <v-card-text class="font-weight-medium">
                     <v-row>
                       <v-col cols="6">
                         Total:
@@ -172,10 +172,11 @@
                         {{ item.total | currency }}
                       </v-col>
                     </v-row>
-                  </div>
-                </v-card-text>
-              </v-card>
+                  </v-card-text>
+                </v-card>
+              </div>
             </v-col>
+
             <v-col cols="12" sm="6">
               <v-card>
                 <budget-pie></budget-pie>
@@ -280,7 +281,7 @@ export default class Heap extends Vue {
   private budgetPerPage = 1;
   private budget: Array<object> = [
     {
-      name: "BUDGET BREAKDOWN",
+      name: "Summary",
       budget1: 2841715.88,
       budget2: 1629988.57,
       budget3: 4340920.36,
