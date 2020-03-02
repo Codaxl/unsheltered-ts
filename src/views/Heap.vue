@@ -78,111 +78,110 @@
               based on their percentage of the statewide 2017 homeless
               population.
             </p>
-            <p>
-              <b>Requirements:</b> City, county, or joint power must declared an
-              emergency shelter crisis (waiver process for smaller cities and
-              counties that do not declare a shelter emergency). Continuum of
-              Care must demonstrate collaboration with other city, county, or
-              nonprofit partners.
-            </p>
-            <p>
-              <b>Eligible Activities:</b> Emergency housing vouchers Rapid
-              rehousing Emergency shelter construction, and Use of armories to
-              provide temporary shelters, among other activities.
-            </p>
-            <p>
-              <b>Contractor:</b> The County of Riverside Dept of Public Social
-              Services administrates the Homeless Emergency Aid Program.
-            </p>
             <div class="caption my-5">
               Source: https://www.bcsh.ca.gov/hcfc/aid_program.html
             </div>
+            <h3 class="font-weight-regular mt-5">Requirements</h3>
+            <p>
+              City, county, or joint power must declared an emergency shelter
+              crisis (waiver process for smaller cities and counties that do not
+              declare a shelter emergency). Continuum of Care must demonstrate
+              collaboration with other city, county, or nonprofit partners.
+            </p>
+            <h3 class="font-weight-regular mt-5">Eligible Activities</h3>
+            <p>
+              Emergency housing vouchers Rapid rehousing Emergency shelter
+              construction, and Use of armories to provide temporary shelters,
+              among other activities.
+            </p>
+            <h3 class="font-weight-regular mt-5">Contractor</h3>
+            <p>
+              The County of Riverside Dept of Public Social Services
+              administrates the Homeless Emergency Aid Program.
+            </p>
+            <h3 class="font-weight-regular mt-5">Contact Information</h3>
+            <p>
+              <b>Name: </b>Elizabeth Hernandez<br />
+              <b>Title: </b>Senior Program Specialist<br />
+              <b>Organization: </b>Public Social Services<br />
+              <b>Email: </b>ehernan@rivco.org<br />
+              <b>Phone: </b>(951) 999-9999
+            </p>
           </div>
         </div>
       </section>
       <section>
         <div>
-          <v-data-iterator
-            :items="budget"
-            :items-per-page.sync="budgetPerPage"
-            hide-default-footer
-          >
-            <template v-slot:default="props">
-              <v-row>
-                <v-col
-                  v-for="item in props.items"
-                  :key="item.name"
-                  cols="12"
-                  sm="6"
-                >
-                  <v-card>
-                    <v-card-title class="subheading font-weight-bold">{{
-                      item.name
-                    }}</v-card-title>
-
-                    <v-divider></v-divider>
-
-                    <v-list dense>
-                      <v-list-item>
-                        <v-list-item-content>Services:</v-list-item-content>
-                        <v-list-item-content class="align-end">{{
-                          item.budget1 | currency
-                        }}</v-list-item-content>
-                      </v-list-item>
-
-                      <v-list-item>
-                        <v-list-item-content
-                          >Rental Assistance or Subsidies:</v-list-item-content
-                        >
-                        <v-list-item-content class="align-end">{{
-                          item.budget2 | currency
-                        }}</v-list-item-content>
-                      </v-list-item>
-
-                      <v-list-item>
-                        <v-list-item-content
-                          >Capital Improvements:</v-list-item-content
-                        >
-                        <v-list-item-content class="align-end">{{
-                          item.budget3 | currency
-                        }}</v-list-item-content>
-                      </v-list-item>
-
-                      <v-list-item>
-                        <v-list-item-content
-                          >Homeless Youth Set-Aside:</v-list-item-content
-                        >
-                        <v-list-item-content class="align-end">{{
-                          item.budget4 | currency
-                        }}</v-list-item-content>
-                      </v-list-item>
-
-                      <v-list-item>
-                        <v-list-item-content
-                          >Administrative Costs:</v-list-item-content
-                        >
-                        <v-list-item-content class="align-end">{{
-                          item.budget5 | currency
-                        }}</v-list-item-content>
-                      </v-list-item>
-
-                      <v-list-item>
-                        <v-list-item-content>Total:</v-list-item-content>
-                        <v-list-item-content class="align-end">{{
-                          item.total | currency
-                        }}</v-list-item-content>
-                      </v-list-item>
-                    </v-list>
-                  </v-card>
-                </v-col>
-                <v-col cols="12" sm="6">
-                  <v-card>
-                    <budget-pie></budget-pie>
-                  </v-card>
-                </v-col>
-              </v-row>
-            </template>
-          </v-data-iterator>
+          <v-row>
+            <v-col cols="12" sm="6">
+              <v-card class="mx-auto">
+                <v-card-text>
+                  <p class="display-1 text--primary">
+                    Summary
+                  </p>
+                  <div
+                    class="text--primary"
+                    v-for="item in budget"
+                    :key="item.name"
+                  >
+                    <v-row>
+                      <v-col cols="6">
+                        Services:
+                      </v-col>
+                      <v-col cols="6">
+                        {{ item.budget1 | currency }}
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col cols="6">
+                        Rental Assistance or Subsidies:
+                      </v-col>
+                      <v-col cols="6">
+                        {{ item.budget2 | currency }}
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col cols="6">
+                        Capital Improvements:
+                      </v-col>
+                      <v-col cols="6">
+                        {{ item.budget3 | currency }}
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col cols="6">
+                        Homeless Youth Set-Aside:
+                      </v-col>
+                      <v-col cols="6">
+                        {{ item.budget4 | currency }}
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col cols="6">
+                        Administrative Costs:
+                      </v-col>
+                      <v-col cols="6">
+                        {{ item.budget5 | currency }}
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col cols="6">
+                        Total:
+                      </v-col>
+                      <v-col cols="6">
+                        {{ item.total | currency }}
+                      </v-col>
+                    </v-row>
+                  </div>
+                </v-card-text>
+              </v-card>
+            </v-col>
+            <v-col cols="12" sm="6">
+              <v-card>
+                <budget-pie></budget-pie>
+              </v-card>
+            </v-col>
+          </v-row>
         </div>
       </section>
       <section>
@@ -190,12 +189,6 @@
           <h2 class="font-weight-regular mt-5">
             Budget Details
           </h2>
-          <div class="body-1 mb-5">
-            <p>
-              The County of Riverside Dept of Public Social Services
-              administrates the Homeless Emergency Aid Program.
-            </p>
-          </div>
           <div class="my-5">
             <v-data-table
               :headers="headers"
@@ -237,71 +230,6 @@
             </div>
           </div>
         </section>
-      </section>
-      <section>
-        <div>
-          <v-data-iterator
-            :items="contact"
-            items-per-page.sync="1"
-            hide-default-footer
-          >
-            <template v-slot:default="props">
-              <v-row>
-                <v-col
-                  v-for="item in props.items"
-                  :key="item.email"
-                  cols="12"
-                  sm="6"
-                >
-                  <v-card>
-                    <v-card-title class="subheading font-weight-bold">{{
-                      item.name
-                    }}</v-card-title>
-
-                    <v-divider></v-divider>
-
-                    <v-list dense>
-                      <v-list-item>
-                        <v-list-item-content>Name:</v-list-item-content>
-                        <v-list-item-content class="align-end"
-                          >{{ item.firstName }}
-                          {{ item.lastName }}</v-list-item-content
-                        >
-                      </v-list-item>
-
-                      <v-list-item>
-                        <v-list-item-content>Title:</v-list-item-content>
-                        <v-list-item-content class="align-end">{{
-                          item.title
-                        }}</v-list-item-content>
-                      </v-list-item>
-                      <v-list-item>
-                        <v-list-item-content>Organization:</v-list-item-content>
-                        <v-list-item-content class="align-end">{{
-                          item.organization
-                        }}</v-list-item-content>
-                      </v-list-item>
-
-                      <v-list-item>
-                        <v-list-item-content>Email:</v-list-item-content>
-                        <v-list-item-content class="align-end">{{
-                          item.email
-                        }}</v-list-item-content>
-                      </v-list-item>
-
-                      <v-list-item>
-                        <v-list-item-content>Phone:</v-list-item-content>
-                        <v-list-item-content class="align-end">{{
-                          item.phone
-                        }}</v-list-item-content>
-                      </v-list-item>
-                    </v-list>
-                  </v-card>
-                </v-col>
-              </v-row>
-            </template>
-          </v-data-iterator>
-        </div>
       </section>
     </section>
   </v-container>
@@ -622,17 +550,6 @@ export default class Heap extends Vue {
       name: "City of Indio",
       category: "Other (Short-term Housing Interventions)",
       amount: 168384.65
-    }
-  ];
-  private contact: Array<object> = [
-    {
-      name: "CONTACT INFORMATION",
-      firstName: "Elizabeth",
-      lastName: "Hernandez",
-      title: "Senior Program Specialist",
-      organization: "Public Social Services",
-      email: "ehernan@rivco.org",
-      phone: "(951) 999-9999"
     }
   ];
 }
