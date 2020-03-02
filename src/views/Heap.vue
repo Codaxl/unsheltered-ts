@@ -158,7 +158,7 @@
               <div v-for="item in budget" :key="item.name">
                 <v-card>
                   <v-card-title>
-                    <h2 class="headline">{{ item.name }}</h2>
+                    <h3 class="font-weight-regular">{{ item.name }}</h3>
                     <v-spacer></v-spacer>
                   </v-card-title>
                   <v-divider></v-divider>
@@ -230,7 +230,7 @@
                 <div>
                   <v-card>
                     <v-card-title>
-                      <h2 class="headline">Budget Details</h2>
+                      <h3 class="font-weight-regular">Budget Details</h3>
                       <v-spacer></v-spacer>
                     </v-card-title>
                     <v-data-table
