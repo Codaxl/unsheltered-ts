@@ -94,64 +94,70 @@
       v-model="drawer"
       :clipped="$vuetify.breakpoint.lgAndUp"
       app
+      floating
     >
-      <v-list>
-        <template v-for="item in items">
-          <v-list-group
-            v-if="item.children"
-            :key="item.text"
-            v-model="item.model"
-            :prepend-icon="item.model ? item.icon : item['icon-alt']"
-            append-icon=""
-          >
+      <v-list rounded>
+        <v-list-item color="primary" to="/">
+          <v-list-item-icon>
+            <v-icon>mdi-home</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-title>Home</v-list-item-title>
+        </v-list-item>
+        <v-list-item exact color="primary" to="/about">
+          <v-list-item-icon>
+            <v-icon>mdi-information</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-title>About</v-list-item-title>
+        </v-list-item>
+        <v-list-group prepend-icon="mdi-account-circle">
+          <template v-slot:activator>
+            <v-list-item-title>Funding</v-list-item-title>
+          </template>
+          <v-list-item exact color="primary" to="/funding">
+            <v-list-item-icon> </v-list-item-icon>
+            <v-list-item-title>Introduction</v-list-item-title>
+          </v-list-item>
+
+          <v-list-group no-action sub-group>
             <template v-slot:activator>
-              <v-list-item>
-                <v-list-item-content>
-                  <v-list-item-title>
-                    {{ item.text }}
-                  </v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </template>
-            <v-list-item
-              exact
-              v-for="(child, i) in item.children"
-              :key="i"
-              :to="child.route"
-            >
-              <v-list-item-action v-if="child.icon">
-                <v-icon>{{ child.icon }}</v-icon>
-              </v-list-item-action>
               <v-list-item-content>
-                <v-list-item-title>
-                  {{ child.text }}
-                </v-list-item-title>
+                <v-list-item-title>Federal</v-list-item-title>
               </v-list-item-content>
+            </template>
+
+            <v-list-item
+              v-for="(federal, i) in federals"
+              :key="i"
+              :to="federal[1]"
+            >
+              <v-list-item-title v-text="federal[0]"></v-list-item-title>
             </v-list-item>
           </v-list-group>
-          <v-list-item v-else exact :key="item.text" :to="item.route">
-            <v-list-item-action>
-              <v-icon>{{ item.icon }}</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>
-                {{ item.text }}
-              </v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </template>
+
+          <v-list-group sub-group no-action>
+            <template v-slot:activator>
+              <v-list-item-content>
+                <v-list-item-title>State</v-list-item-title>
+              </v-list-item-content>
+            </template>
+            <v-list-item v-for="(state, i) in states" :key="i" :to="state[1]">
+              <v-list-item-title v-text="state[0]"></v-list-item-title>
+            </v-list-item>
+          </v-list-group>
+        </v-list-group>
       </v-list>
     </v-navigation-drawer>
-
-    <v-content transition="slide-x-transition">
-      <loading-component></loading-component>
-      <router-view></router-view>
+    <v-content>
+      <transition name="fade">
+        <router-view></router-view>
+      </transition>
     </v-content>
   </v-app>
 </template>
 
 <script lang="ts">
-import LoadingComponent from "@/components/Layout/LoadingComponent.vue";
 import Vue from "vue";
 
 export default Vue.extend({
@@ -162,40 +168,27 @@ export default Vue.extend({
     message: false,
     hints: true,
     drawer: null,
-    items: [
-      { icon: "mdi-home", text: "Home", route: "/" },
-      { icon: "mdi-newspaper", text: "News", route: "/News" },
-      { icon: "mdi-calendar", text: "Calendar", route: "/Calendar" },
-      {
-        icon: "mdi-chevron-up",
-        "icon-alt": "mdi-chevron-down",
-        text: "Programs",
-        model: false,
-        children: [{ text: "HUD CoC", route: "/" }]
-      },
-      {
-        icon: "mdi-chevron-up",
-        "icon-alt": "mdi-chevron-down",
-        text: "Coordinator",
-        model: false,
-        children: [{ text: "Events", route: "/events" }]
-      },
-      {
-        icon: "mdi-chevron-up",
-        "icon-alt": "mdi-chevron-down",
-        text: "Funding",
-        model: false,
-        children: [
-          { text: "Federal", route: "/funding/federal" },
-          { text: "State", route: "/funding/state" },
-          { text: "HEAP", route: "/funding/state/heap" },
-          { text: "County", route: "/funding/county" }
-        ]
-      }
+    federals: [
+      ["HUD CoC", "/funding/federal/coc"],
+      ["RHY", "/funding/federal/rhy"]
+    ],
+    states: [
+      ["CESH", "/funding/state/cesh"],
+      ["HEAP", "/funding/state/heap"]
     ]
-  }),
-  components: {
-    LoadingComponent
-  }
+  })
 });
 </script>
+<style>
+.fade-enter-active,
+.fade-leave-active {
+  transition-duration: 0.3s;
+  transition-property: opacity;
+  transition-timing-function: ease;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
+}
+</style>

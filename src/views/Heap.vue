@@ -299,17 +299,17 @@ export default class Heap extends Vue {
     {
       text: "Funding",
       disabled: false,
-      href: "/"
+      href: "/funding"
     },
     {
       text: "State",
       disabled: false,
-      href: "/"
+      href: "/funding/state"
     },
     {
       text: "HEAP",
       disabled: true,
-      href: "/"
+      href: "/funding/state/heap"
     }
   ];
   private heapHeaders: Array<object> = [

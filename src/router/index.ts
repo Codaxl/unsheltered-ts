@@ -27,6 +27,13 @@ const routes = [
       {
         // UserProfile will be rendered inside User's <router-view>
         // when /user/:id/profile is matched
+        path: "",
+        component: () =>
+          import(/* webpackChunkName: "about" */ "../views/Funding/Landing.vue")
+      },
+      {
+        // UserProfile will be rendered inside User's <router-view>
+        // when /user/:id/profile is matched
         path: "federal",
         component: () =>
           import(/* webpackChunkName: "about" */ "../views/Federal.vue")
@@ -36,7 +43,18 @@ const routes = [
         // when /user/:id/posts is matched
         path: "state",
         component: () =>
-          import(/* webpackChunkName: "about" */ "../views/State.vue")
+          import(/* webpackChunkName: "about" */ "../views/Funding.vue"),
+        children: [
+          {
+            // UserProfile will be rendered inside User's <router-view>
+            // when /user/:id/profile is matched
+            path: "",
+            component: () =>
+              import(
+                /* webpackChunkName: "about" */ "../views/Funding/State/Landing.vue"
+              )
+          }
+        ]
       },
       {
         // UserPosts will be rendered inside User's <router-view>
