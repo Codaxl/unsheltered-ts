@@ -150,9 +150,9 @@
       </v-list>
     </v-navigation-drawer>
     <v-content>
-      <transition name="fade">
+      <v-responsive>
         <router-view></router-view>
-      </transition>
+      </v-responsive>
     </v-content>
   </v-app>
 </template>
@@ -163,6 +163,7 @@ import Vue from "vue";
 export default Vue.extend({
   name: "App",
   data: () => ({
+    isActive: false,
     fav: true,
     menu: false,
     message: false,
