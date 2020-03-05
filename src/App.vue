@@ -22,15 +22,27 @@
         />
       </div>
       <v-spacer></v-spacer>
-      <v-text-field
+      <v-autocomplete
         text
         solo-inverted
         hide-details
         prepend-inner-icon="mdi-magnify"
         label="Search"
         class="hidden-sm-and-down"
-      ></v-text-field>
-
+      >
+        <template slot="item" slot-scope="data">
+          <template v-if="typeof data.item !== 'object'">
+            <v-list-item-content>{{ data.item }}</v-list-item-content>
+          </template>
+          <template v-else>
+            <v-list-item-content>
+              <slot name="highlight" :highlight="data.item.highlight">
+                <v-list-item-title v-html="data.item.highlight" />
+              </slot>
+            </v-list-item-content>
+          </template>
+        </template>
+      </v-autocomplete>
       <v-spacer></v-spacer>
 
       <div class="hidden-sm-and-down">
@@ -101,20 +113,29 @@
           <v-list-item-icon>
             <v-icon>mdi-home</v-icon>
           </v-list-item-icon>
-
           <v-list-item-title>Home</v-list-item-title>
         </v-list-item>
+
         <v-list-item exact color="primary" to="/about">
           <v-list-item-icon>
             <v-icon>mdi-information</v-icon>
           </v-list-item-icon>
-
           <v-list-item-title>About</v-list-item-title>
         </v-list-item>
+
+        <v-list-item exact color="primary" to="/calendar">
+          <v-list-item-icon>
+            <v-icon>mdi-calendar</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-title>Calendar</v-list-item-title>
+        </v-list-item>
+
         <v-list-group prepend-icon="mdi-account-circle">
           <template v-slot:activator>
             <v-list-item-title>Funding</v-list-item-title>
           </template>
+
           <v-list-item exact color="primary" to="/funding">
             <v-list-item-icon> </v-list-item-icon>
             <v-list-item-title>Dashboard</v-list-item-title>
@@ -126,13 +147,12 @@
                 <v-list-item-title>Federal</v-list-item-title>
               </v-list-item-content>
             </template>
-
             <v-list-item
-              v-for="(federal, i) in federals"
+              v-for="(funds, i) in federalFunds"
               :key="i"
-              :to="federal[1]"
+              :to="funds[1]"
             >
-              <v-list-item-title v-text="federal[0]"></v-list-item-title>
+              <v-list-item-title v-text="funds[0]"></v-list-item-title>
             </v-list-item>
           </v-list-group>
 
@@ -142,8 +162,27 @@
                 <v-list-item-title>State</v-list-item-title>
               </v-list-item-content>
             </template>
-            <v-list-item v-for="(state, i) in states" :key="i" :to="state[1]">
-              <v-list-item-title v-text="state[0]"></v-list-item-title>
+            <v-list-item
+              v-for="(funds, i) in stateFunds"
+              :key="i"
+              :to="funds[1]"
+            >
+              <v-list-item-title v-text="funds[0]"></v-list-item-title>
+            </v-list-item>
+          </v-list-group>
+
+          <v-list-group sub-group no-action>
+            <template v-slot:activator>
+              <v-list-item-content>
+                <v-list-item-title>County</v-list-item-title>
+              </v-list-item-content>
+            </template>
+            <v-list-item
+              v-for="(funds, i) in countyFunds"
+              :key="i"
+              :to="funds[1]"
+            >
+              <v-list-item-title v-text="funds[0]"></v-list-item-title>
             </v-list-item>
           </v-list-group>
         </v-list-group>
@@ -167,6 +206,11 @@
         </v-btn>
       </v-fab-transition>
     </v-content>
+    <v-footer style="background:inherit;" padless>
+      <v-row justify="center" no-gutters>
+        <v-col class="py-8 text-center" cols="12"> </v-col>
+      </v-row>
+    </v-footer>
   </v-app>
 </template>
 
@@ -183,14 +227,13 @@ export default Vue.extend({
     message: false,
     hints: true,
     drawer: null,
-    federals: [
-      ["CoC", "/funding/federal/coc"],
-      ["RHY", "/funding/federal/rhy"]
-    ],
-    states: [
+    federalFunds: [["CoC", "/funding/federal/coc"]],
+    stateFunds: [
       ["CESH", "/funding/state/cesh"],
-      ["HEAP", "/funding/state/heap"]
-    ]
+      ["HEAP", "/funding/state/heap"],
+      ["ESG", "/funding/state/esg"]
+    ],
+    countyFunds: [["County General", "/funding/county/general"]]
   }),
   methods: {
     onScroll(e: any) {
