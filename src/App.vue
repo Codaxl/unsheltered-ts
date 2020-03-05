@@ -7,7 +7,7 @@
           alt="Vuetify Logo"
           class="shrink mr-2"
           contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
+          src="@/assets/unsheltered-logo-dark.png"
           transition="scale-transition"
           width="40"
         />
@@ -17,8 +17,8 @@
           class="shrink mt-1 hidden-sm-and-down"
           contain
           min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
+          src="@/assets/unsheltered-name-dark.png"
+          width="150"
         />
       </div>
       <v-spacer></v-spacer>
@@ -117,7 +117,7 @@
           </template>
           <v-list-item exact color="primary" to="/funding">
             <v-list-item-icon> </v-list-item-icon>
-            <v-list-item-title>Introduction</v-list-item-title>
+            <v-list-item-title>Dashboard</v-list-item-title>
           </v-list-item>
 
           <v-list-group no-action sub-group>
@@ -150,9 +150,22 @@
       </v-list>
     </v-navigation-drawer>
     <v-content>
-      <v-responsive>
-        <router-view></router-view>
-      </v-responsive>
+      <router-view></router-view>
+      <v-fab-transition>
+        <v-btn
+          v-scroll="onScroll"
+          v-show="fab"
+          fab
+          dark
+          fixed
+          bottom
+          right
+          color="primary"
+          @click="toTop"
+        >
+          <v-icon>mdi-chevron-up</v-icon>
+        </v-btn>
+      </v-fab-transition>
     </v-content>
   </v-app>
 </template>
@@ -165,19 +178,30 @@ export default Vue.extend({
   data: () => ({
     isActive: false,
     fav: true,
+    fab: false,
     menu: false,
     message: false,
     hints: true,
     drawer: null,
     federals: [
-      ["HUD CoC", "/funding/federal/coc"],
+      ["CoC", "/funding/federal/coc"],
       ["RHY", "/funding/federal/rhy"]
     ],
     states: [
       ["CESH", "/funding/state/cesh"],
       ["HEAP", "/funding/state/heap"]
     ]
-  })
+  }),
+  methods: {
+    onScroll(e: any) {
+      if (typeof window === "undefined") return;
+      const top = window.pageYOffset || e.target.scrollTop || 0;
+      this.fab = top > 20;
+    },
+    toTop() {
+      this.$vuetify.goTo(0);
+    }
+  }
 });
 </script>
 <style>

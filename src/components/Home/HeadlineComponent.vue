@@ -12,10 +12,20 @@
 
     <v-img
       src="https://cdn.vuetifyjs.com/images/cards/mountain.jpg"
+      lazy-src="https://cdn.vuetifyjs.com/images/cards/mountain.jpg"
+      aspect-ratio="1"
+      class="grey lighten-2"
       max-height="628"
-      contain
-    ></v-img>
-
+    >
+      <template v-slot:placeholder>
+        <v-row class="fill-height ma-0" align="center" justify="center">
+          <v-progress-circular
+            indeterminate
+            color="grey lighten-5"
+          ></v-progress-circular>
+        </v-row>
+      </template>
+    </v-img>
     <v-card-text>
       Due to the studies being more visual than technical, presets are our
       best-guess implementation. In many cases, styles and functionality must be

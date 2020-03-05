@@ -36,7 +36,27 @@ const routes = [
         // when /user/:id/profile is matched
         path: "federal",
         component: () =>
-          import(/* webpackChunkName: "about" */ "../views/Federal.vue")
+          import(/* webpackChunkName: "about" */ "../views/Federal.vue"),
+        children: [
+          {
+            // UserProfile will be rendered inside User's <router-view>
+            // when /user/:id/profile is matched
+            path: "",
+            component: () =>
+              import(
+                /* webpackChunkName: "about" */ "../views/Funding/Federal/Landing.vue"
+              )
+          },
+          {
+            // UserProfile will be rendered inside User's <router-view>
+            // when /user/:id/profile is matched
+            path: "coc",
+            component: () =>
+              import(
+                /* webpackChunkName: "about" */ "../views/Funding/Federal/Coc.vue"
+              )
+          }
+        ]
       },
       {
         // UserPosts will be rendered inside User's <router-view>

@@ -6,7 +6,7 @@
     <div>
       <div>
         <h1 class="display-1 font-weight-light my-8">
-          Homeless Emergency Aid Program (HEAP)
+          Continuum of Care (CoC) Program
         </h1>
       </div>
       <div>
@@ -109,7 +109,7 @@
           </div>
           <div class="body-1 mb-5">
             <p>
-              The Homeless Emergency Aid Program was established by statute to
+              The Continuum of Care Program was established by statute to
               provide localities with flexible block grant funds to address
               their immediate homelessness challenges. The Homeless Emergency
               Aid Block Grants will provide $500 million in one-time funding to
@@ -143,7 +143,7 @@
 
       <div>
         <v-row>
-          <v-col cols="12" sm="4">
+          <v-col cols="12" sm="6">
             <v-lazy
               :options="{
                 threshold: 0.5
@@ -213,7 +213,7 @@
               </v-card>
             </v-lazy>
           </v-col>
-          <v-col cols="12" sm="8">
+          <v-col cols="12" sm="6">
             <v-lazy
               :options="{
                 threshold: 0.5
@@ -264,7 +264,7 @@
         <div class="body-1 mb-5">
           <p>
             HMIS participation is a statutory requirement for recipients and
-            subrecipients of the the Homeless Emergency Aid Program.
+            subrecipients of the the Continuum of Care Program.
           </p>
         </div>
       </div>
@@ -276,9 +276,9 @@
         <div class="body-1 mb-5">
           <p>
             The County of Riverside Department of Public Social Services
-            administrates the Homeless Emergency Aid Program. Riverside County's
-            fiscal breakdown in Homeless Emergency Aid Program is categorized
-            into Capital Improvements and Administrative Costs total
+            administrates the Continuum of Care Program. Riverside County's
+            fiscal breakdown in Continuum of Care Program is categorized into
+            Capital Improvements and Administrative Costs total
             <b>$4,830,510.36</b> (49.3%), and <b>$4,961,294.70</b> (50.7%) for
             direct services (Rental Assistance or Subsidies, Services, and
             Homeless Youth Set-Aside).
@@ -291,12 +291,12 @@
 <script lang="ts">
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
-import BudgetPie from "../components/Funding/State/Heap/BudgetPie.vue";
+import BudgetPie from "../../../components/Funding/State/Heap/BudgetPie.vue";
 
 @Component({
   components: { BudgetPie }
 })
-export default class Heap extends Vue {
+export default class Coc extends Vue {
   private model = null;
   private breadcrumbs: Array<object> = [
     {
