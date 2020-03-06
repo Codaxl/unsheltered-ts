@@ -80,7 +80,7 @@ export default class FundingDashboardPie extends Vue {
     chart.data = this.chartData;
 
     // Add and configure Series
-    const pieSeries = chart.series.push(new am4charts.PieSeries());
+    const pieSeries: any = chart.series.push(new am4charts.PieSeries());
     pieSeries.dataFields.value = "amount";
     pieSeries.dataFields.category = "country";
     //Object is possibly 'undefined'.
@@ -90,7 +90,7 @@ export default class FundingDashboardPie extends Vue {
     pieSeries.labels.template.text =
       "{category}\n{value.percent.formatNumber('#.#')}%";
 
-    pieSeries.slices.template.events.on("hit", function(event) {
+    pieSeries.slices.template.events.on("hit", function(event: any) {
       // eslint-disable-next-line
       selectSlice(event.target.dataItem);
     });
@@ -100,7 +100,7 @@ export default class FundingDashboardPie extends Vue {
     chart2.radius = am4core.percent(80);
 
     // Add and configure Series
-    const pieSeries2 = chart2.series.push(new am4charts.PieSeries());
+    const pieSeries2: any = chart2.series.push(new am4charts.PieSeries());
     pieSeries2.dataFields.value = "value";
     pieSeries2.dataFields.category = "name";
     //Object is possibly 'undefined'.
