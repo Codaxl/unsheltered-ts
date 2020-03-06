@@ -83,7 +83,7 @@ export default class FundingDashboardPie extends Vue {
     const pieSeries: any = chart.series.push(new am4charts.PieSeries());
     pieSeries.dataFields.value = "amount";
     pieSeries.dataFields.category = "country";
-    //Object is possibly 'undefined'.
+
     pieSeries.slices.template.states.getKey(
       "active"
     ).properties.shiftRadius = 0;
@@ -103,7 +103,7 @@ export default class FundingDashboardPie extends Vue {
     const pieSeries2: any = chart2.series.push(new am4charts.PieSeries());
     pieSeries2.dataFields.value = "value";
     pieSeries2.dataFields.category = "name";
-    //Object is possibly 'undefined'.
+
     pieSeries2.slices.template.states.getKey(
       "active"
     ).properties.shiftRadius = 0;
@@ -184,7 +184,7 @@ export default class FundingDashboardPie extends Vue {
       pieSeries2.appear();
 
       const middleAngle = selectedSlice.middleAngle;
-      //Object is possibly 'undefined'.
+
       const firstAngle = pieSeries.slices.getIndex(0).startAngle;
 
       const animation = pieSeries.animate(

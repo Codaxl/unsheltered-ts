@@ -9,7 +9,8 @@ import Vue from "vue";
 import { Component } from "vue-property-decorator";
 
 import * as am4core from "@amcharts/amcharts4/core";
-import * as am4charts from "@amcharts/amcharts4/charts";
+import * as am4maps from "@amcharts/amcharts4/maps";
+import am4geodataWorldLow from "@amcharts/amcharts4-geodata/worldLow";
 import am4themesAnimated from "@amcharts/amcharts4/themes/animated";
 
 am4core.useTheme(am4themesAnimated);
@@ -19,208 +20,1073 @@ export default class FundingDashboardMap extends Vue {
   $refs!: {
     chartdiv: HTMLElement;
   };
-  private container: any;
+  private chart: any;
+  private mapData: any;
 
   private chartData: Array<object> = [
     {
-      country: "Federal",
-      amount: 10000000.0,
-      subData: [
-        {
-          name: "CoC",
-          value: 9791805.06
-        }
-      ]
+      id: "AF",
+      name: "Afghanistan",
+      value: 32358260,
+      color: this.chart.colors.getIndex(0)
     },
     {
-      country: "State",
-      amount: 100000000.0,
-      subData: [
-        {
-          name: "CESH",
-          value: 9791805.06
-        },
-        {
-          name: "HEAP",
-          value: 9791805.06
-        }
-      ]
+      id: "AL",
+      name: "Albania",
+      value: 3215988,
+      color: this.chart.colors.getIndex(1)
     },
     {
-      country: "County",
-      amount: 500000.0,
-      subData: [
-        {
-          name: "General",
-          value: 500000.0
-        }
-      ]
+      id: "DZ",
+      name: "Algeria",
+      value: 35980193,
+      color: this.chart.colors.getIndex(2)
     },
     {
-      country: "Local",
-      amount: 100000.0,
-      subData: [
-        {
-          name: "City of Riverside",
-          value: 100000.0
-        }
-      ]
+      id: "AO",
+      name: "Angola",
+      value: 19618432,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "AR",
+      name: "Argentina",
+      value: 40764561,
+      color: this.chart.colors.getIndex(3)
+    },
+    {
+      id: "AM",
+      name: "Armenia",
+      value: 3100236,
+      color: this.chart.colors.getIndex(1)
+    },
+    { id: "AU", name: "Australia", value: 22605732, color: "#8aabb0" },
+    {
+      id: "AT",
+      name: "Austria",
+      value: 8413429,
+      color: this.chart.colors.getIndex(1)
+    },
+    {
+      id: "AZ",
+      name: "Azerbaijan",
+      value: 9306023,
+      color: this.chart.colors.getIndex(1)
+    },
+    {
+      id: "BH",
+      name: "Bahrain",
+      value: 1323535,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "BD",
+      name: "Bangladesh",
+      value: 150493658,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "BY",
+      name: "Belarus",
+      value: 9559441,
+      color: this.chart.colors.getIndex(1)
+    },
+    {
+      id: "BE",
+      name: "Belgium",
+      value: 10754056,
+      color: this.chart.colors.getIndex(1)
+    },
+    {
+      id: "BJ",
+      name: "Benin",
+      value: 9099922,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "BT",
+      name: "Bhutan",
+      value: 738267,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "BO",
+      name: "Bolivia",
+      value: 10088108,
+      color: this.chart.colors.getIndex(3)
+    },
+    {
+      id: "BA",
+      name: "Bosnia and Herzegovina",
+      value: 3752228,
+      color: this.chart.colors.getIndex(1)
+    },
+    {
+      id: "BW",
+      name: "Botswana",
+      value: 2030738,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "BR",
+      name: "Brazil",
+      value: 196655014,
+      color: this.chart.colors.getIndex(3)
+    },
+    {
+      id: "BN",
+      name: "Brunei",
+      value: 405938,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "BG",
+      name: "Bulgaria",
+      value: 7446135,
+      color: this.chart.colors.getIndex(1)
+    },
+    {
+      id: "BF",
+      name: "Burkina Faso",
+      value: 16967845,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "BI",
+      name: "Burundi",
+      value: 8575172,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "KH",
+      name: "Cambodia",
+      value: 14305183,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "CM",
+      name: "Cameroon",
+      value: 20030362,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "CA",
+      name: "Canada",
+      value: 34349561,
+      color: this.chart.colors.getIndex(4)
+    },
+    {
+      id: "CV",
+      name: "Cape Verde",
+      value: 500585,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "CF",
+      name: "Central African Rep.",
+      value: 4486837,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "TD",
+      name: "Chad",
+      value: 11525496,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "CL",
+      name: "Chile",
+      value: 17269525,
+      color: this.chart.colors.getIndex(3)
+    },
+    {
+      id: "CN",
+      name: "China",
+      value: 1347565324,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "CO",
+      name: "Colombia",
+      value: 46927125,
+      color: this.chart.colors.getIndex(3)
+    },
+    {
+      id: "KM",
+      name: "Comoros",
+      value: 753943,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "CD",
+      name: "Congo, Dem. Rep.",
+      value: 67757577,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "CG",
+      name: "Congo, Rep.",
+      value: 4139748,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "CR",
+      name: "Costa Rica",
+      value: 4726575,
+      color: this.chart.colors.getIndex(4)
+    },
+    {
+      id: "CI",
+      name: "Cote d'Ivoire",
+      value: 20152894,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "HR",
+      name: "Croatia",
+      value: 4395560,
+      color: this.chart.colors.getIndex(1)
+    },
+    {
+      id: "CU",
+      name: "Cuba",
+      value: 11253665,
+      color: this.chart.colors.getIndex(4)
+    },
+    {
+      id: "CY",
+      name: "Cyprus",
+      value: 1116564,
+      color: this.chart.colors.getIndex(1)
+    },
+    {
+      id: "CZ",
+      name: "Czech Rep.",
+      value: 10534293,
+      color: this.chart.colors.getIndex(1)
+    },
+    {
+      id: "DK",
+      name: "Denmark",
+      value: 5572594,
+      color: this.chart.colors.getIndex(1)
+    },
+    {
+      id: "DJ",
+      name: "Djibouti",
+      value: 905564,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "DO",
+      name: "Dominican Rep.",
+      value: 10056181,
+      color: this.chart.colors.getIndex(4)
+    },
+    {
+      id: "EC",
+      name: "Ecuador",
+      value: 14666055,
+      color: this.chart.colors.getIndex(3)
+    },
+    {
+      id: "EG",
+      name: "Egypt",
+      value: 82536770,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "SV",
+      name: "El Salvador",
+      value: 6227491,
+      color: this.chart.colors.getIndex(4)
+    },
+    {
+      id: "GQ",
+      name: "Equatorial Guinea",
+      value: 720213,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "ER",
+      name: "Eritrea",
+      value: 5415280,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "EE",
+      name: "Estonia",
+      value: 1340537,
+      color: this.chart.colors.getIndex(1)
+    },
+    {
+      id: "ET",
+      name: "Ethiopia",
+      value: 84734262,
+      color: this.chart.colors.getIndex(2)
+    },
+    { id: "FJ", name: "Fiji", value: 868406, color: "#8aabb0" },
+    {
+      id: "FI",
+      name: "Finland",
+      value: 5384770,
+      color: this.chart.colors.getIndex(1)
+    },
+    {
+      id: "FR",
+      name: "France",
+      value: 63125894,
+      color: this.chart.colors.getIndex(1)
+    },
+    {
+      id: "GA",
+      name: "Gabon",
+      value: 1534262,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "GM",
+      name: "Gambia",
+      value: 1776103,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "GE",
+      name: "Georgia",
+      value: 4329026,
+      color: this.chart.colors.getIndex(1)
+    },
+    {
+      id: "DE",
+      name: "Germany",
+      value: 82162512,
+      color: this.chart.colors.getIndex(1)
+    },
+    {
+      id: "GH",
+      name: "Ghana",
+      value: 24965816,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "GR",
+      name: "Greece",
+      value: 11390031,
+      color: this.chart.colors.getIndex(1)
+    },
+    {
+      id: "GT",
+      name: "Guatemala",
+      value: 14757316,
+      color: this.chart.colors.getIndex(4)
+    },
+    {
+      id: "GN",
+      name: "Guinea",
+      value: 10221808,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "GW",
+      name: "Guinea-Bissau",
+      value: 1547061,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "GY",
+      name: "Guyana",
+      value: 756040,
+      color: this.chart.colors.getIndex(3)
+    },
+    {
+      id: "HT",
+      name: "Haiti",
+      value: 10123787,
+      color: this.chart.colors.getIndex(4)
+    },
+    {
+      id: "HN",
+      name: "Honduras",
+      value: 7754687,
+      color: this.chart.colors.getIndex(4)
+    },
+    {
+      id: "HK",
+      name: "Hong Kong, China",
+      value: 7122187,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "HU",
+      name: "Hungary",
+      value: 9966116,
+      color: this.chart.colors.getIndex(1)
+    },
+    {
+      id: "IS",
+      name: "Iceland",
+      value: 324366,
+      color: this.chart.colors.getIndex(1)
+    },
+    {
+      id: "IN",
+      name: "India",
+      value: 1241491960,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "ID",
+      name: "Indonesia",
+      value: 242325638,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "IR",
+      name: "Iran",
+      value: 74798599,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "IQ",
+      name: "Iraq",
+      value: 32664942,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "IE",
+      name: "Ireland",
+      value: 4525802,
+      color: this.chart.colors.getIndex(1)
+    },
+    {
+      id: "IL",
+      name: "Israel",
+      value: 7562194,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "IT",
+      name: "Italy",
+      value: 60788694,
+      color: this.chart.colors.getIndex(1)
+    },
+    {
+      id: "JM",
+      name: "Jamaica",
+      value: 2751273,
+      color: this.chart.colors.getIndex(4)
+    },
+    {
+      id: "JP",
+      name: "Japan",
+      value: 126497241,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "JO",
+      name: "Jordan",
+      value: 6330169,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "KZ",
+      name: "Kazakhstan",
+      value: 16206750,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "KE",
+      name: "Kenya",
+      value: 41609728,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "KP",
+      name: "Korea, Dem. Rep.",
+      value: 24451285,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "KR",
+      name: "Korea, Rep.",
+      value: 48391343,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "KW",
+      name: "Kuwait",
+      value: 2818042,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "KG",
+      name: "Kyrgyzstan",
+      value: 5392580,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "LA",
+      name: "Laos",
+      value: 6288037,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "LV",
+      name: "Latvia",
+      value: 2243142,
+      color: this.chart.colors.getIndex(1)
+    },
+    {
+      id: "LB",
+      name: "Lebanon",
+      value: 4259405,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "LS",
+      name: "Lesotho",
+      value: 2193843,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "LR",
+      name: "Liberia",
+      value: 4128572,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "LY",
+      name: "Libya",
+      value: 6422772,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "LT",
+      name: "Lithuania",
+      value: 3307481,
+      color: this.chart.colors.getIndex(1)
+    },
+    {
+      id: "LU",
+      name: "Luxembourg",
+      value: 515941,
+      color: this.chart.colors.getIndex(1)
+    },
+    {
+      id: "MK",
+      name: "Macedonia, FYR",
+      value: 2063893,
+      color: this.chart.colors.getIndex(1)
+    },
+    {
+      id: "MG",
+      name: "Madagascar",
+      value: 21315135,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "MW",
+      name: "Malawi",
+      value: 15380888,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "MY",
+      name: "Malaysia",
+      value: 28859154,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "ML",
+      name: "Mali",
+      value: 15839538,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "MR",
+      name: "Mauritania",
+      value: 3541540,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "MU",
+      name: "Mauritius",
+      value: 1306593,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "MX",
+      name: "Mexico",
+      value: 114793341,
+      color: this.chart.colors.getIndex(4)
+    },
+    {
+      id: "MD",
+      name: "Moldova",
+      value: 3544864,
+      color: this.chart.colors.getIndex(1)
+    },
+    {
+      id: "MN",
+      name: "Mongolia",
+      value: 2800114,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "ME",
+      name: "Montenegro",
+      value: 632261,
+      color: this.chart.colors.getIndex(1)
+    },
+    {
+      id: "MA",
+      name: "Morocco",
+      value: 32272974,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "MZ",
+      name: "Mozambique",
+      value: 23929708,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "MM",
+      name: "Myanmar",
+      value: 48336763,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "NA",
+      name: "Namibia",
+      value: 2324004,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "NP",
+      name: "Nepal",
+      value: 30485798,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "NL",
+      name: "Netherlands",
+      value: 16664746,
+      color: this.chart.colors.getIndex(1)
+    },
+    { id: "NZ", name: "New Zealand", value: 4414509, color: "#8aabb0" },
+    {
+      id: "NI",
+      name: "Nicaragua",
+      value: 5869859,
+      color: this.chart.colors.getIndex(4)
+    },
+    {
+      id: "NE",
+      name: "Niger",
+      value: 16068994,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "NG",
+      name: "Nigeria",
+      value: 162470737,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "NO",
+      name: "Norway",
+      value: 4924848,
+      color: this.chart.colors.getIndex(1)
+    },
+    {
+      id: "OM",
+      name: "Oman",
+      value: 2846145,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "PK",
+      name: "Pakistan",
+      value: 176745364,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "PA",
+      name: "Panama",
+      value: 3571185,
+      color: this.chart.colors.getIndex(4)
+    },
+    { id: "PG", name: "Papua New Guinea", value: 7013829, color: "#8aabb0" },
+    {
+      id: "PY",
+      name: "Paraguay",
+      value: 6568290,
+      color: this.chart.colors.getIndex(3)
+    },
+    {
+      id: "PE",
+      name: "Peru",
+      value: 29399817,
+      color: this.chart.colors.getIndex(3)
+    },
+    {
+      id: "PH",
+      name: "Philippines",
+      value: 94852030,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "PL",
+      name: "Poland",
+      value: 38298949,
+      color: this.chart.colors.getIndex(1)
+    },
+    {
+      id: "PT",
+      name: "Portugal",
+      value: 10689663,
+      color: this.chart.colors.getIndex(1)
+    },
+    {
+      id: "PR",
+      name: "Puerto Rico",
+      value: 3745526,
+      color: this.chart.colors.getIndex(4)
+    },
+    {
+      id: "QA",
+      name: "Qatar",
+      value: 1870041,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "RO",
+      name: "Romania",
+      value: 21436495,
+      color: this.chart.colors.getIndex(1)
+    },
+    {
+      id: "RU",
+      name: "Russia",
+      value: 142835555,
+      color: this.chart.colors.getIndex(1)
+    },
+    {
+      id: "RW",
+      name: "Rwanda",
+      value: 10942950,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "SA",
+      name: "Saudi Arabia",
+      value: 28082541,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "SN",
+      name: "Senegal",
+      value: 12767556,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "RS",
+      name: "Serbia",
+      value: 9853969,
+      color: this.chart.colors.getIndex(1)
+    },
+    {
+      id: "SL",
+      name: "Sierra Leone",
+      value: 5997486,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "SG",
+      name: "Singapore",
+      value: 5187933,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "SK",
+      name: "Slovak Republic",
+      value: 5471502,
+      color: this.chart.colors.getIndex(1)
+    },
+    {
+      id: "SI",
+      name: "Slovenia",
+      value: 2035012,
+      color: this.chart.colors.getIndex(1)
+    },
+    { id: "SB", name: "Solomon Islands", value: 552267, color: "#8aabb0" },
+    {
+      id: "SO",
+      name: "Somalia",
+      value: 9556873,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "ZA",
+      name: "South Africa",
+      value: 50459978,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "ES",
+      name: "Spain",
+      value: 46454895,
+      color: this.chart.colors.getIndex(1)
+    },
+    {
+      id: "LK",
+      name: "Sri Lanka",
+      value: 21045394,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "SD",
+      name: "Sudan",
+      value: 34735288,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "SR",
+      name: "Suriname",
+      value: 529419,
+      color: this.chart.colors.getIndex(3)
+    },
+    {
+      id: "SZ",
+      name: "Swaziland",
+      value: 1203330,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "SE",
+      name: "Sweden",
+      value: 9440747,
+      color: this.chart.colors.getIndex(1)
+    },
+    {
+      id: "CH",
+      name: "Switzerland",
+      value: 7701690,
+      color: this.chart.colors.getIndex(1)
+    },
+    {
+      id: "SY",
+      name: "Syria",
+      value: 20766037,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "TW",
+      name: "Taiwan",
+      value: 23072000,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "TJ",
+      name: "Tajikistan",
+      value: 6976958,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "TZ",
+      name: "Tanzania",
+      value: 46218486,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "TH",
+      name: "Thailand",
+      value: 69518555,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "TG",
+      name: "Togo",
+      value: 6154813,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "TT",
+      name: "Trinidad and Tobago",
+      value: 1346350,
+      color: this.chart.colors.getIndex(4)
+    },
+    {
+      id: "TN",
+      name: "Tunisia",
+      value: 10594057,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "TR",
+      name: "Turkey",
+      value: 73639596,
+      color: this.chart.colors.getIndex(1)
+    },
+    {
+      id: "TM",
+      name: "Turkmenistan",
+      value: 5105301,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "UG",
+      name: "Uganda",
+      value: 34509205,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "UA",
+      name: "Ukraine",
+      value: 45190180,
+      color: this.chart.colors.getIndex(1)
+    },
+    {
+      id: "AE",
+      name: "United Arab Emirates",
+      value: 7890924,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "GB",
+      name: "United Kingdom",
+      value: 62417431,
+      color: this.chart.colors.getIndex(1)
+    },
+    {
+      id: "US",
+      name: "United States",
+      value: 313085380,
+      color: this.chart.colors.getIndex(4)
+    },
+    {
+      id: "UY",
+      name: "Uruguay",
+      value: 3380008,
+      color: this.chart.colors.getIndex(3)
+    },
+    {
+      id: "UZ",
+      name: "Uzbekistan",
+      value: 27760267,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "VE",
+      name: "Venezuela",
+      value: 29436891,
+      color: this.chart.colors.getIndex(3)
+    },
+    {
+      id: "PS",
+      name: "West Bank and Gaza",
+      value: 4152369,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "VN",
+      name: "Vietnam",
+      value: 88791996,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "YE",
+      name: "Yemen, Rep.",
+      value: 24799880,
+      color: this.chart.colors.getIndex(0)
+    },
+    {
+      id: "ZM",
+      name: "Zambia",
+      value: 13474959,
+      color: this.chart.colors.getIndex(2)
+    },
+    {
+      id: "ZW",
+      name: "Zimbabwe",
+      value: 12754378,
+      color: this.chart.colors.getIndex(2)
     }
   ];
   public budgetPie(): void {
-    const container = am4core.create(this.$refs.chartdiv, am4core.Container);
-    container.width = am4core.percent(100);
-    container.height = am4core.percent(100);
-    container.layout = "horizontal";
-
-    const chart = container.createChild(am4charts.PieChart);
+    // Create map instance
+    const chart = am4core.create(this.$refs.chartdiv, am4maps.MapChart);
+    const title = chart.titles.create();
+    title.text =
+      "[bold font-size: 20]Population of the World in 2011[/]\nsource: Gapminder";
+    title.textAlign = "middle";
 
     // Add data
-
     chart.data = this.chartData;
 
-    // Add and configure Series
-    const pieSeries: any = chart.series.push(new am4charts.PieSeries());
-    pieSeries.dataFields.value = "amount";
-    pieSeries.dataFields.category = "country";
-    //Object is possibly 'undefined'.
-    pieSeries.slices.template.states.getKey(
-      "active"
-    ).properties.shiftRadius = 0;
-    pieSeries.labels.template.text =
-      "{category}\n{value.percent.formatNumber('#.#')}%";
+    // Set map definition
+    chart.geodata = am4geodataWorldLow;
 
-    pieSeries.slices.template.events.on("hit", function(event: any) {
-      // eslint-disable-next-line
-      selectSlice(event.target.dataItem);
+    // Set projection
+    chart.projection = new am4maps.projections.Miller();
+
+    // Create map polygon series
+    const polygonSeries = chart.series.push(new am4maps.MapPolygonSeries());
+    polygonSeries.exclude = ["AQ"];
+    polygonSeries.useGeodata = true;
+    polygonSeries.nonScalingStroke = true;
+    polygonSeries.strokeWidth = 0.5;
+    polygonSeries.calculateVisualCenter = true;
+
+    const imageSeries = chart.series.push(new am4maps.MapImageSeries());
+    imageSeries.data = this.mapData;
+    imageSeries.dataFields.value = "value";
+
+    const imageTemplate = imageSeries.mapImages.template;
+    imageTemplate.nonScaling = true;
+
+    const circle = imageTemplate.createChild(am4core.Circle);
+    circle.fillOpacity = 0.7;
+    circle.propertyFields.fill = "color";
+    circle.tooltipText = "{name}: [bold]{value}[/]";
+
+    imageSeries.heatRules.push({
+      target: circle,
+      property: "radius",
+      min: 4,
+      max: 30,
+      dataField: "value"
     });
 
-    const chart2 = container.createChild(am4charts.PieChart);
-    chart2.width = am4core.percent(30);
-    chart2.radius = am4core.percent(80);
-
-    // Add and configure Series
-    const pieSeries2: any = chart2.series.push(new am4charts.PieSeries());
-    pieSeries2.dataFields.value = "value";
-    pieSeries2.dataFields.category = "name";
-    //Object is possibly 'undefined'.
-    pieSeries2.slices.template.states.getKey(
-      "active"
-    ).properties.shiftRadius = 0;
-
-    //pieSeries2.labels.template.radius = am4core.percent(50);
-    //pieSeries2.labels.template.inside = true;
-    //pieSeries2.labels.template.fill = am4core.color("#ffffff");
-    pieSeries2.labels.template.disabled = true;
-    pieSeries2.ticks.template.disabled = true;
-    pieSeries2.alignLabels = false;
-    // eslint-disable-next-line
-    pieSeries2.events.on("positionchanged", updateLines);
-
-    const interfaceColors = new am4core.InterfaceColorSet();
-
-    const line1 = container.createChild(am4core.Line);
-    line1.strokeDasharray = "2,2";
-    line1.strokeOpacity = 0.5;
-    line1.stroke = interfaceColors.getFor("alternativeBackground");
-    line1.isMeasured = false;
-
-    const line2 = container.createChild(am4core.Line);
-    line2.strokeDasharray = "2,2";
-    line2.strokeOpacity = 0.5;
-    line2.stroke = interfaceColors.getFor("alternativeBackground");
-    line2.isMeasured = false;
-
-    let selectedSlice: any;
-
-    function updateLines() {
-      if (selectedSlice) {
-        let p11 = {
-          x: selectedSlice.radius * am4core.math.cos(selectedSlice.startAngle),
-          y: selectedSlice.radius * am4core.math.sin(selectedSlice.startAngle)
-        };
-        let p12 = {
-          x:
-            selectedSlice.radius *
-            am4core.math.cos(selectedSlice.startAngle + selectedSlice.arc),
-          y:
-            selectedSlice.radius *
-            am4core.math.sin(selectedSlice.startAngle + selectedSlice.arc)
-        };
-
-        p11 = am4core.utils.spritePointToSvg(p11, selectedSlice);
-        p12 = am4core.utils.spritePointToSvg(p12, selectedSlice);
-
-        let p21 = { x: 0, y: -pieSeries2.pixelRadius };
-        let p22 = { x: 0, y: pieSeries2.pixelRadius };
-
-        p21 = am4core.utils.spritePointToSvg(p21, pieSeries2);
-        p22 = am4core.utils.spritePointToSvg(p22, pieSeries2);
-
-        line1.x1 = p11.x;
-        line1.x2 = p21.x;
-        line1.y1 = p11.y;
-        line1.y2 = p21.y;
-
-        line2.x1 = p12.x;
-        line2.x2 = p22.x;
-        line2.y1 = p12.y;
-        line2.y2 = p22.y;
-      }
-    }
-
-    function selectSlice(dataItem: any) {
-      selectedSlice = dataItem.slice;
-
-      const fill = selectedSlice.fill;
-
-      const count = dataItem.dataContext.subData.length;
-      pieSeries2.colors.list = [];
-      for (let i = 0; i < count; i++) {
-        pieSeries2.colors.list.push(fill.brighten((i * 2) / count));
-      }
-
-      chart2.data = dataItem.dataContext.subData;
-      pieSeries2.appear();
-
-      const middleAngle = selectedSlice.middleAngle;
-      //Object is possibly 'undefined'.
-      const firstAngle = pieSeries.slices.getIndex(0).startAngle;
-
-      const animation = pieSeries.animate(
-        [
-          { property: "startAngle", to: firstAngle - middleAngle },
-          { property: "endAngle", to: firstAngle - middleAngle + 360 }
-        ],
-        600,
-        am4core.ease.sinOut
+    imageTemplate.adapter.add("latitude", function(latitude, target: any) {
+      const polygon = polygonSeries.getPolygonById(
+        target.dataItem.dataContext.id
       );
-
-      animation.events.on("animationprogress", updateLines);
-
-      selectedSlice.events.on("transformed", updateLines);
-
-      //  var animation = chart2.animate({property:"dx", from:-container.pixelWidth / 2, to:0}, 2000, am4core.ease.elasticOut)
-      //  animation.events.on("animationprogress", updateLines)
-    }
-
-    chart.events.on("datavalidated", function() {
-      setTimeout(function() {
-        selectSlice(pieSeries.dataItems.getIndex(0));
-      }, 1000);
+      if (polygon) {
+        return polygon.visualLatitude;
+      }
+      return latitude;
     });
 
-    // Add legend
-    chart.legend = new am4charts.Legend();
+    imageTemplate.adapter.add("longitude", function(longitude, target: any) {
+      const polygon = polygonSeries.getPolygonById(
+        target.dataItem.dataContext.id
+      );
+      if (polygon) {
+        return polygon.visualLongitude;
+      }
+      return longitude;
+    });
 
-    this.container = container;
+    this.chart = chart;
   }
   mounted() {
     this.budgetPie();
   }
   beforeDestroy() {
-    if (this.container) {
-      this.container.dispose();
+    if (this.chart) {
+      this.chart.dispose();
     }
   }
 }

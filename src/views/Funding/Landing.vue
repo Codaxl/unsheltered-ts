@@ -113,6 +113,23 @@
           </v-col>
         </v-row>
       </div>
+      <div>
+        <v-row>
+          <v-col cols="12">
+            <v-lazy
+              :options="{
+                threshold: 0.5
+              }"
+              min-height="500"
+              transition="fade-transition"
+            >
+              <v-card>
+                <funding-dashboard-map></funding-dashboard-map>
+              </v-card>
+            </v-lazy>
+          </v-col>
+        </v-row>
+      </div>
     </div>
   </v-container>
 </template>
@@ -120,9 +137,10 @@
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import FundingDashboardPie from "../../components/Funding/FundingDashboardPie.vue";
+import FundingDashboardMap from "../../components/Funding/FundingDashboardMap.vue";
 
 @Component({
-  components: { FundingDashboardPie }
+  components: { FundingDashboardPie, FundingDashboardMap }
 })
 export default class FundingDashboard extends Vue {
   private model = null;

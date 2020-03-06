@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@amcharts/amcharts4": "^4.9.4",
+    "@amcharts/amcharts4-geodata": "^4.1.12",
+    "@types/d3-geo": "^1.11.1",
     "core-js": "^3.6.4",
     "firebase": "^7.9.2",
     "firebase-tools": "^7.14.0",
