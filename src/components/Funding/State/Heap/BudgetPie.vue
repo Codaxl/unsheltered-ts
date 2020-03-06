@@ -67,11 +67,12 @@ export default class BudgetPie extends Vue {
     pieSeries.hiddenState.properties.startAngle = -90;
     // Add legend
     chart.legend = new am4charts.Legend();
+
     // Responsive
     chart.responsive.enabled = true;
     chart.responsive.rules.push({
       relevant: function(target) {
-        if (target.pixelWidth <= 750) {
+        if (target.pixelWidth <= 700) {
           return true;
         }
         return false;

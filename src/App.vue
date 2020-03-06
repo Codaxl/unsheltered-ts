@@ -233,7 +233,7 @@ export default Vue.extend({
       ["HEAP", "/funding/state/heap"],
       ["ESG", "/funding/state/esg"]
     ],
-    countyFunds: [["County General", "/funding/county/general"]]
+    countyFunds: [["General", "/funding/county/general"]]
   }),
   methods: {
     onScroll(e: any) {
