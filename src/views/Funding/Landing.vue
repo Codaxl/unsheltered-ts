@@ -57,7 +57,7 @@
       </div>
       <v-row>
         <v-col cols="12">
-          <div href="#about">
+          <div ref="#about">
             <h2 class="font-weight-regular mt-5">
               About
             </h2>
