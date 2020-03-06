@@ -189,7 +189,9 @@
       </v-list>
     </v-navigation-drawer>
     <v-content>
-      <router-view></router-view>
+      <v-fade-transition mode="out-in">
+        <router-view></router-view>
+      </v-fade-transition>
       <v-fab-transition>
         <v-btn
           v-scroll="onScroll"
@@ -216,6 +218,8 @@
 
 <script lang="ts">
 import Vue from "vue";
+// Utilities
+import { waitForReadystate } from "@/util/helpers";
 
 export default Vue.extend({
   name: "App",
@@ -244,6 +248,17 @@ export default Vue.extend({
     toTop() {
       this.$vuetify.goTo(0);
     }
+  },
+  watch: {
+    "$route.path"() {
+      typeof window !== "undefined" && window.scrollTo(0, 0);
+    }
+  },
+  async mounted() {
+    if (!this.$route.hash) return;
+    await this.$nextTick();
+    await waitForReadystate();
+    this.$vuetify.goTo(this.$route.hash);
   }
 });
 </script>
