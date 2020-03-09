@@ -42,6 +42,12 @@
         Login
       </v-btn>
     </v-card-actions>
+    <v-snackbar v-model="snackbar">
+      {{ text }}
+      <v-btn color="pink" text @click="snackbar = false">
+        Close
+      </v-btn>
+    </v-snackbar>
   </v-card>
 </template>
 <script lang="ts">
@@ -54,13 +60,18 @@ export default class LoginComponent extends Vue {
   private email = "";
   private password = "";
   private errorMessage = "";
+  private snackbar = false;
+  private text = "";
   private login(e: any) {
     firebase
       .auth()
       .signInWithEmailAndPassword(this.email, this.password)
       .then(
         user => {
-          alert(`You are logged in as ${this.email}`);
+          this.$router.push({ path: "" });
+          console.log(this.text);
+          this.text = "You are logged in as " + this.email;
+          this.snackbar = true;
         },
         err => {
           alert(err.message);

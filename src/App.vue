@@ -78,10 +78,10 @@
       </v-autocomplete>
       <v-spacer></v-spacer>
 
-      <div class="hidden-sm-and-down">
+      <div class="hidden-sm-and-down" v-if="!isLogginIn">
         <v-btn class="ma-2" outlined color="white" to="/Login">Login</v-btn>
       </div>
-      <div>
+      <div v-else>
         <v-menu
           v-model="menu"
           :close-on-content-click="false"
@@ -127,7 +127,7 @@
 
             <v-card-actions>
               <v-row align="center" justify="center">
-                <v-btn outlined>Logout</v-btn>
+                <v-btn outlined v-on:click="logout">Logout</v-btn>
               </v-row>
             </v-card-actions>
           </v-card>
@@ -305,7 +305,12 @@ export default class SiteHeader extends Vue {
     this.fab = top > 20;
   }
   private logout() {
-    firebase.auth().signOut();
+    firebase
+      .auth()
+      .signOut()
+      .then(() => {
+        this.$router.push({ path: "home" });
+      });
   }
 
   created() {
