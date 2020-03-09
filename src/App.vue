@@ -22,25 +22,58 @@
         />
       </div>
       <v-spacer></v-spacer>
+
       <v-autocomplete
-        text
+        v-model="model"
+        :items="items"
+        :loading="isLoading"
+        :search-input.sync="search"
+        chips
+        clearable
         solo-inverted
+        rounded
         hide-details
+        hide-selected
+        item-text="name"
+        item-value="symbol"
         prepend-inner-icon="mdi-magnify"
         label="Search"
-        class="hidden-sm-and-down"
+        solo
       >
-        <template slot="item" slot-scope="data">
-          <template v-if="typeof data.item !== 'object'">
-            <v-list-item-content>{{ data.item }}</v-list-item-content>
-          </template>
-          <template v-else>
-            <v-list-item-content>
-              <slot name="highlight" :highlight="data.item.highlight">
-                <v-list-item-title v-html="data.item.highlight" />
-              </slot>
-            </v-list-item-content>
-          </template>
+        <template v-slot:no-data>
+          <v-list-item>
+            <v-list-item-title>
+              Search our
+              <strong>Documentation</strong>
+            </v-list-item-title>
+          </v-list-item>
+        </template>
+        <template v-slot:selection="{ attr, on, item, selected }">
+          <v-chip
+            v-bind="attr"
+            :input-value="selected"
+            color="blue-grey"
+            class="white--text"
+            v-on="on"
+          >
+            <v-icon left>mdi-coin</v-icon>
+            <span v-text="item.name"></span>
+          </v-chip>
+        </template>
+        <template v-slot:item="{ item }">
+          <v-list-item-avatar
+            color="indigo"
+            class="headline font-weight-light white--text"
+          >
+            {{ item.name.charAt(0) }}
+          </v-list-item-avatar>
+          <v-list-item-content>
+            <v-list-item-title v-text="item.name"></v-list-item-title>
+            <v-list-item-subtitle v-text="item.symbol"></v-list-item-subtitle>
+          </v-list-item-content>
+          <v-list-item-action>
+            <v-icon>mdi-coin</v-icon>
+          </v-list-item-action>
         </template>
       </v-autocomplete>
       <v-spacer></v-spacer>
@@ -72,7 +105,7 @@
                 </v-list-item-avatar>
 
                 <v-list-item-content>
-                  <v-list-item-title>Firstname Lastname</v-list-item-title>
+                  <v-list-item-title>{{ currentUser }}</v-list-item-title>
                   <v-list-item-subtitle>Email</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
@@ -215,40 +248,75 @@
     </v-footer>
   </v-app>
 </template>
-
 <script lang="ts">
-import Vue from "vue";
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
+import firebase from "firebase";
+@Component({
+  components: {}
+})
+export default class SiteHeader extends Vue {
+  @Prop({ default: "MY SERVICE" }) private title!: string;
+  @Watch("search")
+  watchSearch(val: any) {
+    // Items have already been loaded
+    if (this.items.length > 0) return;
 
-export default Vue.extend({
-  name: "App",
-  data: () => ({
-    isActive: false,
-    fav: true,
-    fab: false,
-    menu: false,
-    message: false,
-    hints: true,
-    drawer: null,
-    federalFunds: [["CoC", "/funding/federal/coc"]],
-    stateFunds: [
-      ["CESH", "/funding/state/cesh"],
-      ["HEAP", "/funding/state/heap"],
-      ["ESG", "/funding/state/esg"]
-    ],
-    countyFunds: [["General", "/funding/county/general"]]
-  }),
-  methods: {
-    onScroll(e: any) {
-      if (typeof window === "undefined") return;
-      const top = window.pageYOffset || e.target.scrollTop || 0;
-      this.fab = top > 20;
-    },
-    toTop() {
-      this.$vuetify.goTo(0);
+    this.isLoading = true;
+
+    // Lazily load input items
+    fetch("https://api.github.com/orgs/nodejs")
+      .then(res => res.json())
+      .then(res => {
+        this.items = res.data;
+      })
+      .catch(err => {
+        console.log(err);
+      })
+      .finally(() => (this.isLoading = false));
+  }
+  private isLoading = false;
+  private items = [];
+  private model = null;
+  private search = null;
+  private isActive = false;
+  private fav = true;
+  private fab = false;
+  private menu = false;
+  private message = false;
+  private hints = true;
+  private drawer = null;
+  private federalFunds = [["CoC", "/funding/federal/coc"]];
+  private stateFunds = [
+    ["CESH", "/funding/state/cesh"],
+    ["HEAP", "/funding/state/heap"],
+    ["ESG", "/funding/state/esg"]
+  ];
+  private countyFunds = [["General", "/funding/county/general"]];
+
+  private isLogginIn = false;
+  private currentUser: any;
+
+  private toTop() {
+    this.$vuetify.goTo(0);
+  }
+  private onScroll(e: any) {
+    if (typeof window === "undefined") return;
+    const top = window.pageYOffset || e.target.scrollTop || 0;
+    this.fab = top > 20;
+  }
+  private logout() {
+    firebase.auth().signOut();
+  }
+
+  created() {
+    if (firebase.auth().currentUser) {
+      this.isLogginIn = true;
+      this.currentUser = firebase.auth().currentUser?.email;
     }
   }
-});
+}
 </script>
+
 <style>
 .fade-enter-active,
 .fade-leave-active {

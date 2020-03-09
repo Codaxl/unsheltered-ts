@@ -21,1009 +21,1000 @@ export default class FundingDashboardMap extends Vue {
     chartdiv: HTMLElement;
   };
   private chart: any;
-  private mapData: any;
-
-  private chartData: Array<object> = [
+  private mapData: Array<object> = [
     {
       id: "AF",
       name: "Afghanistan",
       value: 32358260,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "AL",
       name: "Albania",
       value: 3215988,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     {
       id: "DZ",
       name: "Algeria",
       value: 35980193,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "AO",
       name: "Angola",
       value: 19618432,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "AR",
       name: "Argentina",
       value: 40764561,
-      color: this.chart.colors.getIndex(3)
+      color: "#FF9671"
     },
     {
       id: "AM",
       name: "Armenia",
       value: 3100236,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     { id: "AU", name: "Australia", value: 22605732, color: "#8aabb0" },
     {
       id: "AT",
       name: "Austria",
       value: 8413429,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     {
       id: "AZ",
       name: "Azerbaijan",
       value: 9306023,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     {
       id: "BH",
       name: "Bahrain",
       value: 1323535,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "BD",
       name: "Bangladesh",
       value: 150493658,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "BY",
       name: "Belarus",
       value: 9559441,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     {
       id: "BE",
       name: "Belgium",
       value: 10754056,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     {
       id: "BJ",
       name: "Benin",
       value: 9099922,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "BT",
       name: "Bhutan",
       value: 738267,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "BO",
       name: "Bolivia",
       value: 10088108,
-      color: this.chart.colors.getIndex(3)
+      color: "#FF9671"
     },
     {
       id: "BA",
       name: "Bosnia and Herzegovina",
       value: 3752228,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     {
       id: "BW",
       name: "Botswana",
       value: 2030738,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "BR",
       name: "Brazil",
       value: 196655014,
-      color: this.chart.colors.getIndex(3)
+      color: "#FF9671"
     },
     {
       id: "BN",
       name: "Brunei",
       value: 405938,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "BG",
       name: "Bulgaria",
       value: 7446135,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     {
       id: "BF",
       name: "Burkina Faso",
       value: 16967845,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "BI",
       name: "Burundi",
       value: 8575172,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "KH",
       name: "Cambodia",
       value: 14305183,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "CM",
       name: "Cameroon",
       value: 20030362,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "CA",
       name: "Canada",
       value: 34349561,
-      color: this.chart.colors.getIndex(4)
+      color: "#FFC75F"
     },
     {
       id: "CV",
       name: "Cape Verde",
       value: 500585,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "CF",
       name: "Central African Rep.",
       value: 4486837,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "TD",
       name: "Chad",
       value: 11525496,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "CL",
       name: "Chile",
       value: 17269525,
-      color: this.chart.colors.getIndex(3)
+      color: "#FF9671"
     },
     {
       id: "CN",
       name: "China",
       value: 1347565324,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "CO",
       name: "Colombia",
       value: 46927125,
-      color: this.chart.colors.getIndex(3)
+      color: "#FF9671"
     },
     {
       id: "KM",
       name: "Comoros",
       value: 753943,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "CD",
       name: "Congo, Dem. Rep.",
       value: 67757577,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "CG",
       name: "Congo, Rep.",
       value: 4139748,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "CR",
       name: "Costa Rica",
       value: 4726575,
-      color: this.chart.colors.getIndex(4)
+      color: "#FFC75F"
     },
     {
       id: "CI",
       name: "Cote d'Ivoire",
       value: 20152894,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "HR",
       name: "Croatia",
       value: 4395560,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     {
       id: "CU",
       name: "Cuba",
       value: 11253665,
-      color: this.chart.colors.getIndex(4)
+      color: "#FFC75F"
     },
     {
       id: "CY",
       name: "Cyprus",
       value: 1116564,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     {
       id: "CZ",
       name: "Czech Rep.",
       value: 10534293,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     {
       id: "DK",
       name: "Denmark",
       value: 5572594,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     {
       id: "DJ",
       name: "Djibouti",
       value: 905564,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "DO",
       name: "Dominican Rep.",
       value: 10056181,
-      color: this.chart.colors.getIndex(4)
+      color: "#FFC75F"
     },
     {
       id: "EC",
       name: "Ecuador",
       value: 14666055,
-      color: this.chart.colors.getIndex(3)
+      color: "#FF9671"
     },
     {
       id: "EG",
       name: "Egypt",
       value: 82536770,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "SV",
       name: "El Salvador",
       value: 6227491,
-      color: this.chart.colors.getIndex(4)
+      color: "#FFC75F"
     },
     {
       id: "GQ",
       name: "Equatorial Guinea",
       value: 720213,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "ER",
       name: "Eritrea",
       value: 5415280,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "EE",
       name: "Estonia",
       value: 1340537,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     {
       id: "ET",
       name: "Ethiopia",
       value: 84734262,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     { id: "FJ", name: "Fiji", value: 868406, color: "#8aabb0" },
     {
       id: "FI",
       name: "Finland",
       value: 5384770,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     {
       id: "FR",
       name: "France",
       value: 63125894,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     {
       id: "GA",
       name: "Gabon",
       value: 1534262,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "GM",
       name: "Gambia",
       value: 1776103,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "GE",
       name: "Georgia",
       value: 4329026,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     {
       id: "DE",
       name: "Germany",
       value: 82162512,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     {
       id: "GH",
       name: "Ghana",
       value: 24965816,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "GR",
       name: "Greece",
       value: 11390031,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     {
       id: "GT",
       name: "Guatemala",
       value: 14757316,
-      color: this.chart.colors.getIndex(4)
+      color: "#FFC75F"
     },
     {
       id: "GN",
       name: "Guinea",
       value: 10221808,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "GW",
       name: "Guinea-Bissau",
       value: 1547061,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "GY",
       name: "Guyana",
       value: 756040,
-      color: this.chart.colors.getIndex(3)
+      color: "#FF9671"
     },
     {
       id: "HT",
       name: "Haiti",
       value: 10123787,
-      color: this.chart.colors.getIndex(4)
+      color: "#FFC75F"
     },
     {
       id: "HN",
       name: "Honduras",
       value: 7754687,
-      color: this.chart.colors.getIndex(4)
+      color: "#FFC75F"
     },
     {
       id: "HK",
       name: "Hong Kong, China",
       value: 7122187,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "HU",
       name: "Hungary",
       value: 9966116,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     {
       id: "IS",
       name: "Iceland",
       value: 324366,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     {
       id: "IN",
       name: "India",
       value: 1241491960,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "ID",
       name: "Indonesia",
       value: 242325638,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "IR",
       name: "Iran",
       value: 74798599,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "IQ",
       name: "Iraq",
       value: 32664942,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "IE",
       name: "Ireland",
       value: 4525802,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     {
       id: "IL",
       name: "Israel",
       value: 7562194,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "IT",
       name: "Italy",
       value: 60788694,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     {
       id: "JM",
       name: "Jamaica",
       value: 2751273,
-      color: this.chart.colors.getIndex(4)
+      color: "#FFC75F"
     },
     {
       id: "JP",
       name: "Japan",
       value: 126497241,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "JO",
       name: "Jordan",
       value: 6330169,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "KZ",
       name: "Kazakhstan",
       value: 16206750,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "KE",
       name: "Kenya",
       value: 41609728,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "KP",
       name: "Korea, Dem. Rep.",
       value: 24451285,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "KR",
       name: "Korea, Rep.",
       value: 48391343,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "KW",
       name: "Kuwait",
       value: 2818042,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "KG",
       name: "Kyrgyzstan",
       value: 5392580,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "LA",
       name: "Laos",
       value: 6288037,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "LV",
       name: "Latvia",
       value: 2243142,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     {
       id: "LB",
       name: "Lebanon",
       value: 4259405,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "LS",
       name: "Lesotho",
       value: 2193843,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "LR",
       name: "Liberia",
       value: 4128572,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "LY",
       name: "Libya",
       value: 6422772,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "LT",
       name: "Lithuania",
       value: 3307481,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     {
       id: "LU",
       name: "Luxembourg",
       value: 515941,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     {
       id: "MK",
       name: "Macedonia, FYR",
       value: 2063893,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     {
       id: "MG",
       name: "Madagascar",
       value: 21315135,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "MW",
       name: "Malawi",
       value: 15380888,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "MY",
       name: "Malaysia",
       value: 28859154,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "ML",
       name: "Mali",
       value: 15839538,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "MR",
       name: "Mauritania",
       value: 3541540,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "MU",
       name: "Mauritius",
       value: 1306593,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "MX",
       name: "Mexico",
       value: 114793341,
-      color: this.chart.colors.getIndex(4)
+      color: "#FFC75F"
     },
     {
       id: "MD",
       name: "Moldova",
       value: 3544864,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     {
       id: "MN",
       name: "Mongolia",
       value: 2800114,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "ME",
       name: "Montenegro",
       value: 632261,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     {
       id: "MA",
       name: "Morocco",
       value: 32272974,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "MZ",
       name: "Mozambique",
       value: 23929708,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "MM",
       name: "Myanmar",
       value: 48336763,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "NA",
       name: "Namibia",
       value: 2324004,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "NP",
       name: "Nepal",
       value: 30485798,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "NL",
       name: "Netherlands",
       value: 16664746,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     { id: "NZ", name: "New Zealand", value: 4414509, color: "#8aabb0" },
     {
       id: "NI",
       name: "Nicaragua",
       value: 5869859,
-      color: this.chart.colors.getIndex(4)
+      color: "#FFC75F"
     },
     {
       id: "NE",
       name: "Niger",
       value: 16068994,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "NG",
       name: "Nigeria",
       value: 162470737,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "NO",
       name: "Norway",
       value: 4924848,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     {
       id: "OM",
       name: "Oman",
       value: 2846145,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "PK",
       name: "Pakistan",
       value: 176745364,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "PA",
       name: "Panama",
       value: 3571185,
-      color: this.chart.colors.getIndex(4)
+      color: "#FFC75F"
     },
     { id: "PG", name: "Papua New Guinea", value: 7013829, color: "#8aabb0" },
     {
       id: "PY",
       name: "Paraguay",
       value: 6568290,
-      color: this.chart.colors.getIndex(3)
+      color: "#FF9671"
     },
     {
       id: "PE",
       name: "Peru",
       value: 29399817,
-      color: this.chart.colors.getIndex(3)
+      color: "#FF9671"
     },
     {
       id: "PH",
       name: "Philippines",
       value: 94852030,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "PL",
       name: "Poland",
       value: 38298949,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     {
       id: "PT",
       name: "Portugal",
       value: 10689663,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     {
       id: "PR",
       name: "Puerto Rico",
       value: 3745526,
-      color: this.chart.colors.getIndex(4)
+      color: "#FFC75F"
     },
     {
       id: "QA",
       name: "Qatar",
       value: 1870041,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "RO",
       name: "Romania",
       value: 21436495,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     {
       id: "RU",
       name: "Russia",
       value: 142835555,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     {
       id: "RW",
       name: "Rwanda",
       value: 10942950,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "SA",
       name: "Saudi Arabia",
       value: 28082541,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "SN",
       name: "Senegal",
       value: 12767556,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "RS",
       name: "Serbia",
       value: 9853969,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     {
       id: "SL",
       name: "Sierra Leone",
       value: 5997486,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "SG",
       name: "Singapore",
       value: 5187933,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "SK",
       name: "Slovak Republic",
       value: 5471502,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     {
       id: "SI",
       name: "Slovenia",
       value: 2035012,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     { id: "SB", name: "Solomon Islands", value: 552267, color: "#8aabb0" },
     {
       id: "SO",
       name: "Somalia",
       value: 9556873,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "ZA",
       name: "South Africa",
       value: 50459978,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "ES",
       name: "Spain",
       value: 46454895,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     {
       id: "LK",
       name: "Sri Lanka",
       value: 21045394,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "SD",
       name: "Sudan",
       value: 34735288,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "SR",
       name: "Suriname",
       value: 529419,
-      color: this.chart.colors.getIndex(3)
+      color: "#FF9671"
     },
     {
       id: "SZ",
       name: "Swaziland",
       value: 1203330,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "SE",
       name: "Sweden",
       value: 9440747,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     {
       id: "CH",
       name: "Switzerland",
       value: 7701690,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     {
       id: "SY",
       name: "Syria",
       value: 20766037,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "TW",
       name: "Taiwan",
       value: 23072000,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "TJ",
       name: "Tajikistan",
       value: 6976958,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "TZ",
       name: "Tanzania",
       value: 46218486,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "TH",
       name: "Thailand",
       value: 69518555,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "TG",
       name: "Togo",
       value: 6154813,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "TT",
       name: "Trinidad and Tobago",
       value: 1346350,
-      color: this.chart.colors.getIndex(4)
+      color: "#FFC75F"
     },
     {
       id: "TN",
       name: "Tunisia",
       value: 10594057,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "TR",
       name: "Turkey",
       value: 73639596,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     {
       id: "TM",
       name: "Turkmenistan",
       value: 5105301,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "UG",
       name: "Uganda",
       value: 34509205,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "UA",
       name: "Ukraine",
       value: 45190180,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     {
       id: "AE",
       name: "United Arab Emirates",
       value: 7890924,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "GB",
       name: "United Kingdom",
       value: 62417431,
-      color: this.chart.colors.getIndex(1)
+      color: "#D65DB1"
     },
     {
       id: "US",
       name: "United States",
       value: 313085380,
-      color: this.chart.colors.getIndex(4)
+      color: "#FFC75F"
     },
     {
       id: "UY",
       name: "Uruguay",
       value: 3380008,
-      color: this.chart.colors.getIndex(3)
+      color: "#FF9671"
     },
     {
       id: "UZ",
       name: "Uzbekistan",
       value: 27760267,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "VE",
       name: "Venezuela",
       value: 29436891,
-      color: this.chart.colors.getIndex(3)
+      color: "#FF9671"
     },
     {
       id: "PS",
       name: "West Bank and Gaza",
       value: 4152369,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "VN",
       name: "Vietnam",
       value: 88791996,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "YE",
       name: "Yemen, Rep.",
       value: 24799880,
-      color: this.chart.colors.getIndex(0)
+      color: "#845EC2"
     },
     {
       id: "ZM",
       name: "Zambia",
       value: 13474959,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     },
     {
       id: "ZW",
       name: "Zimbabwe",
       value: 12754378,
-      color: this.chart.colors.getIndex(2)
+      color: "#FF6F91"
     }
   ];
-  public budgetPie(): void {
+  public init(): void {
     // Create map instance
     const chart = am4core.create(this.$refs.chartdiv, am4maps.MapChart);
-    const title = chart.titles.create();
-    title.text =
-      "[bold font-size: 20]Population of the World in 2011[/]\nsource: Gapminder";
-    title.textAlign = "middle";
-
-    // Add data
-    chart.data = this.chartData;
 
     // Set map definition
     chart.geodata = am4geodataWorldLow;
@@ -1082,7 +1073,7 @@ export default class FundingDashboardMap extends Vue {
     this.chart = chart;
   }
   mounted() {
-    this.budgetPie();
+    this.init();
   }
   beforeDestroy() {
     if (this.chart) {

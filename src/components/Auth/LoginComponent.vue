@@ -6,14 +6,13 @@
       </v-row>
     </v-card-title>
     <v-card-text>
-      <v-form ref="form" v-model="valid">
+      <v-form>
         <v-text-field
           outlined
           name="email"
           label="Email"
           type="email"
           v-model="email"
-          :rules="emailRules"
           required
           data-cy="signinEmailField"
         ></v-text-field>
@@ -24,7 +23,6 @@
           type="password"
           data-cy="signinPasswordField"
           v-model="password"
-          :rules="passwordRules"
           required
         ></v-text-field>
       </v-form>
@@ -38,8 +36,7 @@
       <v-btn
         text
         color="deep-purple accent-4"
-        :disabled="!valid"
-        @click="submit"
+        v-on:click="login"
         data-cy="signinSubmitBtn"
       >
         Login
@@ -47,34 +44,29 @@
     </v-card-actions>
   </v-card>
 </template>
-<script>
-import { mapActions } from "vuex";
-export default {
-  data() {
-    return {
-      valid: false,
-      email: "",
-      password: "",
-      emailRules: [
-        v => !!v || "E-mail is required",
-        v => /.+@.+/.test(v) || "E-mail must be valid"
-      ],
-      passwordRules: [
-        v => !!v || "Password is required",
-        v => v.length >= 6 || "Password must be greater than 6 characters"
-      ]
-    };
-  },
-  methods: {
-    ...mapActions("auth", ["userLogin"]),
-    submit() {
-      if (this.$refs.form.validate()) {
-        this.userLogin({
-          email: this.email,
-          password: this.password
-        });
-      }
-    }
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+import firebase from "firebase";
+@Component({
+  components: {}
+})
+export default class LoginComponent extends Vue {
+  private email = "";
+  private password = "";
+  private errorMessage = "";
+  private login(e: any) {
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(this.email, this.password)
+      .then(
+        user => {
+          alert(`You are logged in as ${this.email}`);
+        },
+        err => {
+          alert(err.message);
+        }
+      );
+    e.preventDefault();
   }
-};
+}
 </script>

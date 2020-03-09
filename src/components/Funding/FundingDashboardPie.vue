@@ -67,7 +67,7 @@ export default class FundingDashboardPie extends Vue {
       ]
     }
   ];
-  public budgetPie(): void {
+  public init(): void {
     const container = am4core.create(this.$refs.chartdiv, am4core.Container);
     container.width = am4core.percent(100);
     container.height = am4core.percent(100);
@@ -216,7 +216,7 @@ export default class FundingDashboardPie extends Vue {
     this.container = container;
   }
   mounted() {
-    this.budgetPie();
+    this.init();
   }
   beforeDestroy() {
     if (this.container) {

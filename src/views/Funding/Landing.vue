@@ -13,21 +13,39 @@
         <v-row>
           <v-col cols="12" sm="6">
             <div>
-              <v-card class="mx-auto" style="min-height:200px;">
+              <v-card class="mx-auto" style="min-height:125px;">
                 <v-card-title>
                   <h2 class="headline">Federal</h2>
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on }">
+                      <v-icon class="mx-1" v-on="on">mdi-help-circle</v-icon>
+                    </template>
+                    <span>Tooltip</span>
+                  </v-tooltip>
                 </v-card-title>
-                <v-card-text> </v-card-text>
+                <v-card-text>
+                  <span class="display-1 font-weight-light"
+                    >$10,892,324.00</span
+                  >
+                </v-card-text>
               </v-card>
             </div>
           </v-col>
           <v-col cols="12" sm="6">
             <div>
-              <v-card class="mx-auto" style="min-height:200px;">
+              <v-card class="mx-auto" style="min-height:125px;">
                 <v-card-title>
                   <h2 class="headline">State</h2>
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on }">
+                      <v-icon class="mx-1" v-on="on">mdi-help-circle</v-icon>
+                    </template>
+                    <span>Tooltip</span>
+                  </v-tooltip>
                 </v-card-title>
-                <v-card-text> </v-card-text>
+                <v-card-text>
+                  <span class="display-1 font-weight-light">$5,444,555.00</span>
+                </v-card-text>
               </v-card>
             </div>
           </v-col>
@@ -35,23 +53,56 @@
         <v-row>
           <v-col cols="12" sm="6">
             <div>
-              <v-card class="mx-auto" style="min-height:200px;">
+              <v-card class="mx-auto" style="min-height:125px;">
                 <v-card-title>
                   <h2 class="headline">County</h2>
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on }">
+                      <v-icon class="mx-1" v-on="on">mdi-help-circle</v-icon>
+                    </template>
+                    <span>Tooltip</span>
+                  </v-tooltip>
                 </v-card-title>
-                <v-card-text> </v-card-text>
+                <v-card-text>
+                  <span class="display-1 font-weight-light"
+                    >$10,465,525.00</span
+                  >
+                </v-card-text>
               </v-card>
             </div>
           </v-col>
           <v-col cols="12" sm="6">
             <div>
-              <v-card class="mx-auto" style="min-height:200px;">
+              <v-card class="mx-auto" style="min-height:125px;">
                 <v-card-title>
                   <h2 class="headline">Local</h2>
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on }">
+                      <v-icon class="mx-1" v-on="on">mdi-help-circle</v-icon>
+                    </template>
+                    <span>Tooltip</span>
+                  </v-tooltip>
                 </v-card-title>
-                <v-card-text> </v-card-text>
+                <v-card-text>
+                  <span class="display-1 font-weight-light">$1,256,896.00</span>
+                </v-card-text>
               </v-card>
             </div>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col cols="12">
+            <v-lazy
+              :options="{
+                threshold: 0.5
+              }"
+              min-height="500"
+              transition="fade-transition"
+            >
+              <v-card>
+                <funding-dashboard-pie></funding-dashboard-pie>
+              </v-card>
+            </v-lazy>
           </v-col>
         </v-row>
       </div>
@@ -95,24 +146,6 @@
           </div>
         </v-col>
       </v-row>
-
-      <div>
-        <v-row>
-          <v-col cols="12">
-            <v-lazy
-              :options="{
-                threshold: 0.5
-              }"
-              min-height="500"
-              transition="fade-transition"
-            >
-              <v-card>
-                <funding-dashboard-pie></funding-dashboard-pie>
-              </v-card>
-            </v-lazy>
-          </v-col>
-        </v-row>
-      </div>
       <div>
         <v-row>
           <v-col cols="12">
