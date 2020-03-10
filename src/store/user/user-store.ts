@@ -48,7 +48,7 @@ class UserStore extends VuexModule {
 
   @Action
   public async init() {
-    const config = new Promise<void>(resolve => {
+    const config = new Promise<void>((resolve, reject) => {
       firebase.initializeApp({
         apiKey: process.env.VUE_APP_FIREBASE_APIKEY,
         authDomain: process.env.VUE_APP_FIREBASE_AUTHDOMAIN,
@@ -59,6 +59,18 @@ class UserStore extends VuexModule {
         appId: process.env.VUE_APP_FIREBASE_APPID,
         measurementId: process.env.VUE_APP_FIREBASE_MEASUREMENTID
       });
+      console.log("Step 1");
+      resolve();
+    });
+
+    // firebase Wait for initialization
+    const handleAuthStateChange = new Promise<void>((resolve, reject) => {
+      const unsubscribe = firebase.auth().onAuthStateChanged(_ => {
+        unsubscribe();
+        console.log("Step 2");
+        resolve();
+      });
+
       // ログイン保持設定
       firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
       firebase.auth().useDeviceLanguage();
@@ -67,26 +79,14 @@ class UserStore extends VuexModule {
       const firebaseUser = firebase.auth().currentUser;
       this.setUser(UserStore.makeUserByFirebaseUser(firebaseUser));
       resolve();
-      console.log("Step 1");
     });
 
-    // firebase Wait for initialization
-    const handleAuthStateChange = new Promise<void>(resolve => {
-      const unsubscribe = firebase.auth().onAuthStateChanged(_ => {
-        unsubscribe();
-        console.log("Step 2");
-        resolve();
-      });
-    });
-
-    async function asyncAwaitFunction(): Promise<any> {
-      const firstStep = await config;
-      const secondStep = await handleAuthStateChange;
+    async function asyncAwaitFunction(): Promise<void> {
+      const firstResult = await config;
+      const secondResult = await handleAuthStateChange;
+      return firstResult + secondResult;
     }
-
-    return asyncAwaitFunction().then(() =>
-      console.log("Step 1 and Step 2 finished, please continue")
-    );
+    return asyncAwaitFunction().then(result => console.log("End of init."));
   }
 
   @Action
