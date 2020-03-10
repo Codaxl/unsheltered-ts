@@ -36,7 +36,7 @@
       <v-btn
         text
         color="deep-purple accent-4"
-        v-on:click="login"
+        v-on:click="onClickSignIn"
         data-cy="signinSubmitBtn"
       >
         Login
@@ -52,32 +52,31 @@
 </template>
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
-import firebase from "firebase";
+import UserStore from "../../store/user/user-store";
 @Component({
   components: {}
 })
 export default class LoginComponent extends Vue {
+  private snackbar = false;
+  private text = "";
+
   private email = "";
   private password = "";
   private errorMessage = "";
-  private snackbar = false;
-  private text = "";
-  private login(e: any) {
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(this.email, this.password)
-      .then(
-        user => {
-          this.$router.push({ path: "" });
-          console.log(this.text);
-          this.text = "You are logged in as " + this.email;
-          this.snackbar = true;
-        },
-        err => {
-          alert(err.message);
-        }
-      );
-    e.preventDefault();
+  get isError() {
+    return this.errorMessage != "";
+  }
+  private async onClickSignIn() {
+    this.errorMessage = "";
+    const result = await UserStore.signIn({
+      email: this.email,
+      password: this.password
+    });
+    if (result.isError) {
+      this.errorMessage = result.errorMessage;
+      return;
+    }
+    this.$router.push({ name: "home" });
   }
 }
 </script>
