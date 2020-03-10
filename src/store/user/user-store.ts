@@ -62,25 +62,29 @@ class UserStore extends VuexModule {
       console.log("Step 1");
 
       // firebaseの初期化を待つ
-      const handleAuthStateChanged = new Promise<void>(resolve => {
-        const unsubscribe = firebase.auth().onAuthStateChanged(_ => {
-          unsubscribe();
-          resolve();
+      const handleAuthStateChanged = new Promise<void>((resolve, reject) => {
+        const unsubscribe = firebase.auth().onAuthStateChanged(user => {
+          if (user) {
+            // Login retention settings
+            firebase
+              .auth()
+              .setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+            firebase.auth().useDeviceLanguage();
+            const firebaseUser = firebase.auth().currentUser;
+            this.setUser(UserStore.makeUserByFirebaseUser(firebaseUser));
+            console.log("resolve");
+            resolve();
+          } else {
+            unsubscribe();
+            reject();
+            console.log("reject");
+          }
+
           console.log("Step 2");
         });
       });
 
-      Promise.resolve(handleAuthStateChanged);
-
-      // Login retention settings
-      firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-      firebase.auth().useDeviceLanguage();
-
-      // Automatic login
-      const firebaseUser = firebase.auth().currentUser;
-      this.setUser(UserStore.makeUserByFirebaseUser(firebaseUser));
-
-      resolve();
+      resolve(handleAuthStateChanged);
     });
   }
 
