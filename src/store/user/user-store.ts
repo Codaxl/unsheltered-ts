@@ -65,26 +65,29 @@ class UserStore extends VuexModule {
 
     // firebase Wait for initialization
     const handleAuthStateChange = new Promise<void>((resolve, reject) => {
-      const unsubscribe = firebase.auth().onAuthStateChanged(_ => {
-        unsubscribe();
-        console.log("Step 2");
-        resolve();
+      firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+          // ログイン保持設定
+          firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+          firebase.auth().useDeviceLanguage();
+
+          // 自動ログイン
+          const firebaseUser = firebase.auth().currentUser;
+          this.setUser(UserStore.makeUserByFirebaseUser(firebaseUser));
+          console.log("Step 2a");
+          resolve();
+        } else {
+          this.setUser(UserStore.makeEmptyUser());
+          console.log("Step 2b");
+          resolve();
+        }
       });
-
-      // ログイン保持設定
-      firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-      firebase.auth().useDeviceLanguage();
-
-      // 自動ログイン
-      const firebaseUser = firebase.auth().currentUser;
-      this.setUser(UserStore.makeUserByFirebaseUser(firebaseUser));
-      resolve();
     });
 
     async function asyncAwaitFunction(): Promise<void> {
       const firstResult = await config;
       const secondResult = await handleAuthStateChange;
-      return firstResult + secondResult;
+      return secondResult;
     }
     return asyncAwaitFunction().then(result => console.log("End of init."));
   }
