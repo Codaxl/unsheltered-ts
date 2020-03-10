@@ -60,7 +60,19 @@ class UserStore extends VuexModule {
         measurementId: process.env.VUE_APP_FIREBASE_MEASUREMENTID
       });
       console.log("Step 1");
-      // firebase wait for initialization
+
+      // firebaseの初期化を待つ
+      const handleAuthStateChanged = new Promise<void>(resolve => {
+        firebase.auth().onAuthStateChanged(user => {
+          if (user) {
+            console.log(user);
+          }
+        });
+        resolve();
+        console.log("Step handleAuthStateChanged");
+      });
+
+      const result = Promise.resolve(handleAuthStateChanged);
 
       // Login retention settings
       firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
@@ -68,10 +80,10 @@ class UserStore extends VuexModule {
 
       // Automatic login
       const firebaseUser = firebase.auth().currentUser;
-      firebase.auth().onAuthStateChanged(_ => {
-        this.setUser(UserStore.makeUserByFirebaseUser(firebaseUser));
-      });
-      resolve();
+      console.log(firebaseUser);
+      this.setUser(UserStore.makeUserByFirebaseUser(firebaseUser));
+
+      resolve(result);
     });
   }
 
