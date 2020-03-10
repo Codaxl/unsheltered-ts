@@ -1,5 +1,5 @@
-# unsheltered-ts
-d
+# Vue(+Vuex) + Typescript + Vuetify
+Visit https://github.com/mutsuyuki/vue-firebase-auth-template/ for original code. Fixed some eslint promise async await errors and moved some folders around. Attempting to simplify for my understanding.
 ## Project setup
 ```
 yarn install
