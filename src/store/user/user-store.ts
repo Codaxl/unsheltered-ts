@@ -66,8 +66,11 @@ class UserStore extends VuexModule {
         const unsubscribe = firebase.auth().onAuthStateChanged(_ => {
           unsubscribe();
           resolve();
+          console.log("Step 2");
         });
       });
+
+      Promise.resolve(handleAuthStateChanged);
 
       // Login retention settings
       firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
@@ -76,8 +79,8 @@ class UserStore extends VuexModule {
       // Automatic login
       const firebaseUser = firebase.auth().currentUser;
       this.setUser(UserStore.makeUserByFirebaseUser(firebaseUser));
-      console.log("Step 2");
-      resolve(handleAuthStateChanged);
+
+      resolve();
     });
   }
 
