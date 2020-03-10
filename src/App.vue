@@ -78,7 +78,7 @@
       </v-autocomplete>
       <v-spacer></v-spacer>
 
-      <div class="hidden-sm-and-down" v-if="!isLogginIn">
+      <div class="hidden-sm-and-down" v-if="!isSignedIn">
         <v-btn class="ma-2" outlined color="white" to="/Login">Login</v-btn>
       </div>
       <div v-else>
@@ -105,7 +105,7 @@
                 </v-list-item-avatar>
 
                 <v-list-item-content>
-                  <v-list-item-title>{{ currentUser }}</v-list-item-title>
+                  <v-list-item-title>{{ userName }}</v-list-item-title>
                   <v-list-item-subtitle>Email</v-list-item-subtitle>
                 </v-list-item-content>
               </v-list-item>
@@ -250,7 +250,7 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import firebase from "firebase";
+import UserStore from "./store/user/user-store";
 @Component({
   components: {}
 })
@@ -293,9 +293,6 @@ export default class SiteHeader extends Vue {
   ];
   private countyFunds = [["General", "/funding/county/general"]];
 
-  private isLogginIn = false;
-  private currentUser: any;
-
   private toTop() {
     this.$vuetify.goTo(0);
   }
@@ -304,20 +301,11 @@ export default class SiteHeader extends Vue {
     const top = window.pageYOffset || e.target.scrollTop || 0;
     this.fab = top > 20;
   }
-  private logout() {
-    firebase
-      .auth()
-      .signOut()
-      .then(() => {
-        this.$router.push({ path: "home" });
-      });
+  get isSignedIn(): boolean {
+    return UserStore.isSignedIn;
   }
-
-  created() {
-    if (firebase.auth().currentUser) {
-      this.isLogginIn = true;
-      this.currentUser = firebase.auth().currentUser?.email;
-    }
+  get userName(): string {
+    return UserStore.user.name;
   }
 }
 </script>

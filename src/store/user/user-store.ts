@@ -111,6 +111,21 @@ class UserStore extends VuexModule {
     });
   }
 
+  @Action
+  public signOut() {
+    return new Promise<ActionResult>(resolve => {
+      firebase
+        .auth()
+        .signOut()
+        .then(_ => {
+          this.setUser(UserStore.makeEmptyUser());
+          resolve(UserStore.makeSuccessResult());
+        })
+        .catch(error => {
+          resolve(UserStore.makeFailedResultByFirebaseError(error));
+        });
+    });
+  }
   // ---- Helper methods ------------------
   private static makeEmptyUser(): User {
     return {
