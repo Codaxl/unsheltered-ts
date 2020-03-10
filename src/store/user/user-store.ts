@@ -48,7 +48,7 @@ class UserStore extends VuexModule {
 
   @Action
   public async init() {
-    return new Promise<void>((resolve, reject) => {
+    const config = new Promise<void>(resolve => {
       firebase.initializeApp({
         apiKey: process.env.VUE_APP_FIREBASE_APIKEY,
         authDomain: process.env.VUE_APP_FIREBASE_AUTHDOMAIN,
@@ -60,32 +60,35 @@ class UserStore extends VuexModule {
         measurementId: process.env.VUE_APP_FIREBASE_MEASUREMENTID
       });
       console.log("Step 1");
-
-      // firebaseの初期化を待つ
-      const handleAuthStateChanged = new Promise<void>((resolve, reject) => {
-        const unsubscribe = firebase.auth().onAuthStateChanged(user => {
-          if (user) {
-            // Login retention settings
-            firebase
-              .auth()
-              .setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-            firebase.auth().useDeviceLanguage();
-            const firebaseUser = firebase.auth().currentUser;
-            this.setUser(UserStore.makeUserByFirebaseUser(firebaseUser));
-            console.log("resolve");
-            resolve();
-          } else {
-            unsubscribe();
-            reject();
-            console.log("reject");
-          }
-
-          console.log("Step 2");
-        });
-      });
-
-      resolve(handleAuthStateChanged);
+      resolve();
     });
+
+    // firebaseの初期化を待つ
+    const handleAuthStateChanged = new Promise<void>(resolve => {
+      const unsubscribe = firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+          // Login retention settings
+          firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+          firebase.auth().useDeviceLanguage();
+          const firebaseUser = firebase.auth().currentUser;
+          this.setUser(UserStore.makeUserByFirebaseUser(firebaseUser));
+          console.log("resolve");
+          resolve();
+        } else {
+          unsubscribe();
+          console.log("reject");
+        }
+        console.log("Step 2");
+      });
+    });
+
+    async function asyncAwaitFunction(): Promise<void> {
+      const firstResult = await config;
+      const secondResult = await handleAuthStateChanged;
+
+      return { firstResult, secondResult };
+    }
+    return asyncAwaitFunction().then(result => console.log("Step 3"));
   }
 
   @Action
