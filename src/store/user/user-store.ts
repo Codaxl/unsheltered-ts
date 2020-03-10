@@ -8,6 +8,7 @@ import {
 import store from "@/store";
 import firebase from "firebase";
 import { User } from "./user-store-entities";
+import { SignInParam } from "./user-store-params";
 import { ActionResult } from "./action-result";
 
 @Module({
@@ -48,41 +49,66 @@ class UserStore extends VuexModule {
   @Action
   public async init() {
     const config = new Promise<void>((resolve, reject) => {
-      resolve(
-        firebase.initializeApp({
-          apiKey: process.env.VUE_APP_FIREBASE_APIKEY,
-          authDomain: process.env.VUE_APP_FIREBASE_AUTHDOMAIN,
-          databaseURL: process.env.VUE_APP_FIREBASE_DATABASEURL,
-          projectId: process.env.VUE_APP_FIREBASE_PROJECTID,
-          storageBucket: process.env.VUE_APP_FIREBASE_STORAGEBUCKET,
-          messagingSenderId: process.env.VUE_APP_FIREBASE_MESSAGINGSENDERID,
-          appId: process.env.VUE_APP_FIREBASE_APPID,
-          measurementId: process.env.VUE_APP_FIREBASE_MEASUREMENTID
-        })
-      );
-    });
-    // firebase Wait for initialization
-    const handleAuthStateChange = new Promise<any>((resolve, reject) => {
-      const unsubscribe = firebase.auth().onAuthStateChanged(_ => {
-        unsubscribe();
-        resolve();
+      firebase.initializeApp({
+        apiKey: process.env.VUE_APP_FIREBASE_APIKEY,
+        authDomain: process.env.VUE_APP_FIREBASE_AUTHDOMAIN,
+        databaseURL: process.env.VUE_APP_FIREBASE_DATABASEURL,
+        projectId: process.env.VUE_APP_FIREBASE_PROJECTID,
+        storageBucket: process.env.VUE_APP_FIREBASE_STORAGEBUCKET,
+        messagingSenderId: process.env.VUE_APP_FIREBASE_MESSAGINGSENDERID,
+        appId: process.env.VUE_APP_FIREBASE_APPID,
+        measurementId: process.env.VUE_APP_FIREBASE_MEASUREMENTID
       });
+
+      // firebase Wait for initialization
+      const handleAuthStateChange = new Promise<any>((resolve, reject) => {
+        const unsubscribe = firebase.auth().onAuthStateChanged(_ => {
+          unsubscribe();
+          resolve();
+        });
+      });
+
+      async function asyncAwaitFunction(): Promise<any> {
+        const result = await handleAuthStateChange;
+        return result;
+      }
+      asyncAwaitFunction();
+      // ログイン保持設定
+      firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+      firebase.auth().useDeviceLanguage();
+
+      // 自動ログイン
+      const firebaseUser = firebase.auth().currentUser;
+      this.setUser(UserStore.makeUserByFirebaseUser(firebaseUser));
+      resolve();
     });
+    return config;
+  }
 
-    async function asyncAwaitFunction(): Promise<any> {
-      const firstResult = await config;
-      const secondResult = await handleAuthStateChange;
-      return firstResult + secondResult;
-    }
-    // ログイン保持設定
-    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-    firebase.auth().useDeviceLanguage();
+  @Action
+  public signIn(param: SignInParam) {
+    return new Promise<ActionResult>(resolve => {
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(param.email, param.password)
+        .then(value => {
+          if (!value.user) {
+            resolve(UserStore.makeFailedResultByCode("999")); // ありえないはず
+            return;
+          }
 
-    // 自動ログイン
-    const firebaseUser = firebase.auth().currentUser;
-    this.setUser(UserStore.makeUserByFirebaseUser(firebaseUser));
+          if (!value.user.emailVerified) {
+            resolve(UserStore.makeFailedResultByCode("001"));
+            return;
+          }
 
-    asyncAwaitFunction();
+          this.setUser(UserStore.makeUserByFirebaseUser(value.user));
+          resolve(UserStore.makeSuccessResult());
+        })
+        .catch(error => {
+          resolve(UserStore.makeFailedResultByFirebaseError(error));
+        });
+    });
   }
 
   // ---- Helper methods ------------------
