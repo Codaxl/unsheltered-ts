@@ -307,6 +307,19 @@ export default class SiteHeader extends Vue {
   get userName(): string {
     return UserStore.user.name;
   }
+  private errorMessage = "";
+  created() {
+    this.signOut();
+  }
+  private async signOut() {
+    const result = await UserStore.signOut();
+    if (result.isError) {
+      this.errorMessage = result.errorMessage;
+      setTimeout(() => this.$router.replace({ name: "Home" }), 3000);
+    } else {
+      this.$router.replace({ name: "Login" });
+    }
+  }
 }
 </script>
 
