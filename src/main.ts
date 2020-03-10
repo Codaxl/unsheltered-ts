@@ -21,7 +21,6 @@ Vue.filter("currency", function(value: number) {
 
 (async () => {
   await UserStore.init();
-  console.log("Final");
   new Vue({
     router,
     store,

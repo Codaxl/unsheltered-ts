@@ -6,14 +6,13 @@ export default async function(to: any, from: any, savedPosition: any) {
 
   const options = {};
   let scrollTo = 0;
-
   if (to.hash) {
     scrollTo = to.hash;
   } else if (savedPosition) {
     scrollTo = savedPosition.y;
   }
 
-  return new Promise<void>(resolve => {
+  return new Promise<void>((resolve, reject) => {
     setTimeout(() => {
       if (typeof window === "undefined") {
         return resolve();
@@ -23,7 +22,7 @@ export default async function(to: any, from: any, savedPosition: any) {
         try {
           goTo(scrollTo, options);
         } catch (err) {
-          console.log(err);
+          reject(err);
         }
 
         resolve();

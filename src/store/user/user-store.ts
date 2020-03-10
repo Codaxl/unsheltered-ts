@@ -59,12 +59,11 @@ class UserStore extends VuexModule {
         appId: process.env.VUE_APP_FIREBASE_APPID,
         measurementId: process.env.VUE_APP_FIREBASE_MEASUREMENTID
       });
-      console.log("Step 1");
       resolve();
     });
 
     // firebaseの初期化を待つ
-    const handleAuthStateChanged = new Promise<void>(resolve => {
+    const handleAuthStateChanged = new Promise<void>((resolve, reject) => {
       const unsubscribe = firebase.auth().onAuthStateChanged(user => {
         if (user) {
           // Login retention settings
@@ -72,23 +71,21 @@ class UserStore extends VuexModule {
           firebase.auth().useDeviceLanguage();
           const firebaseUser = firebase.auth().currentUser;
           this.setUser(UserStore.makeUserByFirebaseUser(firebaseUser));
-          console.log("resolve");
           resolve();
         } else {
           unsubscribe();
-          console.log("reject");
+          reject();
         }
-        console.log("Step 2");
       });
     });
 
-    async function asyncAwaitFunction(): Promise<void> {
+    async function asyncAwaitFunction(): Promise<void | any> {
       const firstResult = await config;
       const secondResult = await handleAuthStateChanged;
 
       return { firstResult, secondResult };
     }
-    return asyncAwaitFunction().then(result => console.log("Step 3"));
+    return asyncAwaitFunction();
   }
 
   @Action
@@ -123,8 +120,7 @@ class UserStore extends VuexModule {
       firebase
         .auth()
         .signOut()
-        .then(_ => {
-          console.log("Result logout");
+        .then(() => {
           this.setUser(UserStore.makeEmptyUser());
           resolve(UserStore.makeSuccessResult());
         })
@@ -148,7 +144,6 @@ class UserStore extends VuexModule {
     firebaseUser: firebase.User | null
   ): User {
     if (firebaseUser) {
-      console.log("Result user");
       return {
         id: firebaseUser.uid,
         email: firebaseUser.email || "",
@@ -158,7 +153,6 @@ class UserStore extends VuexModule {
         emailVerified: firebaseUser.emailVerified
       };
     } else {
-      console.log("Result no user");
       return UserStore.makeEmptyUser();
     }
   }
