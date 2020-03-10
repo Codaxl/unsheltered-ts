@@ -60,36 +60,28 @@ class UserStore extends VuexModule {
         measurementId: process.env.VUE_APP_FIREBASE_MEASUREMENTID
       });
       console.log("Step 1");
-      resolve();
-    });
 
-    // firebase Wait for initialization
-    const handleAuthStateChange = new Promise<void>((resolve, reject) => {
-      firebase.auth().onAuthStateChanged(user => {
-        if (user) {
-          // ログイン保持設定
-          firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-          firebase.auth().useDeviceLanguage();
-
-          // 自動ログイン
-          const firebaseUser = firebase.auth().currentUser;
-          this.setUser(UserStore.makeUserByFirebaseUser(firebaseUser));
-          console.log("Step 2a");
-          resolve();
-        } else {
-          this.setUser(UserStore.makeEmptyUser());
+      // firebase Wait for initialization
+      const handleAuthStateChange = new Promise<void>(resolveAtFirebaseInit => {
+        const unsubscribe = firebase.auth().onAuthStateChanged(_ => {
+          unsubscribe();
+          resolveAtFirebaseInit();
           console.log("Step 2b");
-          resolve();
-        }
+        });
       });
+
+      // Login retention settings
+      firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+      firebase.auth().useDeviceLanguage();
+
+      // Automatic login
+      const firebaseUser = firebase.auth().currentUser;
+      this.setUser(UserStore.makeUserByFirebaseUser(firebaseUser));
+
+      resolve(handleAuthStateChange);
     });
 
-    async function asyncAwaitFunction(): Promise<void> {
-      const firstResult = await config;
-      const secondResult = await handleAuthStateChange;
-      return secondResult;
-    }
-    return asyncAwaitFunction().then(result => console.log("End of init."));
+    return config;
   }
 
   @Action
@@ -148,6 +140,7 @@ class UserStore extends VuexModule {
     firebaseUser: firebase.User | null
   ): User {
     if (firebaseUser) {
+      console.log("Step 2a");
       return {
         id: firebaseUser.uid,
         email: firebaseUser.email || "",
