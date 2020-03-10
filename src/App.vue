@@ -308,9 +308,7 @@ export default class SiteHeader extends Vue {
     return UserStore.user.name;
   }
   private errorMessage = "";
-  created() {
-    this.signOut();
-  }
+
   private async signOut() {
     await UserStore.signOut();
   }

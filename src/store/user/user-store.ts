@@ -63,35 +63,21 @@ class UserStore extends VuexModule {
 
       // firebaseの初期化を待つ
       const handleAuthStateChanged = new Promise<void>(resolve => {
-        firebase.auth().onAuthStateChanged(user => {
-          if (user) {
-            // Login retention settings
-            firebase
-              .auth()
-              .setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-            firebase.auth().useDeviceLanguage();
-            // Automatic login
-            const firebaseUser = firebase.auth().currentUser;
-            console.log(firebaseUser);
-            this.setUser(UserStore.makeUserByFirebaseUser(firebaseUser));
-            console.log(user);
-            resolve();
-          } else {
-            reject();
-          }
+        const unsubscribe = firebase.auth().onAuthStateChanged(_ => {
+          unsubscribe();
+          resolve();
         });
-        resolve();
-        console.log("Step 2");
       });
 
-      const result = Promise.resolve(handleAuthStateChanged);
+      // Login retention settings
+      firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+      firebase.auth().useDeviceLanguage();
 
       // Automatic login
       const firebaseUser = firebase.auth().currentUser;
-      console.log(firebaseUser);
       this.setUser(UserStore.makeUserByFirebaseUser(firebaseUser));
-
-      resolve(result);
+      console.log("Step 2");
+      resolve(handleAuthStateChanged);
     });
   }
 
@@ -128,6 +114,7 @@ class UserStore extends VuexModule {
         .auth()
         .signOut()
         .then(_ => {
+          console.log("Result logout");
           this.setUser(UserStore.makeEmptyUser());
           resolve(UserStore.makeSuccessResult());
         })
@@ -151,7 +138,7 @@ class UserStore extends VuexModule {
     firebaseUser: firebase.User | null
   ): User {
     if (firebaseUser) {
-      console.log("Result 2b");
+      console.log("Result user");
       return {
         id: firebaseUser.uid,
         email: firebaseUser.email || "",
@@ -161,7 +148,7 @@ class UserStore extends VuexModule {
         emailVerified: firebaseUser.emailVerified
       };
     } else {
-      console.log("Result 2c");
+      console.log("Result no user");
       return UserStore.makeEmptyUser();
     }
   }
