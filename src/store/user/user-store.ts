@@ -79,11 +79,9 @@ class UserStore extends VuexModule {
             reject();
             console.log("reject");
           }
-
           console.log("Step 2");
         });
       });
-
       resolve(handleAuthStateChanged);
     });
   }
