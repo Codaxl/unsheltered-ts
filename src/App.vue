@@ -5,7 +5,7 @@
         <v-app-bar-nav-icon @click="drawer = !drawer" />
         <v-img
           alt="Vuetify Logo"
-          class="shrink mr-2"
+          class="shrink mr-2 hidden-sm-and-down"
           contain
           src="@/assets/unsheltered-logo-dark.png"
           transition="scale-transition"
