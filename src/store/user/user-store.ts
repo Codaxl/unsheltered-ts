@@ -65,18 +65,26 @@ class UserStore extends VuexModule {
       const handleAuthStateChanged = new Promise<void>(resolve => {
         firebase.auth().onAuthStateChanged(user => {
           if (user) {
+            // Login retention settings
+            firebase
+              .auth()
+              .setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+            firebase.auth().useDeviceLanguage();
+            // Automatic login
+            const firebaseUser = firebase.auth().currentUser;
+            console.log(firebaseUser);
+            this.setUser(UserStore.makeUserByFirebaseUser(firebaseUser));
             console.log(user);
+            resolve();
+          } else {
+            reject();
           }
         });
         resolve();
-        console.log("Step handleAuthStateChanged");
+        console.log("Step 2");
       });
 
       const result = Promise.resolve(handleAuthStateChanged);
-
-      // Login retention settings
-      firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-      firebase.auth().useDeviceLanguage();
 
       // Automatic login
       const firebaseUser = firebase.auth().currentUser;
@@ -143,7 +151,7 @@ class UserStore extends VuexModule {
     firebaseUser: firebase.User | null
   ): User {
     if (firebaseUser) {
-      console.log("Step 2b");
+      console.log("Result 2b");
       return {
         id: firebaseUser.uid,
         email: firebaseUser.email || "",
@@ -153,7 +161,7 @@ class UserStore extends VuexModule {
         emailVerified: firebaseUser.emailVerified
       };
     } else {
-      console.log("Step 2c");
+      console.log("Result 2c");
       return UserStore.makeEmptyUser();
     }
   }
