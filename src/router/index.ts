@@ -3,7 +3,9 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import scrollBehavior from "./scroll-behavior";
 Vue.use(VueRouter);
-import firebase from "firebase";
+
+import UserStore from "../store/user/user-store";
+
 const routes = [
   {
     path: "/",
@@ -125,40 +127,24 @@ const router = new VueRouter({
   scrollBehavior
 });
 
+// ログインチェック
 router.beforeEach((to, from, next) => {
-  // Check for requiredAuth guard
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    // Check if NOT logged in
-    if (!firebase.auth().currentUser) {
-      // Go to login
-      next({
-        path: "/login",
-        query: {
-          redirect: to.fullPath
-        }
-      });
-    } else {
-      // Proceed to route
-      next();
-    }
-  } else if (to.matched.some(record => record.meta.requiresGuest)) {
-    // Check if logged in
-    if (firebase.auth().currentUser) {
-      // Go to login
-      next({
-        path: "/",
-        query: {
-          redirect: to.fullPath
-        }
-      });
-    } else {
-      // Proceed to route
-      next();
-    }
-  } else {
-    // Proceed to route
-    next();
+  const isRequiresAuth: boolean = to.matched.some(v => v.meta.requiresAuth); // 要認証ページか
+  const isSignedIn: boolean = UserStore.isSignedIn; // サインイン済みか
+
+  // 要認証ページなのにサインアウトしてなかったらフロントページに飛ばす
+  if (isRequiresAuth && !isSignedIn) {
+    next({ name: "Login" });
+    return;
   }
+
+  // 認証不要ページなのにサインイン済ならユーザー用ホームページに飛ばす（アプリによよってはいらないかも）
+  if (!isRequiresAuth && isSignedIn) {
+    next({ name: "Home" });
+    return;
+  }
+
+  next();
 });
 
 export default router;
