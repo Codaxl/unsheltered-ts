@@ -48,7 +48,7 @@ class UserStore extends VuexModule {
 
   @Action
   public async init() {
-    const config = new Promise<void>((resolve, reject) => {
+    return new Promise<void>((resolve, reject) => {
       firebase.initializeApp({
         apiKey: process.env.VUE_APP_FIREBASE_APIKEY,
         authDomain: process.env.VUE_APP_FIREBASE_AUTHDOMAIN,
@@ -60,30 +60,19 @@ class UserStore extends VuexModule {
         measurementId: process.env.VUE_APP_FIREBASE_MEASUREMENTID
       });
       console.log("Step 1");
+      // firebase wait for initialization
 
-      // firebase Wait for initialization
-      const handleAuthStateChange = new Promise<void>(resolveAtFirebaseInit => {
-        firebase.auth().onAuthStateChanged(user => {
-          if (user) {
-            // Login retention settings
-            firebase
-              .auth()
-              .setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-            firebase.auth().useDeviceLanguage();
+      // Login retention settings
+      firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+      firebase.auth().useDeviceLanguage();
 
-            // Automatic login
-            const firebaseUser = firebase.auth().currentUser;
-            this.setUser(UserStore.makeUserByFirebaseUser(firebaseUser));
-          } else {
-            this.setUser(UserStore.makeEmptyUser());
-          }
-        });
+      // Automatic login
+      const firebaseUser = firebase.auth().currentUser;
+      firebase.auth().onAuthStateChanged(_ => {
+        this.setUser(UserStore.makeUserByFirebaseUser(firebaseUser));
       });
-
-      resolve(handleAuthStateChange);
+      resolve();
     });
-
-    return config;
   }
 
   @Action
@@ -142,7 +131,7 @@ class UserStore extends VuexModule {
     firebaseUser: firebase.User | null
   ): User {
     if (firebaseUser) {
-      console.log("Step 2a");
+      console.log("Step 2b");
       return {
         id: firebaseUser.uid,
         email: firebaseUser.email || "",
@@ -152,6 +141,7 @@ class UserStore extends VuexModule {
         emailVerified: firebaseUser.emailVerified
       };
     } else {
+      console.log("Step 2c");
       return UserStore.makeEmptyUser();
     }
   }
