@@ -82,7 +82,6 @@ class UserStore extends VuexModule {
     async function asyncAwaitFunction(): Promise<any> {
       const firstStep = await config;
       const secondStep = await handleAuthStateChange;
-      return firstStep + secondStep;
     }
 
     return asyncAwaitFunction().then(() =>
