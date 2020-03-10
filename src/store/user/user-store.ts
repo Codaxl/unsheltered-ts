@@ -48,7 +48,7 @@ class UserStore extends VuexModule {
 
   @Action
   public async init() {
-    const config = new Promise<void>((resolve, reject) => {
+    const config = new Promise<void>(resolve => {
       firebase.initializeApp({
         apiKey: process.env.VUE_APP_FIREBASE_APIKEY,
         authDomain: process.env.VUE_APP_FIREBASE_AUTHDOMAIN,
@@ -71,7 +71,7 @@ class UserStore extends VuexModule {
     });
 
     // firebase Wait for initialization
-    const handleAuthStateChange = new Promise<void>((resolve, reject) => {
+    const handleAuthStateChange = new Promise<void>(resolve => {
       const unsubscribe = firebase.auth().onAuthStateChanged(_ => {
         unsubscribe();
         console.log("Step 2");
