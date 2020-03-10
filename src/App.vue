@@ -127,7 +127,7 @@
 
             <v-card-actions>
               <v-row align="center" justify="center">
-                <v-btn outlined v-on:click="logout">Logout</v-btn>
+                <v-btn outlined v-on:click="signOut">Logout</v-btn>
               </v-row>
             </v-card-actions>
           </v-card>
@@ -312,13 +312,7 @@ export default class SiteHeader extends Vue {
     this.signOut();
   }
   private async signOut() {
-    const result = await UserStore.signOut();
-    if (result.isError) {
-      this.errorMessage = result.errorMessage;
-      setTimeout(() => this.$router.replace({ name: "Home" }), 3000);
-    } else {
-      this.$router.replace({ name: "Login" });
-    }
+    await UserStore.signOut();
   }
 }
 </script>

@@ -76,7 +76,7 @@ export default class LoginComponent extends Vue {
       this.errorMessage = result.errorMessage;
       return;
     }
-    this.$router.push({ name: "home" });
+    this.$router.replace("/funding");
   }
 }
 </script>

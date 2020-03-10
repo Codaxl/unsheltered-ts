@@ -39,6 +39,7 @@ const routes = [
         // UserProfile will be rendered inside User's <router-view>
         // when /user/:id/profile is matched
         path: "",
+        name: "Funding",
         component: () =>
           import(/* webpackChunkName: "about" */ "../views/Funding/Landing.vue")
       },
@@ -140,7 +141,7 @@ router.beforeEach((to, from, next) => {
 
   // 認証不要ページなのにサインイン済ならユーザー用ホームページに飛ばす（アプリによよってはいらないかも）
   if (!isRequiresAuth && isSignedIn) {
-    next({ name: "Home" });
+    next();
     return;
   }
 
