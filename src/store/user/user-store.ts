@@ -48,43 +48,37 @@ class UserStore extends VuexModule {
 
   @Action
   public async init() {
-    const config = new Promise(resolve => {
-      firebase.initializeApp({
-        apiKey: process.env.VUE_APP_FIREBASE_APIKEY,
-        authDomain: process.env.VUE_APP_FIREBASE_AUTHDOMAIN,
-        databaseURL: process.env.VUE_APP_FIREBASE_DATABASEURL,
-        projectId: process.env.VUE_APP_FIREBASE_PROJECTID,
-        storageBucket: process.env.VUE_APP_FIREBASE_STORAGEBUCKET,
-        messagingSenderId: process.env.VUE_APP_FIREBASE_MESSAGINGSENDERID,
-        appId: process.env.VUE_APP_FIREBASE_APPID,
-        measurementId: process.env.VUE_APP_FIREBASE_MEASUREMENTID
-      });
-      console.log("Step 1");
-      // firebaseの初期化を待つ
-      const handleAuthStateChanged = new Promise<void>(resolve => {
-        const unsubscribe = firebase.auth().onAuthStateChanged(user => {
-          if (user) {
-            // Login retention settings
-            firebase
-              .auth()
-              .setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-            firebase.auth().useDeviceLanguage();
-            const firebaseUser = firebase.auth().currentUser;
-            this.setUser(UserStore.makeUserByFirebaseUser(firebaseUser));
-            console.log("Step 2a");
-            resolve();
-            return;
-          } else {
-            console.log("Step 2b");
-            resolve();
-            unsubscribe();
-          }
-        });
-      });
-
-      Promise.resolve(handleAuthStateChanged);
-      resolve();
+    firebase.initializeApp({
+      apiKey: process.env.VUE_APP_FIREBASE_APIKEY,
+      authDomain: process.env.VUE_APP_FIREBASE_AUTHDOMAIN,
+      databaseURL: process.env.VUE_APP_FIREBASE_DATABASEURL,
+      projectId: process.env.VUE_APP_FIREBASE_PROJECTID,
+      storageBucket: process.env.VUE_APP_FIREBASE_STORAGEBUCKET,
+      messagingSenderId: process.env.VUE_APP_FIREBASE_MESSAGINGSENDERID,
+      appId: process.env.VUE_APP_FIREBASE_APPID,
+      measurementId: process.env.VUE_APP_FIREBASE_MEASUREMENTID
     });
+    console.log("Step 1");
+    // firebaseの初期化を待つ
+    const handleAuthStateChanged = new Promise<void>(resolve => {
+      const unsubscribe = firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+          // Login retention settings
+          firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+          firebase.auth().useDeviceLanguage();
+          const firebaseUser = firebase.auth().currentUser;
+          this.setUser(UserStore.makeUserByFirebaseUser(firebaseUser));
+          console.log("Step 2a");
+          resolve();
+        } else {
+          console.log("Step 2b");
+          unsubscribe();
+          resolve();
+        }
+      });
+    });
+
+    return Promise.resolve(handleAuthStateChanged);
   }
 
   @Action
