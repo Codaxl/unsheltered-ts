@@ -8,23 +8,17 @@
         <v-card class="mx-auto">
           <v-list-item three-line>
             <v-list-item-content>
-              <div class="overline mb-4">OVERLINE</div>
+              <div class="overline mb-4">Pinned</div>
               <v-list-item-title class="headline mb-1"
-                >Headline 5</v-list-item-title
+                >Welcome</v-list-item-title
               >
-              <v-list-item-subtitle
-                >Greyhound divisely hello coldly
-                fonwderfully</v-list-item-subtitle
-              >
+              <v-list-item-subtitle>by Joshua Coda</v-list-item-subtitle>
               <div class="text--primary my-4">
-                well meaning and kindly. "a benevolent smile". Lorem ipsum dolor
-                sit amet, consectetur adipisicing elit, sed do eiusmod tempor
-                incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-                veniam, quis nostrud exercitation ullamco laboris nisi ut
-                aliquip ex ea commodo consequat. Duis aute irure dolor in
-                reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-                sunt in culpa qui officia deserunt mollit anim id est laborum.
+                The purpose of this website is to collect structural components
+                of homeless funding and its allocation to programs. Information
+                on who is receiving funding in Riverside County, where those
+                Funds are distributed, and contact information is vital to
+                efficient management, transparency and organizational purposes.
               </div>
             </v-list-item-content>
 
@@ -87,7 +81,7 @@ import BudgetPie from "../components/Funding/State/Heap/BudgetPie.vue";
   components: { BudgetPie }
 })
 export default class News extends Vue {
-  private model: string[] = ["Carrots"];
+  private model: string[] = ["All"];
   private breadcrumbs: Array<object> = [
     {
       text: "Home",
@@ -100,13 +94,7 @@ export default class News extends Vue {
       href: "/"
     }
   ];
-  private items: string[] = [
-    "Dog Photos",
-    "Cat Photos",
-    "",
-    "Potatoes",
-    "Carrots"
-  ];
+  private items: string[] = ["All", "", "Federal", "State", "County", "Local"];
 }
 </script>
 <style></style>
