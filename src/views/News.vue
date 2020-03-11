@@ -78,26 +78,35 @@
     </v-row>
   </v-container>
 </template>
-<script>
-export default {
-  name: "News",
-  data() {
-    return {
-      breadcrumbs: [
-        {
-          text: "Home",
-          disabled: false,
-          href: "/"
-        },
-        {
-          text: "News",
-          disabled: true,
-          href: "/"
-        }
-      ],
-      items: ["Dog Photos", "Cat Photos", "", "Potatoes", "Carrots"],
-      model: ["Carrots"]
-    };
-  }
-};
+<script lang="ts">
+import Vue from "vue";
+import { Component } from "vue-property-decorator";
+import BudgetPie from "../components/Funding/State/Heap/BudgetPie.vue";
+
+@Component({
+  components: { BudgetPie }
+})
+export default class News extends Vue {
+  private model: string[] = ["Carrots"];
+  private breadcrumbs: Array<object> = [
+    {
+      text: "Home",
+      disabled: false,
+      href: "/"
+    },
+    {
+      text: "News",
+      disabled: true,
+      href: "/"
+    }
+  ];
+  private items: string[] = [
+    "Dog Photos",
+    "Cat Photos",
+    "",
+    "Potatoes",
+    "Carrots"
+  ];
+}
 </script>
+<style></style>

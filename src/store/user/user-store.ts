@@ -6,7 +6,7 @@ import {
   Module
 } from "vuex-module-decorators";
 import store from "@/store";
-import firebase from "firebase";
+import firebase from "@/firebase";
 import { User } from "./user-store-entities";
 import { SignInParam } from "./user-store-params";
 import { ActionResult } from "./action-result";
@@ -48,17 +48,6 @@ class UserStore extends VuexModule {
 
   @Action
   public async init() {
-    firebase.initializeApp({
-      apiKey: process.env.VUE_APP_FIREBASE_APIKEY,
-      authDomain: process.env.VUE_APP_FIREBASE_AUTHDOMAIN,
-      databaseURL: process.env.VUE_APP_FIREBASE_DATABASEURL,
-      projectId: process.env.VUE_APP_FIREBASE_PROJECTID,
-      storageBucket: process.env.VUE_APP_FIREBASE_STORAGEBUCKET,
-      messagingSenderId: process.env.VUE_APP_FIREBASE_MESSAGINGSENDERID,
-      appId: process.env.VUE_APP_FIREBASE_APPID,
-      measurementId: process.env.VUE_APP_FIREBASE_MEASUREMENTID
-    });
-    console.log("Step 1");
     // firebaseの初期化を待つ
     const handleAuthStateChanged = new Promise<void>(resolve => {
       const unsubscribe = firebase.auth().onAuthStateChanged(user => {
@@ -68,10 +57,8 @@ class UserStore extends VuexModule {
           firebase.auth().useDeviceLanguage();
           const firebaseUser = firebase.auth().currentUser;
           this.setUser(UserStore.makeUserByFirebaseUser(firebaseUser));
-          console.log("Step 2a");
           resolve();
         } else {
-          console.log("Step 2b");
           unsubscribe();
           resolve();
         }

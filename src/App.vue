@@ -149,11 +149,18 @@
           <v-list-item-title>Home</v-list-item-title>
         </v-list-item>
 
-        <v-list-item exact color="primary" to="/about">
+        <!-- <v-list-item exact color="primary" to="/about">
           <v-list-item-icon>
             <v-icon>mdi-information</v-icon>
           </v-list-item-icon>
           <v-list-item-title>About</v-list-item-title>
+        </v-list-item> -->
+
+        <v-list-item exact color="primary" to="/news">
+          <v-list-item-icon>
+            <v-icon>mdi-newspaper</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>News</v-list-item-title>
         </v-list-item>
 
         <v-list-item exact color="primary" to="/calendar">

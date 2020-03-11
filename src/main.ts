@@ -5,23 +5,14 @@ import store from "./store";
 import vuetify from "./plugins/vuetify";
 // Directives
 import "./directives/vue-the-mask";
+import "./directives/vue-currency";
 
 import UserStore from "./store/user/user-store";
 
 Vue.config.productionTip = false;
 
-Vue.filter("currency", function(value: number) {
-  const formatter = new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    minimumFractionDigits: 0
-  });
-  return formatter.format(value);
-});
-
 (async () => {
   await UserStore.init();
-  console.log("Final");
   new Vue({
     router,
     store,
