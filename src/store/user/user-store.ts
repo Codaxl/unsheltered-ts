@@ -48,22 +48,19 @@ class UserStore extends VuexModule {
 
   @Action
   public async init() {
-    const config = new Promise<void>(resolve => {
-      firebase.initializeApp({
-        apiKey: process.env.VUE_APP_FIREBASE_APIKEY,
-        authDomain: process.env.VUE_APP_FIREBASE_AUTHDOMAIN,
-        databaseURL: process.env.VUE_APP_FIREBASE_DATABASEURL,
-        projectId: process.env.VUE_APP_FIREBASE_PROJECTID,
-        storageBucket: process.env.VUE_APP_FIREBASE_STORAGEBUCKET,
-        messagingSenderId: process.env.VUE_APP_FIREBASE_MESSAGINGSENDERID,
-        appId: process.env.VUE_APP_FIREBASE_APPID,
-        measurementId: process.env.VUE_APP_FIREBASE_MEASUREMENTID
-      });
-      resolve();
+    firebase.initializeApp({
+      apiKey: process.env.VUE_APP_FIREBASE_APIKEY,
+      authDomain: process.env.VUE_APP_FIREBASE_AUTHDOMAIN,
+      databaseURL: process.env.VUE_APP_FIREBASE_DATABASEURL,
+      projectId: process.env.VUE_APP_FIREBASE_PROJECTID,
+      storageBucket: process.env.VUE_APP_FIREBASE_STORAGEBUCKET,
+      messagingSenderId: process.env.VUE_APP_FIREBASE_MESSAGINGSENDERID,
+      appId: process.env.VUE_APP_FIREBASE_APPID,
+      measurementId: process.env.VUE_APP_FIREBASE_MEASUREMENTID
     });
 
     // firebaseの初期化を待つ
-    const handleAuthStateChanged = new Promise<void>((resolve, reject) => {
+    const handleAuthStateChanged = new Promise<void>(resolve => {
       const unsubscribe = firebase.auth().onAuthStateChanged(user => {
         if (user) {
           // Login retention settings
@@ -74,18 +71,11 @@ class UserStore extends VuexModule {
           resolve();
         } else {
           unsubscribe();
-          reject();
         }
       });
     });
 
-    async function asyncAwaitFunction(): Promise<void | any> {
-      const firstResult = await config;
-      const secondResult = await handleAuthStateChanged;
-
-      return { firstResult, secondResult };
-    }
-    return asyncAwaitFunction();
+    Promise.resolve(handleAuthStateChanged);
   }
 
   @Action
