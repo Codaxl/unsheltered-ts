@@ -6,7 +6,7 @@
     <div>
       <div>
         <h1 class="display-1 font-weight-light my-8">
-          Continuum of Care (CoC) Program
+          California Emergency Solutions and Housing (CESH) Program
         </h1>
       </div>
       <div>
@@ -296,7 +296,7 @@ import BudgetPie from "@/components/Funding/State/Heap/BudgetPie.vue";
 @Component({
   components: { BudgetPie }
 })
-export default class Coc extends Vue {
+export default class Cesh extends Vue {
   private model = null;
   private breadcrumbs: Array<object> = [
     {

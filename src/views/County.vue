@@ -1,7 +1,5 @@
 <template>
-  <div class="federal">
-    <h1>This is federal page</h1>
-  </div>
+  <router-view></router-view>
 </template>
 <script lang="ts">
 import Vue from "vue";

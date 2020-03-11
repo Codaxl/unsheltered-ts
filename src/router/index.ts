@@ -102,6 +102,24 @@ const routes = [
               import(
                 /* webpackChunkName: "about" */ "../views/Funding/State/Landing.vue"
               )
+          },
+          {
+            // UserProfile will be rendered inside User's <router-view>
+            // when /user/:id/profile is matched
+            path: "cesh",
+            component: () =>
+              import(
+                /* webpackChunkName: "about" */ "../views/Funding/State/Cesh.vue"
+              )
+          },
+          {
+            // UserProfile will be rendered inside User's <router-view>
+            // when /user/:id/profile is matched
+            path: "esg-state",
+            component: () =>
+              import(
+                /* webpackChunkName: "about" */ "../views/Funding/State/EsgState.vue"
+              )
           }
         ]
       },
@@ -117,7 +135,27 @@ const routes = [
         // when /user/:id/posts is matched
         path: "county",
         component: () =>
-          import(/* webpackChunkName: "about" */ "../views/County.vue")
+          import(/* webpackChunkName: "about" */ "../views/County.vue"),
+        children: [
+          {
+            // UserProfile will be rendered inside User's <router-view>
+            // when /user/:id/profile is matched
+            path: "",
+            component: () =>
+              import(
+                /* webpackChunkName: "about" */ "../views/Funding/State/Landing.vue"
+              )
+          },
+          {
+            // UserProfile will be rendered inside User's <router-view>
+            // when /user/:id/profile is matched
+            path: "general-funds",
+            component: () =>
+              import(
+                /* webpackChunkName: "about" */ "../views/Funding/County/GeneralFunds.vue"
+              )
+          }
+        ]
       }
     ]
   },

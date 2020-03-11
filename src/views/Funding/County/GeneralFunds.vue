@@ -6,7 +6,7 @@
     <div>
       <div>
         <h1 class="display-1 font-weight-light my-8">
-          Continuum of Care (CoC) Program
+          General Funds
         </h1>
       </div>
       <div>
@@ -296,7 +296,7 @@ import BudgetPie from "@/components/Funding/State/Heap/BudgetPie.vue";
 @Component({
   components: { BudgetPie }
 })
-export default class Coc extends Vue {
+export default class GeneralFunds extends Vue {
   private model = null;
   private breadcrumbs: Array<object> = [
     {

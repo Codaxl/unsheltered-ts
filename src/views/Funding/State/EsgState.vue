@@ -6,8 +6,11 @@
     <div>
       <div>
         <h1 class="display-1 font-weight-light my-8">
-          Continuum of Care (CoC) Program
+          Emergency Solutions Grants (ESG) Program
         </h1>
+        <p class="caption">
+          State of California
+        </p>
       </div>
       <div>
         <v-row>
@@ -296,7 +299,7 @@ import BudgetPie from "@/components/Funding/State/Heap/BudgetPie.vue";
 @Component({
   components: { BudgetPie }
 })
-export default class Coc extends Vue {
+export default class EsgState extends Vue {
   private model = null;
   private breadcrumbs: Array<object> = [
     {
