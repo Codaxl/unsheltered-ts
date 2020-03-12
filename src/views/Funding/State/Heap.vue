@@ -291,7 +291,7 @@
 <script lang="ts">
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
-import BudgetPie from "../components/Funding/State/Heap/BudgetPie.vue";
+import BudgetPie from "@/components/Funding/State/Heap/BudgetPie.vue";
 
 @Component({
   components: { BudgetPie }

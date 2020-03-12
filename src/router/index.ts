@@ -120,15 +120,17 @@ const routes = [
               import(
                 /* webpackChunkName: "about" */ "../views/Funding/State/EsgState.vue"
               )
+          },
+          {
+            // UserProfile will be rendered inside User's <router-view>
+            // when /user/:id/profile is matched
+            path: "heap",
+            component: () =>
+              import(
+                /* webpackChunkName: "about" */ "../views/Funding/State/Heap.vue"
+              )
           }
         ]
-      },
-      {
-        // UserPosts will be rendered inside User's <router-view>
-        // when /user/:id/posts is matched
-        path: "state/heap",
-        component: () =>
-          import(/* webpackChunkName: "about" */ "../views/Heap.vue")
       },
       {
         // UserPosts will be rendered inside User's <router-view>
