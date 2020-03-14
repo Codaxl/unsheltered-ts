@@ -5,15 +5,7 @@
     </v-btn>
     <v-row class="fill-height" align="center" justify="center">
       <v-col>
-        <v-toolbar flat color="white">
-          <v-btn fab text small @click="prev">
-            <v-icon small>mdi-chevron-left</v-icon>
-          </v-btn>
-          <v-btn fab text small @click="next">
-            <v-icon small>mdi-chevron-right</v-icon>
-          </v-btn>
-          <v-toolbar-title>{{ title }}</v-toolbar-title>
-
+        <v-sheet tile class="d-flex">
           <v-btn outlined class="mr-4" @click="setToday">
             Today
           </v-btn>
@@ -25,6 +17,7 @@
                 <v-icon right>mdi-menu-down</v-icon>
               </v-btn>
             </template>
+            <v-spacer></v-spacer>
             <v-list>
               <v-list-item @click="type = 'day'">
                 <v-list-item-title>Day</v-list-item-title>
@@ -40,6 +33,17 @@
               </v-list-item>
             </v-list>
           </v-menu>
+        </v-sheet>
+        <v-toolbar flat color="white">
+          <v-btn fab text small @click="prev">
+            <v-icon small>mdi-chevron-left</v-icon>
+          </v-btn>
+
+          <v-toolbar-title>{{ title }}</v-toolbar-title>
+          <v-btn fab text small @click="next">
+            <v-icon small>mdi-chevron-right</v-icon>
+          </v-btn>
+          <v-spacer></v-spacer>
         </v-toolbar>
 
         <!-- Add event dialog -->
