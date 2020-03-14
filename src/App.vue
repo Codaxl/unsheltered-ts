@@ -171,6 +171,13 @@
           <v-list-item-title>Calendar</v-list-item-title>
         </v-list-item>
 
+        <v-list-item exact color="primary" to="/events">
+          <v-list-item-icon>
+            <v-icon>mdi-calendar-text</v-icon>
+          </v-list-item-icon>
+          <v-list-item-title>Events</v-list-item-title>
+        </v-list-item>
+
         <v-list-group prepend-icon="mdi-account-circle">
           <template v-slot:activator>
             <v-list-item-title>Funding</v-list-item-title>
