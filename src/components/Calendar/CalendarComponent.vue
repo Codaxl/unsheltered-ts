@@ -35,6 +35,7 @@
           </v-menu>
         </v-sheet>
         <v-toolbar flat color="white">
+          <v-spacer></v-spacer>
           <v-btn fab text small @click="prev">
             <v-icon small>mdi-chevron-left</v-icon>
           </v-btn>
