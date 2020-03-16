@@ -102,7 +102,7 @@
       </div>
       <v-row>
         <v-col cols="12">
-          <div>
+          <div id="about">
             <h2 class="font-weight-regular mt-5">
               About
             </h2>

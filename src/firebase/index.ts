@@ -6,6 +6,7 @@ import "firebase/auth";
 import "firebase/firestore"; // FIRESTORE DATABASE
 import "firebase/database"; // REALTIME DATABASE
 import "firebase/functions"; // FIREBASE FUNCTIONS
+import "firebase/storage"; // FIREBASE STORAGE
 // PUT YOUR OWN FIREBASE CONFIGURATION HERE
 
 const firebaseConfig = {
@@ -22,5 +23,6 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 export const db = firebase.firestore();
+export const firestorage = firebase.storage();
 
 export default firebase;

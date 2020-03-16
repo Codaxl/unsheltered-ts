@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import scrollBehavior from "./scroll-behavior";
+
 Vue.use(VueRouter);
 
 import UserStore from "../store/user/user-store";
@@ -168,14 +169,32 @@ const routes = [
         ]
       }
     ]
+  },
+  {
+    // UserPosts will be rendered inside User's <router-view>
+    // when /user/:id/posts is matched
+    path: "/admin",
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/Admin.vue"),
+    children: [
+      {
+        // UserProfile will be rendered inside User's <router-view>
+        // when /user/:id/profile is matched
+        path: "",
+        component: () =>
+          import(
+            /* webpackChunkName: "about" */ "../views/Funding/State/Landing.vue"
+          )
+      }
+    ]
   }
 ];
 
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
-  routes,
-  scrollBehavior
+  scrollBehavior,
+  routes
 });
 
 // ログインチェック
