@@ -48,7 +48,7 @@ export class StatsDataServices {
   constructor() {
     this.dataServices = new FirestoreDataServices();
   }
-  GetAll() {
-    return this.dataServices.getAll("funds", "2019", DocToFundRecordMap);
+  GetAll(recordID: string) {
+    return this.dataServices.getAll("funds", recordID, DocToFundRecordMap);
   }
 }
