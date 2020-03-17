@@ -13,7 +13,14 @@
         <v-row>
           <v-col cols="12" sm="4"> </v-col> <v-col cols="12" sm="4"> </v-col>
           <v-col cols="12" sm="4">
-            <v-select items="2019" label="2019" solo></v-select>
+            <v-select
+              v-model="e1"
+              :items="years"
+              menu-props="auto"
+              label="Select"
+              hide-details
+              solo
+            ></v-select>
           </v-col>
         </v-row>
       </div>
@@ -32,9 +39,9 @@
                   </v-tooltip>
                 </v-card-title>
                 <v-card-text>
-                  <span class="display-1 font-weight-light"
-                    >$10,892,324.00</span
-                  >
+                  <span class="display-1 font-weight-light">{{
+                    this.stats.federalTotal | currency
+                  }}</span>
                 </v-card-text>
               </v-card>
             </div>
@@ -52,7 +59,9 @@
                   </v-tooltip>
                 </v-card-title>
                 <v-card-text>
-                  <span class="display-1 font-weight-light">$5,444,555.00</span>
+                  <span class="display-1 font-weight-light">{{
+                    this.stats.stateTotal | currency
+                  }}</span>
                 </v-card-text>
               </v-card>
             </div>
@@ -72,9 +81,9 @@
                   </v-tooltip>
                 </v-card-title>
                 <v-card-text>
-                  <span class="display-1 font-weight-light"
-                    >$10,465,525.00</span
-                  >
+                  <span class="display-1 font-weight-light">{{
+                    this.stats.countyTotal | currency
+                  }}</span>
                 </v-card-text>
               </v-card>
             </div>
@@ -92,7 +101,9 @@
                   </v-tooltip>
                 </v-card-title>
                 <v-card-text>
-                  <span class="display-1 font-weight-light">$1,256,896.00</span>
+                  <span class="display-1 font-weight-light">{{
+                    this.stats.localTotal | currency
+                  }}</span>
                 </v-card-text>
               </v-card>
             </div>
@@ -185,6 +196,12 @@ import { StatsDataServices } from "./FirestoreDataServices";
   components: { FundingDashboardPie, FundingDashboardMap }
 })
 export default class FundingDashboard extends Vue {
+  private years: Array<object> = [
+    {
+      text: "2019"
+    }
+  ];
+  private e1 = "2019";
   private stats: any = [];
   private amountTotal = "";
   private federalTotal = "";
