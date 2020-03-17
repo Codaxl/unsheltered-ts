@@ -6,7 +6,7 @@ import {
   Module
 } from "vuex-module-decorators";
 import store from "@/store";
-import firebase from "@/firebase";
+import { auth } from "@/firebase";
 import { User } from "./user-store-entities";
 import { SignInParam } from "./user-store-params";
 import { ActionResult } from "./action-result";
@@ -50,12 +50,12 @@ class UserStore extends VuexModule {
   public async init() {
     // firebaseの初期化を待つ
     const handleAuthStateChanged = new Promise<void>(resolve => {
-      const unsubscribe = firebase.auth().onAuthStateChanged(user => {
+      const unsubscribe = auth.onAuthStateChanged(user => {
         if (user) {
           // Login retention settings
-          firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-          firebase.auth().useDeviceLanguage();
-          const firebaseUser = firebase.auth().currentUser;
+          // auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+          auth.useDeviceLanguage();
+          const firebaseUser = auth.currentUser;
           this.setUser(UserStore.makeUserByFirebaseUser(firebaseUser));
           resolve();
         } else {
@@ -71,8 +71,7 @@ class UserStore extends VuexModule {
   @Action
   public signIn(param: SignInParam) {
     return new Promise<ActionResult>(resolve => {
-      firebase
-        .auth()
+      auth
         .signInWithEmailAndPassword(param.email, param.password)
         .then(value => {
           if (!value.user) {
@@ -97,8 +96,7 @@ class UserStore extends VuexModule {
   @Action
   public signOut() {
     return new Promise<ActionResult>(resolve => {
-      firebase
-        .auth()
+      auth
         .signOut()
         .then(() => {
           this.setUser(UserStore.makeEmptyUser());

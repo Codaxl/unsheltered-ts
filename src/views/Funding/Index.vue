@@ -11,6 +11,14 @@
       </div>
       <div>
         <v-row>
+          <v-col cols="12" sm="4"> </v-col> <v-col cols="12" sm="4"> </v-col>
+          <v-col cols="12" sm="4">
+            <v-select items="2019" label="2019" solo></v-select>
+          </v-col>
+        </v-row>
+      </div>
+      <div>
+        <v-row>
           <v-col cols="12" sm="6">
             <div>
               <v-card class="mx-auto" style="min-height:125px;">
@@ -171,11 +179,29 @@ import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import FundingDashboardPie from "../../components/Funding/FundingDashboardPie.vue";
 import FundingDashboardMap from "../../components/Funding/FundingDashboardMap.vue";
+import { StatsDataServices } from "./FirestoreDataServices";
 
 @Component({
   components: { FundingDashboardPie, FundingDashboardMap }
 })
 export default class FundingDashboard extends Vue {
+  private stats: any = [];
+  private amountTotal = "";
+  private federalTotal = "";
+  private stateTotal = "";
+  private countyTotal = "";
+  private localTotal = "";
+
+  created() {
+    this.loadStats();
+  }
+  private loadStats() {
+    const statsDataService = new StatsDataServices();
+    statsDataService.GetAll().then(data => {
+      this.stats = data;
+      console.log(this.stats);
+    });
+  }
   private model = null;
   private breadcrumbs: Array<object> = [
     {

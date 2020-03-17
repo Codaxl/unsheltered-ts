@@ -67,7 +67,7 @@ const routes = [
         path: "",
         name: "Funding",
         component: () =>
-          import(/* webpackChunkName: "about" */ "../views/Funding/Landing.vue")
+          import(/* webpackChunkName: "about" */ "../views/Funding/Index.vue")
       },
       {
         // UserProfile will be rendered inside User's <router-view>
@@ -82,7 +82,7 @@ const routes = [
             path: "",
             component: () =>
               import(
-                /* webpackChunkName: "about" */ "../views/Funding/Federal/Landing.vue"
+                /* webpackChunkName: "about" */ "../views/Funding/Federal/Index.vue"
               )
           },
           {
@@ -109,7 +109,7 @@ const routes = [
             path: "",
             component: () =>
               import(
-                /* webpackChunkName: "about" */ "../views/Funding/State/Landing.vue"
+                /* webpackChunkName: "about" */ "../views/Funding/State/Index.vue"
               )
           },
           {
@@ -154,7 +154,7 @@ const routes = [
             path: "",
             component: () =>
               import(
-                /* webpackChunkName: "about" */ "../views/Funding/State/Landing.vue"
+                /* webpackChunkName: "about" */ "../views/Funding/State/Index.vue"
               )
           },
           {
@@ -183,7 +183,7 @@ const routes = [
         path: "",
         component: () =>
           import(
-            /* webpackChunkName: "about" */ "../views/Funding/State/Landing.vue"
+            /* webpackChunkName: "about" */ "../views/Funding/State/Index.vue"
           )
       }
     ]
