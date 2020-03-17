@@ -1,7 +1,7 @@
 import { db } from "@/firebase";
 
 export class FirestoreDataServices {
-  getAll(tableName: string, recordID: string, docToRecordMap: any) {
+  getRecord(tableName: string, recordID: string, docToRecordMap: any) {
     return new Promise(function(resolve, reject) {
       const records: Array<object> = [];
       db.collection(tableName)
@@ -48,7 +48,7 @@ export class StatsDataServices {
   constructor() {
     this.dataServices = new FirestoreDataServices();
   }
-  GetAll(recordID: string) {
-    return this.dataServices.getAll("funds", recordID, DocToFundRecordMap);
+  GetStats(recordID: string) {
+    return this.dataServices.getRecord("funds", recordID, DocToFundRecordMap);
   }
 }

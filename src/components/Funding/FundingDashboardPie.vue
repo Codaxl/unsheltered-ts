@@ -23,7 +23,7 @@ export default class FundingDashboardPie extends Vue {
 
   private chartData: Array<object> = [
     {
-      country: "Federal",
+      source: "Federal",
       amount: 10000000.0,
       subData: [
         {
@@ -33,7 +33,7 @@ export default class FundingDashboardPie extends Vue {
       ]
     },
     {
-      country: "State",
+      source: "State",
       amount: 100000000.0,
       subData: [
         {
@@ -47,7 +47,7 @@ export default class FundingDashboardPie extends Vue {
       ]
     },
     {
-      country: "County",
+      source: "County",
       amount: 500000.0,
       subData: [
         {
@@ -57,7 +57,7 @@ export default class FundingDashboardPie extends Vue {
       ]
     },
     {
-      country: "Local",
+      source: "Local",
       amount: 100000.0,
       subData: [
         {
@@ -82,7 +82,7 @@ export default class FundingDashboardPie extends Vue {
     // Add and configure Series
     const pieSeries: any = chart.series.push(new am4charts.PieSeries());
     pieSeries.dataFields.value = "amount";
-    pieSeries.dataFields.category = "country";
+    pieSeries.dataFields.category = "source";
 
     pieSeries.slices.template.states.getKey(
       "active"

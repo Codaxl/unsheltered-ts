@@ -13,14 +13,17 @@
         <v-row>
           <v-col cols="12" sm="4"> </v-col> <v-col cols="12" sm="4"> </v-col>
           <v-col cols="12" sm="4">
-            <v-select
-              v-model="e1"
-              :items="years"
-              menu-props="auto"
-              label="Select"
-              hide-details
-              solo
-            ></v-select>
+            <v-row align="center" class="mx-auto">
+              <v-select
+                v-model="e1"
+                :items="years"
+                menu-props="auto"
+                label="Select"
+                hide-details
+                solo
+                @change="loadStats"
+              ></v-select>
+            </v-row>
           </v-col>
         </v-row>
       </div>
@@ -205,7 +208,7 @@ export default class FundingDashboard extends Vue {
   private loadStats() {
     const statsDataService = new StatsDataServices();
     const year = this.e1;
-    statsDataService.GetAll(year).then(data => {
+    statsDataService.GetStats(year).then(data => {
       this.stats = data;
     });
   }
