@@ -105,7 +105,7 @@ import { Component, Watch } from "vue-property-decorator";
 })
 export default class OrgChart extends Vue {
   private active = [];
-  private avatar = null;
+  private avatar = "";
   private open = [];
   private users = [];
   private breadcrumbs: Array<object> = [
@@ -122,10 +122,12 @@ export default class OrgChart extends Vue {
   ];
   @Watch("randomAvatar")
   private async fetchUsers(item: any) {
-    const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
     // Remove in 6 months and say
     // you've made optimizations! :)
-    await pause(1500);
+
+    const pause = new Promise<void>(resolve => setTimeout(resolve, 1500));
+
+    Promise.resolve(pause);
 
     return fetch("https://jsonplaceholder.typicode.com/users")
       .then(res => res.json())
