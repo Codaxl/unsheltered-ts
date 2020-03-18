@@ -23,12 +23,13 @@ export default class FundingDashboardPie extends Vue {
   private container: any;
 
   private e1 = "2019";
-  private chartData: Array<object> = [];
+  private chartData: any = [];
 
   created() {
-    this.loadStats();
+    console.log("start");
+    this.loadData();
   }
-  private loadStats() {
+  private loadData() {
     const statsDataService = new StatsDataServices();
     const year = this.e1;
     statsDataService.GetAll(year).then(data => {
@@ -37,8 +38,8 @@ export default class FundingDashboardPie extends Vue {
     });
   }
 
-  public init(): void {
-    console.log("start");
+  public async init() {
+    console.log("end");
     const container = am4core.create(this.$refs.chartdiv, am4core.Container);
     container.width = am4core.percent(100);
     container.height = am4core.percent(100);
