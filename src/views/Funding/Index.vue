@@ -178,9 +178,7 @@
               min-height="500"
               transition="fade-transition"
             >
-              <v-card>
-                <funding-dashboard-map></funding-dashboard-map>
-              </v-card>
+              <funding-dashboard-map></funding-dashboard-map>
             </v-lazy>
           </v-col>
         </v-row>

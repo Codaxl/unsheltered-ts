@@ -1,7 +1,9 @@
 <template>
-  <v-container>
-    <div class="hello" ref="chartdiv"></div>
-  </v-container>
+  <v-card>
+    <v-container>
+      <div class="hello" ref="chartdiv"></div>
+    </v-container>
+  </v-card>
 </template>
 
 <script lang="ts">
@@ -34,11 +36,10 @@ export default class FundingDashboardPie extends Vue {
     const year = this.e1;
     statsDataService.GetAll(year).then(data => {
       this.chartData = data;
-      console.log(data);
     });
   }
 
-  public async init() {
+  public init() {
     console.log("end");
     const container = am4core.create(this.$refs.chartdiv, am4core.Container);
     container.width = am4core.percent(100);
@@ -71,7 +72,9 @@ export default class FundingDashboardPie extends Vue {
     this.container = container;
   }
   mounted() {
-    this.init();
+    setTimeout(() => {
+      this.init();
+    }, 300);
   }
   beforeDestroy() {
     if (this.container) {
