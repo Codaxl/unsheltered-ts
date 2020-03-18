@@ -33,11 +33,11 @@ export default class FundingDashboardPie extends Vue {
     const year = this.e1;
     statsDataService.GetAll(year).then(data => {
       this.chartData = data;
-      console.log(this.chartData);
+      console.log(data);
     });
   }
 
-  public async init() {
+  public init(): void {
     console.log("start");
     const container = am4core.create(this.$refs.chartdiv, am4core.Container);
     container.width = am4core.percent(100);
