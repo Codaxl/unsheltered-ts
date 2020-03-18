@@ -299,7 +299,10 @@ export default class SiteHeader extends Vue {
   private message = false;
   private hints = true;
   private drawer = null;
-  private federalFunds = [["CoC", "/funding/federal/coc"]];
+  private federalFunds = [
+    ["Summary", "/funding/federal/summary"],
+    ["CoC", "/funding/federal/coc"]
+  ];
   private stateFunds = [
     ["CESH", "/funding/state/cesh"],
     ["HEAP", "/funding/state/heap"],

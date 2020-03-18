@@ -212,11 +212,16 @@ import { Component } from "vue-property-decorator";
 import FundingDashboardPie from "../../components/Funding/FundingDashboardPie.vue";
 import FundingDashboardMap from "../../components/Funding/FundingDashboardMap.vue";
 import { StatsDataServices } from "./FirestoreDataServices";
+import FundsStore from "@/store/funds/funds-store";
 
 @Component({
   components: { FundingDashboardPie, FundingDashboardMap }
 })
 export default class FundingDashboard extends Vue {
+  get setYear(): string {
+    return FundsStore.year;
+  }
+
   private isLoading = false;
   private years: string[] = ["2019", "2018"];
   private e1 = "2019";
@@ -227,8 +232,8 @@ export default class FundingDashboard extends Vue {
   private loadStats() {
     this.isLoading = true;
     const statsDataService = new StatsDataServices();
-    const year = this.e1;
-    statsDataService.GetStats(year).then(data => {
+    const year1 = this.e1;
+    statsDataService.GetStats(year1).then(data => {
       this.stats = data;
       this.isLoading = false;
     });

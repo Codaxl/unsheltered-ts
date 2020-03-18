@@ -88,6 +88,15 @@ const routes = [
           {
             // UserProfile will be rendered inside User's <router-view>
             // when /user/:id/profile is matched
+            path: "summary",
+            component: () =>
+              import(
+                /* webpackChunkName: "about" */ "../views/Funding/Federal/Summary.vue"
+              )
+          },
+          {
+            // UserProfile will be rendered inside User's <router-view>
+            // when /user/:id/profile is matched
             path: "coc",
             component: () =>
               import(

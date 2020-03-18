@@ -1,12 +1,13 @@
 import {
-  Mutation,
+  Module,
   VuexModule,
-  getModule,
-  Module
+  Mutation,
+  Action,
+  getModule
 } from "vuex-module-decorators";
 import store from "@/store";
 import { db } from "@/firebase";
-
+import { Funds } from "./funds-interface";
 @Module({
   name: "FundsStore",
   dynamic: true,
@@ -14,17 +15,15 @@ import { db } from "@/firebase";
   namespaced: true
 })
 class FundsStore extends VuexModule {
-  year = "2019";
+  public year = "2019";
 
   @Mutation
-  changeYear(year: string) {
-    this.year = year;
+  changeYear(newYear: string) {
+    this.year = newYear;
   }
-
-  @Action
-  async fetchYear(yearStore: string) {
-    const year = await get(yearStore);
-    this.context.commit("changeYear", year);
+  // getters
+  get setYear(): string {
+    return this.year;
   }
 }
 export default getModule(FundsStore);
