@@ -6,7 +6,6 @@ import {
   getModule
 } from "vuex-module-decorators";
 import store from "@/store";
-import { db } from "@/firebase";
 import { Funds } from "./funds-interface";
 @Module({
   name: "FundsStore",
