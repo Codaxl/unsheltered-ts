@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-container>
-      <div class="hello" ref="fundingDashboardPie"></div>
+      <div class="hello" ref="fundingDashboardBar"></div>
     </v-container>
   </v-card>
 </template>
@@ -18,9 +18,9 @@ import am4themesAnimated from "@amcharts/amcharts4/themes/animated";
 am4core.useTheme(am4themesAnimated);
 
 @Component({})
-export default class FundingDashboardPie extends Vue {
+export default class FundingDashboardBar extends Vue {
   $refs!: {
-    fundingDashboardPie: HTMLElement;
+    fundingDashboardBar: HTMLElement;
   };
   private container: any;
 
@@ -40,7 +40,7 @@ export default class FundingDashboardPie extends Vue {
 
   public init() {
     const container = am4core.create(
-      this.$refs.fundingDashboardPie,
+      this.$refs.fundingDashboardBar,
       am4core.Container
     );
     container.width = am4core.percent(100);

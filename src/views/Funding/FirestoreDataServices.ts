@@ -27,7 +27,7 @@ export class StatsRecord {
   federalTotal = "";
   stateTotal = "";
   countyTotal = "";
-  localTotal = "";
+  cityTotal = "";
 }
 
 export function DocToFundRecordMap(doc: any): StatsRecord {
@@ -38,7 +38,7 @@ export function DocToFundRecordMap(doc: any): StatsRecord {
     federalTotal: rowData.federalTotal,
     stateTotal: rowData.stateTotal,
     countyTotal: rowData.countyTotal,
-    localTotal: rowData.localTotal
+    cityTotal: rowData.cityTotal
   };
   return record;
 }

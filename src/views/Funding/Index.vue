@@ -31,7 +31,11 @@
         <v-row>
           <v-col cols="12" sm="6">
             <div>
-              <v-card class="mx-auto" style="min-height:125px;">
+              <v-card
+                class="mx-auto"
+                style="min-height:125px;"
+                :loading="isLoading"
+              >
                 <v-card-title>
                   <h2 class="headline">Federal</h2>
                   <v-tooltip bottom>
@@ -41,7 +45,7 @@
                     <span>Tooltip</span>
                   </v-tooltip>
                 </v-card-title>
-                <v-card-text>
+                <v-card-text v-if="!isLoading">
                   <span class="display-1 font-weight-light">{{
                     this.stats.federalTotal | currency
                   }}</span>
@@ -51,7 +55,11 @@
           </v-col>
           <v-col cols="12" sm="6">
             <div>
-              <v-card class="mx-auto" style="min-height:125px;">
+              <v-card
+                class="mx-auto"
+                style="min-height:125px;"
+                :loading="isLoading"
+              >
                 <v-card-title>
                   <h2 class="headline">State</h2>
                   <v-tooltip bottom>
@@ -61,7 +69,7 @@
                     <span>Tooltip</span>
                   </v-tooltip>
                 </v-card-title>
-                <v-card-text>
+                <v-card-text v-if="!isLoading">
                   <span class="display-1 font-weight-light">{{
                     this.stats.stateTotal | currency
                   }}</span>
@@ -73,7 +81,11 @@
         <v-row>
           <v-col cols="12" sm="6">
             <div>
-              <v-card class="mx-auto" style="min-height:125px;">
+              <v-card
+                class="mx-auto"
+                style="min-height:125px;"
+                :loading="isLoading"
+              >
                 <v-card-title>
                   <h2 class="headline">County</h2>
                   <v-tooltip bottom>
@@ -83,7 +95,7 @@
                     <span>Tooltip</span>
                   </v-tooltip>
                 </v-card-title>
-                <v-card-text>
+                <v-card-text v-if="!isLoading">
                   <span class="display-1 font-weight-light">{{
                     this.stats.countyTotal | currency
                   }}</span>
@@ -93,9 +105,13 @@
           </v-col>
           <v-col cols="12" sm="6">
             <div>
-              <v-card class="mx-auto" style="min-height:125px;">
+              <v-card
+                class="mx-auto"
+                style="min-height:125px;"
+                :loading="isLoading"
+              >
                 <v-card-title>
-                  <h2 class="headline">Local</h2>
+                  <h2 class="headline">City</h2>
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
                       <v-icon class="mx-1" v-on="on">mdi-help-circle</v-icon>
@@ -103,9 +119,9 @@
                     <span>Tooltip</span>
                   </v-tooltip>
                 </v-card-title>
-                <v-card-text>
+                <v-card-text v-if="!isLoading">
                   <span class="display-1 font-weight-light">{{
-                    this.stats.localTotal | currency
+                    this.stats.cityTotal | currency
                   }}</span>
                 </v-card-text>
               </v-card>
@@ -121,50 +137,54 @@
               min-height="500"
               transition="fade-transition"
             >
-              <v-card>
-                <funding-dashboard-pie></funding-dashboard-pie>
-              </v-card>
+              <funding-dashboard-pie></funding-dashboard-pie>
             </v-lazy>
           </v-col>
         </v-row>
       </div>
       <v-row>
         <v-col cols="12">
-          <div ref="#about">
+          <div ref="#sources">
             <h2 class="font-weight-regular mt-5">
-              About
+              Sources
             </h2>
           </div>
           <div class="body-1 mb-5">
             <p>
-              The Homeless Emergency Aid Program was established by statute to
-              provide localities with flexible block grant funds to address
-              their immediate homelessness challenges. The Homeless Emergency
-              Aid Block Grants will provide $500 million in one-time funding to
-              enable local governments to respond to homelessness. Allocations
-              are as follows: $250 million to Continuums of Care based on 2017
-              homeless point in time count; $150 million direct allocation to a
-              city or city that is also a county with a population of 330,000 or
-              more as of January 1, 2018; and $100 million to Continuums of Care
-              based on their percentage of the statewide 2017 homeless
-              population.
+              Lets break it down. Funding sources have been broken down into
+              four categories: Federal, State, County, and City. How much does
+              Riverside County spend on homeless programs? Who receives the
+              funding? Where are those funding allocations by organizations
+              located in Riverside County?
             </p>
-            <h3 class="font-weight-regular mt-5">Requirements</h3>
+            <h3 class="font-weight-regular mt-5">Federal</h3>
             <p>
               City, county, or joint power must declared an emergency shelter
               crisis (waiver process for smaller cities and counties that do not
               declare a shelter emergency). Continuum of Care must demonstrate
               collaboration with other city, county, or nonprofit partners.
             </p>
-            <h3 class="font-weight-regular mt-5">Eligible Activities</h3>
+            <h3 class="font-weight-regular mt-5">State</h3>
             <p>
-              Emergency housing vouchers Rapid rehousing Emergency shelter
-              construction, and Use of armories to provide temporary shelters,
-              among other activities.
+              City, county, or joint power must declared an emergency shelter
+              crisis (waiver process for smaller cities and counties that do not
+              declare a shelter emergency). Continuum of Care must demonstrate
+              collaboration with other city, county, or nonprofit partners.
             </p>
-            <div class="caption my-5">
-              Source: https://www.bcsh.ca.gov/hcfc/aid_program.html
-            </div>
+            <h3 class="font-weight-regular mt-5">County</h3>
+            <p>
+              City, county, or joint power must declared an emergency shelter
+              crisis (waiver process for smaller cities and counties that do not
+              declare a shelter emergency). Continuum of Care must demonstrate
+              collaboration with other city, county, or nonprofit partners.
+            </p>
+            <h3 class="font-weight-regular mt-5">City</h3>
+            <p>
+              City, county, or joint power must declared an emergency shelter
+              crisis (waiver process for smaller cities and counties that do not
+              declare a shelter emergency). Continuum of Care must demonstrate
+              collaboration with other city, county, or nonprofit partners.
+            </p>
           </div>
         </v-col>
       </v-row>
@@ -197,6 +217,7 @@ import { StatsDataServices } from "./FirestoreDataServices";
   components: { FundingDashboardPie, FundingDashboardMap }
 })
 export default class FundingDashboard extends Vue {
+  private isLoading = false;
   private years: string[] = ["2019", "2018"];
   private e1 = "2019";
   private stats: any = [];
@@ -204,10 +225,12 @@ export default class FundingDashboard extends Vue {
     this.loadStats();
   }
   private loadStats() {
+    this.isLoading = true;
     const statsDataService = new StatsDataServices();
     const year = this.e1;
     statsDataService.GetStats(year).then(data => {
       this.stats = data;
+      this.isLoading = false;
     });
   }
   private model = null;
