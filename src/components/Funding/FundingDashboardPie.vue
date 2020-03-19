@@ -72,7 +72,7 @@ export default class FundingDashboardPie extends Vue {
   mounted() {
     setTimeout(() => {
       this.init();
-    }, 300);
+    }, 500);
   }
   beforeDestroy() {
     if (this.container) {

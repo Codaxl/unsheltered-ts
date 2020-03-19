@@ -13,7 +13,7 @@
         <v-row>
           <v-col cols="12" sm="4"> </v-col> <v-col cols="12" sm="4"> </v-col>
           <v-col cols="12" sm="4">
-            <v-row align="center" class="mx-auto">
+            <v-row align="center" class="ma-auto">
               <v-select
                 v-model="e1"
                 :items="years"
@@ -29,11 +29,31 @@
       </div>
       <div>
         <v-row>
-          <v-col cols="12" sm="6">
+          <v-spacer></v-spacer>
+          <v-col cols="12" sm="4">
+            <div>
+              <v-card flat class="mx-auto" style="min-height:125px;">
+                <v-card-title>
+                  <h2 class="headline">Total</h2>
+                </v-card-title>
+                <v-card-text v-if="!isLoading">
+                  <span class="display-1 font-weight-light">{{
+                    this.stats.amountTotal | currency
+                  }}</span>
+                </v-card-text>
+              </v-card>
+            </div>
+          </v-col>
+
+          <v-spacer></v-spacer>
+        </v-row>
+        <v-divider class="ma-auto"></v-divider>
+        <v-row>
+          <v-col cols="12" sm="4">
             <div>
               <v-card
-                class="mx-auto"
-                style="min-height:125px;"
+                class="mb-4"
+                style="min-height:100px;"
                 :loading="isLoading"
               >
                 <v-card-title>
@@ -52,12 +72,54 @@
                 </v-card-text>
               </v-card>
             </div>
-          </v-col>
-          <v-col cols="12" sm="6">
             <div>
               <v-card
-                class="mx-auto"
-                style="min-height:125px;"
+                class="mb-4"
+                style="min-height:100px;"
+                :loading="isLoading"
+              >
+                <v-card-title>
+                  <h2 class="headline">State</h2>
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on }">
+                      <v-icon class="mx-1" v-on="on">mdi-help-circle</v-icon>
+                    </template>
+                    <span>Tooltip</span>
+                  </v-tooltip>
+                </v-card-title>
+                <v-card-text v-if="!isLoading">
+                  <span class="display-1 font-weight-light">{{
+                    this.stats.stateTotal | currency
+                  }}</span>
+                </v-card-text>
+              </v-card>
+            </div>
+            <div>
+              <v-card
+                class="mb-4"
+                style="min-height:100px;"
+                :loading="isLoading"
+              >
+                <v-card-title>
+                  <h2 class="headline">State</h2>
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on }">
+                      <v-icon class="mx-1" v-on="on">mdi-help-circle</v-icon>
+                    </template>
+                    <span>Tooltip</span>
+                  </v-tooltip>
+                </v-card-title>
+                <v-card-text v-if="!isLoading">
+                  <span class="display-1 font-weight-light">{{
+                    this.stats.stateTotal | currency
+                  }}</span>
+                </v-card-text>
+              </v-card>
+            </div>
+            <div>
+              <v-card
+                class="mb-4"
+                style="min-height:100px;"
                 :loading="isLoading"
               >
                 <v-card-title>
@@ -77,68 +139,18 @@
               </v-card>
             </div>
           </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12" sm="6">
+          <v-col cols="12" sm="8">
             <div>
-              <v-card
-                class="mx-auto"
-                style="min-height:125px;"
-                :loading="isLoading"
+              <v-lazy
+                :options="{
+                  threshold: 0.5
+                }"
+                min-height="500"
+                transition="fade-transition"
               >
-                <v-card-title>
-                  <h2 class="headline">County</h2>
-                  <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
-                      <v-icon class="mx-1" v-on="on">mdi-help-circle</v-icon>
-                    </template>
-                    <span>Tooltip</span>
-                  </v-tooltip>
-                </v-card-title>
-                <v-card-text v-if="!isLoading">
-                  <span class="display-1 font-weight-light">{{
-                    this.stats.countyTotal | currency
-                  }}</span>
-                </v-card-text>
-              </v-card>
+                <funding-dashboard-pie></funding-dashboard-pie>
+              </v-lazy>
             </div>
-          </v-col>
-          <v-col cols="12" sm="6">
-            <div>
-              <v-card
-                class="mx-auto"
-                style="min-height:125px;"
-                :loading="isLoading"
-              >
-                <v-card-title>
-                  <h2 class="headline">City</h2>
-                  <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
-                      <v-icon class="mx-1" v-on="on">mdi-help-circle</v-icon>
-                    </template>
-                    <span>Tooltip</span>
-                  </v-tooltip>
-                </v-card-title>
-                <v-card-text v-if="!isLoading">
-                  <span class="display-1 font-weight-light">{{
-                    this.stats.cityTotal | currency
-                  }}</span>
-                </v-card-text>
-              </v-card>
-            </div>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12">
-            <v-lazy
-              :options="{
-                threshold: 0.5
-              }"
-              min-height="500"
-              transition="fade-transition"
-            >
-              <funding-dashboard-pie></funding-dashboard-pie>
-            </v-lazy>
           </v-col>
         </v-row>
       </div>
