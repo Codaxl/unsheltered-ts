@@ -28,6 +28,8 @@ export class StatsRecord {
   stateTotal = "";
   countyTotal = "";
   cityTotal = "";
+  orgsTotal = "";
+  grantsTotal = "";
 }
 
 export function DocToFundRecordMap(doc: any): StatsRecord {
@@ -38,7 +40,9 @@ export function DocToFundRecordMap(doc: any): StatsRecord {
     federalTotal: rowData.federalTotal,
     stateTotal: rowData.stateTotal,
     countyTotal: rowData.countyTotal,
-    cityTotal: rowData.cityTotal
+    cityTotal: rowData.cityTotal,
+    orgsTotal: rowData.orgsTotal,
+    grantsTotal: rowData.grantsTotal
   };
   return record;
 }

@@ -11,16 +11,41 @@
       </div>
       <div>
         <v-row>
-          <v-col cols="12" sm="4"> </v-col> <v-col cols="12" sm="4"> </v-col>
           <v-col cols="12" sm="4">
             <v-row align="center" class="ma-auto">
               <v-select
                 v-model="e1"
                 :items="years"
                 menu-props="auto"
-                label="Select"
+                label="Year"
                 hide-details
-                solo
+                outlined
+                @change="loadStats"
+              ></v-select>
+            </v-row>
+          </v-col>
+          <v-col cols="12" sm="4">
+            <v-row align="center" class="ma-auto">
+              <v-select
+                v-model="e2"
+                :items="organizations"
+                menu-props="auto"
+                label="Organization"
+                hide-details
+                outlined
+                @change="loadStats"
+              ></v-select>
+            </v-row>
+          </v-col>
+          <v-col cols="12" sm="4">
+            <v-row align="center" class="ma-auto">
+              <v-select
+                v-model="e3"
+                :items="grants"
+                menu-props="auto"
+                label="Grant"
+                hide-details
+                outlined
                 @change="loadStats"
               ></v-select>
             </v-row>
@@ -29,7 +54,6 @@
       </div>
       <div>
         <v-row>
-          <v-spacer></v-spacer>
           <v-col cols="12" sm="4">
             <div>
               <v-card flat class="mx-auto" style="min-height:125px;">
@@ -44,8 +68,34 @@
               </v-card>
             </div>
           </v-col>
-
-          <v-spacer></v-spacer>
+          <v-col cols="12" sm="4">
+            <div>
+              <v-card flat class="mx-auto" style="min-height:125px;">
+                <v-card-title>
+                  <h2 class="headline">Organizations</h2>
+                </v-card-title>
+                <v-card-text v-if="!isLoading">
+                  <span class="display-1 font-weight-light">{{
+                    this.stats.orgsTotal
+                  }}</span>
+                </v-card-text>
+              </v-card>
+            </div>
+          </v-col>
+          <v-col cols="12" sm="4">
+            <div>
+              <v-card flat class="mx-auto" style="min-height:125px;">
+                <v-card-title>
+                  <h2 class="headline">Grants</h2>
+                </v-card-title>
+                <v-card-text v-if="!isLoading">
+                  <span class="display-1 font-weight-light">{{
+                    this.stats.grantsTotal
+                  }}</span>
+                </v-card-text>
+              </v-card>
+            </div>
+          </v-col>
         </v-row>
         <v-divider class="ma-auto"></v-divider>
         <v-row>
@@ -101,7 +151,7 @@
                 :loading="isLoading"
               >
                 <v-card-title>
-                  <h2 class="headline">State</h2>
+                  <h2 class="headline">County</h2>
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
                       <v-icon class="mx-1" v-on="on">mdi-help-circle</v-icon>
@@ -111,7 +161,7 @@
                 </v-card-title>
                 <v-card-text v-if="!isLoading">
                   <span class="display-1 font-weight-light">{{
-                    this.stats.stateTotal | currency
+                    this.stats.countyTotal | currency
                   }}</span>
                 </v-card-text>
               </v-card>
@@ -123,7 +173,7 @@
                 :loading="isLoading"
               >
                 <v-card-title>
-                  <h2 class="headline">State</h2>
+                  <h2 class="headline">City</h2>
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
                       <v-icon class="mx-1" v-on="on">mdi-help-circle</v-icon>
@@ -133,7 +183,7 @@
                 </v-card-title>
                 <v-card-text v-if="!isLoading">
                   <span class="display-1 font-weight-light">{{
-                    this.stats.stateTotal | currency
+                    this.stats.cityTotal | currency
                   }}</span>
                 </v-card-text>
               </v-card>
@@ -237,6 +287,10 @@ export default class FundingDashboard extends Vue {
   private isLoading = false;
   private years: string[] = ["2019", "2018"];
   private e1 = "2019";
+  private organizations: string[] = ["All", "Public Social Services"];
+  private e2 = "All";
+  private grants: string[] = ["All", "HUD:CoC"];
+  private e3 = "All";
   private stats: any = [];
   created() {
     this.loadStats();
