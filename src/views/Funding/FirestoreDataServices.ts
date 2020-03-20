@@ -1,11 +1,17 @@
 import { db } from "@/firebase";
-
+//https://github.com/michaelprosario/fireTodo/tree/master/src/views
 export class FirestoreDataServices {
-  getAll(tableName: string, recordID: string, docToRecordMap: any) {
+  getAll(
+    tableName: string,
+    yearFilter: string,
+    orgFilter: string,
+    docToRecordMap: any
+  ) {
     return new Promise(function(resolve, reject) {
       const records: Array<object> = [];
       db.collection(tableName)
-        .where("year", "==", recordID)
+        .where("year", "==", yearFilter)
+        .where("organization", "==", orgFilter)
         .get()
         .then(querySnapshot => {
           querySnapshot.forEach(doc => {
@@ -48,7 +54,12 @@ export class StatsDataServices {
   constructor() {
     this.dataServices = new FirestoreDataServices();
   }
-  GetStats(recordID: string) {
-    return this.dataServices.getAll("funds", recordID, DocToFundRecordMap);
+  GetStats(yearFilter: string, orgFilter: string) {
+    return this.dataServices.getAll(
+      "funds",
+      yearFilter,
+      orgFilter,
+      DocToFundRecordMap
+    );
   }
 }

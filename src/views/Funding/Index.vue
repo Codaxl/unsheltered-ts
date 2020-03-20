@@ -68,7 +68,7 @@
                 </v-card-title>
                 <v-card-text v-if="!isLoading">
                   <span class="display-1 font-weight-light">{{
-                    this.stats.amountTotal | currency
+                    totalAmount | currency
                   }}</span>
                 </v-card-text>
               </v-card>
@@ -88,7 +88,7 @@
                 </v-card-title>
                 <v-card-text v-if="!isLoading">
                   <span class="display-1 font-weight-light">{{
-                    this.stats.orgsTotal
+                    totalOrganizations
                   }}</span>
                 </v-card-text>
               </v-card>
@@ -108,7 +108,7 @@
                 </v-card-title>
                 <v-card-text v-if="!isLoading">
                   <span class="display-1 font-weight-light">{{
-                    this.stats.grantsTotal
+                    totalGrants
                   }}</span>
                 </v-card-text>
               </v-card>
@@ -305,37 +305,58 @@ export default class FundingDashboard extends Vue {
   private isLoading = false;
   private years: string[] = ["2019", "2018"];
   private e1 = "2019";
-  private organizations: string[] = ["All", "Public Social Services"];
-  private e2 = "All";
-  private grants: string[] = ["All", "HUD:CoC"];
-  private e3 = "All";
+  private organizations: string[] = [
+    "",
+    "Public Social Services",
+    "Housing Authority"
+  ];
+  private e2 = "";
+  private grants: string[] = ["", "HUD:CoC"];
+  private e3 = "";
   private stats: any = [];
   created() {
     this.loadStats();
   }
-  private sum(input: any) {
-    if (toString.call(input) !== "[object Array]") return false;
-
-    let total = 0;
-    for (let i = 0; i < input.length; i++) {
-      if (isNaN(input[i])) {
-        continue;
-      }
-      total += Number(input[i]);
-    }
-    return total;
-  }
   private loadStats() {
     this.isLoading = true;
     const statsDataService = new StatsDataServices();
-    const year1 = this.e1;
-    statsDataService.GetStats(year1).then(data => {
+    const yearFilter = this.e1;
+    const orgFilter = this.e2;
+    statsDataService.GetStats(yearFilter, orgFilter).then(data => {
       this.stats = data;
       this.isLoading = false;
       console.log(this.stats);
-      console.log(this.sum([this.stats.amount]));
     });
   }
+
+  get totalAmount(): string {
+    return this.stats.reduce((acc, item) => acc + +item.amount, 0);
+  }
+  get totalOrganizations(): string {
+    return this.stats.reduce((acc, item) => acc + +item.organization, 0);
+  }
+  get totalGrants(): string {
+    return this.stats.reduce((acc, item) => acc + +item.amount, 0);
+  }
+
+  get countOrganizations() {
+    const newObj = {}; //created new empty object to hold integer values.
+
+    for (let i = 0; i < this.stats.organization.length; i++) {
+      //iterate over the array
+
+      const char = this.stats.organization[i];
+
+      if (newObj[char] > 0) {
+        //if the item is already in newObj
+        newObj[char]++; //increment its value by 1
+      } else {
+        newObj[char] = 1; //if the integer is not already in newObj put it there with a value of 1
+      }
+    }
+    return Object.keys(newObj).length; //return length of array returned by Object.keys(newObj)
+  }
+
   private model = null;
   private breadcrumbs: Array<object> = [
     {
