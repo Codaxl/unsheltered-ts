@@ -333,31 +333,14 @@ export default class FundingDashboard extends Vue {
     return this.stats.reduce((acc: any, item: any) => acc + +item.amount, 0);
   }
   get totalOrganizations(): string {
-    return this.stats.reduce(
-      (acc: any, item: any) => acc + this.countUniqueValues(item.amount),
-      0
-    );
+    return this.stats.reduce((acc, val) => {
+      acc[val] = acc[val] === undefined ? 1 : (acc[val] += 1);
+      return acc;
+    }, {});
   }
+
   get totalGrants(): string {
     return this.stats.reduce((acc: any, item: any) => acc + +item.amount, 0);
-  }
-
-  private countUniqueValues(arr) {
-    const newObj = {}; //created new empty object to hold integer values.
-
-    for (let i = 0; i < arr.length; i++) {
-      //iterate over the array
-
-      const char = arr[i];
-
-      if (newObj[char] > 0) {
-        //if the item is already in newObj
-        newObj[char]++; //increment its value by 1
-      } else {
-        newObj[char] = 1; //if the integer is not already in newObj put it there with a value of 1
-      }
-    }
-    return Object.keys(newObj).length; //return length of array returned by Object.keys(newObj)
   }
 
   private model = null;
