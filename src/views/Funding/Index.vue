@@ -27,14 +27,61 @@
           <v-col cols="12" sm="4">
             <v-row align="center" class="ma-auto">
               <v-select
-                v-model="e2"
+                v-model="selectedOrgs"
                 :items="organizations"
-                menu-props="auto"
-                label="Organization"
-                hide-details
+                label="Organizations"
+                multiple
                 outlined
                 @change="loadStats"
-              ></v-select>
+              >
+                <template v-slot:prepend-item>
+                  <v-list-item ripple @click="toggle">
+                    <v-list-item-action>
+                      <v-icon
+                        :color="
+                          selectedOrgs.length > 0 ? 'indigo darken-4' : ''
+                        "
+                        >{{ icon }}</v-icon
+                      >
+                    </v-list-item-action>
+                    <v-list-item-content>
+                      <v-list-item-title>Select All</v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item>
+                  <v-divider class="mt-2"></v-divider>
+                </template>
+                <template v-slot:append-item>
+                  <v-divider class="mb-2"></v-divider>
+                  <v-list-item disabled>
+                    <v-list-item-avatar color="grey lighten-3">
+                      <v-icon>mdi-food-apple</v-icon>
+                    </v-list-item-avatar>
+
+                    <v-list-item-content v-if="likesAllOrg">
+                      <v-list-item-title
+                        >Holy smokes, someone call the fruit
+                        police!</v-list-item-title
+                      >
+                    </v-list-item-content>
+
+                    <v-list-item-content v-else-if="likesSomeOrg">
+                      <v-list-item-title>Fruit Count</v-list-item-title>
+                      <v-list-item-subtitle>{{
+                        selectedOrgs.length
+                      }}</v-list-item-subtitle>
+                    </v-list-item-content>
+
+                    <v-list-item-content v-else>
+                      <v-list-item-title>
+                        How could you not like fruit?
+                      </v-list-item-title>
+                      <v-list-item-subtitle>
+                        Go ahead, make a selection above!
+                      </v-list-item-subtitle>
+                    </v-list-item-content>
+                  </v-list-item>
+                </template>
+              </v-select>
             </v-row>
           </v-col>
           <v-col cols="12" sm="4">
@@ -249,7 +296,6 @@ export default class FundingDashboard extends Vue {
     "Housing Authority"
   ];
   private selectedOrgs = [];
-  private e2 = "";
   private grants: string[] = ["HUD:CoC"];
   private e3 = "";
   private stats: any = [];
@@ -260,7 +306,7 @@ export default class FundingDashboard extends Vue {
     this.isLoading = true;
     const statsDataService = new StatsDataServices();
     const yearFilter = this.e1;
-    const orgFilter = this.e2;
+    const orgFilter = [this.selectedOrgs];
     statsDataService.GetAll(yearFilter, orgFilter).then(data => {
       this.stats = data;
       this.isLoading = false;
@@ -268,7 +314,7 @@ export default class FundingDashboard extends Vue {
   }
   private toggle() {
     this.$nextTick(() => {
-      if (this.likesAllFruit) {
+      if (this.likesAllOrg) {
         this.selectedOrgs = [];
       } else {
         this.selectedOrgs = this.organizations.slice();
@@ -294,15 +340,15 @@ export default class FundingDashboard extends Vue {
     return new Set(uniqueArr).size;
   }
 
-  get likesAllFruit(): boolean {
+  get likesAllOrg(): boolean {
     return this.selectedOrgs.length === this.organizations.length;
   }
-  get likesSomeFruit(): boolean {
-    return this.selectedOrgs.length > 0 && !this.likesAllFruit;
+  get likesSomeOrg(): boolean {
+    return this.selectedOrgs.length > 0 && !this.likesAllOrg;
   }
   get icon(): string {
-    if (this.likesAllFruit) return "mdi-close-box";
-    if (this.likesSomeFruit) return "mdi-minus-box";
+    if (this.likesAllOrg) return "mdi-close-box";
+    if (this.likesSomeOrg) return "mdi-minus-box";
     return "mdi-checkbox-blank-outline";
   }
   private model = null;
