@@ -334,12 +334,13 @@ export default class FundingDashboard extends Vue {
   }
   //https://gist.github.com/quangnd/572c6d410cb6512b7f252af0f2eb7cae
 
+  // Solution: https://appdividend.com/2019/04/11/how-to-get-distinct-values-from-array-in-javascript/#Javascript_Unique_Array_Example
   get totalOrganizations(): any {
-    const arr = [];
-    for (const organization in this.stats)
-      arr.push([organization, this.stats[organization]]); //Output: [["bike", 60], ["motorbike", 200], ["car", 300]]
-
-    return arr;
+    const uniqueArr = [
+      ...new Set(this.stats.map((data: any) => data.organization))
+    ];
+    console.log(uniqueArr);
+    return new Set(uniqueArr).size;
   }
 
   get totalGrants(): string {
@@ -349,6 +350,7 @@ export default class FundingDashboard extends Vue {
         : (acc[val.organization] += 1);
       return acc;
     }, {});
+    console.log(this.stats.length);
     return unduplicate;
   }
 
