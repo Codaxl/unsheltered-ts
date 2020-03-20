@@ -248,10 +248,11 @@ export default class FundingDashboard extends Vue {
   private e1 = "2019";
   private organizations: string[] = [
     "Lighthouse Social Service Center",
-    "Housing Authority"
+    "Housing Authority",
+    "Operation SafeHouse"
   ];
   private e2 = "";
-  private grants: string[] = ["HUD:CoC"];
+  private grants: string[] = ["HUD:CoC", "HEAP"];
   private e3 = "";
   private stats: any = [];
   created() {
@@ -286,9 +287,18 @@ export default class FundingDashboard extends Vue {
     const uniqueArr = [...new Set(this.stats.map((data: any) => data.grant))];
     return new Set(uniqueArr).size;
   }
-  get totalFederal(): number {
-    const uniqueArr = [...new Set(this.stats.map((data: any) => data.source))];
-    return new Set(uniqueArr).size;
+
+  get totalFederal(): string {
+    const count = function(ary: any, classifier: any) {
+      return ary.reduce(function(counter: any, item: any) {
+        const p = (classifier || String)(item);
+        counter[p] = Object.prototype.hasOwnProperty.call(counter, p)
+          ? counter[p] + 1
+          : 1;
+        return counter;
+      }, {});
+    };
+    return count([1, 2, 2, 2, 3, 1], Number);
   }
   get totalState(): number {
     const uniqueArr = [...new Set(this.stats.map((data: any) => data.grant))];
