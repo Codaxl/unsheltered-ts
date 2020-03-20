@@ -333,16 +333,21 @@ export default class FundingDashboard extends Vue {
     return this.stats.reduce((acc: any, item: any) => acc + +item.amount, 0);
   }
   get totalOrganizations(): string {
-    return this.stats.reduce((acc: any, val: any) => {
+    const uniqs = this.stats.reduce((acc: any, val: any) => {
       acc[val.organization] === undefined
         ? (acc[val.organization] = 1)
         : acc[val.organization] + 1;
       return acc;
     }, {});
+
+    return new Set(uniqs).size;
   }
 
   get totalGrants(): string {
-    return this.stats.reduce((acc: any, item: any) => acc + +item.amount, 0);
+    return this.stats.reduce((acc: any, val: any) => {
+      acc[val.grant] === undefined ? (acc[val.grant] = 1) : acc[val.grant] + 1;
+      return acc;
+    }, {});
   }
 
   private model = null;
