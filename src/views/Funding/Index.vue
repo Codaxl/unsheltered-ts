@@ -288,12 +288,11 @@ export default class FundingDashboard extends Vue {
     return new Set(uniqueArr).size;
   }
 
-  get totalFederal(): number {
-    let sum = 0;
-    this.stats.forEach(e => {
-      sum += e.amount;
-    });
-    return sum;
+  get totalFederal(): any {
+    const numBoys = this.stats.reduce(function(n: any, grant: any) {
+      return n + (grant.source == "Federal");
+    }, 0);
+    return numBoys;
   }
   get totalState(): number {
     const uniqueArr = [...new Set(this.stats.map((data: any) => data.grant))];
