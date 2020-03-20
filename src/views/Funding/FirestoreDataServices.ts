@@ -1,21 +1,17 @@
 import { db } from "@/firebase";
 
 export class FirestoreDataServices {
-  getRecord(tableName: string, recordID: string, docToRecordMap: any) {
+  getAll(tableName: string, recordID: string, docToRecordMap: any) {
     return new Promise(function(resolve, reject) {
       const records: Array<object> = [];
       db.collection(tableName)
-        .doc(recordID)
+        .where("year", "==", recordID)
         .get()
-        .then(function(doc: any) {
-          if (doc.exists) {
-            resolve(docToRecordMap(doc));
-          } else {
-            reject("Record not found");
-          }
-        })
-        .catch(function(error) {
-          reject(error);
+        .then(querySnapshot => {
+          querySnapshot.forEach(doc => {
+            records.push(docToRecordMap(doc));
+          });
+          resolve(records);
         });
     });
   }
@@ -23,26 +19,26 @@ export class FirestoreDataServices {
 
 export class StatsRecord {
   id = "";
-  amountTotal = "";
-  federalTotal = "";
-  stateTotal = "";
-  countyTotal = "";
-  cityTotal = "";
-  orgsTotal = "";
-  grantsTotal = "";
+  amount = "";
+  category = "";
+  organization = "";
+  projectName = "";
+  source = "";
+  year = "";
+  grant = "";
 }
 
 export function DocToFundRecordMap(doc: any): StatsRecord {
   const rowData = doc.data();
   const record = {
     id: doc.id,
-    amountTotal: rowData.amountTotal,
-    federalTotal: rowData.federalTotal,
-    stateTotal: rowData.stateTotal,
-    countyTotal: rowData.countyTotal,
-    cityTotal: rowData.cityTotal,
-    orgsTotal: rowData.orgsTotal,
-    grantsTotal: rowData.grantsTotal
+    amount: rowData.amount,
+    category: rowData.category,
+    organization: rowData.organization,
+    projectName: rowData.projectName,
+    source: rowData.source,
+    year: rowData.year,
+    grant: rowData.grant
   };
   return record;
 }
@@ -53,6 +49,6 @@ export class StatsDataServices {
     this.dataServices = new FirestoreDataServices();
   }
   GetStats(recordID: string) {
-    return this.dataServices.getRecord("funds", recordID, DocToFundRecordMap);
+    return this.dataServices.getAll("funds", recordID, DocToFundRecordMap);
   }
 }

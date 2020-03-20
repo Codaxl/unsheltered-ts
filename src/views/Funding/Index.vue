@@ -56,7 +56,13 @@
         <v-row>
           <v-col cols="12" sm="4">
             <div>
-              <v-card flat class="mx-auto" style="min-height:125px;">
+              <v-card
+                dark
+                class="mx-auto"
+                style="min-height:125px;"
+                color="deep-purple lighten-1"
+                :loading="isLoading"
+              >
                 <v-card-title>
                   <h2 class="headline">Total</h2>
                 </v-card-title>
@@ -70,7 +76,13 @@
           </v-col>
           <v-col cols="12" sm="4">
             <div>
-              <v-card flat class="mx-auto" style="min-height:125px;">
+              <v-card
+                dark
+                class="mx-auto"
+                style="min-height:125px;"
+                color="teal lighten-1"
+                :loading="isLoading"
+              >
                 <v-card-title>
                   <h2 class="headline">Organizations</h2>
                 </v-card-title>
@@ -84,7 +96,13 @@
           </v-col>
           <v-col cols="12" sm="4">
             <div>
-              <v-card flat class="mx-auto" style="min-height:125px;">
+              <v-card
+                dark
+                class="mx-auto"
+                style="min-height:125px;"
+                color="orange lighten-1"
+                :loading="isLoading"
+              >
                 <v-card-title>
                   <h2 class="headline">Grants</h2>
                 </v-card-title>
@@ -97,7 +115,7 @@
             </div>
           </v-col>
         </v-row>
-        <v-divider class="ma-auto"></v-divider>
+
         <v-row>
           <v-col cols="12" sm="4">
             <div>
@@ -295,6 +313,18 @@ export default class FundingDashboard extends Vue {
   created() {
     this.loadStats();
   }
+  private sum(input: any) {
+    if (toString.call(input) !== "[object Array]") return false;
+
+    let total = 0;
+    for (let i = 0; i < input.length; i++) {
+      if (isNaN(input[i])) {
+        continue;
+      }
+      total += Number(input[i]);
+    }
+    return total;
+  }
   private loadStats() {
     this.isLoading = true;
     const statsDataService = new StatsDataServices();
@@ -302,6 +332,8 @@ export default class FundingDashboard extends Vue {
     statsDataService.GetStats(year1).then(data => {
       this.stats = data;
       this.isLoading = false;
+      console.log(this.stats);
+      console.log(this.sum([this.stats.amount]));
     });
   }
   private model = null;
