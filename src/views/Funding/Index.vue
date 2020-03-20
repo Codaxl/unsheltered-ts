@@ -130,7 +130,7 @@
                     <template v-slot:activator="{ on }">
                       <v-icon class="mx-1" v-on="on">mdi-help-circle</v-icon>
                     </template>
-                    <span>Tooltip</span>
+                    <span>Go to Federal Funding</span>
                   </v-tooltip>
                 </v-card-title>
                 <v-card-text v-if="!isLoading">
@@ -152,7 +152,7 @@
                     <template v-slot:activator="{ on }">
                       <v-icon class="mx-1" v-on="on">mdi-help-circle</v-icon>
                     </template>
-                    <span>Tooltip</span>
+                    <span>Go to State Funding</span>
                   </v-tooltip>
                 </v-card-title>
                 <v-card-text v-if="!isLoading">
@@ -174,7 +174,7 @@
                     <template v-slot:activator="{ on }">
                       <v-icon class="mx-1" v-on="on">mdi-help-circle</v-icon>
                     </template>
-                    <span>Tooltip</span>
+                    <span>Go to County Funding</span>
                   </v-tooltip>
                 </v-card-title>
                 <v-card-text v-if="!isLoading">
@@ -196,7 +196,7 @@
                     <template v-slot:activator="{ on }">
                       <v-icon class="mx-1" v-on="on">mdi-help-circle</v-icon>
                     </template>
-                    <span>Tooltip</span>
+                    <span>Go to City Funding</span>
                   </v-tooltip>
                 </v-card-title>
                 <v-card-text v-if="!isLoading">
@@ -222,67 +222,6 @@
           </v-col>
         </v-row>
       </div>
-      <v-row>
-        <v-col cols="12">
-          <div ref="#sources">
-            <h2 class="font-weight-regular mt-5">
-              Sources
-            </h2>
-          </div>
-          <div class="body-1 mb-5">
-            <p>
-              Lets break it down. Funding sources have been broken down into
-              four categories: Federal, State, County, and City. How much does
-              Riverside County spend on homeless programs? Who receives the
-              funding? Where are those funding allocations by organizations
-              located in Riverside County?
-            </p>
-            <h3 class="font-weight-regular mt-5">Federal</h3>
-            <p>
-              City, county, or joint power must declared an emergency shelter
-              crisis (waiver process for smaller cities and counties that do not
-              declare a shelter emergency). Continuum of Care must demonstrate
-              collaboration with other city, county, or nonprofit partners.
-            </p>
-            <h3 class="font-weight-regular mt-5">State</h3>
-            <p>
-              City, county, or joint power must declared an emergency shelter
-              crisis (waiver process for smaller cities and counties that do not
-              declare a shelter emergency). Continuum of Care must demonstrate
-              collaboration with other city, county, or nonprofit partners.
-            </p>
-            <h3 class="font-weight-regular mt-5">County</h3>
-            <p>
-              City, county, or joint power must declared an emergency shelter
-              crisis (waiver process for smaller cities and counties that do not
-              declare a shelter emergency). Continuum of Care must demonstrate
-              collaboration with other city, county, or nonprofit partners.
-            </p>
-            <h3 class="font-weight-regular mt-5">City</h3>
-            <p>
-              City, county, or joint power must declared an emergency shelter
-              crisis (waiver process for smaller cities and counties that do not
-              declare a shelter emergency). Continuum of Care must demonstrate
-              collaboration with other city, county, or nonprofit partners.
-            </p>
-          </div>
-        </v-col>
-      </v-row>
-      <div>
-        <v-row>
-          <v-col cols="12">
-            <v-lazy
-              :options="{
-                threshold: 0.5
-              }"
-              min-height="500"
-              transition="fade-transition"
-            >
-              <funding-dashboard-map></funding-dashboard-map>
-            </v-lazy>
-          </v-col>
-        </v-row>
-      </div>
     </div>
   </v-container>
 </template>
@@ -301,17 +240,17 @@ export default class FundingDashboard extends Vue {
   get setYear(): string {
     return FundsStore.year;
   }
-  private orgCount = "";
+  private orgCount = [];
   private isLoading = false;
   private years: string[] = ["2019", "2018"];
   private e1 = "2019";
-  private organizations: string[] = [
-    "",
-    "Public Social Services",
+  private organizations: any = [
+    "Lighthouse Social Service Center",
     "Housing Authority"
   ];
+  private selectedOrgs = [];
   private e2 = "";
-  private grants: string[] = ["", "HUD:CoC"];
+  private grants: string[] = ["HUD:CoC"];
   private e3 = "";
   private stats: any = [];
   created() {
@@ -322,10 +261,18 @@ export default class FundingDashboard extends Vue {
     const statsDataService = new StatsDataServices();
     const yearFilter = this.e1;
     const orgFilter = this.e2;
-    statsDataService.GetStats(yearFilter, orgFilter).then(data => {
+    statsDataService.GetAll(yearFilter, orgFilter).then(data => {
       this.stats = data;
       this.isLoading = false;
-      console.log(this.stats);
+    });
+  }
+  private toggle() {
+    this.$nextTick(() => {
+      if (this.likesAllFruit) {
+        this.selectedOrgs = [];
+      } else {
+        this.selectedOrgs = this.organizations.slice();
+      }
     });
   }
 
@@ -335,25 +282,29 @@ export default class FundingDashboard extends Vue {
   //https://gist.github.com/quangnd/572c6d410cb6512b7f252af0f2eb7cae
 
   // Solution: https://appdividend.com/2019/04/11/how-to-get-distinct-values-from-array-in-javascript/#Javascript_Unique_Array_Example
-  get totalOrganizations(): any {
+  get totalOrganizations(): number {
     const uniqueArr = [
       ...new Set(this.stats.map((data: any) => data.organization))
     ];
-    console.log(uniqueArr);
     return new Set(uniqueArr).size;
   }
 
-  get totalGrants(): string {
-    const unduplicate = this.stats.reduce((acc: any, val: any) => {
-      acc[val.organization] === undefined
-        ? (acc[val.organization] = 1)
-        : (acc[val.organization] += 1);
-      return acc;
-    }, {});
-    console.log(this.stats.length);
-    return unduplicate;
+  get totalGrants(): number {
+    const uniqueArr = [...new Set(this.stats.map((data: any) => data.grant))];
+    return new Set(uniqueArr).size;
   }
 
+  get likesAllFruit(): boolean {
+    return this.selectedOrgs.length === this.organizations.length;
+  }
+  get likesSomeFruit(): boolean {
+    return this.selectedOrgs.length > 0 && !this.likesAllFruit;
+  }
+  get icon(): string {
+    if (this.likesAllFruit) return "mdi-close-box";
+    if (this.likesSomeFruit) return "mdi-minus-box";
+    return "mdi-checkbox-blank-outline";
+  }
   private model = null;
   private breadcrumbs: Array<object> = [
     {

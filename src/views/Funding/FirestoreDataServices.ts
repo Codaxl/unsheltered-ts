@@ -11,6 +11,7 @@ export class FirestoreDataServices {
       const records: Array<object> = [];
       db.collection(tableName)
         .where("year", "==", yearFilter)
+        .where("organization", "==", orgFilter)
 
         .get()
         .then(querySnapshot => {
@@ -54,7 +55,7 @@ export class StatsDataServices {
   constructor() {
     this.dataServices = new FirestoreDataServices();
   }
-  GetStats(yearFilter: string, orgFilter: string) {
+  GetAll(yearFilter: string, orgFilter: string) {
     return this.dataServices.getAll(
       "funds",
       yearFilter,
