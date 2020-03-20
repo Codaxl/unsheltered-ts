@@ -301,7 +301,7 @@ export default class FundingDashboard extends Vue {
   get setYear(): string {
     return FundsStore.year;
   }
-
+  private orgCount = "";
   private isLoading = false;
   private years: string[] = ["2019", "2018"];
   private e1 = "2019";
@@ -330,23 +330,26 @@ export default class FundingDashboard extends Vue {
   }
 
   get totalAmount(): string {
-    return this.stats.reduce((acc: any, val: any) => acc + +val.amount, 0);
+    return this.stats.reduce((acc: any, item: any) => acc + +item.amount, 0);
   }
-  get totalOrganizations(): string {
-    return this.stats.reduce(
-      (acc: any, val: any) =>
-        acc[val.organization] === undefined ? (acc = 1) : (acc += 1),
-      0
-    );
+  //https://gist.github.com/quangnd/572c6d410cb6512b7f252af0f2eb7cae
+
+  get totalOrganizations(): any {
+    const arr = [];
+    for (const organization in this.stats)
+      arr.push([organization, this.stats[organization]]); //Output: [["bike", 60], ["motorbike", 200], ["car", 300]]
+
+    return arr;
   }
 
   get totalGrants(): string {
-    return this.stats.reduce((acc: any, val: any) => {
-      acc[val.grants] === undefined
-        ? (acc[val.grants] = 1)
-        : (acc[val.grants] += 1);
+    const unduplicate = this.stats.reduce((acc: any, val: any) => {
+      acc[val.organization] === undefined
+        ? (acc[val.organization] = 1)
+        : (acc[val.organization] += 1);
       return acc;
     }, {});
+    return unduplicate;
   }
 
   private model = null;
