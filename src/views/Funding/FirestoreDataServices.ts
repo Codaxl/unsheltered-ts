@@ -14,14 +14,11 @@ export class FirestoreDataServices {
     let query: Query = db.collection(tableName).where("year", "==", yearFilter);
 
     if (!(!orgFilter || orgFilter.trim().length === 0)) {
-      console.log("Organization selected!");
       query = query.where("organization", "==", orgFilter);
-    } else if (!(!grantFilter || grantFilter.trim().length === 0)) {
-      console.log("Grant selected!");
-      query = query.where("organization", "==", grantFilter);
-    } else {
-      console.log("Just year");
-      query = query.where("year", "==", yearFilter);
+    }
+
+    if (!(!grantFilter || grantFilter.trim().length === 0)) {
+      query = query.where("grant", "==", grantFilter);
     }
 
     const result = new Promise(function(resolve, reject) {
