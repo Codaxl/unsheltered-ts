@@ -298,7 +298,8 @@ export default class FundingDashboard extends Vue {
         return counter;
       }, {});
     };
-    return count([1, 2, 2, 2, 3, 1], Number);
+    console.log(count([1, 2, 2, 2, 3, 1], Number));
+    return count([1, 2, 2, 2, 3, 1], String);
   }
   get totalState(): number {
     const uniqueArr = [...new Set(this.stats.map((data: any) => data.grant))];
