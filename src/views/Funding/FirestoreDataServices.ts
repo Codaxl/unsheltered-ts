@@ -11,7 +11,7 @@ export class FirestoreDataServices {
       const records: Array<object> = [];
       db.collection(tableName)
         .where("year", "==", yearFilter)
-        .where("organization", "==", orgFilter)
+
         .get()
         .then(querySnapshot => {
           querySnapshot.forEach(doc => {
