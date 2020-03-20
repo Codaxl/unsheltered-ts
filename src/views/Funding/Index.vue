@@ -159,7 +159,7 @@
                 </v-card-title>
                 <v-card-text v-if="!isLoading">
                   <span class="display-1 font-weight-light">{{
-                    totalAmount | currency
+                    totalState | currency
                   }}</span>
                 </v-card-text>
               </v-card>
@@ -181,7 +181,7 @@
                 </v-card-title>
                 <v-card-text v-if="!isLoading">
                   <span class="display-1 font-weight-light">{{
-                    totalAmount | currency
+                    totalCounty | currency
                   }}</span>
                 </v-card-text>
               </v-card>
@@ -203,7 +203,7 @@
                 </v-card-title>
                 <v-card-text v-if="!isLoading">
                   <span class="display-1 font-weight-light">{{
-                    totalAmount | currency
+                    totalCity | currency
                   }}</span>
                 </v-card-text>
               </v-card>
@@ -255,6 +255,7 @@ export default class FundingDashboard extends Vue {
   private grants: string[] = ["HUD:CoC", "HEAP"];
   private e3 = "";
   private stats: any = [];
+  private query = "Federal";
   created() {
     this.loadStats();
   }
@@ -288,25 +289,43 @@ export default class FundingDashboard extends Vue {
     return new Set(uniqueArr).size;
   }
 
-  get filteredClients(): any {
-    const query = "Federal";
-    return this.stats.filter(c => c.name.indexOf(query) !== -1);
+  //TODO Make this efficient
+  // Federal const query indexOf(this.query) solution?
+
+  get filteredFederal(): any {
+    return this.stats.filter((c: any) => c.source.indexOf("Federal") !== -1);
   }
 
-  get totalCoins(): any {
-    return this.filteredClients.reduce((a: any, b: any) => a + b.amount, 0);
+  get totalFederal(): string {
+    return this.filteredFederal.reduce((a: any, b: any) => a + +b.amount, 0);
   }
-  get totalState(): number {
-    const uniqueArr = [...new Set(this.stats.map((data: any) => data.grant))];
-    return new Set(uniqueArr).size;
+  // State
+
+  get filteredState(): any {
+    return this.stats.filter((c: any) => c.source.indexOf("State") !== -1);
   }
-  get totalCounty(): number {
-    const uniqueArr = [...new Set(this.stats.map((data: any) => data.grant))];
-    return new Set(uniqueArr).size;
+
+  get totalState(): string {
+    return this.filteredState.reduce((a: any, b: any) => a + +b.amount, 0);
   }
-  get totalCity(): number {
-    const uniqueArr = [...new Set(this.stats.map((data: any) => data.grant))];
-    return new Set(uniqueArr).size;
+  // County
+
+  get filteredCounty(): any {
+    return this.stats.filter((c: any) => c.source.indexOf("County") !== -1);
+  }
+
+  get totalCounty(): string {
+    return this.filteredCounty.reduce((a: any, b: any) => a + +b.amount, 0);
+  }
+  // City
+
+  get filteredCity(): any {
+    return this.stats.filter((c: any) => c.source.indexOf("City") !== -1);
+  }
+
+  get totalCity(): string {
+    console.log(this.filteredCity);
+    return this.filteredCity.reduce((a: any, b: any) => a + +b.amount, 0);
   }
   private model = null;
   private breadcrumbs: Array<object> = [
