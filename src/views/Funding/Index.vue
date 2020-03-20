@@ -27,61 +27,15 @@
           <v-col cols="12" sm="4">
             <v-row align="center" class="ma-auto">
               <v-select
-                v-model="selectedOrgs"
+                v-model="e2"
                 :items="organizations"
-                label="Organizations"
-                multiple
+                menu-props="auto"
+                label="Organization"
+                hide-details
                 outlined
+                clearable
                 @change="loadStats"
-              >
-                <template v-slot:prepend-item>
-                  <v-list-item ripple @click="toggle">
-                    <v-list-item-action>
-                      <v-icon
-                        :color="
-                          selectedOrgs.length > 0 ? 'indigo darken-4' : ''
-                        "
-                        >{{ icon }}</v-icon
-                      >
-                    </v-list-item-action>
-                    <v-list-item-content>
-                      <v-list-item-title>Select All</v-list-item-title>
-                    </v-list-item-content>
-                  </v-list-item>
-                  <v-divider class="mt-2"></v-divider>
-                </template>
-                <template v-slot:append-item>
-                  <v-divider class="mb-2"></v-divider>
-                  <v-list-item disabled>
-                    <v-list-item-avatar color="grey lighten-3">
-                      <v-icon>mdi-food-apple</v-icon>
-                    </v-list-item-avatar>
-
-                    <v-list-item-content v-if="likesAllOrg">
-                      <v-list-item-title
-                        >Holy smokes, someone call the fruit
-                        police!</v-list-item-title
-                      >
-                    </v-list-item-content>
-
-                    <v-list-item-content v-else-if="likesSomeOrg">
-                      <v-list-item-title>Fruit Count</v-list-item-title>
-                      <v-list-item-subtitle>{{
-                        selectedOrgs.length
-                      }}</v-list-item-subtitle>
-                    </v-list-item-content>
-
-                    <v-list-item-content v-else>
-                      <v-list-item-title>
-                        How could you not like fruit?
-                      </v-list-item-title>
-                      <v-list-item-subtitle>
-                        Go ahead, make a selection above!
-                      </v-list-item-subtitle>
-                    </v-list-item-content>
-                  </v-list-item>
-                </template>
-              </v-select>
+              ></v-select>
             </v-row>
           </v-col>
           <v-col cols="12" sm="4">
@@ -93,6 +47,7 @@
                 label="Grant"
                 hide-details
                 outlined
+                clearable
                 @change="loadStats"
               ></v-select>
             </v-row>
@@ -182,7 +137,7 @@
                 </v-card-title>
                 <v-card-text v-if="!isLoading">
                   <span class="display-1 font-weight-light">{{
-                    this.stats.federalTotal | currency
+                    totalAmount | currency
                   }}</span>
                 </v-card-text>
               </v-card>
@@ -204,7 +159,7 @@
                 </v-card-title>
                 <v-card-text v-if="!isLoading">
                   <span class="display-1 font-weight-light">{{
-                    this.stats.stateTotal | currency
+                    totalAmount | currency
                   }}</span>
                 </v-card-text>
               </v-card>
@@ -226,7 +181,7 @@
                 </v-card-title>
                 <v-card-text v-if="!isLoading">
                   <span class="display-1 font-weight-light">{{
-                    this.stats.countyTotal | currency
+                    totalAmount | currency
                   }}</span>
                 </v-card-text>
               </v-card>
@@ -248,7 +203,7 @@
                 </v-card-title>
                 <v-card-text v-if="!isLoading">
                   <span class="display-1 font-weight-light">{{
-                    this.stats.cityTotal | currency
+                    totalAmount | currency
                   }}</span>
                 </v-card-text>
               </v-card>
@@ -291,11 +246,11 @@ export default class FundingDashboard extends Vue {
   private isLoading = false;
   private years: string[] = ["2019", "2018"];
   private e1 = "2019";
-  private organizations: any = [
+  private organizations: string[] = [
     "Lighthouse Social Service Center",
     "Housing Authority"
   ];
-  private selectedOrgs = [];
+  private e2 = "";
   private grants: string[] = ["HUD:CoC"];
   private e3 = "";
   private stats: any = [];
@@ -306,19 +261,11 @@ export default class FundingDashboard extends Vue {
     this.isLoading = true;
     const statsDataService = new StatsDataServices();
     const yearFilter = this.e1;
-    const orgFilter = [this.selectedOrgs];
-    statsDataService.GetAll(yearFilter, orgFilter).then(data => {
+    const orgFilter = this.e2;
+    const grantFilter = this.e3;
+    statsDataService.GetAll(yearFilter, orgFilter, grantFilter).then(data => {
       this.stats = data;
       this.isLoading = false;
-    });
-  }
-  private toggle() {
-    this.$nextTick(() => {
-      if (this.likesAllOrg) {
-        this.selectedOrgs = [];
-      } else {
-        this.selectedOrgs = this.organizations.slice();
-      }
     });
   }
 
@@ -339,17 +286,21 @@ export default class FundingDashboard extends Vue {
     const uniqueArr = [...new Set(this.stats.map((data: any) => data.grant))];
     return new Set(uniqueArr).size;
   }
-
-  get likesAllOrg(): boolean {
-    return this.selectedOrgs.length === this.organizations.length;
+  get totalFederal(): number {
+    const uniqueArr = [...new Set(this.stats.map((data: any) => data.source))];
+    return new Set(uniqueArr).size;
   }
-  get likesSomeOrg(): boolean {
-    return this.selectedOrgs.length > 0 && !this.likesAllOrg;
+  get totalState(): number {
+    const uniqueArr = [...new Set(this.stats.map((data: any) => data.grant))];
+    return new Set(uniqueArr).size;
   }
-  get icon(): string {
-    if (this.likesAllOrg) return "mdi-close-box";
-    if (this.likesSomeOrg) return "mdi-minus-box";
-    return "mdi-checkbox-blank-outline";
+  get totalCounty(): number {
+    const uniqueArr = [...new Set(this.stats.map((data: any) => data.grant))];
+    return new Set(uniqueArr).size;
+  }
+  get totalCity(): number {
+    const uniqueArr = [...new Set(this.stats.map((data: any) => data.grant))];
+    return new Set(uniqueArr).size;
   }
   private model = null;
   private breadcrumbs: Array<object> = [

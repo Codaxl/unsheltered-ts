@@ -1,27 +1,38 @@
 import { db } from "@/firebase";
 //https://github.com/michaelprosario/fireTodo/tree/master/src/views
+import { Query } from "@firebase/firestore-types";
+
 export class FirestoreDataServices {
   getAll(
     tableName: string,
     yearFilter: string,
-    orgFilter: any,
+    orgFilter: string,
+    grantFilter: string,
     docToRecordMap: any
   ) {
-    return new Promise(function(resolve, reject) {
-      const records: Array<object> = [];
+    const records: Array<object> = [];
+    let query: Query = db.collection(tableName).where("year", "==", yearFilter);
 
-      db.collection(tableName)
-        .where("year", "==", yearFilter)
-        .where("organization", "array-contains-any", orgFilter)
+    if (!(!orgFilter || orgFilter.trim().length === 0)) {
+      console.log("Organization selected!");
+      query = query.where("organization", "==", orgFilter);
+    } else if (!(!grantFilter || grantFilter.trim().length === 0)) {
+      console.log("Grant selected!");
+      query = query.where("organization", "==", grantFilter);
+    } else {
+      console.log("Just year");
+      query = query.where("year", "==", yearFilter);
+    }
 
-        .get()
-        .then(querySnapshot => {
-          querySnapshot.forEach(doc => {
-            records.push(docToRecordMap(doc));
-          });
-          resolve(records);
+    const result = new Promise(function(resolve, reject) {
+      query.get().then(querySnapshot => {
+        querySnapshot.forEach(doc => {
+          records.push(docToRecordMap(doc));
         });
+        resolve(records);
+      });
     });
+    return result;
   }
 }
 
@@ -56,11 +67,12 @@ export class StatsDataServices {
   constructor() {
     this.dataServices = new FirestoreDataServices();
   }
-  GetAll(yearFilter: string, orgFilter: any) {
+  GetAll(yearFilter: string, orgFilter: string, grantFilter: string) {
     return this.dataServices.getAll(
       "funds",
       yearFilter,
       orgFilter,
+      grantFilter,
       DocToFundRecordMap
     );
   }
