@@ -137,7 +137,7 @@
                 </v-card-title>
                 <v-card-text v-if="!isLoading">
                   <span class="display-1 font-weight-light">{{
-                    totalAmount | currency
+                    totalFederal | currency
                   }}</span>
                 </v-card-text>
               </v-card>
@@ -288,18 +288,16 @@ export default class FundingDashboard extends Vue {
     return new Set(uniqueArr).size;
   }
 
-  get totalFederal(): string {
-    const count = function(ary: any, classifier: any) {
-      return ary.reduce(function(counter: any, item: any) {
-        const p = (classifier || String)(item);
-        counter[p] = Object.prototype.hasOwnProperty.call(counter, p)
-          ? counter[p] + 1
-          : 1;
-        return counter;
-      }, {});
-    };
-    console.log(count([1, 2, 2, 2, 3, 1], Number));
-    return count([1, 2, 2, 2, 3, 1], String);
+  get totalFederal(): any {
+    const total = [];
+
+    Object.entries(this.stats).forEach(([key, val]) => {
+      total.push(val.amount); // the value of the current key.
+    });
+
+    return total.reduce(function(total: any, num: any) {
+      return total + num;
+    }, 0);
   }
   get totalState(): number {
     const uniqueArr = [...new Set(this.stats.map((data: any) => data.grant))];
