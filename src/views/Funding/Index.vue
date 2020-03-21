@@ -11,7 +11,7 @@
       </div>
       <div>
         <v-row>
-          <v-col cols="12" sm="4">
+          <v-col cols="12" sm="3">
             <v-row align="center" class="ma-auto">
               <v-select
                 v-model="e1"
@@ -24,7 +24,7 @@
               ></v-select>
             </v-row>
           </v-col>
-          <v-col cols="12" sm="4">
+          <v-col cols="12" sm="3">
             <v-row align="center" class="ma-auto">
               <v-select
                 v-model="e2"
@@ -38,13 +38,27 @@
               ></v-select>
             </v-row>
           </v-col>
-          <v-col cols="12" sm="4">
+          <v-col cols="12" sm="3">
             <v-row align="center" class="ma-auto">
               <v-select
                 v-model="e3"
                 :items="grants"
                 menu-props="auto"
                 label="Grant"
+                hide-details
+                outlined
+                clearable
+                @change="loadStats"
+              ></v-select>
+            </v-row>
+          </v-col>
+          <v-col cols="12" sm="3">
+            <v-row align="center" class="ma-auto">
+              <v-select
+                v-model="e4"
+                :items="sources"
+                menu-props="auto"
+                label="Source"
                 hide-details
                 outlined
                 clearable
@@ -65,10 +79,10 @@
                 color="deep-purple lighten-1"
                 :loading="isLoading"
               >
-                <v-card-title>
+                <v-card-title class="justify-center">
                   <h2 class="headline">Total</h2>
                 </v-card-title>
-                <v-card-text v-if="!isLoading">
+                <v-card-text class="justify-center" v-if="!isLoading">
                   <span class="display-1 font-weight-light">{{
                     totalAmount | currency
                   }}</span>
@@ -85,11 +99,11 @@
                 color="teal lighten-1"
                 :loading="isLoading"
               >
-                <v-card-title>
+                <v-card-title class="justify-center">
                   <h2 class="headline">Organizations</h2>
                 </v-card-title>
-                <v-card-text v-if="!isLoading">
-                  <span class="display-1 font-weight-light">{{
+                <v-card-text class="text-center" v-if="!isLoading">
+                  <span class="display-1 font-weight-light ">{{
                     totalOrganizations
                   }}</span>
                 </v-card-text>
@@ -105,10 +119,10 @@
                 color="orange lighten-1"
                 :loading="isLoading"
               >
-                <v-card-title>
+                <v-card-title class="justify-center">
                   <h2 class="headline">Grants</h2>
                 </v-card-title>
-                <v-card-text v-if="!isLoading">
+                <v-card-text class="text-center" v-if="!isLoading">
                   <span class="display-1 font-weight-light">{{
                     totalGrants
                   }}</span>
@@ -135,7 +149,7 @@
                     <span>Go to Federal Funding</span>
                   </v-tooltip>
                 </v-card-title>
-                <v-card-text v-if="!isLoading">
+                <v-card-text class="text-center" v-if="!isLoading">
                   <span class="display-1 font-weight-light">{{
                     totalFederal | currency
                   }}</span>
@@ -254,6 +268,9 @@ export default class FundingDashboard extends Vue {
   private e2 = "";
   private grants: string[] = ["HUD:CoC", "HEAP"];
   private e3 = "";
+  private sources: string[] = ["Federal", "State", "County", "City"];
+  private e4 = "";
+
   private stats: any = [];
   private query = "Federal";
   created() {
@@ -324,7 +341,6 @@ export default class FundingDashboard extends Vue {
   }
 
   get totalCity(): string {
-    console.log(this.filteredCity);
     return this.filteredCity.reduce((a: any, b: any) => a + +b.amount, 0);
   }
   private model = null;
