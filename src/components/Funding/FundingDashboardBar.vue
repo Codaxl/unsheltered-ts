@@ -68,7 +68,7 @@ export default class FundingDashboardBar extends Vue {
     // Create axes
     // Create axes
     const categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-    categoryAxis.dataFields.category = "country";
+    categoryAxis.dataFields.category = "organization";
     categoryAxis.renderer.grid.template.location = 0;
     categoryAxis.renderer.minGridDistance = 30;
     categoryAxis.renderer.labels.template.horizontalCenter = "right";
@@ -83,8 +83,8 @@ export default class FundingDashboardBar extends Vue {
     // Create series
     const series = chart.series.push(new am4charts.ColumnSeries());
     series.sequencedInterpolation = true;
-    series.dataFields.valueY = "visits";
-    series.dataFields.categoryX = "country";
+    series.dataFields.valueY = "amount";
+    series.dataFields.categoryX = "organization";
     series.tooltipText = "[{categoryX}: bold]{valueY}[/]";
     series.columns.template.strokeWidth = 0;
 
@@ -125,6 +125,6 @@ export default class FundingDashboardBar extends Vue {
 <style scoped>
 .hello {
   width: 100%;
-  height: 500px;
+  height: 650px;
 }
 </style>
