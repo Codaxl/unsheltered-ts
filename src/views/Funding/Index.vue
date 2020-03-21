@@ -269,8 +269,9 @@ import FundingDashboardPie from "@/components/Funding/FundingDashboardPie.vue";
 import FundingDashboardBar from "@/components/Funding/FundingDashboardBar.vue";
 
 // Vuex
-import { namespace } from "vuex-class";
-const fundsModule = namespace("Funds");
+import { getModule } from "vuex-module-decorators";
+import FundStore from "@/store/funds/funds-store";
+const fundStoreState = getModule(FundStore);
 
 // DATA
 import { StatsDataServices } from "./FirestoreDataServices";
@@ -280,7 +281,7 @@ import { StatsDataServices } from "./FirestoreDataServices";
 })
 export default class FundingDashboard extends Vue {
   private orgCount = [];
-  private isLoading = false;
+  public isLoading = false;
   private years: string[] = ["2019", "2018"];
   private e1 = "2019";
   private organizations: string[] = [

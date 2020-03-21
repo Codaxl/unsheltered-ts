@@ -264,7 +264,7 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-import UserStore from "./store/user/user-store";
+import UserStore from "@/store/user/user-store";
 @Component({
   components: {}
 })
