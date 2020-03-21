@@ -1,5 +1,5 @@
 import { Module, VuexModule, Mutation, Action } from "vuex-module-decorators";
-import Fund from "./funds-interface";
+import { Fund } from "./funds-interface";
 import store from "@/store";
 
 import { db } from "@/firebase";
@@ -14,10 +14,10 @@ import { Query } from "@firebase/firestore-types";
 })
 export default class FundStore extends VuexModule {
   // States
-  private yearFilter = new Date().getFullYear();
-  private orgFilter = false;
-  private grantFilter = false;
-  private sourceFilter = false;
+  private yearFilter = new Date().getFullYear().toString();
+  private orgFilter = "";
+  private grantFilter = "";
+  private sourceFilter = "";
   private _fund: Fund = FundStore.makeEmptyFund();
 
   // Getters
@@ -40,15 +40,15 @@ export default class FundStore extends VuexModule {
       .collection("funds")
       .where("year", "==", this.yearFilter);
 
-    if (!(!orgFilter || orgFilter.trim().length === 0)) {
+    if (!(!this.orgFilter || this.orgFilter.trim().length === 0)) {
       query = query.where("organization", "==", this.orgFilter);
     }
 
-    if (!(!grantFilter || grantFilter.trim().length === 0)) {
+    if (!(!this.grantFilter || this.grantFilter.trim().length === 0)) {
       query = query.where("grant", "==", this.grantFilter);
     }
 
-    if (!(!sourceFilter || sourceFilter.trim().length === 0)) {
+    if (!(!this.sourceFilter || this.sourceFilter.trim().length === 0)) {
       query = query.where("source", "==", this.sourceFilter);
     }
 
