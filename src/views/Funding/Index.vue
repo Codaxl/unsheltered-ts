@@ -268,16 +268,13 @@ import { Component } from "vue-property-decorator";
 import FundingDashboardPie from "@/components/Funding/FundingDashboardPie.vue";
 import FundingDashboardBar from "@/components/Funding/FundingDashboardBar.vue";
 import { StatsDataServices } from "./FirestoreDataServices";
-import FundsStore from "@/store/funds/funds-store";
+import { namespace } from "vuex-class";
+const fundsModule = namespace("Funds");
 
 @Component({
   components: { FundingDashboardPie, FundingDashboardBar }
 })
 export default class FundingDashboard extends Vue {
-  get setYear(): string {
-    return FundsStore.yearFilter;
-  }
-
   private orgCount = [];
   private isLoading = false;
   private years: string[] = ["2019", "2018"];

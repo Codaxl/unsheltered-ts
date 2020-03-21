@@ -1,26 +1,19 @@
-import {
-  Module,
-  VuexModule,
-  Mutation,
-  Action,
-  getModule
-} from "vuex-module-decorators";
-import store from "@/store";
-import { Funds } from "./funds-interface";
+import { VuexModule, Module, Mutation } from "vuex-module-decorators";
+
 @Module({
-  name: "FundsStore",
-  dynamic: true,
-  store: store,
   namespaced: true
 })
-class FundsStore extends VuexModule {
-  public yearFilter = "2019";
-  public orgFilter = "";
-  public grantFilter = "";
-  public sourceFilter = "";
+class Funds extends VuexModule {
+  public text = "inside module store";
 
-  get setYear(): string {
-    return this.yearFilter;
+  @Mutation
+  setText(newText: string) {
+    this.text = newText;
+  }
+
+  get textUpper(): string {
+    return this.text.toUpperCase();
   }
 }
-export default getModule(FundsStore);
+
+export default Foo;
