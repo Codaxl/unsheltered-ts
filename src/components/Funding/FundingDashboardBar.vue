@@ -10,8 +10,9 @@
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 // Vuex
-// import { namespace } from 'vuex-class'
-// const fundsModule = namespace('Funds')
+import { getModule } from "vuex-module-decorators";
+import FundStore from "@/store/funds/funds-store";
+const fundStoreState = getModule(FundStore);
 
 // DATA
 import { StatsDataServices } from "@/views/Funding/FirestoreDataServices";
@@ -30,7 +31,6 @@ export default class FundingDashboardBar extends Vue {
   };
   private container: any;
 
-  private e1 = "2019";
   private chartData: any = [];
 
   created() {
@@ -38,10 +38,16 @@ export default class FundingDashboardBar extends Vue {
   }
   private loadData() {
     const statsDataService = new StatsDataServices();
-    const year = this.e1;
-    statsDataService.GetAll(year).then(data => {
-      this.chartData = data;
-    });
+    statsDataService
+      .GetAll(
+        fundStoreState.yearFilter,
+        fundStoreState.orgFilter,
+        fundStoreState.grantFilter,
+        fundStoreState.sourceFilter
+      )
+      .then(data => {
+        this.chartData = data;
+      });
   }
 
   public init() {
@@ -60,35 +66,46 @@ export default class FundingDashboardBar extends Vue {
     // Add and configure Series
 
     // Create axes
-
+    // Create axes
     const categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-    categoryAxis.dataFields.category = "organization";
+    categoryAxis.dataFields.category = "country";
     categoryAxis.renderer.grid.template.location = 0;
     categoryAxis.renderer.minGridDistance = 30;
-
-    categoryAxis.renderer.labels.template.adapter.add("dy", function(
-      dy: any,
-      target: any
-    ) {
-      if (target.dataItem && target.dataItem.index) {
-        return dy + 25;
-      }
-      return dy;
-    });
+    categoryAxis.renderer.labels.template.horizontalCenter = "right";
+    categoryAxis.renderer.labels.template.verticalCenter = "middle";
+    categoryAxis.renderer.labels.template.rotation = 270;
+    categoryAxis.tooltip.disabled = true;
+    categoryAxis.renderer.minHeight = 110;
 
     const valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
+    valueAxis.renderer.minWidth = 50;
 
     // Create series
     const series = chart.series.push(new am4charts.ColumnSeries());
-    series.dataFields.valueY = "amount";
-    series.dataFields.categoryX = "organization";
-    series.name = "Visits";
-    series.columns.template.tooltipText = "{categoryX}: [bold]{valueY}[/]";
-    series.columns.template.fillOpacity = 0.8;
+    series.sequencedInterpolation = true;
+    series.dataFields.valueY = "visits";
+    series.dataFields.categoryX = "country";
+    series.tooltipText = "[{categoryX}: bold]{valueY}[/]";
+    series.columns.template.strokeWidth = 0;
 
-    const columnTemplate = series.columns.template;
-    columnTemplate.strokeWidth = 2;
-    columnTemplate.strokeOpacity = 1;
+    series.tooltip.pointerOrientation = "vertical";
+
+    series.columns.template.column.cornerRadiusTopLeft = 10;
+    series.columns.template.column.cornerRadiusTopRight = 10;
+    series.columns.template.column.fillOpacity = 0.8;
+
+    // on hover, make corner radiuses bigger
+    const hoverState = series.columns.template.column.states.create("hover");
+    hoverState.properties.cornerRadiusTopLeft = 0;
+    hoverState.properties.cornerRadiusTopRight = 0;
+    hoverState.properties.fillOpacity = 1;
+
+    series.columns.template.adapter.add("fill", function(fill, target) {
+      return chart.colors.getIndex(target.dataItem.index);
+    });
+
+    // Cursor
+    chart.cursor = new am4charts.XYCursor();
 
     this.container = container;
   }
