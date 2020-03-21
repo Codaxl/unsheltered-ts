@@ -9,8 +9,14 @@
 <script lang="ts">
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
+// Vuex
+// import { namespace } from 'vuex-class'
+// const fundsModule = namespace('Funds')
+
+// DATA
 import { StatsDataServices } from "@/views/Funding/FirestoreDataServices";
-import FundsStore from "@/store/funds/funds-store";
+
+// AMCHARTS
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themesAnimated from "@amcharts/amcharts4/themes/animated";

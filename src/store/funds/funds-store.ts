@@ -16,4 +16,4 @@ class Funds extends VuexModule {
   }
 }
 
-export default Foo;
+export default Funds;

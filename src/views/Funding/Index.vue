@@ -267,9 +267,13 @@ import Vue from "vue";
 import { Component } from "vue-property-decorator";
 import FundingDashboardPie from "@/components/Funding/FundingDashboardPie.vue";
 import FundingDashboardBar from "@/components/Funding/FundingDashboardBar.vue";
-import { StatsDataServices } from "./FirestoreDataServices";
+
+// Vuex
 import { namespace } from "vuex-class";
 const fundsModule = namespace("Funds");
+
+// DATA
+import { StatsDataServices } from "./FirestoreDataServices";
 
 @Component({
   components: { FundingDashboardPie, FundingDashboardBar }
