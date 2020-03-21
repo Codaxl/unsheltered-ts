@@ -1,4 +1,4 @@
-import { Module, VuexModule, Mutation, Action } from "vuex-module-decorators";
+import { Module, VuexModule, Mutation } from "vuex-module-decorators";
 import { Fund } from "./funds-interface";
 import store from "@/store";
 
@@ -14,81 +14,40 @@ import { Query } from "@firebase/firestore-types";
 })
 export default class FundStore extends VuexModule {
   // States
-  private yearFilter = new Date().getFullYear().toString();
-  private orgFilter = "";
-  private grantFilter = "";
-  private sourceFilter = "";
-  private _fund: Fund = FundStore.makeEmptyFund();
+  public yearFilter = new Date().getFullYear().toString();
+  public orgFilter = "";
+  public grantFilter = "";
+  public sourceFilter = "";
 
   // Getters
 
-  get year(): string {
+  get isYearFilter(): string {
     return this.yearFilter;
   }
-
+  get isOrgFilter(): string {
+    return this.orgFilter;
+  }
+  get isGrantFilterr(): string {
+    return this.grantFilter;
+  }
+  get isSourceFilter(): string {
+    return this.sourceFilter;
+  }
   // Mutations
   @Mutation
-  private setYear(year: string) {
+  public setYearFilter(year: string) {
     this.yearFilter = year;
   }
-
-  // Actions
-  @Action
-  public async getAll() {
-    const records: Array<object> = [];
-    let query: Query = db
-      .collection("funds")
-      .where("year", "==", this.yearFilter);
-
-    if (!(!this.orgFilter || this.orgFilter.trim().length === 0)) {
-      query = query.where("organization", "==", this.orgFilter);
-    }
-
-    if (!(!this.grantFilter || this.grantFilter.trim().length === 0)) {
-      query = query.where("grant", "==", this.grantFilter);
-    }
-
-    if (!(!this.sourceFilter || this.sourceFilter.trim().length === 0)) {
-      query = query.where("source", "==", this.sourceFilter);
-    }
-
-    const result = new Promise(function(resolve, reject) {
-      query.get().then(querySnapshot => {
-        querySnapshot.forEach(doc => {
-          records.push(FundStore.docToFundRecordMap(doc));
-        });
-        resolve(records);
-      });
-    });
-    return result;
+  @Mutation
+  public setOrgFilter(org: string) {
+    this.orgFilter = org;
   }
-
-  // ---- Helper methods ------------------
-  private static makeEmptyFund(): Fund {
-    return {
-      id: "",
-      amount: "",
-      category: "",
-      organization: "",
-      projectName: "",
-      source: "",
-      year: "",
-      grant: ""
-    };
+  @Mutation
+  public setGrantFilter(grant: string) {
+    this.grantFilter = grant;
   }
-
-  private static docToFundRecordMap(doc: any): Fund {
-    const rowData = doc.data();
-    const record = {
-      id: doc.id,
-      amount: rowData.amount,
-      category: rowData.category,
-      organization: rowData.organization,
-      projectName: rowData.projectName,
-      source: rowData.source,
-      year: rowData.year,
-      grant: rowData.grant
-    };
-    return record;
+  @Mutation
+  public setSourceFilter(source: string) {
+    this.sourceFilter = source;
   }
 }

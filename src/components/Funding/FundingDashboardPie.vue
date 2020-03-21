@@ -9,9 +9,11 @@
 <script lang="ts">
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
+
 // Vuex
-// import { namespace } from 'vuex-class'
-// const fundsModule = namespace('Funds')
+import { getModule } from "vuex-module-decorators";
+import FundStore from "@/store/funds/funds-store";
+const fundStoreState = getModule(FundStore);
 
 // DATA
 import { StatsDataServices } from "@/views/Funding/FirestoreDataServices";
@@ -30,7 +32,6 @@ export default class FundingDashboardPie extends Vue {
   };
   private container: any;
 
-  private e1 = "2019";
   private chartData: any = [];
 
   created() {
@@ -38,10 +39,16 @@ export default class FundingDashboardPie extends Vue {
   }
   private loadData() {
     const statsDataService = new StatsDataServices();
-    const year = this.e1;
-    statsDataService.GetAll(year).then((data: any) => {
-      this.chartData = data;
-    });
+    statsDataService
+      .GetAll(
+        fundStoreState.yearFilter,
+        fundStoreState.orgFilter,
+        fundStoreState.grantFilter,
+        fundStoreState.sourceFilter
+      )
+      .then((data: any) => {
+        this.chartData = data;
+      });
   }
 
   public init() {

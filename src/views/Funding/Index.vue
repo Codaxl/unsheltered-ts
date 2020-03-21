@@ -282,8 +282,8 @@ import { StatsDataServices } from "./FirestoreDataServices";
 export default class FundingDashboard extends Vue {
   private orgCount = [];
   public isLoading = false;
-  private years: string[] = ["2019", "2018"];
-  private e1 = "2019";
+  private years: string[] = ["2020", "2019", "2018"];
+  private e1 = "2020";
   private organizations: string[] = [
     "Lighthouse Social Service Center",
     "Housing Authority",
@@ -300,17 +300,22 @@ export default class FundingDashboard extends Vue {
 
   created() {
     this.loadStats();
-    this.componentKey += 1;
   }
   private loadStats() {
     this.isLoading = true;
+    this.componentKey += 1;
     const statsDataService = new StatsDataServices();
-    const yearFilter = this.e1;
-    const orgFilter = this.e2;
-    const grantFilter = this.e3;
-    const sourceFilter = this.e4;
+    fundStoreState.setYearFilter(this.e1);
+    fundStoreState.setOrgFilter(this.e2);
+    fundStoreState.setGrantFilter(this.e3);
+    fundStoreState.setSourceFilter(this.e4);
     statsDataService
-      .GetAll(yearFilter, orgFilter, grantFilter, sourceFilter)
+      .GetAll(
+        fundStoreState.yearFilter,
+        fundStoreState.orgFilter,
+        fundStoreState.grantFilter,
+        fundStoreState.sourceFilter
+      )
       .then((data: any) => {
         this.stats = data;
         this.isLoading = false;
