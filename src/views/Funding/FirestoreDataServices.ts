@@ -8,6 +8,7 @@ export class FirestoreDataServices {
     yearFilter: string,
     orgFilter: string,
     grantFilter: string,
+    sourceFilter: string,
     docToRecordMap: any
   ) {
     const records: Array<object> = [];
@@ -19,6 +20,10 @@ export class FirestoreDataServices {
 
     if (!(!grantFilter || grantFilter.trim().length === 0)) {
       query = query.where("grant", "==", grantFilter);
+    }
+
+    if (!(!sourceFilter || sourceFilter.trim().length === 0)) {
+      query = query.where("source", "==", sourceFilter);
     }
 
     const result = new Promise(function(resolve, reject) {
@@ -64,12 +69,18 @@ export class StatsDataServices {
   constructor() {
     this.dataServices = new FirestoreDataServices();
   }
-  GetAll(yearFilter: string, orgFilter: string, grantFilter: string) {
+  GetAll(
+    yearFilter: string,
+    orgFilter: string,
+    grantFilter: string,
+    sourceFilter: string
+  ) {
     return this.dataServices.getAll(
       "funds",
       yearFilter,
       orgFilter,
       grantFilter,
+      sourceFilter,
       DocToFundRecordMap
     );
   }

@@ -82,7 +82,7 @@
                 <v-card-title class="justify-center">
                   <h2 class="headline">Total</h2>
                 </v-card-title>
-                <v-card-text class="justify-center" v-if="!isLoading">
+                <v-card-text class="text-center" v-if="!isLoading">
                   <span class="display-1 font-weight-light">{{
                     totalAmount | currency
                   }}</span>
@@ -149,7 +149,7 @@
                     <span>Go to Federal Funding</span>
                   </v-tooltip>
                 </v-card-title>
-                <v-card-text class="text-center" v-if="!isLoading">
+                <v-card-text v-if="!isLoading">
                   <span class="display-1 font-weight-light">{{
                     totalFederal | currency
                   }}</span>
@@ -282,10 +282,13 @@ export default class FundingDashboard extends Vue {
     const yearFilter = this.e1;
     const orgFilter = this.e2;
     const grantFilter = this.e3;
-    statsDataService.GetAll(yearFilter, orgFilter, grantFilter).then(data => {
-      this.stats = data;
-      this.isLoading = false;
-    });
+    const sourceFilter = this.e4;
+    statsDataService
+      .GetAll(yearFilter, orgFilter, grantFilter, sourceFilter)
+      .then(data => {
+        this.stats = data;
+        this.isLoading = false;
+      });
   }
 
   get totalAmount(): string {
