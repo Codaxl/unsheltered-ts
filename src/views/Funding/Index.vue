@@ -232,7 +232,9 @@
                 min-height="500"
                 transition="fade-transition"
               >
-                <funding-dashboard-pie></funding-dashboard-pie>
+                <funding-dashboard-pie
+                  :key="componentKey"
+                ></funding-dashboard-pie>
               </v-lazy>
             </div>
           </v-col>
@@ -249,7 +251,9 @@
                 min-height="500"
                 transition="fade-transition"
               >
-                <funding-dashboard-pie></funding-dashboard-pie>
+                <funding-dashboard-bar
+                  :key="componentKey"
+                ></funding-dashboard-bar>
               </v-lazy>
             </div>
           </v-col>
@@ -271,8 +275,9 @@ import FundsStore from "@/store/funds/funds-store";
 })
 export default class FundingDashboard extends Vue {
   get setYear(): string {
-    return FundsStore.year;
+    return FundsStore.yearFilter;
   }
+
   private orgCount = [];
   private isLoading = false;
   private years: string[] = ["2019", "2018"];
@@ -289,9 +294,11 @@ export default class FundingDashboard extends Vue {
   private e4 = "";
 
   private stats: any = [];
-  private query = "Federal";
+  private componentKey = 0;
+
   created() {
     this.loadStats();
+    this.componentKey += 1;
   }
   private loadStats() {
     this.isLoading = true;
@@ -302,7 +309,7 @@ export default class FundingDashboard extends Vue {
     const sourceFilter = this.e4;
     statsDataService
       .GetAll(yearFilter, orgFilter, grantFilter, sourceFilter)
-      .then(data => {
+      .then((data: any) => {
         this.stats = data;
         this.isLoading = false;
       });

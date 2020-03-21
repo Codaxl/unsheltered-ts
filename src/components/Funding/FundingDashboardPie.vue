@@ -9,7 +9,8 @@
 <script lang="ts">
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
-import { StatsDataServices } from "./FirestoreDataServices";
+import { StatsDataServices } from "@/views/Funding/FirestoreDataServices";
+import FundsStore from "@/store/funds/funds-store";
 
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
@@ -19,23 +20,48 @@ am4core.useTheme(am4themesAnimated);
 
 @Component({})
 export default class FundingDashboardPie extends Vue {
+  get setYear(): string {
+    return FundsStore.yearFilter;
+  }
   $refs!: {
     fundingDashboardPie: HTMLElement;
   };
   private container: any;
 
+  private orgCount = [];
+  private isLoading = false;
+  private years: string[] = ["2019", "2018"];
   private e1 = "2019";
+  private organizations: string[] = [
+    "Lighthouse Social Service Center",
+    "Housing Authority",
+    "Operation SafeHouse"
+  ];
+  private e2 = "";
+  private grants: string[] = ["HUD:CoC", "HEAP"];
+  private e3 = "";
+  private sources: string[] = ["Federal", "State", "County", "City"];
+  private e4 = "";
+  private stats: any = [];
+
   private chartData: any = [];
 
   created() {
     this.loadData();
   }
   private loadData() {
+    this.isLoading = true;
     const statsDataService = new StatsDataServices();
-    const year = this.e1;
-    statsDataService.GetAll(year).then(data => {
-      this.chartData = data;
-    });
+    const yearFilter = this.e1;
+    const orgFilter = this.e2;
+    const grantFilter = this.e3;
+    const sourceFilter = this.e4;
+    statsDataService
+      .GetAll(yearFilter, orgFilter, grantFilter, sourceFilter)
+      .then((data: any) => {
+        this.stats = data;
+        this.isLoading = false;
+      });
   }
 
   public init() {
@@ -53,7 +79,7 @@ export default class FundingDashboardPie extends Vue {
     chart.data = this.chartData;
     // Add and configure Series
     const pieSeries = chart.series.push(new am4charts.PieSeries());
-    pieSeries.dataFields.value = "total";
+    pieSeries.dataFields.value = "amount";
     pieSeries.dataFields.category = "source";
     pieSeries.slices.template.stroke = am4core.color("#fff");
     pieSeries.slices.template.strokeWidth = 2;

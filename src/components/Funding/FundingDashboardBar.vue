@@ -9,8 +9,8 @@
 <script lang="ts">
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
-import { StatsDataServices } from "./FirestoreDataServices";
-
+import { StatsDataServices } from "@/views/Funding/FirestoreDataServices";
+import FundsStore from "@/store/funds/funds-store";
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themesAnimated from "@amcharts/amcharts4/themes/animated";
@@ -24,18 +24,40 @@ export default class FundingDashboardBar extends Vue {
   };
   private container: any;
 
+  private orgCount = [];
+  private isLoading = false;
+  private years: string[] = ["2019", "2018"];
   private e1 = "2019";
+  private organizations: string[] = [
+    "Lighthouse Social Service Center",
+    "Housing Authority",
+    "Operation SafeHouse"
+  ];
+  private e2 = "";
+  private grants: string[] = ["HUD:CoC", "HEAP"];
+  private e3 = "";
+  private sources: string[] = ["Federal", "State", "County", "City"];
+  private e4 = "";
+  private stats: any = [];
+
   private chartData: any = [];
 
   created() {
     this.loadData();
   }
   private loadData() {
+    this.isLoading = true;
     const statsDataService = new StatsDataServices();
-    const year = this.e1;
-    statsDataService.GetAll(year).then(data => {
-      this.chartData = data;
-    });
+    const yearFilter = this.e1;
+    const orgFilter = this.e2;
+    const grantFilter = this.e3;
+    const sourceFilter = this.e4;
+    statsDataService
+      .GetAll(yearFilter, orgFilter, grantFilter, sourceFilter)
+      .then((data: any) => {
+        this.stats = data;
+        this.isLoading = false;
+      });
   }
 
   public init() {
@@ -53,48 +75,36 @@ export default class FundingDashboardBar extends Vue {
     chart.data = this.chartData;
     // Add and configure Series
 
-    chart.scrollbarX = new am4core.Scrollbar();
-
     // Create axes
+
     const categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-    categoryAxis.dataFields.category = "source";
+    categoryAxis.dataFields.category = "organization";
     categoryAxis.renderer.grid.template.location = 0;
     categoryAxis.renderer.minGridDistance = 30;
-    categoryAxis.renderer.labels.template.horizontalCenter = "right";
-    categoryAxis.renderer.labels.template.verticalCenter = "middle";
-    categoryAxis.renderer.labels.template.rotation = 270;
-    categoryAxis.tooltip.disabled = true;
-    categoryAxis.renderer.minHeight = 110;
+
+    categoryAxis.renderer.labels.template.adapter.add("dy", function(
+      dy: any,
+      target: any
+    ) {
+      if (target.dataItem && target.dataItem.index) {
+        return dy + 25;
+      }
+      return dy;
+    });
 
     const valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-    valueAxis.renderer.minWidth = 50;
 
     // Create series
     const series = chart.series.push(new am4charts.ColumnSeries());
-    series.sequencedInterpolation = true;
-    series.dataFields.valueY = "total";
-    series.dataFields.categoryX = "source";
-    series.tooltipText = "[{categoryX}: bold]{valueY}[/]";
-    series.columns.template.strokeWidth = 0;
+    series.dataFields.valueY = "amount";
+    series.dataFields.categoryX = "organization";
+    series.name = "Visits";
+    series.columns.template.tooltipText = "{categoryX}: [bold]{valueY}[/]";
+    series.columns.template.fillOpacity = 0.8;
 
-    series.tooltip.pointerOrientation = "vertical";
-
-    series.columns.template.column.cornerRadiusTopLeft = 10;
-    series.columns.template.column.cornerRadiusTopRight = 10;
-    series.columns.template.column.fillOpacity = 0.8;
-
-    // on hover, make corner radiuses bigger
-    const hoverState = series.columns.template.column.states.create("hover");
-    hoverState.properties.cornerRadiusTopLeft = 0;
-    hoverState.properties.cornerRadiusTopRight = 0;
-    hoverState.properties.fillOpacity = 1;
-
-    series.columns.template.adapter.add("fill", function(fill, target) {
-      return chart.colors.getIndex(target.dataItem.index);
-    });
-
-    // Cursor
-    chart.cursor = new am4charts.XYCursor();
+    const columnTemplate = series.columns.template;
+    columnTemplate.strokeWidth = 2;
+    columnTemplate.strokeOpacity = 1;
 
     this.container = container;
   }

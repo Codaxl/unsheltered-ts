@@ -14,15 +14,13 @@ import { Funds } from "./funds-interface";
   namespaced: true
 })
 class FundsStore extends VuexModule {
-  public year = "2019";
+  public yearFilter = "2019";
+  public orgFilter = "";
+  public grantFilter = "";
+  public sourceFilter = "";
 
-  @Mutation
-  changeYear(newYear: string) {
-    this.year = newYear;
-  }
-  // getters
   get setYear(): string {
-    return this.year;
+    return this.yearFilter;
   }
 }
 export default getModule(FundsStore);
