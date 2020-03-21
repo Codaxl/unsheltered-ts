@@ -238,19 +238,36 @@
           </v-col>
         </v-row>
       </div>
+      <div>
+        <v-row>
+          <v-col cols="12">
+            <div>
+              <v-lazy
+                :options="{
+                  threshold: 0.5
+                }"
+                min-height="500"
+                transition="fade-transition"
+              >
+                <funding-dashboard-pie></funding-dashboard-pie>
+              </v-lazy>
+            </div>
+          </v-col>
+        </v-row>
+      </div>
     </div>
   </v-container>
 </template>
 <script lang="ts">
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
-import FundingDashboardPie from "../../components/Funding/FundingDashboardPie.vue";
-import FundingDashboardMap from "../../components/Funding/FundingDashboardMap.vue";
+import FundingDashboardPie from "@/components/Funding/FundingDashboardPie.vue";
+import FundingDashboardBar from "@/components/Funding/FundingDashboardBar.vue";
 import { StatsDataServices } from "./FirestoreDataServices";
 import FundsStore from "@/store/funds/funds-store";
 
 @Component({
-  components: { FundingDashboardPie, FundingDashboardMap }
+  components: { FundingDashboardPie, FundingDashboardBar }
 })
 export default class FundingDashboard extends Vue {
   get setYear(): string {
