@@ -19,21 +19,31 @@ export default class FundStore extends VuexModule {
   public grantFilter = "";
   public sourceFilter = "";
 
+  public federalTotal = "";
+  public stateTotal = "";
+  public countyTotal = "";
+  public cityTotal = "";
+
   // Getters
 
-  get isYearFilter(): string {
-    return this.yearFilter;
-  }
-  get isOrgFilter(): string {
-    return this.orgFilter;
-  }
-  get isGrantFilterr(): string {
-    return this.grantFilter;
-  }
-  get isSourceFilter(): string {
-    return this.sourceFilter;
-  }
   // Mutations
+  @Mutation
+  public setFederalTotal(newTotal: string) {
+    this.federalTotal = newTotal;
+  }
+  @Mutation
+  public setFederalTotal(newTotal: string) {
+    this.stateTotal = newTotal;
+  }
+  @Mutation
+  public setFederalTotal(newTotal: string) {
+    this.countyTotal = newTotal;
+  }
+  @Mutation
+  public setFederalTotal(newTotal: string) {
+    this.cityTotal = newTotal;
+  }
+
   @Mutation
   public setYearFilter(year: string) {
     this.yearFilter = year;

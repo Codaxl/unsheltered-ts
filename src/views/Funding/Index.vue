@@ -348,7 +348,12 @@ export default class FundingDashboard extends Vue {
   }
 
   get totalFederal(): string {
-    return this.filteredFederal.reduce((a: any, b: any) => a + +b.amount, 0);
+    const federalTotal = this.filteredFederal.reduce(
+      (a: any, b: any) => a + +b.amount,
+      0
+    );
+    fundStoreState.setFederalTotal(federalTotal);
+    return federalTotal;
   }
   // State
 
@@ -357,7 +362,12 @@ export default class FundingDashboard extends Vue {
   }
 
   get totalState(): string {
-    return this.filteredState.reduce((a: any, b: any) => a + +b.amount, 0);
+    const stateTotal = this.filteredState.reduce(
+      (a: any, b: any) => a + +b.amount,
+      0
+    );
+    fundStoreState.setStateTotal(stateTotal);
+    return stateTotal;
   }
   // County
 
@@ -366,7 +376,12 @@ export default class FundingDashboard extends Vue {
   }
 
   get totalCounty(): string {
-    return this.filteredCounty.reduce((a: any, b: any) => a + +b.amount, 0);
+    const countyTotal = this.filteredCounty.reduce(
+      (a: any, b: any) => a + +b.amount,
+      0
+    );
+    fundStoreState.setCountyTotal(countyTotal);
+    return countyTotal;
   }
   // City
 
@@ -375,8 +390,14 @@ export default class FundingDashboard extends Vue {
   }
 
   get totalCity(): string {
-    return this.filteredCity.reduce((a: any, b: any) => a + +b.amount, 0);
+    const cityTotal = this.filteredCity.reduce(
+      (a: any, b: any) => a + +b.amount,
+      0
+    );
+    fundStoreState.setCityTotal(cityTotal);
+    return cityTotal;
   }
+
   private model = null;
   private breadcrumbs: Array<object> = [
     {
