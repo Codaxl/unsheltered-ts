@@ -34,22 +34,24 @@ export default class FundingDashboardPie extends Vue {
 
   private chartData: any = [];
 
-  created() {
-    this.loadData();
-  }
-  private loadData() {
-    const statsDataService = new StatsDataServices();
-    statsDataService
-      .GetAll(
-        fundStoreState.yearFilter,
-        fundStoreState.orgFilter,
-        fundStoreState.grantFilter,
-        fundStoreState.sourceFilter
-      )
-      .then((data: any) => {
-        this.chartData = data;
-      });
-  }
+  private data: any = [
+    {
+      source: "Federal",
+      amount: fundStoreState.federalTotal
+    },
+    {
+      source: "State",
+      amount: fundStoreState.stateTotal
+    },
+    {
+      source: "County",
+      amount: fundStoreState.countyTotal
+    },
+    {
+      source: "City",
+      amount: fundStoreState.cityTotal
+    }
+  ];
 
   public init() {
     const container = am4core.create(
@@ -63,7 +65,7 @@ export default class FundingDashboardPie extends Vue {
     const chart = container.createChild(am4charts.PieChart);
 
     // Add data
-    chart.data = this.chartData;
+    chart.data = this.data;
     // Add and configure Series
     const pieSeries = chart.series.push(new am4charts.PieSeries());
     pieSeries.dataFields.value = "amount";

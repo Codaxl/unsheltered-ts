@@ -248,7 +248,7 @@
                 :options="{
                   threshold: 0.5
                 }"
-                min-height="500"
+                min-height="650"
                 transition="fade-transition"
               >
                 <funding-dashboard-bar
@@ -303,7 +303,6 @@ export default class FundingDashboard extends Vue {
   }
   private loadStats() {
     this.isLoading = true;
-    this.componentKey += 1;
     const statsDataService = new StatsDataServices();
     fundStoreState.setYearFilter(this.e1);
     fundStoreState.setOrgFilter(this.e2);
@@ -319,6 +318,7 @@ export default class FundingDashboard extends Vue {
       .then((data: any) => {
         this.stats = data;
         this.isLoading = false;
+        this.componentKey += 1;
       });
   }
 

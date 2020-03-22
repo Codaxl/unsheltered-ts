@@ -19,10 +19,10 @@ export default class FundStore extends VuexModule {
   public grantFilter = "";
   public sourceFilter = "";
 
-  public federalTotal = "";
-  public stateTotal = "";
-  public countyTotal = "";
-  public cityTotal = "";
+  public federalTotal = "0";
+  public stateTotal = "0";
+  public countyTotal = "0";
+  public cityTotal = "0";
 
   // Getters
 
