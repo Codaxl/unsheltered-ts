@@ -83,7 +83,7 @@
           </v-icon>
         </template>
         <template v-slot:no-data>
-          <v-btn color="primary" @click="initialize">Reset</v-btn>
+          <v-btn color="primary">Reset</v-btn>
         </template>
       </v-data-table>
     </v-container>
@@ -134,7 +134,7 @@ export default class FundingSummary extends Vue {
     { text: "Protein (g)", value: "protein" },
     { text: "Actions", value: "action", sortable: false }
   ];
-  private desserts = [];
+  private desserts: Array<object> = [];
   private editedIndex = -1;
   private editedItem: Array<object> = [
     {
@@ -200,13 +200,13 @@ export default class FundingSummary extends Vue {
     return this.editedIndex === -1 ? "New Item" : "Edit Item";
   }
 
-  private editItem(item: string) {
+  private editItem(item: any) {
     this.editedIndex = this.desserts.indexOf(item);
     this.editedItem = Object.assign({}, item);
     this.dialog = true;
   }
 
-  private deleteItem(item: string) {
+  private deleteItem(item: any) {
     const index = this.desserts.indexOf(item);
     confirm("Are you sure you want to delete this item?") &&
       this.desserts.splice(index, 1);
