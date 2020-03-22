@@ -187,7 +187,10 @@
             <v-list-item-icon> </v-list-item-icon>
             <v-list-item-title>Dashboard</v-list-item-title>
           </v-list-item>
-
+          <v-list-item exact color="primary" to="/funding/summary">
+            <v-list-item-icon> </v-list-item-icon>
+            <v-list-item-title>Summary</v-list-item-title>
+          </v-list-item>
           <v-list-group no-action sub-group>
             <template v-slot:activator>
               <v-list-item-content>
@@ -299,10 +302,7 @@ export default class SiteHeader extends Vue {
   private message = false;
   private hints = true;
   private drawer = null;
-  private federalFunds = [
-    ["Summary", "/funding/federal/summary"],
-    ["CoC", "/funding/federal/coc"]
-  ];
+  private federalFunds = [["CoC", "/funding/federal/coc"]];
   private stateFunds = [
     ["CESH", "/funding/state/cesh"],
     ["HEAP", "/funding/state/heap"],
