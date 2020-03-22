@@ -12,7 +12,7 @@
       >
         <template v-slot:top>
           <v-toolbar flat color="white">
-            <v-toolbar-title>Events</v-toolbar-title>
+            <v-toolbar-title>Funds</v-toolbar-title>
 
             <v-spacer></v-spacer>
             <v-dialog v-model="dialog" max-width="500px">
@@ -89,176 +89,145 @@
     </v-container>
   </div>
 </template>
-<script>
-export default {
-  name: "Events",
-  data() {
-    return {
-      breadcrumbs: [
-        {
-          text: "Home",
-          disabled: false,
-          href: "/"
-        },
-        {
-          text: "Events",
-          disabled: true,
-          href: "/"
-        }
-      ],
-      dialog: false,
-      headers: [
-        {
-          text: "Dessert (100g serving)",
-          align: "left",
-          sortable: false,
-          value: "name"
-        },
-        { text: "Calories", value: "calories" },
-        { text: "Fat (g)", value: "fat" },
-        { text: "Carbs (g)", value: "carbs" },
-        { text: "Protein (g)", value: "protein" },
-        { text: "Actions", value: "action", sortable: false }
-      ],
-      desserts: [],
-      editedIndex: -1,
-      editedItem: {
-        name: "",
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0
-      },
-      defaultItem: {
-        name: "",
-        calories: 0,
-        fat: 0,
-        carbs: 0,
-        protein: 0
-      }
-    };
-  },
+<script lang="ts">
+import Vue from "vue";
+import { Component } from "vue-property-decorator";
+// Vuex
+import { getModule } from "vuex-module-decorators";
+import FundStore from "@/store/funds/funds-store";
+const fundStoreState = getModule(FundStore);
+// DATA
+import { StatsDataServices } from "./FirestoreDataServices";
 
-  computed: {
-    formTitle() {
-      return this.editedIndex === -1 ? "New Item" : "Edit Item";
+@Component({})
+export default class FundingSummary extends Vue {
+  private dialog = false;
+  private model = null;
+  private breadcrumbs: Array<object> = [
+    {
+      text: "Home",
+      disabled: false,
+      href: "/"
+    },
+    {
+      text: "Funding",
+      disabled: true,
+      href: "/funding/"
+    },
+    {
+      text: "Funding",
+      disabled: true,
+      href: "/funding/"
     }
-  },
+  ];
 
-  watch: {
-    dialog(val) {
-      val || this.close();
+  private headers: Array<object> = [
+    {
+      text: "Dessert (100g serving)",
+      align: "left",
+      sortable: false,
+      value: "name"
+    },
+    { text: "Calories", value: "calories" },
+    { text: "Fat (g)", value: "fat" },
+    { text: "Carbs (g)", value: "carbs" },
+    { text: "Protein (g)", value: "protein" },
+    { text: "Actions", value: "action", sortable: false }
+  ];
+  private desserts = [];
+  private editedIndex = -1;
+  private editedItem: Array<object> = [
+    {
+      name: "",
+      calories: 0,
+      fat: 0,
+      carbs: 0,
+      protein: 0
     }
-  },
+  ];
+  private defaultItem: Array<object> = [
+    {
+      name: "",
+      calories: 0,
+      fat: 0,
+      carbs: 0,
+      protein: 0
+    }
+  ];
+
+  private orgCount = [];
+  public isLoading = false;
+  private years: string[] = ["2020", "2019", "2018"];
+  private e1 = "2020";
+  private organizations: string[] = [
+    "Lighthouse Social Service Center",
+    "Housing Authority",
+    "Operation SafeHouse"
+  ];
+  private e2 = "";
+  private grants: string[] = ["HUD:CoC", "HEAP"];
+  private e3 = "";
+  private sources: string[] = ["Federal", "State", "County", "City"];
+  private e4 = "";
+
+  private stats: any = [];
+  private componentKey = 0;
 
   created() {
-    this.initialize();
-  },
-
-  methods: {
-    initialize() {
-      this.desserts = [
-        {
-          name: "Frozen Yogurt",
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0
-        },
-        {
-          name: "Ice cream sandwich",
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3
-        },
-        {
-          name: "Eclair",
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0
-        },
-        {
-          name: "Cupcake",
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3
-        },
-        {
-          name: "Gingerbread",
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9
-        },
-        {
-          name: "Jelly bean",
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0
-        },
-        {
-          name: "Lollipop",
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0
-        },
-        {
-          name: "Honeycomb",
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5
-        },
-        {
-          name: "Donut",
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9
-        },
-        {
-          name: "KitKat",
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7
-        }
-      ];
-    },
-
-    editItem(item) {
-      this.editedIndex = this.desserts.indexOf(item);
-      this.editedItem = Object.assign({}, item);
-      this.dialog = true;
-    },
-
-    deleteItem(item) {
-      const index = this.desserts.indexOf(item);
-      confirm("Are you sure you want to delete this item?") &&
-        this.desserts.splice(index, 1);
-    },
-
-    close() {
-      this.dialog = false;
-      setTimeout(() => {
-        this.editedItem = Object.assign({}, this.defaultItem);
-        this.editedIndex = -1;
-      }, 300);
-    },
-
-    save() {
-      if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem);
-      } else {
-        this.desserts.push(this.editedItem);
-      }
-      this.close();
-    }
+    this.loadStats();
   }
-};
+  private loadStats() {
+    this.isLoading = true;
+    const statsDataService = new StatsDataServices();
+    fundStoreState.setYearFilter(this.e1);
+    fundStoreState.setOrgFilter(this.e2);
+    fundStoreState.setGrantFilter(this.e3);
+    fundStoreState.setSourceFilter(this.e4);
+    statsDataService
+      .GetAll(
+        fundStoreState.yearFilter,
+        fundStoreState.orgFilter,
+        fundStoreState.grantFilter,
+        fundStoreState.sourceFilter
+      )
+      .then((data: any) => {
+        this.stats = data;
+        this.isLoading = false;
+        this.componentKey += 1;
+      });
+  }
+  get formTitle(): string {
+    return this.editedIndex === -1 ? "New Item" : "Edit Item";
+  }
+
+  private editItem(item: string) {
+    this.editedIndex = this.desserts.indexOf(item);
+    this.editedItem = Object.assign({}, item);
+    this.dialog = true;
+  }
+
+  private deleteItem(item: string) {
+    const index = this.desserts.indexOf(item);
+    confirm("Are you sure you want to delete this item?") &&
+      this.desserts.splice(index, 1);
+  }
+
+  private close() {
+    this.dialog = false;
+    setTimeout(() => {
+      this.editedItem = Object.assign({}, this.defaultItem);
+      this.editedIndex = -1;
+    }, 300);
+  }
+
+  private save() {
+    if (this.editedIndex > -1) {
+      Object.assign(this.desserts[this.editedIndex], this.editedItem);
+    } else {
+      this.desserts.push(this.editedItem);
+    }
+    this.close();
+  }
+}
 </script>
+<style></style>
