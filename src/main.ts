@@ -7,6 +7,11 @@ import vuetify from "./plugins/vuetify";
 import "./directives/vue-the-mask";
 import "./directives/vue-currency";
 
+import axios from "axios";
+import VueAxios from "vue-axios";
+
+Vue.use(VueAxios, axios);
+
 import UserStore from "./store/user/user-store";
 
 Vue.config.productionTip = false;

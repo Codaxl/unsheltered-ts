@@ -4,69 +4,52 @@
       <v-breadcrumbs :items="breadcrumbs" large></v-breadcrumbs>
     </div>
     <v-row>
-      <v-col cols="12" sm="6" md="8">
-        <v-card class="mx-auto">
-          <v-list-item three-line>
-            <v-list-item-content>
-              <div class="overline mb-4">Pinned</div>
-              <v-list-item-title class="headline mb-1"
-                >Welcome</v-list-item-title
-              >
-              <v-list-item-subtitle>by Joshua Coda</v-list-item-subtitle>
-              <div class="text--primary my-4">
-                The purpose of this website is to collect structural components
-                of homeless funding and its allocation to programs. Information
-                on who is receiving funding in Riverside County, where those
-                Funds are distributed, and contact information is vital to
-                efficient management, transparency and organizational purposes.
-              </div>
-            </v-list-item-content>
+      <v-col cols="12">
+        <v-card
+          class="mx-auto"
+          max-width="600"
+          v-for="item in results"
+          :key="item.guid"
+        >
+          <v-img
+            :src="item.thumbnail"
+            :lazy-src="item.thumbnail"
+            height="320px"
+          ></v-img>
 
-            <v-list-item-avatar
-              tile
-              size="80"
-              color="grey"
-            ></v-list-item-avatar>
-          </v-list-item>
+          <v-card-title>
+            {{ item.title }}
+          </v-card-title>
+
+          <v-card-subtitle>
+            by {{ item.author }} at {{ item.pubDate }}
+          </v-card-subtitle>
+
           <v-card-actions>
-            <v-btn text color="deep-purple accent-4">
+            <v-btn text>Share</v-btn>
+
+            <v-btn color="purple" text :href="item.link">
               Read
             </v-btn>
+
+            <v-spacer></v-spacer>
+
+            <v-btn icon @click="show = !show">
+              <v-icon>{{
+                show ? "mdi-chevron-up" : "mdi-chevron-down"
+              }}</v-icon>
+            </v-btn>
           </v-card-actions>
-        </v-card>
-      </v-col>
-      <v-col cols="6" md="4">
-        <v-card class="mx-auto">
-          <v-subheader>CATEGORIES</v-subheader>
-          <v-list shaped>
-            <v-list-item-group v-model="model" multiple>
-              <template v-for="(item, i) in items">
-                <v-divider v-if="!item" :key="`divider-${i}`"></v-divider>
 
-                <v-list-item
-                  v-else
-                  :key="`item-${i}`"
-                  :value="item"
-                  active-class="deep-purple--text text--accent-4"
-                >
-                  <template v-slot:default="{ active, toggle }">
-                    <v-list-item-content>
-                      <v-list-item-title v-text="item"></v-list-item-title>
-                    </v-list-item-content>
+          <v-expand-transition>
+            <div v-show="show">
+              <v-divider></v-divider>
 
-                    <v-list-item-action>
-                      <v-checkbox
-                        :input-value="active"
-                        :true-value="item"
-                        color="deep-purple accent-4"
-                        @click="toggle"
-                      ></v-checkbox>
-                    </v-list-item-action>
-                  </template>
-                </v-list-item>
-              </template>
-            </v-list-item-group>
-          </v-list>
+              <v-card-text>
+                {{ item.description }}
+              </v-card-text>
+            </div>
+          </v-expand-transition>
         </v-card>
       </v-col>
     </v-row>
@@ -81,7 +64,8 @@ import BudgetPie from "../components/Funding/State/Heap/BudgetPie.vue";
   components: { BudgetPie }
 })
 export default class News extends Vue {
-  private model: string[] = ["All"];
+  private show = false;
+
   private breadcrumbs: Array<object> = [
     {
       text: "Home",
@@ -94,7 +78,18 @@ export default class News extends Vue {
       href: "/"
     }
   ];
-  private items: string[] = ["All", "", "Federal", "State", "County", "Local"];
+  private results: Array<object> = [];
+  // TODO https://stackoverflow.com/questions/11784703/remove-html-from-a-string-in-json-response
+  // Source: https://medium.com/@KonradDaWo/how-to-display-medium-posts-on-a-website-with-plain-vanilla-js-basic-api-usage-example-865507848c2
+  mounted() {
+    Vue.axios
+      .get(
+        "https://api.rss2json.com/v1/api.json?rss_url=https://medium.com/feed/@joshua.coda"
+      )
+      .then(response => {
+        this.results = response.data.items;
+      });
+  }
 }
 </script>
 <style></style>

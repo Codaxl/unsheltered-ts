@@ -16,11 +16,11 @@
 
             <v-spacer></v-spacer>
             <v-dialog v-model="dialog" max-width="500px">
-              <template v-slot:activator="{ on }">
+              <!-- <template v-slot:activator="{ on }">
                 <v-btn color="primary" dark class="mb-2" v-on="on"
                   >New Item</v-btn
                 >
-              </template>
+              </template> -->
               <v-card>
                 <v-card-title>
                   <span class="headline">{{ formTitle }}</span>
@@ -32,31 +32,31 @@
                       <v-col cols="12" sm="6" md="4">
                         <v-text-field
                           v-model="editedItem.name"
-                          label="Dessert name"
+                          label="Year"
                         ></v-text-field>
                       </v-col>
                       <v-col cols="12" sm="6" md="4">
                         <v-text-field
                           v-model="editedItem.calories"
-                          label="Calories"
+                          label="Source"
                         ></v-text-field>
                       </v-col>
                       <v-col cols="12" sm="6" md="4">
                         <v-text-field
                           v-model="editedItem.fat"
-                          label="Fat (g)"
+                          label="Grant"
                         ></v-text-field>
                       </v-col>
                       <v-col cols="12" sm="6" md="4">
                         <v-text-field
                           v-model="editedItem.carbs"
-                          label="Carbs (g)"
+                          label="Organization"
                         ></v-text-field>
                       </v-col>
                       <v-col cols="12" sm="6" md="4">
                         <v-text-field
                           v-model="editedItem.protein"
-                          label="Protein (g)"
+                          label="Project Name"
                         ></v-text-field>
                       </v-col>
                     </v-row>
@@ -115,7 +115,7 @@ export default class FundingSummary extends Vue {
       href: "/funding/"
     },
     {
-      text: "Funding",
+      text: "Summary",
       disabled: true,
       href: "/funding/"
     }
@@ -123,16 +123,16 @@ export default class FundingSummary extends Vue {
 
   private headers: Array<object> = [
     {
-      text: "Dessert (100g serving)",
+      text: "Year",
       align: "left",
       sortable: false,
       value: "name"
     },
-    { text: "Calories", value: "calories" },
-    { text: "Fat (g)", value: "fat" },
-    { text: "Carbs (g)", value: "carbs" },
-    { text: "Protein (g)", value: "protein" },
-    { text: "Actions", value: "action", sortable: false }
+    { text: "Source", value: "calories" },
+    { text: "Grant", value: "fat" },
+    { text: "Organization", value: "carbs" },
+    { text: "Project Name", value: "protein" },
+    { text: "Category", value: "action", sortable: false }
   ];
   private desserts: Array<object> = [];
   private editedIndex = -1;
