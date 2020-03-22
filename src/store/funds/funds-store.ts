@@ -32,15 +32,15 @@ export default class FundStore extends VuexModule {
     this.federalTotal = newTotal;
   }
   @Mutation
-  public setFederalTotal(newTotal: string) {
+  public setStateTotal(newTotal: string) {
     this.stateTotal = newTotal;
   }
   @Mutation
-  public setFederalTotal(newTotal: string) {
+  public setCountyTotal(newTotal: string) {
     this.countyTotal = newTotal;
   }
   @Mutation
-  public setFederalTotal(newTotal: string) {
+  public setCityTotal(newTotal: string) {
     this.cityTotal = newTotal;
   }
 
