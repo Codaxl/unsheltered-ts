@@ -1,7 +1,8 @@
 import { Module, VuexModule, Mutation } from "vuex-module-decorators";
 import { Fund } from "./funds-interface";
-import store from "@/store";
+import { Selects } from "./selects-interface";
 
+import store from "@/store";
 import { db } from "@/firebase";
 //https://github.com/michaelprosario/fireTodo/tree/master/src/views
 import { Query } from "@firebase/firestore-types";
@@ -24,7 +25,20 @@ export default class FundStore extends VuexModule {
   public countyTotal = 0;
   public cityTotal = 0;
 
-  // Getters
+  // @Action
+  // public getSelects() {
+  //   return new Promise(function(resolve, reject) {
+  //         query.get().then(querySnapshot => {
+  //           querySnapshot.forEach(doc => {
+  //             records.push(docToRecordMap(doc));
+  //           });
+  //           resolve();
+  //         });
+  //       });
+  //
+  // }
+
+  // Actions
 
   // Mutations
   @Mutation

@@ -45,8 +45,20 @@ export default class FundingDashboardBar extends Vue {
         fundStoreState.grantFilter,
         fundStoreState.sourceFilter
       )
-      .then(data => {
-        this.chartData = data;
+      .then((data: any) => {
+        //maybe https://stackoverflow.com/questions/11199653/javascript-sum-and-group-by-of-json-data
+        // o rhttps://stackoverflow.com/questions/19233283/sum-javascript-object-propertya-values-with-same-object-propertyb-in-array-of-ob
+        const counts = data.reduce((prev: any, curr: any) => {
+          const count = prev.get(curr.organization) || 0;
+          prev.set(curr.organization, parseFloat(curr.amount) + count);
+          return prev;
+        }, new Map());
+
+        // then, map your counts object back to an array
+        const reducedObjArr = [...counts].map(([organization, amount]) => {
+          return { organization, amount };
+        });
+        this.chartData = reducedObjArr;
       });
   }
 
