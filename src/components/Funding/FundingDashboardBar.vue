@@ -90,6 +90,10 @@ export default class FundingDashboardBar extends Vue {
     // categoryAxis.tooltip.disabled = true;
     categoryAxis.renderer.minHeight = 110;
 
+    const label = categoryAxis.renderer.labels.template;
+    label.wrap = true;
+    label.maxWidth = 120;
+
     const valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
     valueAxis.renderer.minWidth = 50;
 
