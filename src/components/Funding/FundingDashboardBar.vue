@@ -88,11 +88,25 @@ export default class FundingDashboardBar extends Vue {
     categoryAxis.renderer.labels.template.rotation = 270;
     // Object is possibly 'undefined'.
     // categoryAxis.tooltip.disabled = true;
-    categoryAxis.renderer.minHeight = 110;
-
+    // Configure axis label
     const label = categoryAxis.renderer.labels.template;
-    label.wrap = true;
-    label.maxWidth = 120;
+    label.truncate = true;
+    label.maxWidth = 200;
+    label.tooltipText = "{organization}";
+
+    categoryAxis.events.on("sizechanged", function(ev) {
+      const axis = ev.target;
+      const cellWidth = axis.pixelWidth / (axis.endIndex - axis.startIndex);
+      if (cellWidth < axis.renderer.labels.template.maxWidth) {
+        axis.renderer.labels.template.rotation = -45;
+        axis.renderer.labels.template.horizontalCenter = "right";
+        axis.renderer.labels.template.verticalCenter = "middle";
+      } else {
+        axis.renderer.labels.template.rotation = 0;
+        axis.renderer.labels.template.horizontalCenter = "middle";
+        axis.renderer.labels.template.verticalCenter = "top";
+      }
+    });
 
     const valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
     valueAxis.renderer.minWidth = 50;

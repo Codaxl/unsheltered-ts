@@ -295,7 +295,7 @@ export default class FundingDashboard extends Vue {
   ];
   private orgCount = [];
   public isLoading = false;
-  private e1 = 2020;
+  private e1 = 2019;
   private organizations: string[] = [
     "Path of Life Ministries",
     "Economic Development Agency",
