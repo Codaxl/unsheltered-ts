@@ -297,12 +297,21 @@ export default class FundingDashboard extends Vue {
   public isLoading = false;
   private e1 = 2020;
   private organizations: string[] = [
-    "Lighthouse Social Service Center",
+    "Path of Life Ministries",
+    "Economic Development Agency",
+    "Riverside University Health Systems - Behavioral Health",
+    "United Way",
+    "City of Riverside",
+    "City of Moreno Valley",
+    "Jewish Family Service",
+    "Public Social Services",
+    "Social Work Action Group",
+    "Lighthouse Social Service Centers",
     "Housing Authority",
     "Operation SafeHouse"
   ];
   private e2 = "";
-  private grants: string[] = ["HUD:CoC", "HEAP"];
+  private grants: string[] = ["CoC", "CDBG", "ESG", "HOME", "HOPWA"];
   private e3 = "";
   private sources: string[] = ["Federal", "State", "County", "City"];
   private e4 = "";
