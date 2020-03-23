@@ -20,7 +20,7 @@
                 label="Year"
                 hide-details
                 outlined
-                @change="loadfunds"
+                @change="loadFunds"
               ></v-select>
             </v-row>
           </v-col>
@@ -34,7 +34,7 @@
                 hide-details
                 outlined
                 clearable
-                @change="loadfunds"
+                @change="loadFunds"
               ></v-select>
             </v-row>
           </v-col>
@@ -48,7 +48,7 @@
                 hide-details
                 outlined
                 clearable
-                @change="loadfunds"
+                @change="loadFunds"
               ></v-select>
             </v-row>
           </v-col>
@@ -62,7 +62,7 @@
                 hide-details
                 outlined
                 clearable
-                @change="loadfunds"
+                @change="loadFunds"
               ></v-select>
             </v-row>
           </v-col>
