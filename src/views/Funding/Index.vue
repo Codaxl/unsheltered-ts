@@ -20,7 +20,7 @@
                 label="Year"
                 hide-details
                 outlined
-                @change="loadStats"
+                @change="loadfunds"
               ></v-select>
             </v-row>
           </v-col>
@@ -34,7 +34,7 @@
                 hide-details
                 outlined
                 clearable
-                @change="loadStats"
+                @change="loadfunds"
               ></v-select>
             </v-row>
           </v-col>
@@ -48,7 +48,7 @@
                 hide-details
                 outlined
                 clearable
-                @change="loadStats"
+                @change="loadfunds"
               ></v-select>
             </v-row>
           </v-col>
@@ -62,7 +62,7 @@
                 hide-details
                 outlined
                 clearable
-                @change="loadStats"
+                @change="loadfunds"
               ></v-select>
             </v-row>
           </v-col>
@@ -274,7 +274,7 @@ import FundStore from "@/store/funds/funds-store";
 const fundStoreState = getModule(FundStore);
 
 // DATA
-import { StatsDataServices } from "./FirestoreDataServices";
+import { FundsDataServices } from "./FirestoreDataServices";
 
 @Component({
   components: { FundingDashboardPie, FundingDashboardBar }
@@ -307,20 +307,20 @@ export default class FundingDashboard extends Vue {
   private sources: string[] = ["Federal", "State", "County", "City"];
   private e4 = "";
 
-  private stats: any = [];
+  private funds: any = [];
   private componentKey = 0;
 
   created() {
-    this.loadStats();
+    this.loadFunds();
   }
-  private loadStats() {
+  private loadFunds() {
     this.isLoading = true;
-    const statsDataService = new StatsDataServices();
+    const fundsDataService = new FundsDataServices();
     fundStoreState.setYearFilter(this.e1);
     fundStoreState.setOrgFilter(this.e2);
     fundStoreState.setGrantFilter(this.e3);
     fundStoreState.setSourceFilter(this.e4);
-    statsDataService
+    fundsDataService
       .GetAll(
         fundStoreState.yearFilter,
         fundStoreState.orgFilter,
@@ -328,14 +328,14 @@ export default class FundingDashboard extends Vue {
         fundStoreState.sourceFilter
       )
       .then((data: any) => {
-        this.stats = data;
+        this.funds = data;
         this.isLoading = false;
         this.componentKey += 1;
       });
   }
 
   get totalAmount(): number {
-    return this.stats.reduce(
+    return this.funds.reduce(
       (acc: number, item: any) => acc + parseFloat(item.amount),
       0
     );
@@ -345,13 +345,13 @@ export default class FundingDashboard extends Vue {
   // Solution: https://appdividend.com/2019/04/11/how-to-get-distinct-values-from-array-in-javascript/#Javascript_Unique_Array_Example
   get totalOrganizations(): number {
     const uniqueArr = [
-      ...new Set(this.stats.map((data: any) => data.organization))
+      ...new Set(this.funds.map((data: any) => data.organization))
     ];
     return new Set(uniqueArr).size;
   }
 
   get totalGrants(): number {
-    const uniqueArr = [...new Set(this.stats.map((data: any) => data.grant))];
+    const uniqueArr = [...new Set(this.funds.map((data: any) => data.grant))];
     return new Set(uniqueArr).size;
   }
 
@@ -359,7 +359,7 @@ export default class FundingDashboard extends Vue {
   // Federal const query indexOf(this.query) solution?
 
   get filteredFederal(): any {
-    return this.stats.filter((c: any) => c.source.indexOf("Federal") !== -1);
+    return this.funds.filter((c: any) => c.source.indexOf("Federal") !== -1);
   }
 
   get totalFederal(): number {
@@ -373,7 +373,7 @@ export default class FundingDashboard extends Vue {
   // State
 
   get filteredState(): any {
-    return this.stats.filter((c: any) => c.source.indexOf("State") !== -1);
+    return this.funds.filter((c: any) => c.source.indexOf("State") !== -1);
   }
 
   get totalState(): number {
@@ -387,7 +387,7 @@ export default class FundingDashboard extends Vue {
   // County
 
   get filteredCounty(): any {
-    return this.stats.filter((c: any) => c.source.indexOf("County") !== -1);
+    return this.funds.filter((c: any) => c.source.indexOf("County") !== -1);
   }
 
   get totalCounty(): number {
@@ -401,7 +401,7 @@ export default class FundingDashboard extends Vue {
   // City
 
   get filteredCity(): any {
-    return this.stats.filter((c: any) => c.source.indexOf("City") !== -1);
+    return this.funds.filter((c: any) => c.source.indexOf("City") !== -1);
   }
 
   get totalCity(): number {

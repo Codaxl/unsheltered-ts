@@ -37,7 +37,7 @@ export class FirestoreDataServices {
   }
 }
 
-export class StatsRecord {
+export class FundsRecord {
   id = "";
   amountTotal = "";
   federalTotal = "";
@@ -51,7 +51,7 @@ export class SubDataRecord {
   total = "";
 }
 
-export function DocToFundRecordMap(doc: any): StatsRecord {
+export function DocToFundRecordMap(doc: any): FundsRecord {
   const rowData = doc.data();
   const record = {
     id: doc.id,
@@ -73,12 +73,12 @@ export function DocToSubDataRecordMap(doc: any): SubDataRecord {
   return record;
 }
 
-export class StatsDataServices {
+export class FundsDataServices {
   dataServices: FirestoreDataServices;
   constructor() {
     this.dataServices = new FirestoreDataServices();
   }
-  GetStats(recordID: string) {
+  GetFunds(recordID: string) {
     return this.dataServices.getRecord("funds", recordID, DocToFundRecordMap);
   }
   GetAll(recordID: string) {

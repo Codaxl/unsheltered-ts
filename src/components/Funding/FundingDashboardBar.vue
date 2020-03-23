@@ -15,7 +15,7 @@ import FundStore from "@/store/funds/funds-store";
 const fundStoreState = getModule(FundStore);
 
 // DATA
-import { StatsDataServices } from "@/views/Funding/FirestoreDataServices";
+import { FundsDataServices } from "@/views/Funding/FirestoreDataServices";
 
 // AMCHARTS
 import * as am4core from "@amcharts/amcharts4/core";
@@ -37,7 +37,7 @@ export default class FundingDashboardBar extends Vue {
     this.loadData();
   }
   private loadData() {
-    const statsDataService = new StatsDataServices();
+    const statsDataService = new FundsDataServices();
     statsDataService
       .GetAll(
         fundStoreState.yearFilter,

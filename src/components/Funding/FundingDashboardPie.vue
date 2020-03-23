@@ -16,7 +16,7 @@ import FundStore from "@/store/funds/funds-store";
 const fundStoreState = getModule(FundStore);
 
 // DATA
-import { StatsDataServices } from "@/views/Funding/FirestoreDataServices";
+import { FundsDataServices } from "@/views/Funding/FirestoreDataServices";
 
 // AMCHARTS
 import * as am4core from "@amcharts/amcharts4/core";

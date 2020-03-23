@@ -97,7 +97,7 @@ import { getModule } from "vuex-module-decorators";
 import FundStore from "@/store/funds/funds-store";
 const fundStoreState = getModule(FundStore);
 // DATA
-import { StatsDataServices } from "./FirestoreDataServices";
+import { FundsDataServices } from "./FirestoreDataServices";
 
 @Component({})
 export default class FundingSummary extends Vue {
@@ -174,11 +174,11 @@ export default class FundingSummary extends Vue {
   private componentKey = 0;
 
   created() {
-    this.loadStats();
+    this.loadFunds();
   }
-  private loadStats() {
+  private loadFunds() {
     this.isLoading = true;
-    const statsDataService = new StatsDataServices();
+    const statsDataService = new FundsDataServices();
     fundStoreState.setYearFilter(this.e1);
     fundStoreState.setOrgFilter(this.e2);
     fundStoreState.setGrantFilter(this.e3);

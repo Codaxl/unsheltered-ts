@@ -38,7 +38,7 @@ export class FirestoreDataServices {
   }
 }
 
-export class StatsRecord {
+export class FundsRecord {
   id = "";
   amount = "";
   category = "";
@@ -49,7 +49,7 @@ export class StatsRecord {
   grant = "";
 }
 
-export function DocToFundRecordMap(doc: any): StatsRecord {
+export function DocToFundRecordMap(doc: any): FundsRecord {
   const rowData = doc.data();
   const record = {
     id: doc.id,
@@ -64,7 +64,7 @@ export function DocToFundRecordMap(doc: any): StatsRecord {
   return record;
 }
 
-export class StatsDataServices {
+export class FundsDataServices {
   dataServices: FirestoreDataServices;
   constructor() {
     this.dataServices = new FirestoreDataServices();
