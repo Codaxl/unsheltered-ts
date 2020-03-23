@@ -316,12 +316,14 @@ export default class FundingDashboard extends Vue {
   private sources: string[] = ["Federal", "State", "County", "City"];
   private e4 = "";
 
-  private funds: any = [];
   private componentKey = 0;
 
   created() {
     this.loadFunds();
   }
+
+  // TODO Move to VUEX
+
   private loadFunds() {
     this.isLoading = true;
     const fundsDataService = new FundsDataServices();
@@ -337,10 +339,14 @@ export default class FundingDashboard extends Vue {
         fundStoreState.sourceFilter
       )
       .then((data: any) => {
-        this.funds = data;
+        fundStoreState.setData(data);
         this.isLoading = false;
         this.componentKey += 1;
       });
+  }
+
+  get funds(): Array<object> {
+    return fundStoreState.data;
   }
 
   get totalAmount(): number {

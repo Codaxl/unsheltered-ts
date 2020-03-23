@@ -15,6 +15,8 @@ import { Query } from "@firebase/firestore-types";
 })
 export default class FundStore extends VuexModule {
   // States
+  public data = [{}];
+
   public yearFilter = new Date().getFullYear();
   public orgFilter = "";
   public grantFilter = "";
@@ -41,6 +43,11 @@ export default class FundStore extends VuexModule {
   // Actions
 
   // Mutations
+  @Mutation
+  public setData(data: Array<object>) {
+    this.data = data;
+  }
+
   @Mutation
   public setFederalTotal(newTotal: number) {
     this.federalTotal = newTotal;

@@ -14,9 +14,6 @@ import { getModule } from "vuex-module-decorators";
 import FundStore from "@/store/funds/funds-store";
 const fundStoreState = getModule(FundStore);
 
-// DATA
-import { FundsDataServices } from "@/views/Funding/FirestoreDataServices";
-
 // AMCHARTS
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
@@ -36,30 +33,27 @@ export default class FundingDashboardBar extends Vue {
   created() {
     this.loadData();
   }
-  private loadData() {
-    const statsDataService = new FundsDataServices();
-    statsDataService
-      .GetAll(
-        fundStoreState.yearFilter,
-        fundStoreState.orgFilter,
-        fundStoreState.grantFilter,
-        fundStoreState.sourceFilter
-      )
-      .then((data: any) => {
-        //maybe https://stackoverflow.com/questions/11199653/javascript-sum-and-group-by-of-json-data
-        // o rhttps://stackoverflow.com/questions/19233283/sum-javascript-object-propertya-values-with-same-object-propertyb-in-array-of-ob
-        const counts = data.reduce((prev: any, curr: any) => {
-          const count = prev.get(curr.organization) || 0;
-          prev.set(curr.organization, parseFloat(curr.amount) + count);
-          return prev;
-        }, new Map());
 
-        // then, map your counts object back to an array
-        const reducedObjArr = [...counts].map(([organization, amount]) => {
-          return { organization, amount };
-        });
-        this.chartData = reducedObjArr;
-      });
+  // DATA FROM VUEX. IS THIS EFFICIENT?
+
+  get funds(): Array<object> {
+    return fundStoreState.data;
+  }
+
+  private loadData() {
+    //maybe https://stackoverflow.com/questions/11199653/javascript-sum-and-group-by-of-json-data
+    // o rhttps://stackoverflow.com/questions/19233283/sum-javascript-object-propertya-values-with-same-object-propertyb-in-array-of-ob
+    const counts = this.funds.reduce((prev: any, curr: any) => {
+      const count = prev.get(curr.organization) || 0;
+      prev.set(curr.organization, parseFloat(curr.amount) + count);
+      return prev;
+    }, new Map());
+
+    // then, map your counts object back to an array
+    const reducedObjArr = [...counts].map(([organization, amount]) => {
+      return { organization, amount };
+    });
+    this.chartData = reducedObjArr;
   }
 
   public init() {
