@@ -94,8 +94,7 @@ export default class FundingDashboardBar extends Vue {
     series.columns.template.column.cornerRadiusTopLeft = 10;
     series.columns.template.column.cornerRadiusTopRight = 10;
     series.columns.template.column.fillOpacity = 0.8;
-    // Make it stacked
-    series.stacked = true;
+
     // on hover, make corner radiuses bigger
     const hoverState = series.columns.template.column.states.create("hover");
     hoverState.properties.cornerRadiusTopLeft = 0;

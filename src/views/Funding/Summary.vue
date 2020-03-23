@@ -16,11 +16,11 @@
 
             <v-spacer></v-spacer>
             <v-dialog v-model="dialog" max-width="500px">
-              <!-- <template v-slot:activator="{ on }">
+              <template v-slot:activator="{ on }">
                 <v-btn color="primary" dark class="mb-2" v-on="on"
                   >New Item</v-btn
                 >
-              </template> -->
+              </template>
               <v-card>
                 <v-card-title>
                   <span class="headline">{{ formTitle }}</span>
@@ -158,7 +158,7 @@ export default class FundingSummary extends Vue {
   private orgCount = [];
   public isLoading = false;
   private years: string[] = ["2020", "2019", "2018"];
-  private e1 = "2020";
+  private e1 = 2020;
   private organizations: string[] = [
     "Lighthouse Social Service Center",
     "Housing Authority",

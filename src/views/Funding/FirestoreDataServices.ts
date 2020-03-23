@@ -5,7 +5,7 @@ import { Query } from "@firebase/firestore-types";
 export class FirestoreDataServices {
   getAll(
     tableName: string,
-    yearFilter: string,
+    yearFilter: number,
     orgFilter: string,
     grantFilter: string,
     sourceFilter: string,
@@ -45,7 +45,7 @@ export class StatsRecord {
   organization = "";
   projectName = "";
   source = "";
-  year = "";
+  year = 0;
   grant = "";
 }
 
@@ -70,7 +70,7 @@ export class StatsDataServices {
     this.dataServices = new FirestoreDataServices();
   }
   GetAll(
-    yearFilter: string,
+    yearFilter: number,
     orgFilter: string,
     grantFilter: string,
     sourceFilter: string

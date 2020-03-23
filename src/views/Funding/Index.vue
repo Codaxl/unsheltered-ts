@@ -15,7 +15,7 @@
             <v-row align="center" class="ma-auto">
               <v-select
                 v-model="e1"
-                :items="years"
+                :items="selectYear"
                 menu-props="auto"
                 label="Year"
                 hide-details
@@ -280,10 +280,22 @@ import { StatsDataServices } from "./FirestoreDataServices";
   components: { FundingDashboardPie, FundingDashboardBar }
 })
 export default class FundingDashboard extends Vue {
+  private model = null;
+  private breadcrumbs: Array<object> = [
+    {
+      text: "Home",
+      disabled: false,
+      href: "/"
+    },
+    {
+      text: "Funding",
+      disabled: true,
+      href: "/funding"
+    }
+  ];
   private orgCount = [];
   public isLoading = false;
-  private years: string[] = ["2020", "2019", "2018"];
-  private e1 = "2020";
+  private e1 = 2020;
   private organizations: string[] = [
     "Lighthouse Social Service Center",
     "Housing Authority",
@@ -322,8 +334,11 @@ export default class FundingDashboard extends Vue {
       });
   }
 
-  get totalAmount(): string {
-    return this.stats.reduce((acc: any, item: any) => acc + +item.amount, 0);
+  get totalAmount(): number {
+    return this.stats.reduce(
+      (acc: number, item: any) => acc + parseFloat(item.amount),
+      0
+    );
   }
   //https://gist.github.com/quangnd/572c6d410cb6512b7f252af0f2eb7cae
 
@@ -347,9 +362,9 @@ export default class FundingDashboard extends Vue {
     return this.stats.filter((c: any) => c.source.indexOf("Federal") !== -1);
   }
 
-  get totalFederal(): string {
+  get totalFederal(): number {
     const federalTotal = this.filteredFederal.reduce(
-      (a: any, b: any) => a + +b.amount,
+      (a: number, b: any) => a + parseFloat(b.amount),
       0
     );
     fundStoreState.setFederalTotal(federalTotal);
@@ -361,9 +376,9 @@ export default class FundingDashboard extends Vue {
     return this.stats.filter((c: any) => c.source.indexOf("State") !== -1);
   }
 
-  get totalState(): string {
+  get totalState(): number {
     const stateTotal = this.filteredState.reduce(
-      (a: any, b: any) => a + +b.amount,
+      (a: number, b: any) => a + parseFloat(b.amount),
       0
     );
     fundStoreState.setStateTotal(stateTotal);
@@ -375,9 +390,9 @@ export default class FundingDashboard extends Vue {
     return this.stats.filter((c: any) => c.source.indexOf("County") !== -1);
   }
 
-  get totalCounty(): string {
+  get totalCounty(): number {
     const countyTotal = this.filteredCounty.reduce(
-      (a: any, b: any) => a + +b.amount,
+      (a: number, b: any) => a + parseFloat(b.amount),
       0
     );
     fundStoreState.setCountyTotal(countyTotal);
@@ -389,28 +404,23 @@ export default class FundingDashboard extends Vue {
     return this.stats.filter((c: any) => c.source.indexOf("City") !== -1);
   }
 
-  get totalCity(): string {
+  get totalCity(): number {
     const cityTotal = this.filteredCity.reduce(
-      (a: any, b: any) => a + +b.amount,
+      (a: number, b: any) => a + parseFloat(b.amount),
       0
     );
     fundStoreState.setCityTotal(cityTotal);
     return cityTotal;
   }
-
-  private model = null;
-  private breadcrumbs: Array<object> = [
-    {
-      text: "Home",
-      disabled: false,
-      href: "/"
-    },
-    {
-      text: "Funding",
-      disabled: true,
-      href: "/funding"
-    }
-  ];
+  // TODO Set other computed like below.
+  get selectYear(): object {
+    const range = (a: number, b: number) =>
+      Array.from(new Array(b > a ? b - a : a - b), (x, i) =>
+        b > a ? i + a : a - i
+      );
+    const currentYear = new Date().getFullYear();
+    return range(currentYear, currentYear - 5);
+  }
 }
 </script>
 <style></style>

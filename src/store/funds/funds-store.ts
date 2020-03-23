@@ -14,38 +14,38 @@ import { Query } from "@firebase/firestore-types";
 })
 export default class FundStore extends VuexModule {
   // States
-  public yearFilter = new Date().getFullYear().toString();
+  public yearFilter = new Date().getFullYear();
   public orgFilter = "";
   public grantFilter = "";
   public sourceFilter = "";
 
-  public federalTotal = "0";
-  public stateTotal = "0";
-  public countyTotal = "0";
-  public cityTotal = "0";
+  public federalTotal = 0;
+  public stateTotal = 0;
+  public countyTotal = 0;
+  public cityTotal = 0;
 
   // Getters
 
   // Mutations
   @Mutation
-  public setFederalTotal(newTotal: string) {
+  public setFederalTotal(newTotal: number) {
     this.federalTotal = newTotal;
   }
   @Mutation
-  public setStateTotal(newTotal: string) {
+  public setStateTotal(newTotal: number) {
     this.stateTotal = newTotal;
   }
   @Mutation
-  public setCountyTotal(newTotal: string) {
+  public setCountyTotal(newTotal: number) {
     this.countyTotal = newTotal;
   }
   @Mutation
-  public setCityTotal(newTotal: string) {
+  public setCityTotal(newTotal: number) {
     this.cityTotal = newTotal;
   }
 
   @Mutation
-  public setYearFilter(year: string) {
+  public setYearFilter(year: number) {
     this.yearFilter = year;
   }
   @Mutation
