@@ -1,4 +1,4 @@
-import { Module, VuexModule, Mutation } from "vuex-module-decorators";
+import { Module, VuexModule, Mutation, Action } from "vuex-module-decorators";
 import { Fund } from "./funds-interface";
 import { Selects } from "./selects-interface";
 
@@ -27,18 +27,25 @@ export default class FundStore extends VuexModule {
   public countyTotal = 0;
   public cityTotal = 0;
 
-  // @Action
-  // public getSelects() {
-  //   return new Promise(function(resolve, reject) {
-  //         query.get().then(querySnapshot => {
-  //           querySnapshot.forEach(doc => {
-  //             records.push(docToRecordMap(doc));
-  //           });
-  //           resolve();
-  //         });
-  //       });
-  //
-  // }
+  @Action
+  public getSelects() {
+    new Promise(function(resolve, reject) {
+      const selectsRef = db.collection("selects");
+      const allSelects = citiesRef
+        .get()
+        .then(snapshot => {
+          snapshot.forEach(doc => {
+            console.log(doc.id, "=>", doc.data());
+          });
+          resolve();
+        })
+        .catch(err => {
+          console.log("Error getting documents", err);
+        });
+
+      return allSelects;
+    });
+  }
 
   // Actions
 
