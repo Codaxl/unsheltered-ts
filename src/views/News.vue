@@ -11,6 +11,7 @@
           v-for="item in results"
           :key="item.guid"
           max-width="600"
+          :href="item.link"
         >
           <v-img
             :aspect-ratio="16 / 9"
@@ -20,14 +21,13 @@
           </v-img>
           <v-card-text class="pt-6" style="position: relative;">
             <div class="font-weight-light grey--text title mb-2">
-              by {{ item.author }} at {{ item.pubDate }}
+              by {{ item.author }} at {{ item.pubDate | fullDate }}
             </div>
             <h3 class="display-1 font-weight-light orange--text mb-2">
               {{ item.title }}
             </h3>
             <div class="font-weight-light title mb-2">
-              Our Vintage kitchen utensils delight any chef.<br />
-              Made of bamboo by hand
+              Add item.description.
             </div>
           </v-card-text>
         </v-card>
