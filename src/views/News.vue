@@ -6,50 +6,30 @@
     <v-row>
       <v-col cols="12">
         <v-card
+          hover
           class="mx-auto"
-          max-width="600"
           v-for="item in results"
           :key="item.guid"
+          max-width="600"
         >
           <v-img
+            :aspect-ratio="16 / 9"
             :src="item.thumbnail"
             :lazy-src="item.thumbnail"
-            height="320px"
-          ></v-img>
-
-          <v-card-title>
-            {{ item.title }}
-          </v-card-title>
-
-          <v-card-subtitle>
-            by {{ item.author }} at {{ item.pubDate }}
-          </v-card-subtitle>
-
-          <v-card-actions>
-            <v-btn text>Share</v-btn>
-
-            <v-btn color="purple" text :href="item.link">
-              Read
-            </v-btn>
-
-            <v-spacer></v-spacer>
-
-            <v-btn icon @click="show = !show">
-              <v-icon>{{
-                show ? "mdi-chevron-up" : "mdi-chevron-down"
-              }}</v-icon>
-            </v-btn>
-          </v-card-actions>
-
-          <v-expand-transition>
-            <div v-show="show">
-              <v-divider></v-divider>
-
-              <v-card-text>
-                {{ item.description }}
-              </v-card-text>
+          >
+          </v-img>
+          <v-card-text class="pt-6" style="position: relative;">
+            <div class="font-weight-light grey--text title mb-2">
+              by {{ item.author }} at {{ item.pubDate }}
             </div>
-          </v-expand-transition>
+            <h3 class="display-1 font-weight-light orange--text mb-2">
+              {{ item.title }}
+            </h3>
+            <div class="font-weight-light title mb-2">
+              Our Vintage kitchen utensils delight any chef.<br />
+              Made of bamboo by hand
+            </div>
+          </v-card-text>
         </v-card>
       </v-col>
     </v-row>
@@ -92,4 +72,13 @@ export default class News extends Vue {
   }
 }
 </script>
-<style></style>
+<style>
+.v-card--reveal {
+  align-items: center;
+  bottom: 0;
+  justify-content: center;
+  opacity: 0.5;
+  position: absolute;
+  width: 100%;
+}
+</style>

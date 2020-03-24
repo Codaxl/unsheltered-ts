@@ -41,6 +41,7 @@ export default class FundStore extends VuexModule {
           if (!doc.exists) {
             console.log("No such document!");
           } else {
+            const results: [] = doc.data().grants;
             console.log(doc.data());
           }
         })
