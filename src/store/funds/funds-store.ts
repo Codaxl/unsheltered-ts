@@ -27,7 +27,7 @@ export default class FundStore extends VuexModule {
   public countyTotal = 0;
   public cityTotal = 0;
 
-  public grantSelect = [];
+  public grantSelect = [{}];
   // states
   // private _select: Selects = Selects.makeEmptySelect();
 
@@ -42,6 +42,8 @@ export default class FundStore extends VuexModule {
             console.log("No such document!");
           } else {
             console.log(doc.data());
+
+            resolve();
           }
         })
         .catch(err => {
@@ -51,7 +53,10 @@ export default class FundStore extends VuexModule {
   }
 
   // Actions
-
+  @Mutation
+  private setGrantSelect(data: Selects) {
+    this.grantSelect = [{ data }];
+  }
   // Mutations
   @Mutation
   public setData(data: Array<object>) {
