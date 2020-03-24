@@ -27,23 +27,26 @@ export default class FundStore extends VuexModule {
   public countyTotal = 0;
   public cityTotal = 0;
 
+  public grantSelect = [];
+  // states
+  // private _select: Selects = Selects.makeEmptySelect();
+
   @Action
-  public getSelects() {
-    new Promise(function(resolve, reject) {
-      const selectsRef = db.collection("selects");
+  public async getSelects() {
+    return new Promise(function(resolve, reject) {
+      const selectsRef = db.collection("selects").doc("items");
       const allSelects = selectsRef
         .get()
-        .then(snapshot => {
-          snapshot.forEach(doc => {
-            console.log(doc.id, "=>", doc.data());
-          });
-          resolve();
+        .then(doc => {
+          if (!doc.exists) {
+            console.log("No such document!");
+          } else {
+            console.log(doc.data());
+          }
         })
         .catch(err => {
           console.log("Error getting documents", err);
         });
-
-      return allSelects;
     });
   }
 
