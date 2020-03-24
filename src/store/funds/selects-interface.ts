@@ -12,3 +12,12 @@ export interface Selects {
     }
   ];
 }
+
+export interface Organizations {
+  id: string;
+  name: string;
+}
+export interface Grants {
+  id: string;
+  name: string;
+}

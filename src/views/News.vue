@@ -5,29 +5,48 @@
     </div>
     <v-row>
       <v-col cols="12">
-        <v-card
-          hover
-          class="mx-auto"
-          v-for="item in results"
-          :key="item.guid"
-          max-width="600"
-          :href="item.link"
-        >
-          <v-img
-            :aspect-ratio="16 / 9"
-            :src="item.thumbnail"
-            :lazy-src="item.thumbnail"
+        <div>
+          <v-lazy
+            :options="{
+              threshold: 0.5
+            }"
+            min-height="600"
+            transition="fade-transition"
           >
-          </v-img>
-          <v-card-text class="pt-6" style="position: relative;">
-            <h3 class="display-1 font-weight-light orange--text mb-2">
-              {{ item.title }}
-            </h3>
-            <div class="font-weight-light grey--text title mb-2">
-              by {{ item.author }} on {{ item.pubDate | fullDate }}
-            </div>
-          </v-card-text>
-        </v-card>
+            <v-card
+              hover
+              class="mx-auto"
+              v-for="item in results"
+              :key="item.guid"
+              max-width="600"
+              :href="item.link"
+            >
+              <v-img
+                :aspect-ratio="16 / 9"
+                :src="item.thumbnail"
+                :lazy-src="item.thumbnail"
+              >
+              </v-img>
+              <v-card-text class="pt-6" style="position: relative;">
+                <h3 class="display-1 font-weight-light orange--text mb-2">
+                  {{ item.title }}
+                </h3>
+                <div class="font-weight-light grey--text title mb-2">
+                  by {{ item.author }} on {{ item.pubDate | fullDate }}
+                </div>
+                <span
+                  class="font-weight-light grey--text title mb-2"
+                  v-for="category in item.categories"
+                  :key="category.id"
+                >
+                  <v-chip class="ma-2" label>
+                    {{ category }}
+                  </v-chip>
+                </span>
+              </v-card-text>
+            </v-card>
+          </v-lazy>
+        </div>
       </v-col>
     </v-row>
   </v-container>

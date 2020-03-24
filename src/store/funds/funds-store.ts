@@ -1,6 +1,6 @@
 import { Module, VuexModule, Mutation, Action } from "vuex-module-decorators";
 import { Fund } from "./funds-interface";
-import { Selects } from "./selects-interface";
+import { Selects, Organizations, Grants } from "./selects-interface";
 
 import store from "@/store";
 import { db } from "@/firebase";
@@ -37,25 +37,25 @@ export default class FundStore extends VuexModule {
       const selectsRef = db.collection("selects").doc("items");
       const allSelects = selectsRef
         .get()
-        .then(doc => {
+        .then((doc: any) => {
           if (!doc.exists) {
-            console.log("No such document!");
+            return;
           } else {
-            console.log(doc.data());
+            const results = doc.data();
 
             resolve();
           }
         })
-        .catch(err => {
-          console.log("Error getting documents", err);
+        .catch(() => {
+          return;
         });
     });
   }
 
   // Actions
   @Mutation
-  private setGrantSelect(data: Selects) {
-    this.grantSelect = [{ data }];
+  private setGrantSelect(data: Array<object>) {
+    this.grantSelect = data;
   }
   // Mutations
   @Mutation
