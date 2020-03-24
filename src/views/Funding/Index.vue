@@ -321,7 +321,9 @@ export default class FundingDashboard extends Vue {
   created() {
     this.loadFunds();
   }
-
+  get selects(): object {
+    return fundStoreState.getSelects;
+  }
   // TODO Move to VUEX
 
   private loadFunds() {

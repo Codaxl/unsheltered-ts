@@ -31,7 +31,7 @@ export default class FundStore extends VuexModule {
   public getSelects() {
     new Promise(function(resolve, reject) {
       const selectsRef = db.collection("selects");
-      const allSelects = citiesRef
+      const allSelects = selectsRef
         .get()
         .then(snapshot => {
           snapshot.forEach(doc => {
