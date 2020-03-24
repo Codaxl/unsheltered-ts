@@ -1,13 +1,5 @@
 <template>
   <v-card class="mx-auto">
-    <v-list-item>
-      <v-list-item-avatar color="grey"></v-list-item-avatar>
-      <v-list-item-content>
-        <v-list-item-title class="headline">Welcome</v-list-item-title>
-        <v-list-item-subtitle>by Joshua Coda</v-list-item-subtitle>
-      </v-list-item-content>
-    </v-list-item>
-
     <v-img
       src="@/assets/front.png"
       lazy-src="@/assets/front.png"
@@ -33,16 +25,10 @@
     </v-card-text>
 
     <v-card-actions>
-      <v-btn text color="deep-purple accent-4">
-        Read
+      <v-btn text color="deep-purple accent-4" to="/news">
+        Continue
       </v-btn>
       <v-spacer></v-spacer>
-      <v-btn icon>
-        <v-icon>mdi-heart</v-icon>
-      </v-btn>
-      <v-btn icon>
-        <v-icon>mdi-share-variant</v-icon>
-      </v-btn>
     </v-card-actions>
   </v-card>
 </template>

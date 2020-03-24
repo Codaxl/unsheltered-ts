@@ -325,7 +325,6 @@ export default class FundingDashboard extends Vue {
 
   private async selects() {
     const result = await fundStoreState.getSelects();
-    console.log(result + "result");
     return result;
   }
   // TODO Move to VUEX
