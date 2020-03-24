@@ -20,14 +20,11 @@
           >
           </v-img>
           <v-card-text class="pt-6" style="position: relative;">
-            <div class="font-weight-light grey--text title mb-2">
-              by {{ item.author }} at {{ item.pubDate | fullDate }}
-            </div>
             <h3 class="display-1 font-weight-light orange--text mb-2">
               {{ item.title }}
             </h3>
-            <div class="font-weight-light title mb-2">
-              Add item.description.
+            <div class="font-weight-light grey--text title mb-2">
+              by {{ item.author }} on {{ item.pubDate | fullDate }}
             </div>
           </v-card-text>
         </v-card>
