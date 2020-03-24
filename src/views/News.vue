@@ -28,14 +28,14 @@
               >
               </v-img>
               <v-card-text class="pt-6" style="position: relative;">
-                <h3 class="display-1 font-weight-light orange--text mb-2">
+                <h3 class="font-weight-medium title mb-2">
                   {{ item.title }}
                 </h3>
-                <div class="font-weight-light grey--text title mb-2">
+                <div class="font-weight-light subtitle-1 mb-2">
                   by {{ item.author }} on {{ item.pubDate | fullDate }}
                 </div>
                 <span
-                  class="font-weight-light grey--text title mb-2"
+                  class="font-weight-regular mb-2"
                   v-for="category in item.categories"
                   :key="category.id"
                 >

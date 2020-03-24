@@ -242,6 +242,11 @@
       <v-fade-transition mode="out-in">
         <router-view></router-view>
       </v-fade-transition>
+      <v-footer style="background:inherit;" padless>
+        <v-row justify="center" no-gutters>
+          <v-col class="py-8 text-center" cols="12"> </v-col>
+        </v-row>
+      </v-footer>
       <v-fab-transition>
         <v-btn
           v-scroll="onScroll"
@@ -258,11 +263,6 @@
         </v-btn>
       </v-fab-transition>
     </v-content>
-    <v-footer style="background:inherit;" padless>
-      <v-row justify="center" no-gutters>
-        <v-col class="py-8 text-center" cols="12"> </v-col>
-      </v-row>
-    </v-footer>
   </v-app>
 </template>
 <script lang="ts">
