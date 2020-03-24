@@ -40,7 +40,7 @@
                   :key="category.id"
                 >
                   <v-chip class="ma-2" label>
-                    {{ category }}
+                    {{ category | capitalize }}
                   </v-chip>
                 </span>
               </v-card-text>
@@ -57,7 +57,14 @@ import { Component } from "vue-property-decorator";
 import BudgetPie from "../components/Funding/State/Heap/BudgetPie.vue";
 
 @Component({
-  components: { BudgetPie }
+  components: { BudgetPie },
+  filters: {
+    capitalize: function(value: any) {
+      if (!value) return "";
+      value = value.toString();
+      return value.charAt(0).toUpperCase() + value.slice(1);
+    }
+  }
 })
 export default class News extends Vue {
   private show = false;
