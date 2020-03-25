@@ -4,13 +4,15 @@
       <div>
         <v-breadcrumbs :items="breadcrumbs" large></v-breadcrumbs>
       </div>
-      <v-data-table
-        :headers="headers"
-        :items="funds"
-        :options.sync="options"
-        :loading="loading"
-        class="elevation-1"
-      ></v-data-table>
+      <div>
+        <v-data-table
+          :headers="headers"
+          :items="funds"
+          :options.sync="options"
+          :loading="loading"
+          class="elevation-1"
+        ></v-data-table>
+      </div>
     </v-container>
   </div>
 </template>
@@ -75,8 +77,6 @@ export default Vue.extend({
         });
         this.totalFunds = this.funds.length;
         this.loading = false;
-
-        console.log("Loaded users", this.funds.length);
       } catch (error) {
         throw new Error("Something gone wrong!");
       }
