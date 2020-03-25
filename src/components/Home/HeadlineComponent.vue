@@ -37,7 +37,7 @@
       </div>
     </v-col>
     <v-col class="text-center">
-      <div>
+      <div class="mt-12">
         <a href="https://www.buymeacoffee.com/1S5nvID" target="_blank"
           ><img
             src="https://cdn.buymeacoffee.com/buttons/default-white.png"
