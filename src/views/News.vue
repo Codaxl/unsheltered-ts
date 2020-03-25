@@ -4,7 +4,22 @@
       <v-breadcrumbs :items="breadcrumbs" large></v-breadcrumbs>
     </div>
     <v-row>
-      <v-col order="2" cols="12" md="8">
+      <v-col cols="12">
+        <v-layout justify-center>
+          <div style="max-width:600px;">
+            <v-text-field
+              label="Search..."
+              solo
+              rounded
+              clearable
+            ></v-text-field>
+          </div>
+        </v-layout>
+      </v-col>
+    </v-row>
+
+    <v-row>
+      <v-col cols="12">
         <div>
           <v-lazy
             :options="{
@@ -52,16 +67,6 @@
             </div>
           </v-lazy>
         </div>
-      </v-col>
-      <v-col order="1" cols="12" md="4">
-        <v-card class="mx-auto">
-          <v-subheader>SEARCH</v-subheader>
-          <v-card-actions>
-            <v-text-field label="Outlined" single-line round></v-text-field>
-
-            <v-text-field label="Outlined" single-line outlined></v-text-field>
-          </v-card-actions>
-        </v-card>
       </v-col>
     </v-row>
   </v-container>
