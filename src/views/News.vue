@@ -30,39 +30,54 @@
           >
             <div>
               <v-card
-                hover
-                class="mx-auto"
                 v-for="item in results"
                 :key="item.guid"
-                max-width="600"
                 :href="item.link"
+                hover
+                class="mx-auto"
               >
-                <v-img
-                  :aspect-ratio="16 / 9"
-                  :src="item.thumbnail"
-                  :lazy-src="item.thumbnail"
-                >
-                </v-img>
-                <v-card-text class="pt-6" style="position: relative;">
-                  <h3 class="font-weight-bold title mb-3">
-                    {{ item.title }}
-                  </h3>
-                  <v-row class="mx-auto">
-                    <p>By {{ item.author }} on {{ item.pubDate | fullDate }}</p>
+                <v-container>
+                  <v-row justify="space-between">
+                    <v-col cols="8">
+                      <v-row
+                        class="flex-column ma-0 fill-height"
+                        justify="center"
+                      >
+                        <v-col class="px-0">
+                          <h3 class="font-weight-bold title">
+                            {{ item.title }}
+                          </h3>
+
+                          <p>
+                            By {{ item.author }} on
+                            {{ item.pubDate | fullDate }}
+                          </p>
+
+                          <p>
+                            {{ item.description | strip }}
+                          </p>
+                          <span
+                            class="font-weight-regular pe-2"
+                            v-for="category in item.categories"
+                            :key="category.id"
+                          >
+                            <v-chip class="my-2">
+                              {{ category | capitalize }}
+                            </v-chip>
+                          </span>
+                        </v-col>
+                      </v-row>
+                    </v-col>
+                    <v-col cols="4" class="pl-0">
+                      <v-img
+                        max-height="600"
+                        max-width="600"
+                        :src="item.thumbnail"
+                        :lazy-src="item.thumbnail"
+                      ></v-img>
+                    </v-col>
                   </v-row>
-                  <div>
-                    {{ item.description | strip }}
-                  </div>
-                  <span
-                    class="font-weight-regular pe-2"
-                    v-for="category in item.categories"
-                    :key="category.id"
-                  >
-                    <v-chip class="my-2">
-                      {{ category | capitalize }}
-                    </v-chip>
-                  </span>
-                </v-card-text>
+                </v-container>
               </v-card>
             </div>
           </v-lazy>
