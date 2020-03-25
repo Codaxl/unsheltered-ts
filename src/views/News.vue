@@ -5,8 +5,8 @@
     </div>
     <v-row>
       <v-col cols="12">
-        <v-layout justify-center>
-          <div style="max-width:600px;">
+        <v-card class="mx-auto" max-width="600" flat tile>
+          <div class="text-justify-center">
             <v-text-field
               label="Search..."
               solo
@@ -14,7 +14,7 @@
               clearable
             ></v-text-field>
           </div>
-        </v-layout>
+        </v-card>
       </v-col>
     </v-row>
 
