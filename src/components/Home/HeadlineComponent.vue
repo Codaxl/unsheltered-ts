@@ -36,15 +36,5 @@
         </v-card>
       </div>
     </v-col>
-    <v-col class="text-center">
-      <div class="mt-12">
-        <a href="https://www.buymeacoffee.com/1S5nvID" target="_blank"
-          ><img
-            src="https://cdn.buymeacoffee.com/buttons/default-white.png"
-            alt="Buy Me A Coffee"
-            style="height: 51px !important;width: 217px !important;  border-radius: 25px;"
-        /></a>
-      </div>
-    </v-col>
   </v-row>
 </template>

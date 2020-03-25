@@ -4,7 +4,7 @@
       <v-breadcrumbs :items="breadcrumbs" large></v-breadcrumbs>
     </div>
     <v-row>
-      <v-col cols="12">
+      <v-col order="2" cols="12" md="8">
         <div>
           <v-lazy
             :options="{
@@ -32,28 +32,36 @@
                   <h3 class="font-weight-bold title mb-3">
                     {{ item.title }}
                   </h3>
+                  <v-row class="mx-auto">
+                    <p>By {{ item.author }} on {{ item.pubDate | fullDate }}</p>
+                  </v-row>
                   <div>
                     {{ item.description | strip }}
                   </div>
                   <span
-                    class="font-weight-regular mb-2"
+                    class="font-weight-regular pe-2"
                     v-for="category in item.categories"
                     :key="category.id"
                   >
-                    <v-chip class="ma-2" label>
+                    <v-chip class="my-2">
                       {{ category | capitalize }}
                     </v-chip>
                   </span>
-                  <v-card-actions>
-                    <v-btn text>By {{ item.author }}</v-btn>
-                    <v-spacer></v-spacer>
-                    <v-btn text>{{ item.pubDate | fullDate }}</v-btn>
-                  </v-card-actions>
                 </v-card-text>
               </v-card>
             </div>
           </v-lazy>
         </div>
+      </v-col>
+      <v-col order="1" cols="12" md="4">
+        <v-card class="mx-auto">
+          <v-subheader>SEARCH</v-subheader>
+          <v-card-actions>
+            <v-text-field label="Outlined" single-line round></v-text-field>
+
+            <v-text-field label="Outlined" single-line outlined></v-text-field>
+          </v-card-actions>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>
@@ -88,6 +96,7 @@ export default class News extends Vue {
       href: "/"
     }
   ];
+
   private results: Array<object> = [];
   // TODO https://stackoverflow.com/questions/11784703/remove-html-from-a-string-in-json-response
   // Source: https://medium.com/@KonradDaWo/how-to-display-medium-posts-on-a-website-with-plain-vanilla-js-basic-api-usage-example-865507848c2
