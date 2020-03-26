@@ -16,6 +16,7 @@ import { Query } from "@firebase/firestore-types";
 export default class FundStore extends VuexModule {
   // States
   public data = [{}];
+  public organizations = [{}];
 
   public yearFilter = new Date().getFullYear();
   public orgFilter = "";

@@ -248,7 +248,7 @@
                 :options="{
                   threshold: 0.5
                 }"
-                min-height="400"
+                min-height="150"
                 transition="fade-transition"
               >
                 <funding-grant-table :key="componentKey"></funding-grant-table>
@@ -276,6 +276,25 @@
           </v-col>
         </v-row>
       </div>
+      <div>
+        <v-row>
+          <v-col cols="12">
+            <div>
+              <v-lazy
+                :options="{
+                  threshold: 0.5
+                }"
+                min-height="150"
+                transition="fade-transition"
+              >
+                <funding-organization-table
+                  :key="componentKey"
+                ></funding-organization-table>
+              </v-lazy>
+            </div>
+          </v-col>
+        </v-row>
+      </div>
     </div>
   </v-container>
 </template>
@@ -285,6 +304,7 @@ import { Component } from "vue-property-decorator";
 import FundingDashboardPie from "@/components/Funding/FundingDashboardPie.vue";
 import FundingDashboardBar from "@/components/Funding/FundingDashboardBar.vue";
 import FundingGrantTable from "@/components/Funding/FundingGrantTable.vue";
+import FundingOrganizationTable from "@/components/Funding/FundingOrganizationTable.vue";
 // Vuex
 import { getModule } from "vuex-module-decorators";
 import FundStore from "@/store/funds/funds-store";
@@ -294,7 +314,12 @@ const fundStoreState = getModule(FundStore);
 import { FundsDataServices } from "./FirestoreDataServices";
 
 @Component({
-  components: { FundingDashboardPie, FundingDashboardBar, FundingGrantTable }
+  components: {
+    FundingDashboardPie,
+    FundingDashboardBar,
+    FundingGrantTable,
+    FundingOrganizationTable
+  }
 })
 export default class FundingDashboard extends Vue {
   //detele

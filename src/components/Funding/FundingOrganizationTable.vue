@@ -1,7 +1,7 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="funds"
+    :items="plus"
     item-key="name"
     class="elevation-1"
     :items-per-page="5"
@@ -19,20 +19,31 @@ export default Vue.extend({
   data: () => ({
     headers: [
       {
-        text: "Grant",
+        text: "Organization",
         align: "start",
         sortable: false,
-        value: "grant"
+        value: "organization"
       },
-      { text: "Funding Source", value: "source" },
-      { text: "Amount", value: "amount" }
+      { text: "Amount", value: "amount" },
+      { text: "Percentage", value: "amount" }
     ]
   }),
+  created: function() {
+    const organizations = this.getUniqueListBy(
+      fundStoreState.data,
+      "organization"
+    ); // => 'foo'
+  },
   computed: {
     // a computed getter
     funds: function() {
       // `this` points to the vm instance
       return fundStoreState.data;
+    }
+  },
+  methods: {
+    getUniqueListBy: function getUniqueListBy(arr: any, key: any) {
+      return [...new Map(arr.map((item: any) => [item[key], item])).values()];
     }
   }
 });
