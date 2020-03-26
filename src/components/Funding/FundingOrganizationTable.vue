@@ -1,11 +1,17 @@
 <template>
-  <v-data-table
-    :headers="headers"
-    :items="organizations"
-    item-key="name"
-    class="elevation-1"
-    :items-per-page="5"
-  ></v-data-table>
+  <div>
+    <v-data-table
+      :headers="headers"
+      :items="organizations"
+      item-key="name"
+      class="elevation-1"
+      :items-per-page="5"
+    >
+      <template v-slot:item.amount="{ item }">
+        <span>{{ item.amount | currency }}</span>
+      </template>
+    </v-data-table>
+  </div>
 </template>
 
 <script lang="ts">
@@ -17,7 +23,6 @@ const fundStoreState = getModule(FundStore);
 
 export default Vue.extend({
   data: () => ({
-    organizations: [],
     headers: [
       {
         text: "Organization",
@@ -25,26 +30,20 @@ export default Vue.extend({
         sortable: false,
         value: "organization"
       },
-      { text: "Amount", value: "amount" },
-      { text: "Percentage", value: "amount" }
+      { text: "Amount", value: "amount" }
     ]
   }),
-  created: function() {
-    const organizations = this.getUniqueListBy(
-      fundStoreState.data,
-      "organization"
-    ); // => 'foo'
-  },
+  //https://stackoverflow.com/questions/40262445/merge-object-sum-a-single-property-javascript
   computed: {
     // a computed getter
     funds: function() {
       // `this` points to the vm instance
       return fundStoreState.data;
-    }
-  },
-  methods: {
-    getUniqueListBy: function getUniqueListBy(arr: any, key: any) {
-      return [...new Map(arr.map((item: any) => [item[key], item])).values()];
+    },
+
+    organizations: function() {
+      // `this` points to the vm instance
+      return fundStoreState.organizations;
     }
   }
 });

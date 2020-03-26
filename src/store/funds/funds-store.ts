@@ -17,7 +17,7 @@ export default class FundStore extends VuexModule {
   // States
   public data = [{}];
   public organizations = [{}];
-
+  public grants = [{}];
   public yearFilter = new Date().getFullYear();
   public orgFilter = "";
   public grantFilter = "";
@@ -54,10 +54,41 @@ export default class FundStore extends VuexModule {
     });
   }
 
-  // Actions
+  // TODO
   @Mutation
   private setGrantSelect(data: Array<object>) {
     this.grantSelect = data;
+  }
+
+  @Mutation
+  public setGrant(data: Array<object>) {
+    return (this.grants = data.reduce(
+      (map => (r: any, a: any) => {
+        map.set(
+          a.grant,
+          map.get(a.grant) || r[r.push({ grant: a.grant, amount: 0 }) - 1]
+        );
+        map.get(a.grant).amount += parseFloat(a.amount);
+        return r;
+      })(new Map()),
+      []
+    ));
+  }
+
+  @Mutation
+  public setOrganizations(data: Array<object>) {
+    return (this.organizations = data.reduce(
+      (map => (r: any, a: any) => {
+        map.set(
+          a.organization,
+          map.get(a.organization) ||
+            r[r.push({ organization: a.organization, amount: 0 }) - 1]
+        );
+        map.get(a.organization).amount += parseFloat(a.amount);
+        return r;
+      })(new Map()),
+      []
+    ));
   }
   // Mutations
   @Mutation

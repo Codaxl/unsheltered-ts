@@ -388,7 +388,8 @@ export default class FundingDashboard extends Vue {
       )
       .then((data: any) => {
         fundStoreState.setData(data);
-
+        fundStoreState.setGrant(data);
+        fundStoreState.setOrganizations(data);
         this.isLoading = false;
         this.componentKey += 1;
       });

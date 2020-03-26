@@ -1,11 +1,17 @@
 <template>
-  <v-data-table
-    :headers="headers"
-    :items="funds"
-    item-key="name"
-    class="elevation-1"
-    :items-per-page="5"
-  ></v-data-table>
+  <div>
+    <v-data-table
+      :headers="headers"
+      :items="grants"
+      item-key="name"
+      class="elevation-1"
+      :items-per-page="5"
+    >
+      <template v-slot:item.amount="{ item }">
+        <span>{{ item.amount | currency }}</span>
+      </template>
+    </v-data-table>
+  </div>
 </template>
 
 <script lang="ts">
@@ -24,15 +30,19 @@ export default Vue.extend({
         sortable: false,
         value: "grant"
       },
-      { text: "Funding Source", value: "source" },
       { text: "Amount", value: "amount" }
     ]
   }),
+  //https://stackoverflow.com/questions/40262445/merge-object-sum-a-single-property-javascript
   computed: {
     // a computed getter
     funds: function() {
       // `this` points to the vm instance
       return fundStoreState.data;
+    },
+    grants: function() {
+      // `this` points to the vm instance
+      return fundStoreState.grants;
     }
   }
 });
