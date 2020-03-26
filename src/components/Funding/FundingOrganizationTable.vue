@@ -1,7 +1,7 @@
 <template>
   <v-data-table
     :headers="headers"
-    :items="plus"
+    :items="organizations"
     item-key="name"
     class="elevation-1"
     :items-per-page="5"
@@ -17,6 +17,7 @@ const fundStoreState = getModule(FundStore);
 
 export default Vue.extend({
   data: () => ({
+    organizations: [],
     headers: [
       {
         text: "Organization",
