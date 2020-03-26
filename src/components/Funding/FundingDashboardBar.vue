@@ -109,9 +109,19 @@ export default class FundingDashboardBar extends Vue {
     const series = chart.series.push(new am4charts.ColumnSeries());
     series.sequencedInterpolation = true;
     series.dataFields.valueY = "amount";
+
     series.dataFields.categoryX = "organization";
-    series.tooltipText = "[{categoryX}: bold]{valueY}[/]";
+    series.tooltipText = "${amount} {valueY.totalPercent.formatNumber('#.00')}";
     series.columns.template.strokeWidth = 0;
+
+    // as by default columns of the same series are of the same color, we add adapter which takes colors from chart.colors color set
+    series.columns.template.adapter.add("fill", function(
+      fill: any,
+      target: any
+    ) {
+      return chart.colors.getIndex(target.dataItem.index);
+    });
+
     // Object is possibly 'undefined'.
     // series.tooltip.pointerOrientation = "vertical";
 

@@ -34,50 +34,37 @@
                 class="mx-auto"
                 v-for="item in results"
                 :key="item.guid"
+                max-width="600"
                 :href="item.link"
               >
-                <v-container>
-                  <v-row justify="space-between">
-                    <v-col cols="col-auto">
-                      <v-row
-                        class="flex-column ma-0 fill-height"
-                        justify="center"
-                      >
-                        <v-col class="px-0">
-                          <h3 class="font-weight-bold title">
-                            {{ item.title }}
-                          </h3>
-                          <v-card-text>
-                            <p>
-                              By {{ item.author }} on
-                              {{ item.pubDate | fullDate }}
-                            </p>
-
-                            <p>
-                              {{ item.description | strip }}
-                            </p>
-                            <span
-                              class="font-weight-regular pe-2"
-                              v-for="category in item.categories"
-                              :key="category.id"
-                            >
-                              <v-chip class="my-2">
-                                {{ category | capitalize }}
-                              </v-chip>
-                            </span>
-                          </v-card-text>
-                        </v-col>
-                      </v-row>
-                    </v-col>
-                    <v-col cols="col-auto" class="pl-0">
-                      <v-img
-                        aspect-ratio="2"
-                        :src="item.thumbnail"
-                        :lazy-src="item.thumbnail"
-                      ></v-img>
-                    </v-col>
-                  </v-row>
-                </v-container>
+                <v-img
+                  :aspect-ratio="16 / 9"
+                  :src="item.thumbnail"
+                  :lazy-src="item.thumbnail"
+                >
+                </v-img>
+                <v-card-text class="pt-6" style="position: relative;">
+                  <h3 class="font-weight-bold title">
+                    {{ item.title }}
+                  </h3>
+                  <div class="my-2">
+                    <p>By {{ item.author }} on {{ item.pubDate | fullDate }}</p>
+                  </div>
+                  <div class="my-4">
+                    {{ item.description | strip }}
+                  </div>
+                  <div class="my-2">
+                    <span
+                      class="font-weight-regular pe-2"
+                      v-for="category in item.categories"
+                      :key="category.id"
+                    >
+                      <v-chip class="my-2">
+                        {{ category | capitalize }}
+                      </v-chip>
+                    </span>
+                  </div>
+                </v-card-text>
               </v-card>
             </div>
           </v-lazy>

@@ -28,6 +28,7 @@ export default class FundStore extends VuexModule {
   public cityTotal = 0;
 
   public grantSelect = [{}];
+  public tableGrant = [{}];
   // states
   // private _select: Selects = Selects.makeEmptySelect();
 
