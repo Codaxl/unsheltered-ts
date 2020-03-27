@@ -1,27 +1,25 @@
 <template>
-  <v-container>
+  <v-row>
     <div>
-      <div>
-        <h2 class="headline">Overview</h2>
-      </div>
-      <v-data-table :headers="cocHeaders" :items="coc" hide-default-footer>
-        <template v-slot:item.amount="{ item }">
-          {{ item.amount | currency }}
-        </template>
-      </v-data-table>
-      <div>
-        <p>
-          Roune 1 Standard Distribution of Funds Began Apr 2019. Round 2
-          Standard Distribution of Funds Began July 2019. 100 percent of the
-          funds must be expended by June 30, 2021.
-        </p>
-
-        <p class="caption">
-          Source: https://www.bcsh.ca.gov/hcfc/documents/heap_overview.pdf
-        </p>
-      </div>
+      <h2 class="headline">Overview</h2>
     </div>
-  </v-container>
+    <v-data-table :headers="cocHeaders" :items="coc" hide-default-footer>
+      <template v-slot:item.amount="{ item }">
+        {{ item.amount | currency }}
+      </template>
+    </v-data-table>
+    <div>
+      <p>
+        Roune 1 Standard Distribution of Funds Began Apr 2019. Round 2 Standard
+        Distribution of Funds Began July 2019. 100 percent of the funds must be
+        expended by June 30, 2021.
+      </p>
+
+      <p class="caption">
+        Source: https://www.bcsh.ca.gov/hcfc/documents/heap_overview.pdf
+      </p>
+    </div>
+  </v-row>
 </template>
 
 <script lang="ts">
