@@ -8,8 +8,10 @@
       hide-default-footer
     >
       <template v-slot:header>
-        <v-toolbar class="mb-2" flat>
-          <v-toolbar-title>Contact Information</v-toolbar-title>
+        <v-toolbar flat>
+          <v-toolbar-title>
+            <h2 class="headline">Contact Information</h2></v-toolbar-title
+          >
         </v-toolbar>
       </template>
       <template v-slot:default="{ items, isExpanded, expand }">
