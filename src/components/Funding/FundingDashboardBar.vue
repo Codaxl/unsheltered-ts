@@ -141,7 +141,6 @@ export default class FundingDashboardBar extends Vue {
 
     // Cursor
     chart.cursor = new am4charts.XYCursor();
-
     this.container = container;
   }
   mounted() {

@@ -95,7 +95,6 @@ export default class FundStore extends VuexModule {
   public setData(data: Array<object>) {
     this.data = data;
   }
-
   @Mutation
   public setFederalTotal(newTotal: number) {
     this.federalTotal = newTotal;

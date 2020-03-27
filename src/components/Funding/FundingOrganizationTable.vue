@@ -33,6 +33,7 @@ export default Vue.extend({
       { text: "Amount", value: "amount" }
     ]
   }),
+
   //https://stackoverflow.com/questions/40262445/merge-object-sum-a-single-property-javascript
   computed: {
     // a computed getter

@@ -1,7 +1,9 @@
 <template>
   <v-card>
     <v-container>
-      <div class="hello" ref="fundingDashboardPie"></div>
+      <div>
+        <div class="hello" ref="fundingDashboardPie"></div>
+      </div>
     </v-container>
   </v-card>
 </template>
@@ -31,6 +33,7 @@ export default class FundingDashboardPie extends Vue {
     fundingDashboardPie: HTMLElement;
   };
   private container: any;
+  private loading = false;
 
   private chartData: any = [];
 
@@ -54,6 +57,7 @@ export default class FundingDashboardPie extends Vue {
   ];
 
   public init() {
+    this.loading = true;
     const container = am4core.create(
       this.$refs.fundingDashboardPie,
       am4core.Container
@@ -88,6 +92,8 @@ export default class FundingDashboardPie extends Vue {
     setTimeout(() => {
       this.init();
     }, 500);
+
+    this.loading = false;
   }
   beforeDestroy() {
     if (this.container) {
