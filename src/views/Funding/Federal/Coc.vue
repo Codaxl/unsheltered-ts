@@ -11,7 +11,136 @@
       </div>
       <div>
         <v-row>
-          <v-col cols="12" sm="8">
+          <v-col cols="12">
+            <v-card>
+              <v-tabs fixed-tabs show-arrows>
+                <v-tab>
+                  About
+                </v-tab>
+                <v-tab>
+                  Eligible Applicants
+                </v-tab>
+                <v-tab>
+                  Program Components
+                </v-tab>
+
+                <v-tab-item>
+                  <v-card flat>
+                    <v-card-text>
+                      <div class="body-1 mb-5">
+                        <p>
+                          The Continuum of Care (CoC) Program is designed to
+                          promote communitywide commitment to the goal of ending
+                          homelessness; provide funding for efforts by nonprofit
+                          providers, and State and local governments to quickly
+                          rehouse homeless individuals and families while
+                          minimizing the trauma and dislocation caused to
+                          homeless individuals, families, and communities by
+                          homelessness; promote access to and effect utilization
+                          of mainstream programs by homeless individuals and
+                          families; and optimize self-sufficiency among
+                          individuals and families experiencing homelessness.
+                        </p>
+                      </div>
+                    </v-card-text>
+                  </v-card>
+                </v-tab-item>
+                <v-tab-item>
+                  <v-card flat>
+                    <v-card-text>
+                      <div>
+                        <p>
+                          Under the CoC Program interim rule, eligible
+                          applicants consist of nonprofit organizations, State
+                          and local governments, instrumentalities of local
+                          governments, and public housing agencies. An eligible
+                          applicant must be designated by the Continuum of Care
+                          to submit an application to HUD for grant funds. The
+                          Continuum's designation must state whether the
+                          Continuum is designating more than one applicant to
+                          apply for funds, and if it is, which applicant is
+                          being designated as the Collaborative Applicant. A
+                          Continuum of Care that is designating only one
+                          applicant for funds must designate that applicant to
+                          be the Collaborative Applicant. For-profit entities
+                          are not eligible to apply for grants or to be
+                          subrecipients of grant funds.
+                        </p>
+                      </div>
+                    </v-card-text>
+                  </v-card>
+                </v-tab-item>
+                <v-tab-item>
+                  <v-card flat>
+                    <v-card-text>
+                      <div>
+                        <p>
+                          The CoC Program interim rule provides that Continuum
+                          of Care Program funds may be used for projects under
+                          five program components: permanent housing,
+                          transitional housing, supportive services only, HMIS,
+                          and, in some cases, homelessness prevention.
+                          Administrative costs are eligible under all
+                          components. Where possible, the components set forth
+                          in the Continuum of Care Program are consistent with
+                          the components allowable under the Emergency Solutions
+                          Grants program. This eases the administrative burden
+                          on recipients of both programs and ensures that
+                          reporting requirements and data quality benchmarks are
+                          consistently established and applied to like projects.
+                          One significant distinction between the Emergency
+                          Solutions Grants Program and the CoC Program can be
+                          found in the eligible activities and administration
+                          requirements for assistance provided under the rapid
+                          re-housing component in this interim rule.
+                        </p>
+                      </div>
+                      <div class="body-1 mb-5">
+                        <p>
+                          The five program components that can be funded through
+                          the CoC Program are listed below.
+                        </p>
+                        <div>
+                          <v-row class="mx-auto">
+                            <v-spacer></v-spacer>
+                            <v-switch v-model="switch1"></v-switch>
+                          </v-row>
+
+                          <v-expansion-panels
+                            v-model="panel"
+                            multiple
+                            flat
+                            hover
+                          >
+                            <v-expansion-panel
+                              v-for="(item, i) in programInfo"
+                              :key="i"
+                            >
+                              <v-expansion-panel-header>{{
+                                item.name
+                              }}</v-expansion-panel-header>
+                              <v-expansion-panel-content>
+                                {{ item.desc }}
+                              </v-expansion-panel-content>
+                            </v-expansion-panel>
+                          </v-expansion-panels>
+                        </div>
+                      </div>
+                    </v-card-text>
+                  </v-card>
+                </v-tab-item>
+              </v-tabs>
+            </v-card>
+          </v-col>
+        </v-row>
+      </div>
+      <div>
+        <v-row>
+          <v-col cols="12">
+            <contacts />
+          </v-col>
+
+          <v-col cols="12">
             <div>
               <v-card>
                 <v-card-title>
@@ -42,192 +171,8 @@
               </v-card>
             </div>
           </v-col>
-          <v-col cols="12" sm="4">
-            <div v-for="item in contact" :key="item.name">
-              <v-card
-                class="mx-auto"
-                style="min-height:350px;"
-                v-for="item in contact"
-                :key="item.name"
-              >
-                <v-card-title>
-                  <h2 class="headline">{{ item.name }}</h2>
-                </v-card-title>
-                <v-card-text>
-                  <v-row>
-                    <v-col cols="6">
-                      Name:
-                    </v-col>
-                    <v-col cols="6">
-                      {{ item.firstName }} {{ item.lastName }}
-                    </v-col>
-                  </v-row>
-                  <v-row>
-                    <v-col cols="6">
-                      Title:
-                    </v-col>
-                    <v-col cols="6">
-                      {{ item.title }}
-                    </v-col>
-                  </v-row>
-                  <v-row>
-                    <v-col cols="6">
-                      Organization:
-                    </v-col>
-                    <v-col cols="6">
-                      {{ item.organization }}
-                    </v-col>
-                  </v-row>
-                  <v-row>
-                    <v-col cols="6">
-                      Email:
-                    </v-col>
-                    <v-col cols="6">
-                      {{ item.email }}
-                    </v-col>
-                  </v-row>
-                  <v-row>
-                    <v-col cols="6">
-                      Phone:
-                    </v-col>
-                    <v-col cols="6">
-                      {{ item.phone }}
-                    </v-col>
-                  </v-row>
-                </v-card-text>
-              </v-card>
-            </div>
-          </v-col>
         </v-row>
       </div>
-      <v-row>
-        <v-col cols="12">
-          <v-card>
-            <v-tabs fixed-tabs show-arrows>
-              <v-tab>
-                About
-              </v-tab>
-              <v-tab>
-                Eligible Applicants
-              </v-tab>
-              <v-tab>
-                Program Components
-              </v-tab>
-
-              <v-tab-item>
-                <v-card flat>
-                  <v-card-text>
-                    <div>
-                      <h2 class="font-weight-regular mt-5">
-                        About
-                      </h2>
-                    </div>
-                    <div class="body-1 mb-5">
-                      <p>
-                        The Continuum of Care (CoC) Program is designed to
-                        promote communitywide commitment to the goal of ending
-                        homelessness; provide funding for efforts by nonprofit
-                        providers, and State and local governments to quickly
-                        rehouse homeless individuals and families while
-                        minimizing the trauma and dislocation caused to homeless
-                        individuals, families, and communities by homelessness;
-                        promote access to and effect utilization of mainstream
-                        programs by homeless individuals and families; and
-                        optimize self-sufficiency among individuals and families
-                        experiencing homelessness.
-                      </p>
-                    </div>
-                  </v-card-text>
-                </v-card>
-              </v-tab-item>
-              <v-tab-item>
-                <v-card flat>
-                  <v-card-text>
-                    <div>
-                      <h2 class="font-weight-regular mt-5">
-                        Eligible Applicants
-                      </h2>
-                      <p>
-                        Under the CoC Program interim rule, eligible applicants
-                        consist of nonprofit organizations, State and local
-                        governments, instrumentalities of local governments, and
-                        public housing agencies. An eligible applicant must be
-                        designated by the Continuum of Care to submit an
-                        application to HUD for grant funds. The Continuum's
-                        designation must state whether the Continuum is
-                        designating more than one applicant to apply for funds,
-                        and if it is, which applicant is being designated as the
-                        Collaborative Applicant. A Continuum of Care that is
-                        designating only one applicant for funds must designate
-                        that applicant to be the Collaborative Applicant.
-                        For-profit entities are not eligible to apply for grants
-                        or to be subrecipients of grant funds.
-                      </p>
-                    </div>
-                  </v-card-text>
-                </v-card>
-              </v-tab-item>
-              <v-tab-item>
-                <v-card flat>
-                  <v-card-text>
-                    <div>
-                      <h2 class="font-weight-regular mt-5">
-                        Program Components
-                      </h2>
-                      <p>
-                        The CoC Program interim rule provides that Continuum of
-                        Care Program funds may be used for projects under five
-                        program components: permanent housing, transitional
-                        housing, supportive services only, HMIS, and, in some
-                        cases, homelessness prevention. Administrative costs are
-                        eligible under all components. Where possible, the
-                        components set forth in the Continuum of Care Program
-                        are consistent with the components allowable under the
-                        Emergency Solutions Grants program. This eases the
-                        administrative burden on recipients of both programs and
-                        ensures that reporting requirements and data quality
-                        benchmarks are consistently established and applied to
-                        like projects. One significant distinction between the
-                        Emergency Solutions Grants Program and the CoC Program
-                        can be found in the eligible activities and
-                        administration requirements for assistance provided
-                        under the rapid re-housing component in this interim
-                        rule.
-                      </p>
-                    </div>
-                    <div class="body-1 mb-5">
-                      <p>
-                        The five program components that can be funded through
-                        the CoC Program are listed below.
-                      </p>
-                      <div>
-                        <v-row class="mx-auto">
-                          <v-spacer></v-spacer>
-                          <v-switch v-model="switch1"></v-switch>
-                        </v-row>
-
-                        <v-expansion-panels v-model="panel" multiple flat hover>
-                          <v-expansion-panel
-                            v-for="(item, i) in programInfo"
-                            :key="i"
-                          >
-                            <v-expansion-panel-header>{{
-                              item.name
-                            }}</v-expansion-panel-header>
-                            <v-expansion-panel-content>
-                              {{ item.desc }}
-                            </v-expansion-panel-content>
-                          </v-expansion-panel>
-                        </v-expansion-panels>
-                      </div>
-                    </div>
-                  </v-card-text>
-                </v-card>
-              </v-tab-item>
-            </v-tabs>
-          </v-card>
-        </v-col>
-      </v-row>
 
       <div>
         <v-row>
@@ -379,10 +324,11 @@
 <script lang="ts">
 import Vue from "vue";
 import { Component, Watch } from "vue-property-decorator";
-import BudgetPie from "@/components/Funding/State/Heap/BudgetPie.vue";
+import BudgetPie from "@/components/Funding/Federal/Coc/BudgetPie.vue";
+import Contacts from "@/components/Funding/Federal/Coc/Contacts.vue";
 
 @Component({
-  components: { BudgetPie }
+  components: { BudgetPie, Contacts }
 })
 export default class Coc extends Vue {
   private model = null;
