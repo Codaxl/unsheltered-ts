@@ -77,6 +77,14 @@ const routes = [
         component: () =>
           import(/* webpackChunkName: "about" */ "../views/Funding/Summary.vue")
       },
+      {
+        // UserProfile will be rendered inside User's <router-view>
+        // when /user/:id/profile is matched
+        path: "create",
+        name: "Funding Create",
+        component: () =>
+          import(/* webpackChunkName: "about" */ "../views/Funding/Create.vue")
+      },
 
       {
         // UserProfile will be rendered inside User's <router-view>

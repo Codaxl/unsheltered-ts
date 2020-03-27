@@ -1,20 +1,31 @@
 <template>
-  <div id="Events">
-    <v-container style="max-width:1080px;">
-      <div>
-        <v-breadcrumbs :items="breadcrumbs" large></v-breadcrumbs>
-      </div>
-      <div>
-        <v-data-table
-          :headers="headers"
-          :items="funds"
-          :options.sync="options"
-          :loading="loading"
-          class="elevation-1"
-        ></v-data-table>
-      </div>
-    </v-container>
-  </div>
+  <v-container full-width>
+    <v-row align="center" justify="center">
+      <v-col cols="12" md="6">
+        <!-- Content -->
+        <v-card class="pa-4">
+          <v-form @submit.prevent="onSubmit">
+            <v-text-field v-model="name" label="Amount" />
+            <v-text-field v-model="email" label="Continuum Project" />
+            <v-text-field v-model="email" label="Date Created" />
+            <v-text-field v-model="email" label="Date Updated" />
+            <v-text-field v-model="email" label="Grant" />
+            <v-text-field v-model="email" label="HMIS Participating Project" />
+            <v-text-field v-model="email" label="Operating Start Date" />
+            <v-text-field v-model="email" label="Operating End Date" />
+            <v-text-field v-model="email" label="ProjecT Type" />
+            <v-text-field v-model="email" label="Residiential Affiliation" />
+            <v-text-field v-model="email" label="Source Type" />
+            <v-text-field v-model="email" label="Tracking Method" />
+            <v-row>
+              <v-spacer />
+              <v-btn type="submit">Submit</v-btn>
+            </v-row>
+          </v-form>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 <script lang="ts">
 import Vue from "vue";
@@ -23,64 +34,9 @@ import { db } from "@/firebase";
 export default Vue.extend({
   data() {
     return {
-      funds: [{}],
-      totalFunds: 0,
-
-      loading: true,
-      options: {},
-      headers: [
-        {
-          text: "Year",
-          align: "start",
-          sortable: false,
-          value: "year"
-        },
-        { text: "Amount", value: "amount" },
-        { text: "Organization", value: "organization" },
-        { text: "Project Name", value: "projectName" },
-        { text: "Grant", value: "grant" },
-        { text: "Source", value: "source" }
-      ],
-      breadcrumbs: [
-        {
-          text: "Home",
-          disabled: false,
-          href: "/"
-        },
-        {
-          text: "Funding",
-          disabled: true,
-          href: "/funding/"
-        },
-        {
-          text: "Summary",
-          disabled: true,
-          href: "/funding/"
-        }
-      ]
+      name: "test",
+      email: "test"
     };
-  },
-  mounted() {
-    this.fetchFunds();
-  },
-  methods: {
-    async fetchFunds() {
-      this.loading = true;
-      const query = db.collection("funds");
-      try {
-        const { docs } = await query.get();
-
-        this.funds = docs.map(doc => {
-          const { id } = doc;
-          const data = doc.data();
-          return { id, ...data };
-        });
-        this.totalFunds = this.funds.length;
-        this.loading = false;
-      } catch (error) {
-        throw new Error("Something gone wrong!");
-      }
-    }
   }
 });
 </script>
