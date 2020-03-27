@@ -144,9 +144,9 @@
                 <v-card flat>
                   <v-card-text>
                     <div>
-                      <h3 class="font-weight-regular mt-5">
+                      <h2 class="font-weight-regular mt-5">
                         Eligible Applicants
-                      </h3>
+                      </h2>
                       <p>
                         Under the CoC Program interim rule, eligible applicants
                         consist of nonprofit organizations, State and local
@@ -171,9 +171,9 @@
                 <v-card flat>
                   <v-card-text>
                     <div>
-                      <h3 class="font-weight-regular mt-5">
+                      <h2 class="font-weight-regular mt-5">
                         Program Components
-                      </h3>
+                      </h2>
                       <p>
                         The CoC Program interim rule provides that Continuum of
                         Care Program funds may be used for projects under five
@@ -201,12 +201,12 @@
                         the CoC Program are listed below.
                       </p>
                       <div>
-                        <div class="text-center d-flex pb-4">
-                          <v-btn @click="all">all</v-btn>
-                          <v-btn @click="none">none</v-btn>
-                        </div>
+                        <v-row class="mx-auto">
+                          <v-spacer></v-spacer>
+                          <v-switch v-model="switch1"></v-switch>
+                        </v-row>
 
-                        <v-expansion-panels v-model="panel" multiple>
+                        <v-expansion-panels v-model="panel" multiple flat hover>
                           <v-expansion-panel
                             v-for="(item, i) in programInfo"
                             :key="i"
@@ -219,93 +219,6 @@
                             </v-expansion-panel-content>
                           </v-expansion-panel>
                         </v-expansion-panels>
-                      </div>
-                      <p><b>Permanent Housing</b></p>
-                      <p>
-                        Permanent housing (PH) is defined as community-based
-                        housing without a designated length of stay in which
-                        formerly homeless individuals and families live as
-                        independently as possible. Under PH, a program
-                        participant must be the tenant on a lease (or sublease)
-                        for an initial term of at least one year that is
-                        renewable and is terminable only for cause. Further,
-                        leases (or subleases) must be renewable for a minimum
-                        term of one month. The CoC Program funds two types of
-                        permanent housing: permanent supportive housing (PSH)
-                        for persons with disabilities and rapid re-housing.
-                        Permanent supportive housing is permanent housing with
-                        indefinite leasing or rental assistance paired with
-                        supportive services to assist homeless persons with a
-                        disability or families with an adult or child member
-                        with a disability achieve housing stability. Rapid
-                        re-housing (RRH) emphasizes housing search and
-                        relocation services and short- and medium-term rental
-                        assistance to move homeless persons and families (with
-                        or without a disability) as rapidly as possible into
-                        permanent housing.
-                      </p>
-                      <p><b>Transitional Housing</b></p>
-                      <p>
-                        Transitional housing (TH) is designed to provide
-                        homeless individuals and families with the interim
-                        stability and support to sucessfully move to and
-                        maintain permanent housing. Transitional housing may be
-                        used to cover the costs of up to 24 months of housing
-                        with accompanying supportive services. Program
-                        participants must have a lease (or sublease) or
-                        occupancy agreement in place when residing in
-                        transitional housing. The provisions of the CoC
-                        Program’s TH program component have not changed
-                        significantly from the TH provisions under SHP.
-                      </p>
-                      <p><b>Supportive Services Only</b></p>
-                      <p>
-                        The supportive services only (SSO) program component
-                        allows recipients and subrecipients to provide services
-                        to homeless individuals and families not residing in
-                        housing operated by the recipient. SSO recipients and
-                        subrecipients may use the funds to conduct outreach to
-                        sheltered and unsheltered homeless persons and families,
-                        link clients with housing or other necessary services,
-                        and provide ongoing support. SSO projects may be offered
-                        in a structure or structures at one central site, or in
-                        multiple buildings at scattered sites where services are
-                        delivered. Projects may be operated independent of a
-                        building (e.g., street outreach) and in a variety of
-                        community-based settings, including in homeless programs
-                        operated by other agencies.
-                      </p>
-                      <p><b>Homeless Management Information System</b></p>
-                      <p>
-                        Funds under this component may be used only by Homeless
-                        Management Information System (HMIS) leads for leasing a
-                        structure in which the HMIS operates, for operating the
-                        structure in which the HMIS is housed, and/or for
-                        covering other costs related to establishing, operating,
-                        and customizing a CoC’s HMIS. Other recipients and
-                        subrecipients may not apply for funds under the HMIS
-                        program component, but may include costs associated with
-                        contributing data to the CoC’s HMIS within their project
-                        under another program component (PH, TH, SSO, or HP).
-                      </p>
-                      <p><b>Homelessness Prevention</b></p>
-                      <p>
-                        Recipients and subrecipients located in HUD-designated
-                        High Performing Communities (HPCs) may use CoC Program
-                        funds for homelessness prevention assistance for
-                        individuals and families at risk of homelessness. The
-                        services under this component may include housing
-                        relocation and stabilization services as well as short-
-                        and medium-term rental assistance to prevent an
-                        individual or family from becoming homeless. Through
-                        this component, recipients and subrecipients may help
-                        individuals and families at-risk of homelessness to
-                        maintain their existing housing or transition to new
-                        permanent housing. Homelessness prevention must be
-                        administered in accordance with 24 CFR part 576.
-                      </p>
-                      <div class="caption my-5">
-                        Source: https://www.bcsh.ca.gov/hcfc/aid_program.html
                       </div>
                     </div>
                   </v-card-text>
@@ -465,7 +378,7 @@
 </template>
 <script lang="ts">
 import Vue from "vue";
-import { Component } from "vue-property-decorator";
+import { Component, Watch } from "vue-property-decorator";
 import BudgetPie from "@/components/Funding/State/Heap/BudgetPie.vue";
 
 @Component({
@@ -473,8 +386,8 @@ import BudgetPie from "@/components/Funding/State/Heap/BudgetPie.vue";
 })
 export default class Coc extends Vue {
   private model = null;
-  private panel = [];
-  private items = 5;
+  private panel: number[] = [];
+  private switch1 = false;
   private programInfo: Array<object> = [
     {
       name: "Permanent Housing",
@@ -502,8 +415,13 @@ export default class Coc extends Vue {
         "Recipients and subrecipients located in HUD-designated High Performing Communities (HPCs) may use CoC Program funds for homelessness prevention assistance for individuals and families at risk of homelessness. The services under this component may include housing relocation and stabilization services as well as short- and medium-term rental assistance to prevent an individual or family from becoming homeless. Through this component, recipients and subrecipients may help individuals and families at-risk of homelessness to maintain their existing housing or transition to new permanent housing. Homelessness prevention must be administered in accordance with 24 CFR part 576."
     }
   ];
+  @Watch("switch1")
   private all() {
-    this.panel = [...Array(this.programInfo).keys()].map((k, i) => i);
+    if (this.switch1 === true) {
+      this.panel = [...Array(this.programInfo.length)].map((k, i) => i);
+    } else {
+      this.panel = [];
+    }
   }
   // Reset the panel
   private none() {
