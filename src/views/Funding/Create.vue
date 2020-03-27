@@ -5,21 +5,32 @@
         <!-- Content -->
         <v-card class="pa-4">
           <v-form @submit.prevent="onSubmit">
-            <v-text-field v-model="name" label="Amount" />
-            <v-text-field v-model="email" label="Continuum Project" />
-            <v-text-field v-model="email" label="Date Created" />
-            <v-text-field v-model="email" label="Date Updated" />
-            <v-text-field v-model="email" label="Grant" />
-            <v-text-field v-model="email" label="HMIS Participating Project" />
-            <v-text-field v-model="email" label="Operating Start Date" />
-            <v-text-field v-model="email" label="Operating End Date" />
-            <v-text-field v-model="email" label="ProjecT Type" />
-            <v-text-field v-model="email" label="Residiential Affiliation" />
-            <v-text-field v-model="email" label="Source Type" />
-            <v-text-field v-model="email" label="Tracking Method" />
+            <v-text-field
+              :name="name"
+              v-model="email"
+              placeholder="email"
+              :error-messages="errors"
+            ></v-text-field>
+            <v-text-field v-model="placeholder" label="Continuum Project" />
+            <v-text-field v-model="placeholder" label="Date Created" />
+            <v-text-field v-model="placeholder" label="Date Updated" />
+            <v-text-field v-model="placeholder" label="Grant" />
+            <v-text-field
+              v-model="placeholder"
+              label="HMIS Participating Project"
+            />
+            <v-text-field v-model="placeholder" label="Operating Start Date" />
+            <v-text-field v-model="placeholder" label="Operating End Date" />
+            <v-text-field v-model="placeholder" label="ProjecT Type" />
+            <v-text-field
+              v-model="placeholder"
+              label="Residiential Affiliation"
+            />
+            <v-text-field v-model="placeholder" label="Source Type" />
+            <v-text-field v-model="placeholder" label="Tracking Method" />
             <v-row>
               <v-spacer />
-              <v-btn type="submit">Submit</v-btn>
+              <v-btn class="mr-4" @click="submit">submit</v-btn>
             </v-row>
           </v-form>
         </v-card>
@@ -28,16 +39,33 @@
   </v-container>
 </template>
 <script lang="ts">
-import Vue from "vue";
-import { db } from "@/firebase";
+import { Component, Vue, Watch } from "vue-property-decorator";
+import { Validator } from "vee-validate";
 
-export default Vue.extend({
-  data() {
-    return {
-      name: "test",
-      email: "test"
-    };
+const v = new Validator();
+
+@Component
+export default class Home extends Vue {
+  errors: string[] = [];
+  name = "email";
+  rules = "email";
+  email = "";
+
+  @Watch("email")
+  async onEmailChanged(val: string) {
+    if (val) {
+      await this.verify(val);
+    }
   }
-});
+
+  async verify(value: string) {
+    const { errors } = await v.verify(value, this.rules, { name: this.name });
+    this.errors = errors;
+  }
+  private submit() {
+    this.$refs.observer.validate();
+  }
+}
 </script>
+
 <style></style>
