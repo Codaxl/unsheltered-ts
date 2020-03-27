@@ -68,7 +68,7 @@
                         <v-tab-item>
                           <v-card flat class="expansion-card">
                             <v-card-text>
-                              <div>
+                              <div class="body-1 mb-5">
                                 <p>
                                   Under the CoC Program interim rule, eligible
                                   applicants consist of nonprofit organizations,
@@ -95,7 +95,7 @@
                         <v-tab-item>
                           <v-card flat class="expansion-card">
                             <v-card-text>
-                              <div>
+                              <div class="body-1 mb-5">
                                 <p>
                                   The CoC Program interim rule provides that
                                   Continuum of Care Program funds may be used

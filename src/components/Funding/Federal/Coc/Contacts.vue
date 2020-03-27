@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <v-container fluid>
     <div>
-      <h2 class="headline">Contact information</h2>
+      <h2 class="headline">Contacts</h2>
     </div>
     <v-data-iterator
       :items="items"
@@ -84,7 +84,7 @@
         </v-row>
       </template>
     </v-data-iterator>
-  </div>
+  </v-container>
 </template>
 
 <script lang="ts">

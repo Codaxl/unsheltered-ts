@@ -1,34 +1,32 @@
 <template>
-  <v-row>
+  <v-container fluid>
     <div>
       <h2 class="headline">Overview</h2>
     </div>
-    <v-data-table :headers="cocHeaders" :items="coc" hide-default-footer>
-      <template v-slot:item.amount="{ item }">
-        {{ item.amount | currency }}
-      </template>
-    </v-data-table>
     <div>
-      <p>
-        Roune 1 Standard Distribution of Funds Began Apr 2019. Round 2 Standard
-        Distribution of Funds Began July 2019. 100 percent of the funds must be
-        expended by June 30, 2021.
-      </p>
-
-      <p class="caption">
-        Source: https://www.bcsh.ca.gov/hcfc/documents/heap_overview.pdf
-      </p>
+      <v-data-table
+        :headers="headers"
+        :items="funds"
+        :loading="loading"
+        hide-default-footer
+      >
+        <template v-slot:item.amount="{ item }">
+          {{ item.amount | currency }}
+        </template>
+      </v-data-table>
     </div>
-  </v-row>
+  </v-container>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 // Vuex
-
+import { db } from "@/firebase";
 export default Vue.extend({
   data: () => ({
     expand: true,
+    funds: [{}],
+    loading: true,
     coc: [
       {
         amount: 9791805.06,
@@ -40,21 +38,41 @@ export default Vue.extend({
         zipCode: "92507"
       }
     ],
-    cocHeaders: [
+    headers: [
       {
-        text: "Contract Number",
+        text: "Year",
         align: "start",
         sortable: false,
-        value: "contractNumber"
+        value: "year"
       },
-      { text: "Amount", sortable: false, value: "amount" },
-      { text: "Grantee Name", sortable: false, value: "granteeName" },
-      { text: "Address", sortable: false, value: "address" },
-      { text: "City", sortable: false, value: "city" },
-      { text: "State", sortable: false, value: "state" },
-      { text: "Zipcode", sortable: false, value: "zipCode" }
+      { text: "Amount", value: "amount" },
+      { text: "Organization", value: "organization" },
+      { text: "Project Name", value: "projectName" },
+      { text: "Grant", value: "grant" },
+      { text: "Source", value: "source" }
     ]
-  })
+  }),
+  mounted() {
+    this.fetchFunds();
+  },
+  methods: {
+    async fetchFunds() {
+      this.loading = true;
+      const query = db.collection("funds").where("grant", "==", "CoC");
+      try {
+        const { docs } = await query.get();
+
+        this.funds = docs.map(doc => {
+          const { id } = doc;
+          const data = doc.data();
+          return { id, ...data };
+        });
+        this.loading = false;
+      } catch (error) {
+        throw new Error("Something gone wrong!");
+      }
+    }
+  }
 });
 </script>
 
