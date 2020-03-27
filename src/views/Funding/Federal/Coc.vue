@@ -12,311 +12,149 @@
       <div>
         <v-row>
           <v-col cols="12">
-            <v-card>
-              <v-tabs fixed-tabs show-arrows>
-                <v-tab>
-                  About
-                </v-tab>
-                <v-tab>
-                  Eligible Applicants
-                </v-tab>
-                <v-tab>
-                  Program Components
-                </v-tab>
-
-                <v-tab-item>
-                  <v-card flat>
-                    <v-card-text>
-                      <div class="body-1 mb-5">
-                        <p>
-                          The Continuum of Care (CoC) Program is designed to
-                          promote communitywide commitment to the goal of ending
-                          homelessness; provide funding for efforts by nonprofit
-                          providers, and State and local governments to quickly
-                          rehouse homeless individuals and families while
-                          minimizing the trauma and dislocation caused to
-                          homeless individuals, families, and communities by
-                          homelessness; promote access to and effect utilization
-                          of mainstream programs by homeless individuals and
-                          families; and optimize self-sufficiency among
-                          individuals and families experiencing homelessness.
-                        </p>
-                      </div>
-                    </v-card-text>
-                  </v-card>
-                </v-tab-item>
-                <v-tab-item>
-                  <v-card flat>
-                    <v-card-text>
-                      <div>
-                        <p>
-                          Under the CoC Program interim rule, eligible
-                          applicants consist of nonprofit organizations, State
-                          and local governments, instrumentalities of local
-                          governments, and public housing agencies. An eligible
-                          applicant must be designated by the Continuum of Care
-                          to submit an application to HUD for grant funds. The
-                          Continuum's designation must state whether the
-                          Continuum is designating more than one applicant to
-                          apply for funds, and if it is, which applicant is
-                          being designated as the Collaborative Applicant. A
-                          Continuum of Care that is designating only one
-                          applicant for funds must designate that applicant to
-                          be the Collaborative Applicant. For-profit entities
-                          are not eligible to apply for grants or to be
-                          subrecipients of grant funds.
-                        </p>
-                      </div>
-                    </v-card-text>
-                  </v-card>
-                </v-tab-item>
-                <v-tab-item>
-                  <v-card flat>
-                    <v-card-text>
-                      <div>
-                        <p>
-                          The CoC Program interim rule provides that Continuum
-                          of Care Program funds may be used for projects under
-                          five program components: permanent housing,
-                          transitional housing, supportive services only, HMIS,
-                          and, in some cases, homelessness prevention.
-                          Administrative costs are eligible under all
-                          components. Where possible, the components set forth
-                          in the Continuum of Care Program are consistent with
-                          the components allowable under the Emergency Solutions
-                          Grants program. This eases the administrative burden
-                          on recipients of both programs and ensures that
-                          reporting requirements and data quality benchmarks are
-                          consistently established and applied to like projects.
-                          One significant distinction between the Emergency
-                          Solutions Grants Program and the CoC Program can be
-                          found in the eligible activities and administration
-                          requirements for assistance provided under the rapid
-                          re-housing component in this interim rule.
-                        </p>
-                      </div>
-                      <div class="body-1 mb-5">
-                        <p>
-                          The five program components that can be funded through
-                          the CoC Program are listed below.
-                        </p>
-                        <div>
-                          <v-row class="mx-auto">
-                            <v-spacer></v-spacer>
-                            <v-switch v-model="switch1"></v-switch>
-                          </v-row>
-
-                          <v-expansion-panels
-                            v-model="panel"
-                            multiple
-                            flat
-                            hover
-                          >
-                            <v-expansion-panel
-                              v-for="(item, i) in programInfo"
-                              :key="i"
-                            >
-                              <v-expansion-panel-header>{{
-                                item.name
-                              }}</v-expansion-panel-header>
-                              <v-expansion-panel-content>
-                                {{ item.desc }}
-                              </v-expansion-panel-content>
-                            </v-expansion-panel>
-                          </v-expansion-panels>
-                        </div>
-                      </div>
-                    </v-card-text>
-                  </v-card>
-                </v-tab-item>
-              </v-tabs>
-            </v-card>
+            <div>
+              <contacts />
+            </div>
           </v-col>
-        </v-row>
-      </div>
-      <div>
-        <v-row>
-          <v-col cols="12">
-            <contacts />
-          </v-col>
-
           <v-col cols="12">
             <div>
-              <v-card>
-                <v-card-title>
-                  <h2 class="headline">Overview</h2>
-                  <v-spacer></v-spacer>
-                </v-card-title>
-                <v-data-table
-                  :headers="heapHeaders"
-                  :items="heap"
-                  hide-default-footer
-                >
-                  <template v-slot:item.amount="{ item }">
-                    {{ item.amount | currency }}
-                  </template>
-                </v-data-table>
-                <v-card-text class="body-1 my-5">
-                  <p>
-                    Roune 1 Standard Distribution of Funds Began Apr 2019. Round
-                    2 Standard Distribution of Funds Began July 2019. 100
-                    percent of the funds must be expended by June 30, 2021.
-                  </p>
+              <overview />
+            </div>
+          </v-col>
+          <v-col cols="12">
+            <div>
+              <v-container>
+                <div>
+                  <v-card flat>
+                    <v-tabs fixed-tabs show-arrows>
+                      <v-tab>
+                        About
+                      </v-tab>
+                      <v-tab>
+                        Eligible Applicants
+                      </v-tab>
+                      <v-tab>
+                        Program Components
+                      </v-tab>
 
-                  <p class="caption">
-                    Source:
-                    https://www.bcsh.ca.gov/hcfc/documents/heap_overview.pdf
-                  </p>
-                </v-card-text>
-              </v-card>
+                      <v-tab-item>
+                        <v-card flat class="expansion-card">
+                          <v-card-text>
+                            <div class="body-1 mb-5">
+                              <p>
+                                The Continuum of Care (CoC) Program is designed
+                                to promote communitywide commitment to the goal
+                                of ending homelessness; provide funding for
+                                efforts by nonprofit providers, and State and
+                                local governments to quickly rehouse homeless
+                                individuals and families while minimizing the
+                                trauma and dislocation caused to homeless
+                                individuals, families, and communities by
+                                homelessness; promote access to and effect
+                                utilization of mainstream programs by homeless
+                                individuals and families; and optimize
+                                self-sufficiency among individuals and families
+                                experiencing homelessness.
+                              </p>
+                            </div>
+                          </v-card-text>
+                        </v-card>
+                      </v-tab-item>
+                      <v-tab-item>
+                        <v-card flat class="expansion-card">
+                          <v-card-text>
+                            <div>
+                              <p>
+                                Under the CoC Program interim rule, eligible
+                                applicants consist of nonprofit organizations,
+                                State and local governments, instrumentalities
+                                of local governments, and public housing
+                                agencies. An eligible applicant must be
+                                designated by the Continuum of Care to submit an
+                                application to HUD for grant funds. The
+                                Continuum's designation must state whether the
+                                Continuum is designating more than one applicant
+                                to apply for funds, and if it is, which
+                                applicant is being designated as the
+                                Collaborative Applicant. A Continuum of Care
+                                that is designating only one applicant for funds
+                                must designate that applicant to be the
+                                Collaborative Applicant. For-profit entities are
+                                not eligible to apply for grants or to be
+                                subrecipients of grant funds.
+                              </p>
+                            </div>
+                          </v-card-text>
+                        </v-card>
+                      </v-tab-item>
+                      <v-tab-item>
+                        <v-card flat class="expansion-card">
+                          <v-card-text>
+                            <div>
+                              <p>
+                                The CoC Program interim rule provides that
+                                Continuum of Care Program funds may be used for
+                                projects under five program components:
+                                permanent housing, transitional housing,
+                                supportive services only, HMIS, and, in some
+                                cases, homelessness prevention. Administrative
+                                costs are eligible under all components. Where
+                                possible, the components set forth in the
+                                Continuum of Care Program are consistent with
+                                the components allowable under the Emergency
+                                Solutions Grants program. This eases the
+                                administrative burden on recipients of both
+                                programs and ensures that reporting requirements
+                                and data quality benchmarks are consistently
+                                established and applied to like projects. One
+                                significant distinction between the Emergency
+                                Solutions Grants Program and the CoC Program can
+                                be found in the eligible activities and
+                                administration requirements for assistance
+                                provided under the rapid re-housing component in
+                                this interim rule.
+                              </p>
+                            </div>
+                            <div class="body-1 mb-5">
+                              <p>
+                                The five program components that can be funded
+                                through the CoC Program are listed below.
+                              </p>
+                              <div>
+                                <v-row class="mx-auto">
+                                  <v-spacer></v-spacer>
+                                  <v-switch v-model="switch1"></v-switch>
+                                </v-row>
+
+                                <v-expansion-panels
+                                  v-model="panel"
+                                  multiple
+                                  hover
+                                >
+                                  <v-expansion-panel
+                                    v-for="(item, i) in programInfo"
+                                    :key="i"
+                                  >
+                                    <v-expansion-panel-header>{{
+                                      item.name
+                                    }}</v-expansion-panel-header>
+                                    <v-expansion-panel-content>
+                                      {{ item.desc }}
+                                    </v-expansion-panel-content>
+                                  </v-expansion-panel>
+                                </v-expansion-panels>
+                              </div>
+                            </div>
+                          </v-card-text>
+                        </v-card>
+                      </v-tab-item>
+                    </v-tabs>
+                  </v-card>
+                </div>
+              </v-container>
             </div>
           </v-col>
         </v-row>
-      </div>
-
-      <div>
-        <v-row>
-          <v-col cols="12" sm="4">
-            <v-lazy
-              :options="{
-                threshold: 0.5
-              }"
-              min-height="200"
-              transition="fade-transition"
-            >
-              <v-card v-for="item in budget" :key="item.name">
-                <v-card-title>
-                  <h3 class="font-weight-regular">{{ item.name }}</h3>
-                  <v-spacer></v-spacer>
-                </v-card-title>
-
-                <v-card-text>
-                  <v-row>
-                    <v-col cols="6">
-                      Services:
-                    </v-col>
-                    <v-col cols="6">
-                      {{ item.budget1 | currency }}
-                    </v-col>
-                  </v-row>
-                  <v-row>
-                    <v-col cols="6">
-                      Rental Assistance or Subsidies:
-                    </v-col>
-                    <v-col cols="6">
-                      {{ item.budget2 | currency }}
-                    </v-col>
-                  </v-row>
-                  <v-row>
-                    <v-col cols="6">
-                      Capital Improvements:
-                    </v-col>
-                    <v-col cols="6">
-                      {{ item.budget3 | currency }}
-                    </v-col>
-                  </v-row>
-                  <v-row>
-                    <v-col cols="6">
-                      Homeless Youth Set-Aside:
-                    </v-col>
-                    <v-col cols="6">
-                      {{ item.budget4 | currency }}
-                    </v-col>
-                  </v-row>
-                  <v-row>
-                    <v-col cols="6">
-                      Administrative Costs:
-                    </v-col>
-                    <v-col cols="6">
-                      {{ item.budget5 | currency }}
-                    </v-col>
-                  </v-row>
-                </v-card-text>
-                <v-divider></v-divider>
-                <v-card-text class="font-weight-medium">
-                  <v-row>
-                    <v-col cols="6">
-                      Total:
-                    </v-col>
-                    <v-col cols="6">
-                      {{ item.total | currency }}
-                    </v-col>
-                  </v-row>
-                </v-card-text>
-              </v-card>
-            </v-lazy>
-          </v-col>
-          <v-col cols="12" sm="8">
-            <v-lazy
-              :options="{
-                threshold: 0.5
-              }"
-              min-height="200"
-              transition="fade-transition"
-            >
-              <v-card>
-                <budget-pie></budget-pie>
-              </v-card>
-            </v-lazy>
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col cols="12">
-            <v-lazy
-              :options="{
-                threshold: 0.5
-              }"
-              min-height="500"
-              transition="fade-transition"
-            >
-              <v-card>
-                <v-card-title>
-                  <h3 class="font-weight-regular">Budget Details</h3>
-                  <v-spacer></v-spacer>
-                </v-card-title>
-                <v-data-table
-                  :headers="headers"
-                  :items="desserts"
-                  item-key="id"
-                  group-by="category"
-                  show-group-by
-                >
-                  <template v-slot:item.amount="{ item }">
-                    {{ item.amount | currency }}
-                  </template>
-                </v-data-table>
-              </v-card>
-            </v-lazy>
-          </v-col>
-        </v-row>
-      </div>
-      <div>
-        <h2 class="font-weight-regular mt-5">
-          Homeless Management Information System (HMIS)
-        </h2>
-        <div class="body-1 mb-5">
-          <p>
-            HMIS participation is a statutory requirement for recipients and
-            subrecipients of the the Homeless Emergency Aid Program.
-          </p>
-        </div>
-      </div>
-
-      <div>
-        <h3 class="font-weight-regular mt-5">
-          Projects
-        </h3>
-        <div class="body-1 mb-5">
-          <p>
-            The County of Riverside Department of Public Social Services
-            administrates the Homeless Emergency Aid Program. Riverside County's
-            fiscal breakdown in Homeless Emergency Aid Program is categorized
-            into Capital Improvements and Administrative Costs total
-            <b>$4,830,510.36</b> (49.3%), and <b>$4,961,294.70</b> (50.7%) for
-            direct services (Rental Assistance or Subsidies, Services, and
-            Homeless Youth Set-Aside).
-          </p>
-        </div>
       </div>
     </div>
   </v-container>
@@ -324,11 +162,12 @@
 <script lang="ts">
 import Vue from "vue";
 import { Component, Watch } from "vue-property-decorator";
-import BudgetPie from "@/components/Funding/Federal/Coc/BudgetPie.vue";
+
 import Contacts from "@/components/Funding/Federal/Coc/Contacts.vue";
+import Overview from "@/components/Funding/Federal/Coc/Overview.vue";
 
 @Component({
-  components: { BudgetPie, Contacts }
+  components: { Contacts, Overview }
 })
 export default class Coc extends Vue {
   private model = null;
@@ -385,327 +224,20 @@ export default class Coc extends Vue {
       href: "/funding"
     },
     {
-      text: "State",
+      text: "Federal",
       disabled: false,
-      href: "/funding/state"
+      href: "/funding/federal"
     },
     {
-      text: "HEAP",
+      text: "CoC",
       disabled: true,
-      href: "/funding/state/heap"
-    }
-  ];
-  private heapHeaders: Array<object> = [
-    {
-      text: "Contract Number",
-      align: "start",
-      sortable: false,
-      value: "contractNumber"
-    },
-    { text: "Amount", sortable: false, value: "amount" },
-    { text: "Grantee Name", sortable: false, value: "granteeName" },
-    { text: "Address", sortable: false, value: "address" },
-    { text: "City", sortable: false, value: "city" },
-    { text: "State", sortable: false, value: "state" },
-    { text: "Zipcode", sortable: false, value: "zipCode" }
-  ];
-  private heap: Array<object> = [
-    {
-      amount: 9791805.06,
-      contractNumber: "18-HEAP-00052",
-      granteeName: "County of Riverside Dept of Public Social Services",
-      address: "1111 Spruce Street",
-      city: "Riverside",
-      state: "CA",
-      zipCode: "92507"
-    }
-  ];
-  private budgetPerPage = 1;
-  private budget: Array<object> = [
-    {
-      name: "Budget Summary",
-      budget1: 2841715.88,
-      budget2: 1629988.57,
-      budget3: 4340920.36,
-      budget4: 489590.25,
-      budget5: 489590.0,
-      total: 9791805.06
-    }
-  ];
-  private headers: Array<object> = [
-    {
-      text: "Name",
-      align: "start",
-      value: "name"
-    },
-    { text: "Category", value: "category" },
-    { text: "Amount", value: "amount" }
-  ];
-  private desserts: Array<object> = [
-    {
-      id: 1,
-      name: "Cathedral City",
-      category: "Capital Improvements",
-      amount: 194138.92
-    },
-    {
-      id: 2,
-      name: "City of Hemet",
-      category: "Capital Improvements",
-      amount: 105006.24
-    },
-    {
-      id: 3,
-      name: "City of Riverside",
-      category: "Capital Improvements",
-      amount: 1500000.0
-    },
-    {
-      id: 4,
-      name: "County of Riverside",
-      category: "Capital Improvements",
-      amount: 298402.0
-    },
-    {
-      id: 5,
-      name: "City of Choachella",
-      category: "Services",
-      amount: 132128.99
-    },
-    {
-      id: 6,
-      name: "City of Desert Hot Springs",
-      category: "Services",
-      amount: 181005.6
-    },
-    {
-      id: 7,
-      name: "City of Hemet",
-      category: "Services",
-      amount: 105006.24
-    },
-    {
-      id: 8,
-      name: "City of Indian Wells",
-      category: "Services",
-      amount: 198193.48
-    },
-    {
-      id: 9,
-      name: "City of Jurupa Valley",
-      category: "Services",
-      amount: 110313.37
-    },
-    {
-      id: 10,
-      name: "City of Lake Elsinore",
-      category: "Services",
-      amount: 194347.11
-    },
-    {
-      id: 11,
-      name: "City of La Quinta",
-      category: "Services",
-      amount: 198193.48
-    },
-    {
-      id: 12,
-      name: "City of Palm Desert",
-      category: "Services",
-      amount: 198193.48
-    },
-    {
-      id: 13,
-      name: "City of Palm Springs",
-      category: "Services",
-      amount: 198193.48
-    },
-    {
-      id: 14,
-      name: "City of Perris",
-      category: "Services",
-      amount: 134751.92
-    },
-    {
-      id: 15,
-      name: "City of Rancho Mirage",
-      category: "Services",
-      amount: 198193.48
-    },
-    {
-      id: 16,
-      name: "City of Riverside",
-      category: "Services",
-      amount: 145177.5
-    },
-    {
-      id: 17,
-      name: "City of Wildomar",
-      category: "Services",
-      amount: 194347.11
-    },
-    {
-      id: 18,
-      name: "County of Riverside",
-      category: "Services",
-      amount: 298401.99
-    },
-    {
-      id: 19,
-      name: "City of Blythe",
-      category: "Rental Assistance or Subsidies",
-      amount: 362411.34
-    },
-    {
-      id: 20,
-      name: "Cathedral City",
-      category: "Rental Assistance or Subsidies",
-      amount: 388277.82
-    },
-    {
-      id: 21,
-      name: "City of Choachella",
-      category: "Rental Assistance or Subsidies",
-      amount: 132128.99
-    },
-    {
-      id: 22,
-      name: "City of Desert Hot Springs",
-      category: "Rental Assistance or Subsidies",
-      amount: 181005.6
-    },
-    {
-      id: 23,
-      name: "City of Hemet",
-      category: "Rental Assistance or Subsidies",
-      amount: 105006.24
-    },
-    {
-      id: 24,
-      name: "City of Indian Wells",
-      category: "Rental Assistance or Subsidies",
-      amount: 198193.48
-    },
-    {
-      id: 25,
-      name: "City of Indio",
-      category: "Rental Assistance or Subsidies",
-      amount: 336769.32
-    },
-    {
-      id: 26,
-      name: "City of Jurupa Valley",
-      category: "Rental Assistance or Subsidies",
-      amount: 110313.38
-    },
-    {
-      id: 27,
-      name: "City of Lake Elsinore",
-      category: "Rental Assistance or Subsidies",
-      amount: 194347.11
-    },
-    {
-      id: 28,
-      name: "City of La Quinta",
-      category: "Rental Assistance or Subsidies",
-      amount: 198193.48
-    },
-    {
-      id: 29,
-      name: "City of Palm Desert",
-      category: "Rental Assistance or Subsidies",
-      amount: 198193.48
-    },
-    {
-      id: 30,
-      name: "City of Palm Springs",
-      category: "Rental Assistance or Subsidies",
-      amount: 198193.48
-    },
-    {
-      id: 31,
-      name: "City of Rancho Mirage",
-      category: "Rental Assistance or Subsidies",
-      amount: 198193.48
-    },
-    {
-      id: 32,
-      name: "City of Riverside",
-      category: "Rental Assistance or Subsidies",
-      amount: 245177.96
-    },
-    {
-      id: 33,
-      name: "City of Wildomar",
-      category: "Rental Assistance or Subsidies",
-      amount: 194347.11
-    },
-    {
-      id: 34,
-      name: "County of Riverside",
-      category: "Rental Assistance or Subsidies",
-      amount: 298401.99
-    },
-    {
-      id: 35,
-      name: "Cathedral City",
-      category: "Homeless Youth Set-Aside",
-      amount: 194138.91
-    },
-    {
-      id: 36,
-      name: "City of Coachella",
-      category: "Homeless Youth Set-Aside",
-      amount: 132128.98
-    },
-    {
-      id: 37,
-      name: "City of Desert Hot Springs",
-      category: "Homeless Youth Set-Aside",
-      amount: 181005.59
-    },
-    {
-      id: 38,
-      name: "City of Hemet",
-      category: "Homeless Youth Set-Aside",
-      amount: 105006.23
-    },
-    {
-      id: 39,
-      name: "City of Riverside",
-      category: "Homeless Youth Set-Aside",
-      amount: 100000.0
-    },
-    {
-      id: 40,
-      name: "County of Riverside",
-      category: "Homeless Youth Set-Aside",
-      amount: 298401.99
-    },
-    {
-      id: 42,
-      name: "County of Riverside",
-      category: "Administrative Costs",
-      amount: 489590.06
-    },
-    {
-      id: 43,
-      name: "City of Indio",
-      category: "Other (Short-term Housing Interventions)",
-      amount: 168384.65
-    }
-  ];
-  private contact: Array<object> = [
-    {
-      name: "Contact",
-      firstName: "Elizabeth",
-      lastName: "Hernandez",
-      title: "Senior Program Specialist",
-      organization: "Public Social Services",
-      email: "ehernan@rivco.org",
-      phone: "(951) 999-9999"
+      href: "/funding/federal/coc"
     }
   ];
 }
 </script>
-<style></style>
+<style>
+.expansion-card {
+  min-height: 550px;
+}
+</style>
