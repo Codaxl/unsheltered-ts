@@ -5,11 +5,21 @@
         <v-breadcrumbs :items="breadcrumbs" large></v-breadcrumbs>
       </div>
       <div>
-        <div>
-          <h1 class="display-1 font-weight-light my-8">
+        <v-row align="center" class="mx-auto">
+          <v-overflow-btn
+            v-model="e1"
+            :items="selectYear"
+            editable
+            segmented
+            item-value="number"
+            style="max-width:125px;"
+          ></v-overflow-btn>
+
+          <h1 class="display-1 font-weight-light mx-5">
             Continuum of Care (CoC) Program
           </h1>
-        </div>
+        </v-row>
+
         <div>
           <v-row>
             <v-col cols="12">
@@ -18,6 +28,21 @@
               </div>
             </v-col>
           </v-row>
+
+          <v-row>
+            <v-col cols="12" sm="4">
+              <v-card style="min-height:125px"> </v-card>
+            </v-col>
+
+            <v-col cols="12" sm="4">
+              <v-card style="min-height:125px"> </v-card>
+            </v-col>
+
+            <v-col cols="12" sm="4">
+              <v-card style="min-height:125px"> </v-card>
+            </v-col>
+          </v-row>
+
           <v-row>
             <v-col cols="12">
               <div>
@@ -30,7 +55,7 @@
               <div>
                 <v-container>
                   <div>
-                    <v-card flat>
+                    <v-card>
                       <v-tabs fixed-tabs show-arrows>
                         <v-tab>
                           About
@@ -134,6 +159,8 @@
                                   <v-expansion-panels
                                     v-model="panel"
                                     multiple
+                                    flat
+                                    outlined
                                     hover
                                   >
                                     <v-expansion-panel
@@ -176,6 +203,7 @@ import Overview from "@/components/Funding/Federal/Coc/Overview.vue";
   components: { Contacts, Overview }
 })
 export default class Coc extends Vue {
+  private e1: number = new Date().getFullYear() - 1;
   private model = null;
   private panel: number[] = [];
   private switch1 = false;
@@ -240,10 +268,22 @@ export default class Coc extends Vue {
       href: "/funding/federal/coc"
     }
   ];
+  get selectYear(): object {
+    const range = (a: number, b: number) =>
+      Array.from(new Array(b > a ? b - a : a - b), (x, i) =>
+        b > a ? i + a : a - i
+      );
+    const currentYear = new Date().getFullYear();
+    return range(currentYear, currentYear - 5);
+  }
 }
 </script>
 <style>
 .expansion-card {
   min-height: 550px;
 }
+
+/* div {
+  border: 1px solid red;
+} */
 </style>
