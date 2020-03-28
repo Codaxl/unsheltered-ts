@@ -4,30 +4,92 @@
       <v-col cols="12" md="6">
         <!-- Content -->
         <v-card class="pa-4">
+          <v-card-title class="headline">Create Project</v-card-title>
           <v-form @submit.prevent="onSubmit">
+            <ValidationProvider
+              v-slot="{ errors }"
+              name="Name"
+              rules="required"
+            >
+              <v-text-field
+                v-model="name"
+                :error-messages="errors"
+                label="Name"
+                required
+                outlined
+              ></v-text-field>
+            </ValidationProvider>
+
             <v-text-field
-              :name="name"
-              v-model="email"
-              placeholder="email"
-              :error-messages="errors"
-            ></v-text-field>
-            <v-text-field v-model="placeholder" label="Continuum Project" />
-            <v-text-field v-model="placeholder" label="Date Created" />
-            <v-text-field v-model="placeholder" label="Date Updated" />
-            <v-text-field v-model="placeholder" label="Grant" />
+              v-model="placeholder"
+              label="Continuum Project"
+              outlined
+            />
+            <v-text-field v-model="placeholder" label="Grant" outlined />
             <v-text-field
               v-model="placeholder"
               label="HMIS Participating Project"
+              outlined
             />
-            <v-text-field v-model="placeholder" label="Operating Start Date" />
-            <v-text-field v-model="placeholder" label="Operating End Date" />
-            <v-text-field v-model="placeholder" label="ProjecT Type" />
+
+            <v-menu
+              ref="menu"
+              v-model="menu"
+              :close-on-content-click="false"
+              :return-value.sync="date"
+              transition="scale-transition"
+              offset-y
+              min-width="290px"
+            >
+              <template v-slot:activator="{ on }">
+                <v-text-field
+                  v-model="date"
+                  label="Picker in menu"
+                  prepend-icon="mdi-calendar"
+                  readonly
+                  v-on="on"
+                  outlined
+                ></v-text-field>
+              </template>
+              <v-date-picker
+                v-model="date"
+                no-title
+                scrollable
+                :max="
+                  new Date(
+                    new Date().setFullYear(new Date().getFullYear() + 1)
+                  ).toISOString()
+                "
+                :min="
+                  new Date(
+                    new Date().setFullYear(new Date().getFullYear() - 4)
+                  ).toISOString()
+                "
+              >
+                <v-spacer></v-spacer>
+                <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
+                <v-btn text color="primary" @click="$refs.menu.save(date)"
+                  >OK</v-btn
+                >
+              </v-date-picker>
+            </v-menu>
+            <v-text-field
+              v-model="placeholder"
+              label="Operating End Date"
+              outlined
+            />
+            <v-text-field v-model="placeholder" label="ProjecT Type" outlined />
             <v-text-field
               v-model="placeholder"
               label="Residiential Affiliation"
+              outlined
             />
-            <v-text-field v-model="placeholder" label="Source Type" />
-            <v-text-field v-model="placeholder" label="Tracking Method" />
+            <v-text-field v-model="placeholder" label="Source Type" outlined />
+            <v-text-field
+              v-model="placeholder"
+              label="Tracking Method"
+              outlined
+            />
             <v-row>
               <v-spacer />
               <v-btn class="mr-4" @click="submit">submit</v-btn>
@@ -39,33 +101,51 @@
   </v-container>
 </template>
 <script lang="ts">
-import { Component, Vue, Watch } from "vue-property-decorator";
-import { Validator } from "vee-validate";
+import { Vue } from "vue-property-decorator";
+import { required, email, max } from "vee-validate/dist/rules";
+import { extend, setInteractionMode, ValidationProvider } from "vee-validate";
+import { VValidate } from "./Veelidate";
 
-const v = new Validator();
+setInteractionMode("eager");
 
-@Component
-export default class Home extends Vue {
-  errors: string[] = [];
-  name = "email";
-  rules = "email";
-  email = "";
+extend("required", {
+  ...required,
+  message: "{_field_} can not be empty"
+});
 
-  @Watch("email")
-  async onEmailChanged(val: string) {
-    if (val) {
-      await this.verify(val);
+extend("max", {
+  ...max,
+  message: "{_field_} may not be greater than {length} characters"
+});
+
+export default Vue.extend({
+  components: {
+    ValidationProvider
+  },
+  data: () => ({
+    name: "",
+    placeholder: "",
+    email: "",
+    select: null,
+    items: ["Item 1", "Item 2", "Item 3", "Item 4"],
+    checkbox: null,
+    // Datepicker
+    date: new Date().toISOString().substr(0, 10),
+    menu: false,
+    modal: false,
+    menu2: false
+  }),
+  //Datepicker
+
+  //Datepicker
+
+  methods: {
+    submit() {
+      this.$refs.observer as VValidate;
     }
+    // Datepicker
   }
-
-  async verify(value: string) {
-    const { errors } = await v.verify(value, this.rules, { name: this.name });
-    this.errors = errors;
-  }
-  private submit() {
-    this.$refs.observer.validate();
-  }
-}
+});
 </script>
 
 <style></style>
