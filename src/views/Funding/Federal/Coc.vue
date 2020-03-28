@@ -4,22 +4,22 @@
       <v-breadcrumbs :items="breadcrumbs" large></v-breadcrumbs>
     </v-row>
 
-    <v-row align="center" class="mx-auto">
+    <v-row align="center" class="mx-3">
       <v-overflow-btn
         v-model="e1"
         :items="selectYear"
         editable
         segmented
-        item-value="number"
+        item-value="string"
         style="max-width:125px;"
       ></v-overflow-btn>
 
-      <h1 class="display-1 font-weight-light mx-5">
+      <h1 class="display-1 font-weight-light px-5">
         Continuum of Care (CoC) Program
       </h1>
     </v-row>
 
-    <v-row class="mx-auto">
+    <v-row>
       <v-col cols="12">
         <div>
           <contacts />
@@ -260,7 +260,7 @@ export default class Coc extends Vue {
       href: "/funding/federal/coc"
     }
   ];
-  get selectYear(): object {
+  get selectYear(): number[] {
     const range = (a: number, b: number) =>
       Array.from(new Array(b > a ? b - a : a - b), (x, i) =>
         b > a ? i + a : a - i
