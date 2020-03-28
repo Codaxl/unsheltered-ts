@@ -1,20 +1,22 @@
 <template>
   <v-container fluid>
-    <div>
-      <h2 class="headline">Overview</h2>
-    </div>
-    <div>
+    <v-card>
+      <v-card-title>
+        <h2 class="headline">Overview</h2>
+        <v-spacer></v-spacer>
+      </v-card-title>
       <v-data-table
         :headers="headers"
         :items="funds"
         :loading="loading"
         hide-default-footer
+        class="elevation-1"
       >
         <template v-slot:item.amount="{ item }">
           {{ item.amount | currency }}
         </template>
       </v-data-table>
-    </div>
+    </v-card>
   </v-container>
 </template>
 
