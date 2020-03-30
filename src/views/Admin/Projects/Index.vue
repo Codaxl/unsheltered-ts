@@ -154,6 +154,14 @@
 import Vue from "vue";
 import { db } from "@/firebase";
 import format from "date-fns/format";
+
+interface Project {
+  id: string;
+  projectName: string;
+  operatingStartDate: Date;
+  operatingEndDate: Date;
+}
+
 export default Vue.extend({
   data: () => ({
     isLoading: false,
@@ -176,11 +184,13 @@ export default Vue.extend({
     data: [{}],
     editedIndex: -1,
     editedItem: {
+      id: "",
       projectName: "",
       operatingStartDate: new Date().toISOString().substr(0, 10),
       operatingEndDate: new Date().toISOString().substr(0, 10)
     },
     defaultItem: {
+      id: "",
       projectName: "",
       operatingStartDate: new Date().toISOString().substr(0, 10),
       operatingEndDate: new Date().toISOString().substr(0, 10)
@@ -208,21 +218,22 @@ export default Vue.extend({
 
   methods: {
     async initialize() {
-      this.isLoading = true;
-      const query = db.collection("projects");
-      try {
-        const { docs } = await query.get();
-
-        this.data = docs.map(doc => {
-          const { id } = doc;
-          const data = doc.data();
-
-          return { id, ...data };
+      const ref = db.collection("cities");
+      ref
+        .get()
+        .then(snapshot => {
+          snapshot.forEach(doc => {
+            this.data.push({
+              id: doc.id,
+              projectName: doc.data().projectName,
+              operatingStartDate: doc.data().operatingStartDate,
+              operatingEndDate: doc.data().operatingEndDate
+            });
+          });
+        })
+        .catch(err => {
+          console.log("Error getting documents", err);
         });
-        this.isLoading = false;
-      } catch (error) {
-        throw new Error("Something gone wrong!");
-      }
     },
 
     editItem(item: any) {
@@ -232,13 +243,15 @@ export default Vue.extend({
     },
 
     deleteItem(item: any) {
-      const index = this.data.indexOf(item);
+      const index: number = this.data.indexOf(item);
+      console.log(this.data.indexOf(item));
       confirm("Are you sure you want to delete this item?") &&
-        this.data.splice(index, 1).then(val => {
-          if (val) {
-            index.delete();
-          }
-        });
+        db
+          .collection("projects")
+          .doc("test")
+          .delete();
+      //
+      console.log(this.data[index]);
     },
 
     close() {
@@ -254,6 +267,7 @@ export default Vue.extend({
         Object.assign(this.data[this.editedIndex], this.editedItem);
       } else {
         this.data.push(this.editedItem);
+        console.log(this.editedItem);
       }
       this.close();
     }
