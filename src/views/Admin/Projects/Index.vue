@@ -5,7 +5,9 @@
         <v-data-table
           :headers="headers"
           :items="desserts"
-          sort-by="projectStartDate"
+          :sort-by="['projectStartDate']"
+          :sort-desc="[true]"
+          multi-sort
           class="elevation-1"
         >
           <template v-slot:top>
@@ -29,8 +31,8 @@
                       <v-row>
                         <v-col cols="12">
                           <v-text-field
-                            v-model="editedItem.name"
-                            label="Dessert name"
+                            v-model="editedItem.projectName"
+                            label="Project name"
                             outlined
                           ></v-text-field>
                         </v-col>
@@ -39,14 +41,14 @@
                             ref="menu"
                             v-model="menu"
                             :close-on-content-click="false"
-                            :return-value.sync="date"
+                            :return-value.sync="editedItem.projectStartDate"
                             transition="scale-transition"
                             offset-y
                             min-width="290px"
                           >
                             <template v-slot:activator="{ on }">
                               <v-text-field
-                                v-model="date"
+                                v-model="editedItem.projectStartDate"
                                 label="Picker in menu"
                                 prepend-icon="mdi-calendar"
                                 readonly
@@ -55,7 +57,7 @@
                               ></v-text-field>
                             </template>
                             <v-date-picker
-                              v-model="date"
+                              v-model="editedItem.projectStartDate"
                               no-title
                               scrollable
                               :max="
@@ -80,7 +82,9 @@
                               <v-btn
                                 text
                                 color="primary"
-                                @click="$refs.menu.save(date2)"
+                                @click="
+                                  $refs.menu.save(editedItem.projectEndDate)
+                                "
                                 >OK</v-btn
                               >
                             </v-date-picker>
@@ -92,14 +96,14 @@
                             ref="menu2"
                             v-model="menu2"
                             :close-on-content-click="false"
-                            :return-value.sync="date2"
+                            :return-value.sync="editedItem.projectEndDate"
                             transition="scale-transition"
                             offset-y
                             min-width="290px"
                           >
                             <template v-slot:activator="{ on }">
                               <v-text-field
-                                v-model="date2"
+                                v-model="editedItem.projectEndDate"
                                 label="Picker in menu"
                                 prepend-icon="mdi-calendar"
                                 readonly
@@ -108,7 +112,7 @@
                               ></v-text-field>
                             </template>
                             <v-date-picker
-                              v-model="date2"
+                              v-model="editedItem.projectEndDate"
                               no-title
                               scrollable
                               :max="
@@ -133,7 +137,9 @@
                               <v-btn
                                 text
                                 color="primary"
-                                @click="$refs.menu.save(date)"
+                                @click="
+                                  $refs.menu.save(deditedItem.projectEndDate)
+                                "
                                 >OK</v-btn
                               >
                             </v-date-picker>
@@ -181,22 +187,22 @@ export default Vue.extend({
       {
         text: "Project Name",
         align: "start",
-        sortable: false,
-        value: "name"
+        sortable: true,
+        value: "projectName"
       },
-      { text: "Project Start Date", value: "projectStartDate" },
-      { text: "Project End Date", value: "projectEndDate" },
+      { text: "Project Start Date", value: "projectStartDate", sortable: true },
+      { text: "Project End Date", value: "date2", sortable: true },
       { text: "Actions", value: "actions", sortable: false }
     ],
     desserts: [{}],
     editedIndex: -1,
     editedItem: {
-      name: "",
+      projectName: "",
       projectStartDate: new Date().toISOString().substr(0, 10),
       projectEndDate: new Date().toISOString().substr(0, 10)
     },
     defaultItem: {
-      name: "",
+      projectName: "",
       projectStartDate: new Date().toISOString().substr(0, 10),
       projectEndDate: new Date().toISOString().substr(0, 10)
     },
@@ -227,52 +233,52 @@ export default Vue.extend({
     initialize() {
       this.desserts = [
         {
-          name: "Frozen Yogurt",
+          projectName: "Frozen Yogurt",
           projectStartDate: new Date().toISOString().substr(0, 10),
           projectEndDate: new Date().toISOString().substr(0, 10)
         },
         {
-          name: "Ice cream sandwich",
+          projectName: "Ice cream sandwich",
           projectStartDate: "2020-03-29",
           projectEndDate: new Date().toISOString().substr(0, 10)
         },
         {
-          name: "Eclair",
+          projectName: "Eclair",
           projectStartDate: "2020-03-28",
           projectEndDate: new Date().toISOString().substr(0, 10)
         },
         {
-          name: "Cupcake",
+          projectName: "Cupcake",
           projectStartDate: "2020-03-27",
           projectEndDate: new Date().toISOString().substr(0, 10)
         },
         {
-          name: "Gingerbread",
+          projectName: "Gingerbread",
           projectStartDate: "2020-03-26",
           projectEndDate: new Date().toISOString().substr(0, 10)
         },
         {
-          name: "Jelly bean",
+          projectName: "Jelly bean",
           projectStartDate: "2020-03-25",
           projectEndDate: new Date().toISOString().substr(0, 10)
         },
         {
-          name: "Lollipop",
+          projectName: "Lollipop",
           projectStartDate: "2020-03-24",
           projectEndDate: new Date().toISOString().substr(0, 10)
         },
         {
-          name: "Honeycomb",
+          projectName: "Honeycomb",
           projectStartDate: "2020-03-23",
           projectEndDate: new Date().toISOString().substr(0, 10)
         },
         {
-          name: "Donut",
+          projectName: "Donut",
           projectStartDate: "2020-03-22",
           projectEndDate: new Date().toISOString().substr(0, 10)
         },
         {
-          name: "KitKat",
+          projectName: "KitKat",
           projectStartDate: "2020-03-21",
           projectEndDate: new Date().toISOString().substr(0, 10)
         }
