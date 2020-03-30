@@ -154,7 +154,6 @@
 import Vue from "vue";
 import { db } from "@/firebase";
 import format from "date-fns/format";
-
 export default Vue.extend({
   data: () => ({
     isLoading: false,
@@ -208,22 +207,22 @@ export default Vue.extend({
   },
 
   methods: {
-    initialize() {
+    async initialize() {
       this.isLoading = true;
       const query = db.collection("projects");
-      query
-        .get()
-        .then(querySnapshot => {
-          querySnapshot.forEach(doc => {
-            console.log(doc.id, " => ", doc.data());
-            (this.projectName = doc.data().projectName),
-              (this.operatingStartDate = doc.data().operatingStartDate),
-              (this.operatingEndDate = doc.data().operatingEndDate);
-          });
-        })
-        .catch(err => {
-          console.log("Error getting documents", err);
+      try {
+        const { docs } = await query.get();
+
+        this.data = docs.map(doc => {
+          const { id } = doc;
+          const data = doc.data();
+
+          return { id, ...data };
         });
+        this.isLoading = false;
+      } catch (error) {
+        throw new Error("Something gone wrong!");
+      }
     },
 
     editItem(item: any) {
@@ -235,7 +234,11 @@ export default Vue.extend({
     deleteItem(item: any) {
       const index = this.data.indexOf(item);
       confirm("Are you sure you want to delete this item?") &&
-        this.data.splice(index, 1);
+        this.data.splice(index, 1).then(val => {
+          if (val) {
+            index.delete();
+          }
+        });
     },
 
     close() {
