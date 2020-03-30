@@ -5,6 +5,11 @@
     </v-row>
 
     <v-row align="center" class="mx-3">
+      <h1 class="display-1 font-weight-light px-5">
+        Continuum of Care (CoC) Program
+      </h1>
+      <v-spacer></v-spacer>
+      <v-divider vertical></v-divider>
       <v-overflow-btn
         v-model="e1"
         :items="selectYear"
@@ -13,38 +18,54 @@
         item-value="string"
         style="max-width:125px;"
       ></v-overflow-btn>
-
-      <h1 class="display-1 font-weight-light px-5">
-        Continuum of Care (CoC) Program
-      </h1>
-    </v-row>
-
-    <v-row>
-      <v-col cols="12">
-        <div>
-          <contacts />
-        </div>
-      </v-col>
     </v-row>
 
     <v-row class="mx-auto">
       <v-col cols="12" sm="4">
-        <v-card style="min-height:125px"> </v-card>
+        <v-card class="mx-auto" style="min-height:125px;">
+          <v-card-title class="justify-center">
+            <h2 class="headline">Total</h2>
+          </v-card-title>
+          <v-card-text class="text-center">
+            <span class="display-1 font-weight-light"> </span>
+          </v-card-text>
+        </v-card>
       </v-col>
 
       <v-col cols="12" sm="4">
-        <v-card style="min-height:125px"> </v-card>
+        <v-card class="mx-auto" style="min-height:125px;">
+          <v-card-title class="justify-center">
+            <h2 class="headline">Organizations</h2>
+          </v-card-title>
+          <v-card-text class="text-center">
+            <span class="display-1 font-weight-light"> </span>
+          </v-card-text>
+        </v-card>
       </v-col>
 
       <v-col cols="12" sm="4">
-        <v-card style="min-height:125px"> </v-card>
+        <v-card class="mx-auto" style="min-height:125px;">
+          <v-card-title class="justify-center">
+            <h2 class="headline">Projects</h2>
+          </v-card-title>
+          <v-card-text class="text-center">
+            <span class="display-1 font-weight-light"> </span>
+          </v-card-text>
+        </v-card>
       </v-col>
     </v-row>
 
     <v-row>
       <v-col cols="12">
         <div>
-          <overview />
+          <Projects />
+        </div>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="12">
+        <div>
+          <contacts />
         </div>
       </v-col>
     </v-row>
@@ -188,10 +209,10 @@ import Vue from "vue";
 import { Component, Watch } from "vue-property-decorator";
 
 import Contacts from "@/components/Funding/Federal/Coc/Contacts.vue";
-import Overview from "@/components/Funding/Federal/Coc/Overview.vue";
+import Projects from "@/components/Funding/Federal/Coc/Projects.vue";
 
 @Component({
-  components: { Contacts, Overview }
+  components: { Contacts, Projects }
 })
 export default class Coc extends Vue {
   private e1: number = new Date().getFullYear() - 1;

@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-card>
       <v-card-title>
-        <h2 class="headline">Overview</h2>
+        <h2 class="headline">Projects</h2>
         <v-spacer></v-spacer>
       </v-card-title>
       <v-data-table

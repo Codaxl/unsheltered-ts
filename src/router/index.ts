@@ -80,15 +80,6 @@ const routes = [
       {
         // UserProfile will be rendered inside User's <router-view>
         // when /user/:id/profile is matched
-        path: "create",
-        name: "Funding Create",
-        component: () =>
-          import(/* webpackChunkName: "about" */ "../views/Funding/Create.vue")
-      },
-
-      {
-        // UserProfile will be rendered inside User's <router-view>
-        // when /user/:id/profile is matched
         path: "federal",
         component: () =>
           import(/* webpackChunkName: "about" */ "../views/Federal.vue"),
@@ -199,9 +190,27 @@ const routes = [
         // when /user/:id/profile is matched
         path: "",
         component: () =>
+          import(/* webpackChunkName: "about" */ "../views/Admin/Index.vue")
+      },
+      {
+        // UserPosts will be rendered inside User's <router-view>
+        // when /user/:id/posts is matched
+        path: "projects",
+        component: () =>
           import(
-            /* webpackChunkName: "about" */ "../views/Funding/State/Index.vue"
-          )
+            /* webpackChunkName: "about" */ "../views/Admin/Projects/Index.vue"
+          ),
+        children: [
+          {
+            // UserProfile will be rendered inside User's <router-view>
+            // when /user/:id/profile is matched
+            path: "create",
+            component: () =>
+              import(
+                /* webpackChunkName: "about" */ "../views/Admin/Projects/Create.vue"
+              )
+          }
+        ]
       }
     ]
   },
