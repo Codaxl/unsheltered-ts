@@ -3,9 +3,10 @@
     <v-row align="center" justify="center">
       <v-col>
         <v-data-table
+          :loading="isLoading"
           :headers="headers"
-          :items="desserts"
-          :sort-by="['projectStartDate']"
+          :items="data"
+          :sort-by="['operatingStartDate']"
           :sort-desc="[true]"
           multi-sort
           class="elevation-1"
@@ -38,18 +39,17 @@
                         </v-col>
                         <v-col cols="12" sm="6">
                           <v-menu
-                            ref="menu"
                             v-model="menu"
                             :close-on-content-click="false"
-                            :return-value.sync="editedItem.projectStartDate"
+                            :nudge-right="40"
                             transition="scale-transition"
                             offset-y
                             min-width="290px"
                           >
                             <template v-slot:activator="{ on }">
                               <v-text-field
-                                v-model="editedItem.projectStartDate"
-                                label="Picker in menu"
+                                v-model="editedItem.operatingStartDate"
+                                label="Project Start Date"
                                 prepend-icon="mdi-calendar"
                                 readonly
                                 v-on="on"
@@ -57,8 +57,8 @@
                               ></v-text-field>
                             </template>
                             <v-date-picker
-                              v-model="editedItem.projectStartDate"
-                              no-title
+                              v-model="editedItem.operatingStartDate"
+                              @input="menu = false"
                               scrollable
                               :max="
                                 new Date(
@@ -74,37 +74,23 @@
                                   )
                                 ).toISOString()
                               "
-                            >
-                              <v-spacer></v-spacer>
-                              <v-btn text color="primary" @click="menu = false"
-                                >Cancel</v-btn
-                              >
-                              <v-btn
-                                text
-                                color="primary"
-                                @click="
-                                  $refs.menu.save(editedItem.projectEndDate)
-                                "
-                                >OK</v-btn
-                              >
-                            </v-date-picker>
+                            ></v-date-picker>
                           </v-menu>
                         </v-col>
 
                         <v-col cols="12" sm="6">
                           <v-menu
-                            ref="menu2"
                             v-model="menu2"
                             :close-on-content-click="false"
-                            :return-value.sync="editedItem.projectEndDate"
+                            :nudge-right="40"
                             transition="scale-transition"
                             offset-y
                             min-width="290px"
                           >
                             <template v-slot:activator="{ on }">
                               <v-text-field
-                                v-model="editedItem.projectEndDate"
-                                label="Picker in menu"
+                                v-model="editedItem.operatingEndDate"
+                                label="Project End Date"
                                 prepend-icon="mdi-calendar"
                                 readonly
                                 v-on="on"
@@ -112,8 +98,8 @@
                               ></v-text-field>
                             </template>
                             <v-date-picker
-                              v-model="editedItem.projectEndDate"
-                              no-title
+                              v-model="editedItem.operatingEndDate"
+                              @input="menu2 = false"
                               scrollable
                               :max="
                                 new Date(
@@ -129,20 +115,7 @@
                                   )
                                 ).toISOString()
                               "
-                            >
-                              <v-spacer></v-spacer>
-                              <v-btn text color="primary" @click="menu = false"
-                                >Cancel</v-btn
-                              >
-                              <v-btn
-                                text
-                                color="primary"
-                                @click="
-                                  $refs.menu.save(deditedItem.projectEndDate)
-                                "
-                                >OK</v-btn
-                              >
-                            </v-date-picker>
+                            ></v-date-picker>
                           </v-menu>
                         </v-col>
                       </v-row>
@@ -179,9 +152,12 @@
 
 <script lang="ts">
 import Vue from "vue";
+import { db } from "@/firebase";
+import format from "date-fns/format";
 
 export default Vue.extend({
   data: () => ({
+    isLoading: false,
     dialog: false,
     headers: [
       {
@@ -190,26 +166,28 @@ export default Vue.extend({
         sortable: true,
         value: "projectName"
       },
-      { text: "Project Start Date", value: "projectStartDate", sortable: true },
-      { text: "Project End Date", value: "date2", sortable: true },
+      {
+        text: "Project Start Date",
+        value: "operatingStartDate",
+        sortable: true
+      },
+      { text: "Project End Date", value: "operatingEndDate", sortable: true },
       { text: "Actions", value: "actions", sortable: false }
     ],
-    desserts: [{}],
+    data: [{}],
     editedIndex: -1,
     editedItem: {
       projectName: "",
-      projectStartDate: new Date().toISOString().substr(0, 10),
-      projectEndDate: new Date().toISOString().substr(0, 10)
+      operatingStartDate: new Date().toISOString().substr(0, 10),
+      operatingEndDate: new Date().toISOString().substr(0, 10)
     },
     defaultItem: {
       projectName: "",
-      projectStartDate: new Date().toISOString().substr(0, 10),
-      projectEndDate: new Date().toISOString().substr(0, 10)
+      operatingStartDate: new Date().toISOString().substr(0, 10),
+      operatingEndDate: new Date().toISOString().substr(0, 10)
     },
     // Datepicker
-    date: new Date().toISOString().substr(0, 10),
     menu: false,
-    date2: new Date().toISOString().substr(0, 10),
     menu2: false
   }),
 
@@ -231,70 +209,33 @@ export default Vue.extend({
 
   methods: {
     initialize() {
-      this.desserts = [
-        {
-          projectName: "Frozen Yogurt",
-          projectStartDate: new Date().toISOString().substr(0, 10),
-          projectEndDate: new Date().toISOString().substr(0, 10)
-        },
-        {
-          projectName: "Ice cream sandwich",
-          projectStartDate: "2020-03-29",
-          projectEndDate: new Date().toISOString().substr(0, 10)
-        },
-        {
-          projectName: "Eclair",
-          projectStartDate: "2020-03-28",
-          projectEndDate: new Date().toISOString().substr(0, 10)
-        },
-        {
-          projectName: "Cupcake",
-          projectStartDate: "2020-03-27",
-          projectEndDate: new Date().toISOString().substr(0, 10)
-        },
-        {
-          projectName: "Gingerbread",
-          projectStartDate: "2020-03-26",
-          projectEndDate: new Date().toISOString().substr(0, 10)
-        },
-        {
-          projectName: "Jelly bean",
-          projectStartDate: "2020-03-25",
-          projectEndDate: new Date().toISOString().substr(0, 10)
-        },
-        {
-          projectName: "Lollipop",
-          projectStartDate: "2020-03-24",
-          projectEndDate: new Date().toISOString().substr(0, 10)
-        },
-        {
-          projectName: "Honeycomb",
-          projectStartDate: "2020-03-23",
-          projectEndDate: new Date().toISOString().substr(0, 10)
-        },
-        {
-          projectName: "Donut",
-          projectStartDate: "2020-03-22",
-          projectEndDate: new Date().toISOString().substr(0, 10)
-        },
-        {
-          projectName: "KitKat",
-          projectStartDate: "2020-03-21",
-          projectEndDate: new Date().toISOString().substr(0, 10)
-        }
-      ];
+      this.isLoading = true;
+      const query = db.collection("projects");
+      query
+        .get()
+        .then(querySnapshot => {
+          querySnapshot.forEach(doc => {
+            console.log(doc.id, " => ", doc.data());
+            (this.projectName = doc.data().projectName),
+              (this.operatingStartDate = doc.data().operatingStartDate),
+              (this.operatingEndDate = doc.data().operatingEndDate);
+          });
+        })
+        .catch(err => {
+          console.log("Error getting documents", err);
+        });
     },
 
     editItem(item: any) {
-      this.editedIndex = this.desserts.indexOf(item);
+      this.editedIndex = this.data.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
 
     deleteItem(item: any) {
-      const index = this.desserts.indexOf(item);
+      const index = this.data.indexOf(item);
       confirm("Are you sure you want to delete this item?") &&
-        this.desserts.splice(index, 1);
+        this.data.splice(index, 1);
     },
 
     close() {
@@ -307,9 +248,9 @@ export default Vue.extend({
 
     save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.desserts[this.editedIndex], this.editedItem);
+        Object.assign(this.data[this.editedIndex], this.editedItem);
       } else {
-        this.desserts.push(this.editedItem);
+        this.data.push(this.editedItem);
       }
       this.close();
     }
