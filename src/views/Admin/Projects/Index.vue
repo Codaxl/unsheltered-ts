@@ -179,15 +179,13 @@ export default Vue.extend({
     dialog: false,
     headers: [
       {
-        text: "Dessert (100g serving)",
+        text: "Project Name",
         align: "start",
         sortable: false,
         value: "name"
       },
       { text: "Project Start Date", value: "projectStartDate" },
-      { text: "Fat (g)", value: "fat" },
-      { text: "Carbs (g)", value: "carbs" },
-      { text: "Protein (g)", value: "protein" },
+      { text: "Project End Date", value: "projectEndDate" },
       { text: "Actions", value: "actions", sortable: false }
     ],
     desserts: [{}],
@@ -195,16 +193,12 @@ export default Vue.extend({
     editedItem: {
       name: "",
       projectStartDate: new Date().toISOString().substr(0, 10),
-      fat: 0,
-      carbs: 0,
-      protein: 0
+      projectEndDate: new Date().toISOString().substr(0, 10)
     },
     defaultItem: {
       name: "",
       projectStartDate: new Date().toISOString().substr(0, 10),
-      fat: 0,
-      carbs: 0,
-      protein: 0
+      projectEndDate: new Date().toISOString().substr(0, 10)
     },
     // Datepicker
     date: new Date().toISOString().substr(0, 10),
@@ -235,72 +229,52 @@ export default Vue.extend({
         {
           name: "Frozen Yogurt",
           projectStartDate: new Date().toISOString().substr(0, 10),
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0
+          projectEndDate: new Date().toISOString().substr(0, 10)
         },
         {
           name: "Ice cream sandwich",
-          projectStartDate: new Date().toISOString().substr(0, 10),
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3
+          projectStartDate: "2020-03-29",
+          projectEndDate: new Date().toISOString().substr(0, 10)
         },
         {
           name: "Eclair",
-          projectStartDate: new Date().toISOString().substr(0, 10),
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0
+          projectStartDate: "2020-03-28",
+          projectEndDate: new Date().toISOString().substr(0, 10)
         },
         {
           name: "Cupcake",
-          projectStartDate: new Date().toISOString().substr(0, 10),
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3
+          projectStartDate: "2020-03-27",
+          projectEndDate: new Date().toISOString().substr(0, 10)
         },
         {
           name: "Gingerbread",
-          projectStartDate: new Date().toISOString().substr(0, 10),
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9
+          projectStartDate: "2020-03-26",
+          projectEndDate: new Date().toISOString().substr(0, 10)
         },
         {
           name: "Jelly bean",
-          projectStartDate: new Date().toISOString().substr(0, 10),
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0
+          projectStartDate: "2020-03-25",
+          projectEndDate: new Date().toISOString().substr(0, 10)
         },
         {
           name: "Lollipop",
-          projectStartDate: new Date().toISOString().substr(0, 10),
-          fat: 0.2,
-          carbs: 98,
-          protein: 0
+          projectStartDate: "2020-03-24",
+          projectEndDate: new Date().toISOString().substr(0, 10)
         },
         {
           name: "Honeycomb",
-          projectStartDate: new Date().toISOString().substr(0, 10),
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5
+          projectStartDate: "2020-03-23",
+          projectEndDate: new Date().toISOString().substr(0, 10)
         },
         {
           name: "Donut",
-          projectStartDate: new Date().toISOString().substr(0, 10),
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9
+          projectStartDate: "2020-03-22",
+          projectEndDate: new Date().toISOString().substr(0, 10)
         },
         {
           name: "KitKat",
-          projectStartDate: new Date().toISOString().substr(0, 10),
-          fat: 26.0,
-          carbs: 65,
-          protein: 7
+          projectStartDate: "2020-03-21",
+          projectEndDate: new Date().toISOString().substr(0, 10)
         }
       ];
     },
