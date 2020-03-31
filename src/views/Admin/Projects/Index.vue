@@ -165,6 +165,7 @@ interface Project {
 
 export default Vue.extend({
   data: () => ({
+    pattern: "yyyy-MM-dd",
     isLoading: false,
     dialog: false,
     headers: [
@@ -221,21 +222,21 @@ export default Vue.extend({
   methods: {
     initialize() {
       const ref = db.collection("projects");
-      const pattern = "yyyy-MM-dd";
       ref
         .get()
         .then(snapshot => {
+          console.log(snapshot);
           snapshot.forEach(doc => {
             this.data.push({
               id: doc.id,
               projectName: doc.data().projectName,
               operatingStartDate: format(
                 doc.data().operatingStartDate.toDate(),
-                pattern
+                this.pattern
               ),
               operatingEndDate: format(
                 doc.data().operatingEndDate.toDate(),
-                pattern
+                this.pattern
               )
             });
           });
@@ -276,14 +277,13 @@ export default Vue.extend({
     },
 
     save() {
-      const timeZone = "America/Los_Angeles";
-
       const firestoreData = {
         projectName: this.editedItem.projectName,
         operatingStartDate: parseISO(this.editedItem.operatingStartDate),
         operatingEndDate: parseISO(this.editedItem.operatingEndDate)
       };
       const data = {
+        id: this.editedItem.id,
         projectName: this.editedItem.projectName,
         operatingStartDate: new Date(this.editedItem.operatingStartDate)
           .toISOString()
@@ -293,25 +293,36 @@ export default Vue.extend({
           .substring(0, 10)
       };
       if (this.editedIndex > -1) {
-        console.log(this.data);
+        console.log("data id" + this.data.id);
         console.log("if save  " + this.editedIndex);
-        Object.assign(this.data[this.editedIndex], this.editedItem);
         console.log(this.editedId);
         db.collection("projects")
           .doc(this.editedId)
-          .update(firestoreData);
+          .update(firestoreData)
+          .then(() => {
+            Object.assign(this.data[this.editedIndex], this.editedItem);
+          });
       } else {
         console.log(this.data);
-        this.data.push(data);
-
         db.collection("projects")
           .add(firestoreData)
-          .then(function(docRef) {
-            docRef.id;
+          .then(docRef => {
+            console.log("docRef " + docRef.id);
+
+            this.data.push({
+              id: docRef.id,
+              projectName: docRef.data().projectName,
+              operatingStartDate: format(
+                docRef.data().operatingStartDate.toDate(),
+                this.pattern
+              ),
+              operatingEndDate: format(
+                docRef.data().operatingEndDate.toDate(),
+                this.pattern
+              )
+            });
           });
         console.log("save else " + this.editedItem);
-        this.editedIndex = this.data.length - 1;
-
         console.log(this.editedIndex);
       }
       this.close();
