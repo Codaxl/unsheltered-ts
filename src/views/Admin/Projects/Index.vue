@@ -104,6 +104,15 @@
                         </v-col>
                         <v-col cols="12">
                           <v-text-field
+                            v-model="editedItem.year"
+                            value="editedItem.operatingStartDate"
+                            label="Fiscal Year"
+                            outlined
+                            disabled
+                          ></v-text-field>
+                        </v-col>
+                        <v-col cols="12">
+                          <v-text-field
                             v-model="editedItem.amount"
                             label="Amount"
                             outlined
@@ -139,13 +148,6 @@
                             multiple
                             solo
                           ></v-select>
-                        </v-col>
-                        <v-col cols="12">
-                          <v-text-field
-                            v-model="editedItem.year"
-                            label="Year"
-                            outlined
-                          ></v-text-field>
                         </v-col>
                         <v-col cols="12">
                           <v-text-field
