@@ -226,10 +226,9 @@ export default Vue.extend({
         .then(snapshot => {
           this.organizationSelect = [];
           snapshot.forEach(doc => {
-            this.organizationSelect.push({
-              organizationName: doc.data().organizationName
-            });
+            this.organizationSelect.push(doc.data().organizationName);
           });
+          console.log(this.organizationSelect);
         })
         .catch(err => {
           console.log("Error getting documents", err);
@@ -302,6 +301,7 @@ export default Vue.extend({
           this.data.push({
             id: docRef.id,
             projectName: this.editedItem.projectName,
+            organizationName: this.editedItem.organizationName,
             operatingStartDate: new Date(this.editedItem.operatingStartDate)
               .toISOString()
               .substr(0, 10),
