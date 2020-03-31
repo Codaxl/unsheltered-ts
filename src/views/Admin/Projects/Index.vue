@@ -156,13 +156,6 @@ import { db } from "@/firebase";
 import format from "date-fns/format";
 import parseISO from "date-fns/parseISO";
 
-interface Project {
-  id: string;
-  projectName: string;
-  operatingStartDate: Date;
-  operatingEndDate: Date;
-}
-
 export default Vue.extend({
   data: () => ({
     collection: db.collection("projects"),
@@ -186,7 +179,6 @@ export default Vue.extend({
     ],
     data: [{}],
     editedIndex: -1,
-    editedId: "",
     editedItem: {
       id: "",
       projectName: "",
@@ -225,10 +217,9 @@ export default Vue.extend({
       this.collection
         .get()
         .then(snapshot => {
-          console.log(snapshot);
           snapshot.forEach(doc => {
             this.data.push({
-              id: doc.id,
+              key: doc.id,
               projectName: doc.data().projectName,
               operatingStartDate: format(
                 doc.data().operatingStartDate.toDate(),
@@ -247,7 +238,6 @@ export default Vue.extend({
     },
 
     editItem(item: any) {
-      this.editedId = item.id;
       this.editedIndex = this.data.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
@@ -257,7 +247,7 @@ export default Vue.extend({
       const index: any = this.data.indexOf(item);
       confirm("Are you sure you want to delete this item?") &&
         this.data.splice(index, 1) &&
-        this.collection.doc(item.id).delete();
+        this.collection.doc(item.key).delete();
     },
 
     close() {
@@ -274,19 +264,10 @@ export default Vue.extend({
         operatingStartDate: parseISO(this.editedItem.operatingStartDate),
         operatingEndDate: parseISO(this.editedItem.operatingEndDate)
       };
-      const data = {
-        id: this.editedItem.id,
-        projectName: this.editedItem.projectName,
-        operatingStartDate: new Date(this.editedItem.operatingStartDate)
-          .toISOString()
-          .substring(0, 10),
-        operatingEndDate: new Date(this.editedItem.operatingEndDate)
-          .toISOString()
-          .substring(0, 10)
-      };
       if (this.editedIndex > -1) {
+        const docId = this.data[this.editedIndex].key;
         this.collection
-          .doc(this.editedId)
+          .doc(docId)
           .update(firestoreData)
           .then(() => {
             Object.assign(this.data[this.editedIndex], this.editedItem);
