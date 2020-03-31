@@ -28,7 +28,7 @@
             <v-row align="center" class="ma-auto">
               <v-select
                 v-model="e2"
-                :items="organizations"
+                :items="organizationSelect"
                 menu-props="auto"
                 label="Organization"
                 hide-details
@@ -312,7 +312,7 @@ const fundStoreState = getModule(FundStore);
 
 // DATA
 import { FundsDataServices } from "./FirestoreDataServices";
-
+import { db } from "@/firebase";
 @Component({
   components: {
     FundingDashboardPie,
@@ -322,6 +322,7 @@ import { FundsDataServices } from "./FirestoreDataServices";
   }
 })
 export default class FundingDashboard extends Vue {
+  private organizationSelect: string[] = [];
   //detele
   private model = null;
   private breadcrumbs: Array<object> = [
@@ -364,8 +365,21 @@ export default class FundingDashboard extends Vue {
   created() {
     this.loadFunds();
     this.selects();
+    this.fetchOrganizations();
   }
-
+  private fetchOrganizations() {
+    db.collection("organizations")
+      .get()
+      .then(snapshot => {
+        this.organizationSelect = [];
+        snapshot.forEach(doc => {
+          this.organizationSelect.push(doc.data().organizationName);
+        });
+      })
+      .catch(err => {
+        console.log("Error getting documents", err);
+      });
+  }
   private async selects() {
     const result = await fundStoreState.getSelects();
     return result;
@@ -400,7 +414,7 @@ export default class FundingDashboard extends Vue {
   }
 
   get totalAmount(): number {
-    return this.funds.reduce(
+    return this.projects.reduce(
       (acc: number, item: any) => acc + parseFloat(item.amount),
       0
     );
@@ -408,15 +422,17 @@ export default class FundingDashboard extends Vue {
   //https://gist.github.com/quangnd/572c6d410cb6512b7f252af0f2eb7cae
 
   // Solution: https://appdividend.com/2019/04/11/how-to-get-distinct-values-from-array-in-javascript/#Javascript_Unique_Array_Example
-  get totalOrganizations(): number {
+  get totalGrantees(): number {
     const uniqueArr = [
-      ...new Set(this.funds.map((data: any) => data.organization))
+      ...new Set(this.projects.map((data: any) => data.grantee))
     ];
     return new Set(uniqueArr).size;
   }
 
   get totalGrants(): number {
-    const uniqueArr = [...new Set(this.funds.map((data: any) => data.grant))];
+    const uniqueArr = [
+      ...new Set(this.projects.map((data: any) => data.grant))
+    ];
     return new Set(uniqueArr).size;
   }
 
@@ -424,7 +440,7 @@ export default class FundingDashboard extends Vue {
   // Federal const query indexOf(this.query) solution?
 
   get filteredFederal(): any {
-    return this.funds.filter((c: any) => c.source.indexOf("Federal") !== -1);
+    return this.projects.filter((c: any) => c.source.indexOf("Federal") !== -1);
   }
 
   get totalFederal(): number {
@@ -438,7 +454,7 @@ export default class FundingDashboard extends Vue {
   // State
 
   get filteredState(): any {
-    return this.funds.filter((c: any) => c.source.indexOf("State") !== -1);
+    return this.projects.filter((c: any) => c.source.indexOf("State") !== -1);
   }
 
   get totalState(): number {
@@ -452,7 +468,7 @@ export default class FundingDashboard extends Vue {
   // County
 
   get filteredCounty(): any {
-    return this.funds.filter((c: any) => c.source.indexOf("County") !== -1);
+    return this.projects.filter((c: any) => c.source.indexOf("County") !== -1);
   }
 
   get totalCounty(): number {
@@ -466,7 +482,7 @@ export default class FundingDashboard extends Vue {
   // City
 
   get filteredCity(): any {
-    return this.funds.filter((c: any) => c.source.indexOf("City") !== -1);
+    return this.projects.filter((c: any) => c.source.indexOf("City") !== -1);
   }
 
   get totalCity(): number {

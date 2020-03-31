@@ -6,24 +6,24 @@ export class FirestoreDataServices {
   getAll(
     tableName: string,
     yearFilter: number,
-    orgFilter: string,
-    grantFilter: string,
-    sourceFilter: string,
+    granteeFilter: string,
+    grantorFilter: string,
+    sourceTypeFilter: string,
     docToRecordMap: any
   ) {
     const records: Array<object> = [];
     let query: Query = db.collection(tableName).where("year", "==", yearFilter);
 
-    if (!(!orgFilter || orgFilter.trim().length === 0)) {
-      query = query.where("organization", "==", orgFilter);
+    if (!(!granteeFilter || granteeFilter.trim().length === 0)) {
+      query = query.where("grantee", "==", granteeFilter);
     }
 
     if (!(!grantFilter || grantFilter.trim().length === 0)) {
-      query = query.where("grant", "==", grantFilter);
+      query = query.where("grantor", "==", grantorFilter);
     }
 
-    if (!(!sourceFilter || sourceFilter.trim().length === 0)) {
-      query = query.where("source", "==", sourceFilter);
+    if (!(!sourceTypeFilter || sourceTypeFilter.trim().length === 0)) {
+      query = query.where("sourceType", "==", sourceTypeFilter);
     }
 
     const result = new Promise(function(resolve, reject) {
@@ -42,11 +42,11 @@ export class FundsRecord {
   id = "";
   amount = "";
   category = "";
-  organization = "";
+  grantee = "";
   projectName = "";
-  source = "";
+  sourceType = "";
   year = 0;
-  grant = "";
+  grantor = "";
 }
 
 export function DocToFundRecordMap(doc: any): FundsRecord {
@@ -55,11 +55,11 @@ export function DocToFundRecordMap(doc: any): FundsRecord {
     id: doc.id,
     amount: rowData.amount,
     category: rowData.category,
-    organization: rowData.organization,
+    grantee: rowData.grantee,
     projectName: rowData.projectName,
-    source: rowData.source,
+    sourceType: rowData.sourceType,
     year: rowData.year,
-    grant: rowData.grant
+    grantor: rowData.grantor
   };
   return record;
 }
@@ -71,16 +71,16 @@ export class FundsDataServices {
   }
   GetAll(
     yearFilter: number,
-    orgFilter: string,
-    grantFilter: string,
-    sourceFilter: string
+    granteeFilter: string,
+    grantorFilter: string,
+    sourceTypeFilter: string
   ) {
     return this.dataServices.getAll(
-      "funds",
+      "projects",
       yearFilter,
-      orgFilter,
-      grantFilter,
-      sourceFilter,
+      granteeFilter,
+      grantorFilter,
+      sourceTypeFilter,
       DocToFundRecordMap
     );
   }

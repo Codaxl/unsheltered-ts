@@ -127,9 +127,9 @@
                         </v-col>
                         <v-col cols="12">
                           <v-autocomplete
-                            v-model="editedItem.subrecipient"
+                            v-model="editedItem.recipient"
                             :items="organizationSelect"
-                            label="Subrecipient"
+                            label="Recipient"
                             outlined
                           ></v-autocomplete>
                         </v-col>
@@ -251,7 +251,7 @@ export default Vue.extend({
       amount: "",
       grantor: "",
       grantee: "",
-      subrecipient: "",
+      recipient: "",
       sourceType: [],
       year: new Date().getFullYear(),
       category: "",
@@ -264,7 +264,7 @@ export default Vue.extend({
       amount: "",
       grantor: "",
       grantee: "",
-      subrecipient: "",
+      recipient: "",
       sourceType: [],
       year: new Date().getFullYear(),
       category: "",
@@ -324,7 +324,7 @@ export default Vue.extend({
               amount: doc.data().amount,
               grantor: doc.data().grantor,
               grantee: doc.data().grantee,
-              subrecipient: doc.data().subrecipient,
+              recipient: doc.data().recipient,
               sourceType: doc.data().sourceType,
               year: doc.data().year,
               category: doc.data().category,
@@ -372,7 +372,7 @@ export default Vue.extend({
         amount: this.editedItem.amount,
         grantor: this.editedItem.grantor,
         grantee: this.editedItem.grantee,
-        subrecipient: this.editedItem.subrecipient,
+        recipient: this.editedItem.recipient,
         sourceType: this.editedItem.sourceType,
         year: this.editedItem.year,
         category: this.editedItem.category,
@@ -394,7 +394,7 @@ export default Vue.extend({
             amount: this.editedItem.amount,
             grantor: this.editedItem.grantor,
             grantee: this.editedItem.grantee,
-            subrecipient: this.editedItem.subrecipient,
+            recipient: this.editedItem.recipient,
             sourceType: this.editedItem.sourceType,
             year: this.editedItem.year,
             category: this.editedItem.category,
