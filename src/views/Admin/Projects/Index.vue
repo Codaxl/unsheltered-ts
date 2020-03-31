@@ -135,7 +135,14 @@
                     <v-btn color="blue darken-1" text @click="close"
                       >Cancel</v-btn
                     >
-                    <v-btn color="blue darken-1" text @click="save">Save</v-btn>
+                    <v-btn
+                      color="blue darken-1"
+                      text
+                      :loading="isBtnLoading"
+                      :disabled="isBtnLoading"
+                      @click="save"
+                      >Save</v-btn
+                    >
                   </v-card-actions>
                 </v-card>
               </v-dialog>
@@ -169,6 +176,7 @@ export default Vue.extend({
     collection: db.collection("projects"),
     pattern: "yyyy-MM-dd",
     isLoading: false,
+    isBtnLoading: false,
     dialog: false,
     headers: [
       {
@@ -284,7 +292,7 @@ export default Vue.extend({
             Object.assign(this.data[this.editedIndex], this.editedItem);
           });
       } else {
-        this.isLoading = true;
+        this.isBtnLoading = true;
         this.collection
           .add(firestoreData)
           .then(docRef => {
@@ -301,7 +309,7 @@ export default Vue.extend({
           })
           .then(response => {
             console.log(response);
-            this.isLoading = false;
+            this.isBtnLoading = false;
             this.close();
           });
       }
