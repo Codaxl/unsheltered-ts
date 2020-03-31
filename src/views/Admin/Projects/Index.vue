@@ -32,14 +32,6 @@
                       <v-row>
                         <v-col cols="12">
                           <v-text-field
-                            v-model="editedItem.id"
-                            label="ID"
-                            outlined
-                            disabled
-                          ></v-text-field>
-                        </v-col>
-                        <v-col cols="12">
-                          <v-text-field
                             v-model="editedItem.projectName"
                             label="Project name"
                             outlined
@@ -178,7 +170,7 @@ export default Vue.extend({
       { text: "Project End Date", value: "operatingEndDate", sortable: true },
       { text: "Actions", value: "actions", sortable: false }
     ],
-    data: [{}],
+    data: {},
     editedIndex: -1,
     editedItem: {
       id: "",
