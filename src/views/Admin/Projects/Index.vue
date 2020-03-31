@@ -135,14 +135,7 @@
                     <v-btn color="blue darken-1" text @click="close"
                       >Cancel</v-btn
                     >
-                    <v-btn
-                      color="blue darken-1"
-                      text
-                      :loading="isBtnLoading"
-                      :disabled="isBtnLoading"
-                      @click="save"
-                      >Save</v-btn
-                    >
+                    <v-btn color="blue darken-1" text @click="save">Save</v-btn>
                   </v-card-actions>
                 </v-card>
               </v-dialog>
@@ -176,7 +169,6 @@ export default Vue.extend({
     collection: db.collection("projects"),
     pattern: "yyyy-MM-dd",
     isLoading: false,
-    isBtnLoading: false,
     dialog: false,
     headers: [
       {
@@ -293,26 +285,20 @@ export default Vue.extend({
           });
       } else {
         this.isBtnLoading = true;
-        this.collection
-          .add(firestoreData)
-          .then(docRef => {
-            this.data.push({
-              id: docRef.id,
-              projectName: this.editedItem.projectName,
-              operatingStartDate: new Date(this.editedItem.operatingStartDate)
-                .toISOString()
-                .substr(0, 10),
-              operatingEndDate: new Date(this.editedItem.operatingEndDate)
-                .toISOString()
-                .substr(0, 10)
-            });
-          })
-          .then(response => {
-            console.log(response);
-            this.isBtnLoading = false;
-            this.close();
+        this.collection.add(firestoreData).then(docRef => {
+          this.data.push({
+            id: docRef.id,
+            projectName: this.editedItem.projectName,
+            operatingStartDate: new Date(this.editedItem.operatingStartDate)
+              .toISOString()
+              .substr(0, 10),
+            operatingEndDate: new Date(this.editedItem.operatingEndDate)
+              .toISOString()
+              .substr(0, 10)
           });
+        });
       }
+      this.close();
     }
   }
 });
