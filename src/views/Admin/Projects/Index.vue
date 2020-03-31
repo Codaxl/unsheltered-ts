@@ -166,7 +166,7 @@ interface Project {
 export default Vue.extend({
   data: () => ({
     collection: db.collection("projects"),
-    patter: "yyyy-MM-dd",
+    pattern: "yyyy-MM-dd",
     isLoading: false,
     dialog: false,
     headers: [
