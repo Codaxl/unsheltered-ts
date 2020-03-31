@@ -32,6 +32,14 @@
                       <v-row>
                         <v-col cols="12">
                           <v-text-field
+                            v-model="editedItem.id"
+                            label="ID"
+                            outlined
+                            disabled
+                          ></v-text-field>
+                        </v-col>
+                        <v-col cols="12">
+                          <v-text-field
                             v-model="editedItem.projectName"
                             label="Project name"
                             outlined
@@ -164,8 +172,13 @@ export default Vue.extend({
     dialog: false,
     headers: [
       {
-        text: "Project Name",
+        text: "ID",
         align: "start",
+        sortable: true,
+        value: "id"
+      },
+      {
+        text: "Project Name",
         sortable: true,
         value: "projectName"
       },
@@ -201,7 +214,6 @@ export default Vue.extend({
       return this.editedIndex === -1 ? "New Project" : "Edit Project";
     }
   },
-
   watch: {
     dialog(val) {
       val || this.close();
@@ -219,7 +231,7 @@ export default Vue.extend({
         .then(snapshot => {
           snapshot.forEach(doc => {
             this.data.push({
-              key: doc.id,
+              id: doc.id,
               projectName: doc.data().projectName,
               operatingStartDate: format(
                 doc.data().operatingStartDate.toDate(),
@@ -247,7 +259,7 @@ export default Vue.extend({
       const index: any = this.data.indexOf(item);
       confirm("Are you sure you want to delete this item?") &&
         this.data.splice(index, 1) &&
-        this.collection.doc(item.key).delete();
+        this.collection.doc(item.id).delete();
     },
 
     close() {
@@ -265,19 +277,34 @@ export default Vue.extend({
         operatingEndDate: parseISO(this.editedItem.operatingEndDate)
       };
       if (this.editedIndex > -1) {
-        const docId = this.data[this.editedIndex].key;
         this.collection
-          .doc(docId)
+          .doc(this.editedItem.id)
           .update(firestoreData)
           .then(() => {
             Object.assign(this.data[this.editedIndex], this.editedItem);
           });
       } else {
-        this.collection.add(firestoreData).then(docRef => {
-          this.data.push(this.editedItem);
-        });
+        this.isLoading = true;
+        this.collection
+          .add(firestoreData)
+          .then(docRef => {
+            this.data.push({
+              id: docRef.id,
+              projectName: this.editedItem.projectName,
+              operatingStartDate: new Date(this.editedItem.operatingStartDate)
+                .toISOString()
+                .substr(0, 10),
+              operatingEndDate: new Date(this.editedItem.operatingEndDate)
+                .toISOString()
+                .substr(0, 10)
+            });
+          })
+          .then(response => {
+            console.log(response);
+            this.isLoading = false;
+            this.close();
+          });
       }
-      this.close();
     }
   }
 });
