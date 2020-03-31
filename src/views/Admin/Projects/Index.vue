@@ -142,14 +142,20 @@ import parseISO from "date-fns/parseISO";
 
 export default Vue.extend({
   data: () => ({
+    // Firestore collection
     collection: db.collection("projects"),
+    // Date filter
     pattern: "yyyy-MM-dd",
+    // Datepicker
     minValue: new Date(
       new Date().setFullYear(new Date().getFullYear() - 4)
     ).toISOString(),
     maxValue: new Date(
       new Date().setFullYear(new Date().getFullYear() + 1)
     ).toISOString(),
+    menu: false,
+    menu2: false,
+    // Data Table
     isLoading: false,
     dialog: false,
     headers: [
@@ -185,10 +191,7 @@ export default Vue.extend({
       projectName: "",
       operatingStartDate: new Date().toISOString().substr(0, 10),
       operatingEndDate: new Date().toISOString().substr(0, 10)
-    },
-    // Datepicker
-    menu: false,
-    menu2: false
+    }
   }),
 
   computed: {
