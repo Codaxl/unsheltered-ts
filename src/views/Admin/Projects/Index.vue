@@ -105,10 +105,10 @@
                         <v-col cols="12">
                           <v-text-field
                             v-model="editedItem.year"
-                            value="editedItem.operatingStartDate"
-                            label="Fiscal Year"
+                            :value="selectYear"
+                            label="Fiscal year"
                             outlined
-                            disabled
+                            readonly
                           ></v-text-field>
                         </v-col>
                         <v-col cols="12">
@@ -254,7 +254,7 @@ export default Vue.extend({
       recipient: "",
       subrecipient: "",
       sourceType: [{}],
-      year: "",
+      year: new Date().toISOString().substr(0, 10),
       category: "",
       projectName: "",
       organizationName: "",
@@ -268,7 +268,7 @@ export default Vue.extend({
       recipient: "",
       subrecipient: "",
       sourceType: [{}],
-      year: "",
+      year: new Date().toISOString().substr(0, 10),
       category: "",
       projectName: "",
       organizationName: "",
@@ -280,6 +280,14 @@ export default Vue.extend({
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? "New Project" : "Edit Project";
+    },
+    selectYear(): number[] {
+      const range = (a: number, b: number) =>
+        Array.from(new Array(b > a ? b - a : a - b), (x, i) =>
+          b > a ? i + a : a - i
+        );
+      const currentYear = new Date().getFullYear();
+      return range(currentYear, currentYear - 5);
     }
   },
   watch: {
