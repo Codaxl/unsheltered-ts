@@ -228,7 +228,6 @@ export default Vue.extend({
           snapshot.forEach(doc => {
             this.organizationSelect.push(doc.data().organizationName);
           });
-          console.log(this.organizationSelect);
         })
         .catch(err => {
           console.log("Error getting documents", err);
