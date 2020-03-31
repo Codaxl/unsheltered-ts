@@ -68,20 +68,8 @@
                               v-model="editedItem.operatingStartDate"
                               @input="menu = false"
                               scrollable
-                              :max="
-                                new Date(
-                                  new Date().setFullYear(
-                                    new Date().getFullYear() + 1
-                                  )
-                                ).toISOString()
-                              "
-                              :min="
-                                new Date(
-                                  new Date().setFullYear(
-                                    new Date().getFullYear() - 4
-                                  )
-                                ).toISOString()
-                              "
+                              :max="maxValue"
+                              :min="minValue"
                             ></v-date-picker>
                           </v-menu>
                         </v-col>
@@ -109,20 +97,8 @@
                               v-model="editedItem.operatingEndDate"
                               @input="menu2 = false"
                               scrollable
-                              :max="
-                                new Date(
-                                  new Date().setFullYear(
-                                    new Date().getFullYear() + 1
-                                  )
-                                ).toISOString()
-                              "
-                              :min="
-                                new Date(
-                                  new Date().setFullYear(
-                                    new Date().getFullYear() - 4
-                                  )
-                                ).toISOString()
-                              "
+                              :max="maxValue"
+                              :min="minValue"
                             ></v-date-picker>
                           </v-menu>
                         </v-col>
@@ -168,6 +144,12 @@ export default Vue.extend({
   data: () => ({
     collection: db.collection("projects"),
     pattern: "yyyy-MM-dd",
+    minValue: new Date(
+      new Date().setFullYear(new Date().getFullYear() - 4)
+    ).toISOString(),
+    maxValue: new Date(
+      new Date().setFullYear(new Date().getFullYear() + 1)
+    ).toISOString(),
     isLoading: false,
     dialog: false,
     headers: [
@@ -284,7 +266,6 @@ export default Vue.extend({
             Object.assign(this.data[this.editedIndex], this.editedItem);
           });
       } else {
-        this.isBtnLoading = true;
         this.collection.add(firestoreData).then(docRef => {
           this.data.push({
             id: docRef.id,
