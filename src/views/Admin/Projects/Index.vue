@@ -145,7 +145,7 @@
                             chips
                             label="Source Type"
                             multiple
-                            solo
+                            outlined
                           ></v-select>
                         </v-col>
                         <v-col cols="12">
@@ -327,7 +327,7 @@ export default Vue.extend({
               grantee: doc.data().grantee,
               recipient: doc.data().recipient,
               subrecipient: doc.data().subrecipient,
-              sourceType: doc.data().sourceType,
+              sourceType: [doc.data().sourceType],
               year: doc.data().year,
               category: doc.data().category,
               projectName: doc.data().projectName,
@@ -376,7 +376,7 @@ export default Vue.extend({
         grantee: this.editedItem.grantee,
         recipient: this.editedItem.recipient,
         subrecipient: this.editedItem.subrecipient,
-        sourceType: this.editedItem.sourceType,
+        sourceType: [this.editedItem.sourceType],
         year: this.editedItem.year,
         category: this.editedItem.category,
         projectName: this.editedItem.projectName,
@@ -399,7 +399,7 @@ export default Vue.extend({
             grantee: this.editedItem.grantee,
             recipient: this.editedItem.recipient,
             subrecipient: this.editedItem.subrecipient,
-            sourceType: this.editedItem.sourceType,
+            sourceType: [this.editedItem.sourceType],
             year: this.editedItem.year,
             category: this.editedItem.category,
             projectName: this.editedItem.projectName,
