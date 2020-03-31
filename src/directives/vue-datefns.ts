@@ -6,3 +6,7 @@ Vue.filter("fullDate", function(d: string) {
 
   return results ? format(results, "PPP") : "";
 });
+
+Vue.filter("iso", function(d: Date) {
+  return d ? format(d, "yyyy-MM-dd") : "";
+});

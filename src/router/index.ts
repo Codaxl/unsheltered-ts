@@ -199,18 +199,7 @@ const routes = [
         component: () =>
           import(
             /* webpackChunkName: "about" */ "../views/Admin/Projects/Index.vue"
-          ),
-        children: [
-          {
-            // UserProfile will be rendered inside User's <router-view>
-            // when /user/:id/profile is matched
-            path: "create",
-            component: () =>
-              import(
-                /* webpackChunkName: "about" */ "../views/Admin/Projects/Create.vue"
-              )
-          }
-        ]
+          )
       }
     ]
   },

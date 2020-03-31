@@ -58,14 +58,14 @@
     <v-row>
       <v-col cols="12">
         <div>
-          <Projects />
+          <project-table></project-table>
         </div>
       </v-col>
     </v-row>
     <v-row>
       <v-col cols="12">
         <div>
-          <contacts />
+          <contact-iterator></contact-iterator>
         </div>
       </v-col>
     </v-row>
@@ -208,11 +208,11 @@
 import Vue from "vue";
 import { Component, Watch } from "vue-property-decorator";
 
-import Contacts from "@/components/Funding/Federal/Coc/Contacts.vue";
-import Projects from "@/components/Funding/Federal/Coc/Projects.vue";
+import ContactIterator from "@/components/Funding/Federal/Coc/ContactIterator.vue";
+import ProjectTable from "@/components/Funding/Federal/Coc/ProjectTable.vue";
 
 @Component({
-  components: { Contacts, Projects }
+  components: { ContactIterator, ProjectTable }
 })
 export default class Coc extends Vue {
   private e1: number = new Date().getFullYear() - 1;
