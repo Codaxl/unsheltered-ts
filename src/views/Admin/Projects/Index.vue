@@ -19,7 +19,7 @@
               <v-dialog v-model="dialog" max-width="500px">
                 <template v-slot:activator="{ on }">
                   <v-btn color="primary" dark class="mb-2" v-on="on"
-                    >New Item</v-btn
+                    >New Project</v-btn
                   >
                 </template>
                 <v-card>
@@ -134,10 +134,10 @@
             </v-toolbar>
           </template>
           <template v-slot:item.actions="{ item }">
-            <v-icon small class="mr-2" @click="editItem(item, editedItem.id)">
+            <v-icon small class="mr-2" @click="editItem(item)">
               mdi-pencil
             </v-icon>
-            <v-icon small @click="deleteItem(item, editedItem.id)">
+            <v-icon small @click="deleteItem(item)">
               mdi-delete
             </v-icon>
           </template>
@@ -154,6 +154,7 @@
 import Vue from "vue";
 import { db } from "@/firebase";
 import format from "date-fns/format";
+import parseISO from "date-fns/parseISO";
 
 interface Project {
   id: string;
@@ -183,13 +184,15 @@ export default Vue.extend({
     ],
     data: [{}],
     editedIndex: -1,
-    docId: "",
+    editedId: "",
     editedItem: {
+      id: "",
       projectName: "",
       operatingStartDate: new Date().toISOString().substr(0, 10),
       operatingEndDate: new Date().toISOString().substr(0, 10)
     },
     defaultItem: {
+      id: "",
       projectName: "",
       operatingStartDate: new Date().toISOString().substr(0, 10),
       operatingEndDate: new Date().toISOString().substr(0, 10)
@@ -202,19 +205,6 @@ export default Vue.extend({
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? "New Project" : "Edit Project";
-    },
-    toUTC(date) {
-      return Date(
-        Date.UTC(
-          date.getFullYear(),
-          date.getMonth(),
-          date.getDate(),
-          date.getHours() + 6,
-          date.getMinutes(),
-          date.getSeconds(),
-          date.getMilliseconds()
-        )
-      );
     }
   },
 
@@ -231,6 +221,7 @@ export default Vue.extend({
   methods: {
     initialize() {
       const ref = db.collection("projects");
+      const pattern = "yyyy-MM-dd";
       ref
         .get()
         .then(snapshot => {
@@ -240,11 +231,11 @@ export default Vue.extend({
               projectName: doc.data().projectName,
               operatingStartDate: format(
                 doc.data().operatingStartDate.toDate(),
-                "yyyy-MM-dd"
+                pattern
               ),
               operatingEndDate: format(
                 doc.data().operatingEndDate.toDate(),
-                "yyyy-MM-dd"
+                pattern
               )
             });
           });
@@ -254,15 +245,20 @@ export default Vue.extend({
         });
     },
 
-    editItem(item: any, id: string) {
-      this.docId = item.id;
+    editItem(item: any) {
+      console.log(this.data);
+      this.editedId = item.id;
+      console.log("edit item.id " + item.id);
       this.editedIndex = this.data.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
+      console.log(this.data.indexOf(item));
     },
 
-    deleteItem(item: any, id: string) {
+    deleteItem(item: any) {
+      console.log(this.data);
       const index: any = this.data.indexOf(item);
+      console.log("delete " + index);
       confirm("Are you sure you want to delete this item?") &&
         this.data.splice(index, 1) &&
         db
@@ -281,6 +277,12 @@ export default Vue.extend({
 
     save() {
       const timeZone = "America/Los_Angeles";
+
+      const firestoreData = {
+        projectName: this.editedItem.projectName,
+        operatingStartDate: parseISO(this.editedItem.operatingStartDate),
+        operatingEndDate: parseISO(this.editedItem.operatingEndDate)
+      };
       const data = {
         projectName: this.editedItem.projectName,
         operatingStartDate: new Date(this.editedItem.operatingStartDate)
@@ -290,24 +292,27 @@ export default Vue.extend({
           .toISOString()
           .substring(0, 10)
       };
-      const firestoreData = {
-        projectName: this.editedItem.projectName,
-        operatingStartDate: new Date(this.editedItem.operatingStartDate),
-        operatingEndDate: new Date(this.editedItem.operatingEndDate)
-      };
-
       if (this.editedIndex > -1) {
-        console.log("save if " + JSON.stringify(this.data[this.editedIndex]));
-        console.log("save if " + JSON.stringify(this.editedItem.projectName));
+        console.log(this.data);
+        console.log("if save  " + this.editedIndex);
         Object.assign(this.data[this.editedIndex], this.editedItem);
-        const document: any = this.data[this.editedIndex];
+        console.log(this.editedId);
         db.collection("projects")
-          .doc(this.docId)
+          .doc(this.editedId)
           .update(firestoreData);
       } else {
+        console.log(this.data);
         this.data.push(data);
-        db.collection("projects").add(firestoreData);
+
+        db.collection("projects")
+          .add(firestoreData)
+          .then(function(docRef) {
+            docRef.id;
+          });
         console.log("save else " + this.editedItem);
+        this.editedIndex = this.data.length - 1;
+
+        console.log(this.editedIndex);
       }
       this.close();
     }
