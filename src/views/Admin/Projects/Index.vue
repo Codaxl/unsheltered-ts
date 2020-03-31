@@ -165,7 +165,8 @@ interface Project {
 
 export default Vue.extend({
   data: () => ({
-    pattern: "yyyy-MM-dd",
+    collection: db.collection("projects"),
+    patter: "yyyy-MM-dd",
     isLoading: false,
     dialog: false,
     headers: [
@@ -221,8 +222,7 @@ export default Vue.extend({
 
   methods: {
     initialize() {
-      const ref = db.collection("projects");
-      ref
+      this.collection
         .get()
         .then(snapshot => {
           console.log(snapshot);
@@ -247,25 +247,17 @@ export default Vue.extend({
     },
 
     editItem(item: any) {
-      console.log(this.data);
       this.editedId = item.id;
-      console.log("edit item.id " + item.id);
       this.editedIndex = this.data.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
-      console.log(this.data.indexOf(item));
     },
 
     deleteItem(item: any) {
-      console.log(this.data);
       const index: any = this.data.indexOf(item);
-      console.log("delete " + index);
       confirm("Are you sure you want to delete this item?") &&
         this.data.splice(index, 1) &&
-        db
-          .collection("projects")
-          .doc(item.id)
-          .delete();
+        this.collection.doc(item.id).delete();
     },
 
     close() {
@@ -293,37 +285,16 @@ export default Vue.extend({
           .substring(0, 10)
       };
       if (this.editedIndex > -1) {
-        console.log("data id" + this.data.id);
-        console.log("if save  " + this.editedIndex);
-        console.log(this.editedId);
-        db.collection("projects")
+        this.collection
           .doc(this.editedId)
           .update(firestoreData)
           .then(() => {
             Object.assign(this.data[this.editedIndex], this.editedItem);
           });
       } else {
-        console.log(this.data);
-        db.collection("projects")
-          .add(firestoreData)
-          .then(docRef => {
-            console.log("docRef " + docRef.id);
-
-            this.data.push({
-              id: docRef.id,
-              projectName: docRef.data().projectName,
-              operatingStartDate: format(
-                docRef.data().operatingStartDate.toDate(),
-                this.pattern
-              ),
-              operatingEndDate: format(
-                docRef.data().operatingEndDate.toDate(),
-                this.pattern
-              )
-            });
-          });
-        console.log("save else " + this.editedItem);
-        console.log(this.editedIndex);
+        this.collection.add(firestoreData).then(docRef => {
+          this.data.push(this.editedItem);
+        });
       }
       this.close();
     }
