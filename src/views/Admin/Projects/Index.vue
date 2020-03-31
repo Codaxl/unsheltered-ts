@@ -105,7 +105,7 @@
                         <v-col cols="12">
                           <v-select
                             v-model="editedItem.year"
-                            :value="selectYear"
+                            :items="selectYear"
                             label="Fiscal year"
                             outlined
                           ></v-select>
