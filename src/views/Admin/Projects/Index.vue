@@ -37,14 +37,6 @@
                             outlined
                           ></v-text-field>
                         </v-col>
-                        <v-col cols="12">
-                          <v-autocomplete
-                            v-model="editedItem.organizationName"
-                            :items="organizationSelect"
-                            label="Organization Name"
-                            outlined
-                          ></v-autocomplete>
-                        </v-col>
                         <v-col cols="12" sm="6">
                           <v-menu
                             v-model="menu"
@@ -118,25 +110,28 @@
                           ></v-text-field>
                         </v-col>
                         <v-col cols="12">
-                          <v-text-field
+                          <v-autocomplete
+                            v-model="editedItem.grantor"
+                            :items="organizationSelect"
+                            label="Grantor"
+                            outlined
+                          ></v-autocomplete>
+                        </v-col>
+                        <v-col cols="12">
+                          <v-autocomplete
                             v-model="editedItem.grantee"
+                            :items="organizationSelect"
                             label="Grantee"
                             outlined
-                          ></v-text-field>
+                          ></v-autocomplete>
                         </v-col>
                         <v-col cols="12">
-                          <v-text-field
-                            v-model="editedItem.recipient"
-                            label="Recipient"
-                            outlined
-                          ></v-text-field>
-                        </v-col>
-                        <v-col cols="12">
-                          <v-text-field
+                          <v-autocomplete
                             v-model="editedItem.subrecipient"
+                            :items="organizationSelect"
                             label="Subrecipient"
                             outlined
-                          ></v-text-field>
+                          ></v-autocomplete>
                         </v-col>
                         <v-col cols="12">
                           <v-select
@@ -232,9 +227,14 @@ export default Vue.extend({
         value: "projectName"
       },
       {
-        text: "Organization Name",
+        text: "Grantee",
         sortable: true,
-        value: "organizationName"
+        value: "grantee"
+      },
+      {
+        text: "Grantor",
+        sortable: true,
+        value: "grantor"
       },
       {
         text: "Project Start Date",
@@ -249,28 +249,26 @@ export default Vue.extend({
     editedItem: {
       id: "",
       amount: "",
+      grantor: "",
       grantee: "",
-      recipient: "",
       subrecipient: "",
       sourceType: [],
       year: new Date().getFullYear(),
       category: "",
       projectName: "",
-      organizationName: "",
       operatingStartDate: new Date().toISOString().substr(0, 10),
       operatingEndDate: new Date().toISOString().substr(0, 10)
     },
     defaultItem: {
       id: "",
       amount: "",
+      grantor: "",
       grantee: "",
-      recipient: "",
       subrecipient: "",
       sourceType: [],
       year: new Date().getFullYear(),
       category: "",
       projectName: "",
-      organizationName: "",
       operatingStartDate: new Date().toISOString().substr(0, 10),
       operatingEndDate: new Date().toISOString().substr(0, 10)
     }
@@ -324,14 +322,13 @@ export default Vue.extend({
             this.data.push({
               id: doc.id,
               amount: doc.data().amount,
+              grantor: doc.data().grantor,
               grantee: doc.data().grantee,
-              recipient: doc.data().recipient,
               subrecipient: doc.data().subrecipient,
               sourceType: doc.data().sourceType,
               year: doc.data().year,
               category: doc.data().category,
               projectName: doc.data().projectName,
-              organizationName: doc.data().projectName,
               operatingStartDate: format(
                 doc.data().operatingStartDate.toDate(),
                 this.pattern
@@ -373,14 +370,13 @@ export default Vue.extend({
     save() {
       const firestoreData = {
         amount: this.editedItem.amount,
+        grantor: this.editedItem.grantor,
         grantee: this.editedItem.grantee,
-        recipient: this.editedItem.recipient,
         subrecipient: this.editedItem.subrecipient,
         sourceType: this.editedItem.sourceType,
         year: this.editedItem.year,
         category: this.editedItem.category,
         projectName: this.editedItem.projectName,
-        organizationName: this.editedItem.organizationName,
         operatingStartDate: parseISO(this.editedItem.operatingStartDate),
         operatingEndDate: parseISO(this.editedItem.operatingEndDate)
       };
@@ -396,14 +392,13 @@ export default Vue.extend({
           this.data.push({
             id: docRef.id,
             amount: this.editedItem.amount,
+            grantor: this.editedItem.grantor,
             grantee: this.editedItem.grantee,
-            recipient: this.editedItem.recipient,
             subrecipient: this.editedItem.subrecipient,
             sourceType: this.editedItem.sourceType,
             year: this.editedItem.year,
             category: this.editedItem.category,
             projectName: this.editedItem.projectName,
-            organizationName: this.editedItem.organizationName,
             operatingStartDate: new Date(this.editedItem.operatingStartDate)
               .toISOString()
               .substr(0, 10),
