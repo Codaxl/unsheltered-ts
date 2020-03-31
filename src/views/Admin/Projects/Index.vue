@@ -103,13 +103,12 @@
                           </v-menu>
                         </v-col>
                         <v-col cols="12">
-                          <v-text-field
+                          <v-select
                             v-model="editedItem.year"
                             :value="selectYear"
                             label="Fiscal year"
                             outlined
-                            readonly
-                          ></v-text-field>
+                          ></v-select>
                         </v-col>
                         <v-col cols="12">
                           <v-text-field
@@ -254,7 +253,7 @@ export default Vue.extend({
       recipient: "",
       subrecipient: "",
       sourceType: [{}],
-      year: new Date().toISOString().substr(0, 10),
+      year: new Date().getFullYear(),
       category: "",
       projectName: "",
       organizationName: "",
@@ -268,7 +267,7 @@ export default Vue.extend({
       recipient: "",
       subrecipient: "",
       sourceType: [{}],
-      year: new Date().toISOString().substr(0, 10),
+      year: new Date().getFullYear(),
       category: "",
       projectName: "",
       organizationName: "",
