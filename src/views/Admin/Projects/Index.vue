@@ -170,7 +170,7 @@ export default Vue.extend({
       { text: "Project End Date", value: "operatingEndDate", sortable: true },
       { text: "Actions", value: "actions", sortable: false }
     ],
-    data: {},
+    data: [{}],
     editedIndex: -1,
     editedItem: {
       id: "",
@@ -206,6 +206,7 @@ export default Vue.extend({
       this.collection
         .get()
         .then(snapshot => {
+          this.data = [];
           snapshot.forEach(doc => {
             this.data.push({
               id: doc.id,
