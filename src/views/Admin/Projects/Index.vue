@@ -37,6 +37,14 @@
                             outlined
                           ></v-text-field>
                         </v-col>
+                        <v-col cols="12">
+                          <v-autocomplete
+                            v-model="editedItem.organizationName"
+                            :items="organizationSelect"
+                            label="Organization Name"
+                            outlined
+                          ></v-autocomplete>
+                        </v-col>
                         <v-col cols="12" sm="6">
                           <v-menu
                             v-model="menu"
@@ -136,6 +144,7 @@ export default Vue.extend({
   data: () => ({
     // Firestore collection
     collection: db.collection("projects"),
+    organizationSelect: [{}],
     // Date filter
     pattern: "yyyy-MM-dd",
     // Datepicker
@@ -163,6 +172,11 @@ export default Vue.extend({
         value: "projectName"
       },
       {
+        text: "Organization Name",
+        sortable: true,
+        value: "organizationName"
+      },
+      {
         text: "Project Start Date",
         value: "operatingStartDate",
         sortable: true
@@ -175,12 +189,14 @@ export default Vue.extend({
     editedItem: {
       id: "",
       projectName: "",
+      organizationName: "",
       operatingStartDate: new Date().toISOString().substr(0, 10),
       operatingEndDate: new Date().toISOString().substr(0, 10)
     },
     defaultItem: {
       id: "",
       projectName: "",
+      organizationName: "",
       operatingStartDate: new Date().toISOString().substr(0, 10),
       operatingEndDate: new Date().toISOString().substr(0, 10)
     }
@@ -197,12 +213,28 @@ export default Vue.extend({
     }
   },
 
-  mounted() {
+  created() {
     this.isLoading = true;
     this.initialize();
+    this.fetchOrganizations();
   },
 
   methods: {
+    fetchOrganizations() {
+      db.collection("organizations")
+        .get()
+        .then(snapshot => {
+          this.organizationSelect = [];
+          snapshot.forEach(doc => {
+            this.organizationSelect.push({
+              organizationName: doc.data().organizationName
+            });
+          });
+        })
+        .catch(err => {
+          console.log("Error getting documents", err);
+        });
+    },
     initialize() {
       this.collection
         .get()
@@ -212,6 +244,7 @@ export default Vue.extend({
             this.data.push({
               id: doc.id,
               projectName: doc.data().projectName,
+              organizationName: doc.data().projectName,
               operatingStartDate: format(
                 doc.data().operatingStartDate.toDate(),
                 this.pattern
@@ -253,6 +286,7 @@ export default Vue.extend({
     save() {
       const firestoreData = {
         projectName: this.editedItem.projectName,
+        organizationName: this.editedItem.organizationName,
         operatingStartDate: parseISO(this.editedItem.operatingStartDate),
         operatingEndDate: parseISO(this.editedItem.operatingEndDate)
       };
