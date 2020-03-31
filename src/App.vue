@@ -134,10 +134,10 @@
             <v-list-item-icon> </v-list-item-icon>
             <v-list-item-title>Dashboard</v-list-item-title>
           </v-list-item>
-          <v-list-item exact color="primary" to="/funding/summary">
+          <!-- <v-list-item exact color="primary" to="/funding/summary">
             <v-list-item-icon> </v-list-item-icon>
             <v-list-item-title>Summary</v-list-item-title>
-          </v-list-item>
+          </v-list-item> -->
           <v-list-group no-action sub-group>
             <template v-slot:activator>
               <v-list-item-content>

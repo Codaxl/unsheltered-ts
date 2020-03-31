@@ -197,7 +197,8 @@ export default Vue.extend({
     }
   },
 
-  created() {
+  mounted() {
+    this.isLoading = true;
     this.initialize();
   },
 
@@ -221,6 +222,7 @@ export default Vue.extend({
               )
             });
           });
+          this.isLoading = false;
         })
         .catch(err => {
           console.log("Error getting documents", err);
