@@ -89,7 +89,7 @@
                           >
                             <template v-slot:activator="{ on }">
                               <v-text-field
-                                v-model="editedItem.operatingEndDate"
+                                :value="editedItem.operatingEndDate"
                                 label="Project End Date"
                                 prepend-icon="mdi-calendar"
                                 readonly
@@ -134,10 +134,10 @@
             </v-toolbar>
           </template>
           <template v-slot:item.actions="{ item }">
-            <v-icon small class="mr-2" @click="editItem(item)">
+            <v-icon small class="mr-2" @click="editItem(item, editedItem.id)">
               mdi-pencil
             </v-icon>
-            <v-icon small @click="deleteItem(item)">
+            <v-icon small @click="deleteItem(item, editedItem.id)">
               mdi-delete
             </v-icon>
           </template>
@@ -183,14 +183,13 @@ export default Vue.extend({
     ],
     data: [{}],
     editedIndex: -1,
+    docId: "",
     editedItem: {
-      id: "",
       projectName: "",
       operatingStartDate: new Date().toISOString().substr(0, 10),
       operatingEndDate: new Date().toISOString().substr(0, 10)
     },
     defaultItem: {
-      id: "",
       projectName: "",
       operatingStartDate: new Date().toISOString().substr(0, 10),
       operatingEndDate: new Date().toISOString().substr(0, 10)
@@ -203,6 +202,19 @@ export default Vue.extend({
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? "New Project" : "Edit Project";
+    },
+    toUTC(date) {
+      return Date(
+        Date.UTC(
+          date.getFullYear(),
+          date.getMonth(),
+          date.getDate(),
+          date.getHours() + 6,
+          date.getMinutes(),
+          date.getSeconds(),
+          date.getMilliseconds()
+        )
+      );
     }
   },
 
@@ -217,8 +229,8 @@ export default Vue.extend({
   },
 
   methods: {
-    async initialize() {
-      const ref = db.collection("cities");
+    initialize() {
+      const ref = db.collection("projects");
       ref
         .get()
         .then(snapshot => {
@@ -226,8 +238,14 @@ export default Vue.extend({
             this.data.push({
               id: doc.id,
               projectName: doc.data().projectName,
-              operatingStartDate: doc.data().operatingStartDate,
-              operatingEndDate: doc.data().operatingEndDate
+              operatingStartDate: format(
+                doc.data().operatingStartDate.toDate(),
+                "yyyy-MM-dd"
+              ),
+              operatingEndDate: format(
+                doc.data().operatingEndDate.toDate(),
+                "yyyy-MM-dd"
+              )
             });
           });
         })
@@ -236,22 +254,21 @@ export default Vue.extend({
         });
     },
 
-    editItem(item: any) {
+    editItem(item: any, id: string) {
+      this.docId = item.id;
       this.editedIndex = this.data.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
 
-    deleteItem(item: any) {
-      const index: number = this.data.indexOf(item);
-      console.log(this.data.indexOf(item));
+    deleteItem(item: any, id: string) {
+      const index: any = this.data.indexOf(item);
       confirm("Are you sure you want to delete this item?") &&
+        this.data.splice(index, 1) &&
         db
           .collection("projects")
-          .doc("test")
+          .doc(item.id)
           .delete();
-      //
-      console.log(this.data[index]);
     },
 
     close() {
@@ -263,11 +280,34 @@ export default Vue.extend({
     },
 
     save() {
+      const timeZone = "America/Los_Angeles";
+      const data = {
+        projectName: this.editedItem.projectName,
+        operatingStartDate: new Date(this.editedItem.operatingStartDate)
+          .toISOString()
+          .substring(0, 10),
+        operatingEndDate: new Date(this.editedItem.operatingEndDate)
+          .toISOString()
+          .substring(0, 10)
+      };
+      const firestoreData = {
+        projectName: this.editedItem.projectName,
+        operatingStartDate: new Date(this.editedItem.operatingStartDate),
+        operatingEndDate: new Date(this.editedItem.operatingEndDate)
+      };
+
       if (this.editedIndex > -1) {
+        console.log("save if " + JSON.stringify(this.data[this.editedIndex]));
+        console.log("save if " + JSON.stringify(this.editedItem.projectName));
         Object.assign(this.data[this.editedIndex], this.editedItem);
+        const document: any = this.data[this.editedIndex];
+        db.collection("projects")
+          .doc(this.docId)
+          .update(firestoreData);
       } else {
-        this.data.push(this.editedItem);
-        console.log(this.editedItem);
+        this.data.push(data);
+        db.collection("projects").add(firestoreData);
+        console.log("save else " + this.editedItem);
       }
       this.close();
     }
