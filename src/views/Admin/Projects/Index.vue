@@ -102,6 +102,58 @@
                             ></v-date-picker>
                           </v-menu>
                         </v-col>
+                        <v-col cols="12">
+                          <v-text-field
+                            v-model="editedItem.amount"
+                            label="Amount"
+                            outlined
+                          ></v-text-field>
+                        </v-col>
+                        <v-col cols="12">
+                          <v-text-field
+                            v-model="editedItem.grantee"
+                            label="Grantee"
+                            outlined
+                          ></v-text-field>
+                        </v-col>
+                        <v-col cols="12">
+                          <v-text-field
+                            v-model="editedItem.recipient"
+                            label="Recipient"
+                            outlined
+                          ></v-text-field>
+                        </v-col>
+                        <v-col cols="12">
+                          <v-text-field
+                            v-model="editedItem.subrecipient"
+                            label="Subrecipient"
+                            outlined
+                          ></v-text-field>
+                        </v-col>
+                        <v-col cols="12">
+                          <v-select
+                            v-model="editedItem.sourceType"
+                            :items="sourceTypeSelect"
+                            chips
+                            label="Source Type"
+                            multiple
+                            solo
+                          ></v-select>
+                        </v-col>
+                        <v-col cols="12">
+                          <v-text-field
+                            v-model="editedItem.year"
+                            label="Year"
+                            outlined
+                          ></v-text-field>
+                        </v-col>
+                        <v-col cols="12">
+                          <v-text-field
+                            v-model="editedItem.category"
+                            label="Category"
+                            outlined
+                          ></v-text-field>
+                        </v-col>
                       </v-row>
                     </v-container>
                   </v-card-text>
@@ -142,6 +194,8 @@ import parseISO from "date-fns/parseISO";
 
 export default Vue.extend({
   data: () => ({
+    //// TODO:
+    sourceTypeSelect: ["Federal", "State", "County", "City"],
     // Firestore collection
     collection: db.collection("projects"),
     organizationSelect: [{}],
@@ -167,6 +221,11 @@ export default Vue.extend({
         value: "id"
       },
       {
+        text: "Amount",
+        sortable: true,
+        value: "amount"
+      },
+      {
         text: "Project Name",
         sortable: true,
         value: "projectName"
@@ -188,6 +247,13 @@ export default Vue.extend({
     editedIndex: -1,
     editedItem: {
       id: "",
+      amount: "",
+      grantee: "",
+      recipient: "",
+      subrecipient: "",
+      sourceType: [{}],
+      year: "",
+      category: "",
       projectName: "",
       organizationName: "",
       operatingStartDate: new Date().toISOString().substr(0, 10),
@@ -195,6 +261,13 @@ export default Vue.extend({
     },
     defaultItem: {
       id: "",
+      amount: "",
+      grantee: "",
+      recipient: "",
+      subrecipient: "",
+      sourceType: [{}],
+      year: "",
+      category: "",
       projectName: "",
       organizationName: "",
       operatingStartDate: new Date().toISOString().substr(0, 10),
@@ -241,6 +314,13 @@ export default Vue.extend({
           snapshot.forEach(doc => {
             this.data.push({
               id: doc.id,
+              amount: doc.data().amount,
+              grantee: doc.data().grantee,
+              recipient: doc.data().recipient,
+              subrecipient: doc.data().subrecipient,
+              sourceType: doc.data().sourceType,
+              year: doc.data().year,
+              category: doc.data().category,
               projectName: doc.data().projectName,
               organizationName: doc.data().projectName,
               operatingStartDate: format(
@@ -283,6 +363,13 @@ export default Vue.extend({
 
     save() {
       const firestoreData = {
+        amount: this.editedItem.amount,
+        grantee: this.editedItem.grantee,
+        recipient: this.editedItem.recipient,
+        subrecipient: this.editedItem.subrecipient,
+        sourceType: this.editedItem.sourceType,
+        year: this.editedItem.year,
+        category: this.editedItem.category,
         projectName: this.editedItem.projectName,
         organizationName: this.editedItem.organizationName,
         operatingStartDate: parseISO(this.editedItem.operatingStartDate),
@@ -299,6 +386,13 @@ export default Vue.extend({
         this.collection.add(firestoreData).then(docRef => {
           this.data.push({
             id: docRef.id,
+            amount: this.editedItem.amount,
+            grantee: this.editedItem.grantee,
+            recipient: this.editedItem.recipient,
+            subrecipient: this.editedItem.subrecipient,
+            sourceType: this.editedItem.sourceType,
+            year: this.editedItem.year,
+            category: this.editedItem.category,
             projectName: this.editedItem.projectName,
             organizationName: this.editedItem.organizationName,
             operatingStartDate: new Date(this.editedItem.operatingStartDate)
