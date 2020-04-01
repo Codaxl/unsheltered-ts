@@ -318,7 +318,7 @@ export default Vue.extend({
   },
   filters: {
     dateFilter: function(value: any) {
-      return value ? format(value.toDate(), "dd-MM-yyyy' at 'HH:mm:ss a") : "";
+      return value ? format(value, "dd-MM-yyyy' at 'HH:mm:ss a") : "";
     }
   },
   watch: {
@@ -373,8 +373,8 @@ export default Vue.extend({
               TrackingMethod: doc.data().TrackingMethod,
               HMISParticipatingProject: doc.data().HMISParticipatingProject,
               PITCount: doc.data().PITCount,
-              DateCreated: doc.data().DateCreated,
-              DateUpdated: doc.data().DateUpdated,
+              DateCreated: doc.data().DateCreated.toDate(),
+              DateUpdated: doc.data().DateUpdated.toDate(),
               UserID: doc.data().UserID,
               DateDeleted: doc.data().DateDeleted,
               ExportID: doc.data().ExportID
@@ -436,7 +436,6 @@ export default Vue.extend({
             DateUpdated: Timestamp.fromDate(new Date())
           })
           .then(() => {
-            this.editedItem.DateUpdated = new Date();
             Object.assign(this.data[this.editedIndex], this.editedItem);
           });
       } else {
