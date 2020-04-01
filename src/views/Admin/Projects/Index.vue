@@ -192,57 +192,43 @@
             <v-btn color="primary" @click="initialize">Reset</v-btn>
           </template>
           <template v-slot:expanded-item="{ headers, item }">
-            <v-col :col="headers.length">
-              <v-row> Project ID: {{ item.ProjectID }} </v-row>
-              <v-row>
-                {{ item.OrganizationID }}
-              </v-row>
-              <v-row>
-                {{ item.ProjectName }}
-              </v-row>
-              <v-row>
-                {{ item.ProjectCommonName }}
-              </v-row>
-              <v-row>
-                {{ item.OperatingStartDate }}
-              </v-row>
-              <v-row>
-                {{ item.OperatingEndDate }}
-              </v-row>
-              <v-row>
-                {{ item.ContinuumProject }}
-              </v-row>
-              <v-row>
-                {{ item.ProjectType }}
-              </v-row>
-              <v-row>
-                {{ item.ResidentialAffiliation }}
-              </v-row>
-              <v-row>
-                {{ item.TrackingMethod }}
-              </v-row>
-              <v-row>
-                {{ item.HMISParticipatingProject }}
-              </v-row>
-              <v-row>
-                {{ item.PITCount }}
-              </v-row>
-              <v-row>
-                {{ item.DateCreated }}
-              </v-row>
-              <v-row>
-                {{ item.DateUpdated }}
-              </v-row>
-              <v-row>
-                {{ item.UserID }}
-              </v-row>
-              <v-row>
-                {{ item.DateDeleted }}
-              </v-row>
-              <v-row>
-                {{ item.ExportID }}
-              </v-row>
-            </v-col>
+            <v-container fluid>
+              <!-- Project ID: {{ item.ProjectID }}
+              Project ID: {{ item.OrganizationID }}
+              Project ID: {{ item.ProjectName }}
+              Project ID: {{ item.ProjectCommonName }}
+              Project ID: {{ item.OperatingStartDate }}
+              Project ID: {{ item.OperatingEndDate }}
+              Project ID: {{ item.ContinuumProject }}
+              Project ID: {{ item.ProjectType }}
+              Project ID: {{ item.ResidentialAffiliation }}
+              Project ID: {{ item.TrackingMethod }}
+              Project ID: {{ item.HMISParticipatingProject }}
+              Project ID: {{ item.PITCount }}
+              Project ID: {{ item.DateCreated }}
+              Project ID: {{ item.DateUpdated }}
+              Project ID: {{ item.UserID }}
+              Project ID: {{ item.DateDeleted }}
+              Project ID: {{ item.ExportID }} -->
+
+              <v-list-item two-line>
+                <v-list-item-content>
+                  <v-list-item-title class="headline"
+                    >Details</v-list-item-title
+                  >
+                </v-list-item-content>
+              </v-list-item>
+
+              <v-list class="transparent">
+                <v-list-item>
+                  <v-list-item-title>Project ID:</v-list-item-title>
+
+                  <v-list-item-subtitle class="text-right">
+                    {{ item.ProjectID }}
+                  </v-list-item-subtitle>
+                </v-list-item>
+              </v-list>
+            </v-container>
           </template>
         </v-data-table>
       </v-col>
