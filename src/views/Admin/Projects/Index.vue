@@ -165,6 +165,12 @@
               </v-dialog>
             </v-toolbar>
           </template>
+          <template v-slot:no-data>
+            <v-btn color="primary" @click="initialize">Reset</v-btn>
+          </template>
+          <template v-slot:item.DateUpdated="{ item }">
+            {{ item.DateUpdated | computedDateUpdated }}
+          </template>
           <template v-slot:item.actions="{ item }">
             <v-icon small class="mr-2" @click="editItem(item)">
               mdi-pencil
@@ -196,8 +202,6 @@ export default Vue.extend({
     // Firestore collection
     collection: db.collection("Project"),
     organizationSelect: [{}],
-    // Date filter
-    pattern: "yyyy-MM-dd",
     // Datepicker
     minValue: new Date(
       new Date().setFullYear(new Date().getFullYear() - 4)
@@ -214,25 +218,41 @@ export default Vue.extend({
       {
         text: "Project ID",
         align: "start",
-        sortable: true,
+        sortable: false,
         value: "ProjectID"
       },
       {
-        text: "Organization ID",
-        sortable: true,
-        value: "OrganizationID"
-      },
-      {
-        text: "Projec Name",
+        text: "Project Name",
         sortable: true,
         value: "ProjectName"
       },
+      {
+        text: "Operating Start Date",
+        sortable: true,
+        value: "OperatingStartDate"
+      },
+      {
+        text: "Operating End Date",
+        sortable: true,
+        value: "OperatingEndDate"
+      },
+      {
+        text: "Date Created",
+        sortable: true,
+        value: "DateCreated"
+      },
+      {
+        text: "Date Updated",
+        sortable: true,
+        value: "DateUpdated"
+      },
+
       { text: "Actions", value: "actions", sortable: false }
     ],
     data: [{}],
     editedIndex: -1,
     editedItem: {
-      //
+      // HMIS
       ProjectID: "",
       OrganizationID: "",
       ProjectName: "",
@@ -250,10 +270,10 @@ export default Vue.extend({
       UserID: "",
       DateDeleted: null,
       ExportID: ""
-      //
+      // Custom
     },
     defaultItem: {
-      //
+      // HMIS
       ProjectID: "",
       OrganizationID: "",
       ProjectName: "",
@@ -271,7 +291,7 @@ export default Vue.extend({
       UserID: "",
       DateDeleted: null,
       ExportID: ""
-      //
+      // Custom
     }
   }),
 
@@ -291,6 +311,11 @@ export default Vue.extend({
       return fundingSource.select.map(item => {
         return item.text;
       });
+    }
+  },
+  filters: {
+    computedDateUpdated: function(value: any) {
+      return value ? format(value.toDate(), "dd-MM-yyyy' at 'HH:mm:ss a") : "";
     }
   },
   watch: {
@@ -333,11 +358,11 @@ export default Vue.extend({
               ProjectCommonName: doc.data().ProjectCommonName,
               OperatingStartDate: format(
                 doc.data().OperatingStartDate.toDate(),
-                this.pattern
+                "yyyy-MM-dd"
               ),
               OperatingEndDate: format(
                 doc.data().OperatingEndDate.toDate(),
-                this.pattern
+                "yyyy-MM-dd"
               ),
               ContinuumProject: doc.data().ContinuumProject,
               ProjectType: doc.data().ProjectType,
@@ -345,7 +370,10 @@ export default Vue.extend({
               TrackingMethod: doc.data().TrackingMethod,
               HMISParticipatingProject: doc.data().HMISParticipatingProject,
               PITCount: doc.data().PITCount,
-              DateCreated: doc.data().DateCreated,
+              DateCreated: format(
+                doc.data().DateCreated.toDate(),
+                "dd-MM-yyyy' at 'HH:mm:ss a"
+              ),
               DateUpdated: doc.data().DateUpdated,
               UserID: doc.data().UserID,
               DateDeleted: doc.data().DateDeleted,
@@ -384,7 +412,6 @@ export default Vue.extend({
     save() {
       const firestoreData = {
         //
-        ProjectID: this.editedItem.ProjectID,
         OrganizationID: this.editedItem.OrganizationID,
         ProjectName: this.editedItem.ProjectName,
         ProjectCommonName: this.editedItem.ProjectCommonName,
@@ -406,7 +433,7 @@ export default Vue.extend({
           .doc(this.editedItem.ProjectID)
           .update({
             ...firestoreData,
-            DateUpdated: Timestamp
+            DateUpdated: Timestamp.fromDate(new Date())
           })
           .then(() => {
             Object.assign(this.data[this.editedIndex], this.editedItem);
@@ -415,14 +442,14 @@ export default Vue.extend({
         this.collection
           .add({
             ...firestoreData,
-            DateCreated: Timestamp
+            DateCreated: Timestamp.fromDate(new Date())
           })
           .then(docRef => {
             this.collection.doc(docRef.id).update({ ProjectID: docRef.id });
-          })
-          .then(() => {
+
             this.data.push({
               ...firestoreData,
+              ProjectID: docRef.id,
               OperatingStartDate: new Date(this.editedItem.OperatingStartDate)
                 .toISOString()
                 .substr(0, 10),
