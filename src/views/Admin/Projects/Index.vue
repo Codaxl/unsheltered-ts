@@ -411,8 +411,8 @@ export default Vue.extend({
 
     save() {
       const timestamp = Timestamp.fromDate(new Date());
-      this.editItem.DateUpdated = timestamp;
-      this.editItem.DateCreated = timestamp;
+      this.editedItemItem.DateUpdated = timestamp;
+      this.editedItemItem.DateCreated = timestamp;
       const firestoreData = {
         //
         OrganizationID: this.editedItem.OrganizationID,
