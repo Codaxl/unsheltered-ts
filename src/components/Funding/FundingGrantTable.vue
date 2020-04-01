@@ -25,10 +25,10 @@ export default Vue.extend({
   data: () => ({
     headers: [
       {
-        text: "Grant",
+        text: "Grantor",
         align: "start",
         sortable: false,
-        value: "grant"
+        value: "grantor"
       },
       { text: "Amount", value: "amount" }
     ]

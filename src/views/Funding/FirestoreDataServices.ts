@@ -18,7 +18,7 @@ export class FirestoreDataServices {
       query = query.where("grantee", "==", granteeFilter);
     }
 
-    if (!(!grantFilter || grantFilter.trim().length === 0)) {
+    if (!(!grantorFilter || grantorFilter.trim().length === 0)) {
       query = query.where("grantor", "==", grantorFilter);
     }
 

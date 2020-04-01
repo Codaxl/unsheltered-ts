@@ -104,7 +104,7 @@
                 </v-card-title>
                 <v-card-text class="text-center" v-if="!isLoading">
                   <span class="display-1 font-weight-light ">{{
-                    totalOrganizations
+                    totalGrantees
                   }}</span>
                 </v-card-text>
               </v-card>
@@ -409,7 +409,7 @@ export default class FundingDashboard extends Vue {
       });
   }
 
-  get funds(): Array<object> {
+  get projects(): Array<object> {
     return fundStoreState.data;
   }
 
@@ -440,7 +440,9 @@ export default class FundingDashboard extends Vue {
   // Federal const query indexOf(this.query) solution?
 
   get filteredFederal(): any {
-    return this.projects.filter((c: any) => c.source.indexOf("Federal") !== -1);
+    return this.projects.filter(
+      (c: any) => c.sourceType.indexOf("Federal") !== -1
+    );
   }
 
   get totalFederal(): number {
@@ -454,7 +456,9 @@ export default class FundingDashboard extends Vue {
   // State
 
   get filteredState(): any {
-    return this.projects.filter((c: any) => c.source.indexOf("State") !== -1);
+    return this.projects.filter(
+      (c: any) => c.sourceType.indexOf("State") !== -1
+    );
   }
 
   get totalState(): number {
@@ -468,7 +472,9 @@ export default class FundingDashboard extends Vue {
   // County
 
   get filteredCounty(): any {
-    return this.projects.filter((c: any) => c.source.indexOf("County") !== -1);
+    return this.projects.filter(
+      (c: any) => c.sourceType.indexOf("County") !== -1
+    );
   }
 
   get totalCounty(): number {
@@ -482,7 +488,9 @@ export default class FundingDashboard extends Vue {
   // City
 
   get filteredCity(): any {
-    return this.projects.filter((c: any) => c.source.indexOf("City") !== -1);
+    return this.projects.filter(
+      (c: any) => c.sourceType.indexOf("City") !== -1
+    );
   }
 
   get totalCity(): number {

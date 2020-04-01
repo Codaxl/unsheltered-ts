@@ -44,14 +44,14 @@ export default class FundingDashboardBar extends Vue {
     //maybe https://stackoverflow.com/questions/11199653/javascript-sum-and-group-by-of-json-data
     // o rhttps://stackoverflow.com/questions/19233283/sum-javascript-object-propertya-values-with-same-object-propertyb-in-array-of-ob
     const counts = this.funds.reduce((prev: any, curr: any) => {
-      const count = prev.get(curr.organization) || 0;
-      prev.set(curr.organization, parseFloat(curr.amount) + count);
+      const count = prev.get(curr.grantee) || 0;
+      prev.set(curr.grantee, parseFloat(curr.amount) + count);
       return prev;
     }, new Map());
 
     // then, map your counts object back to an array
-    const reducedObjArr = [...counts].map(([organization, amount]) => {
-      return { organization, amount };
+    const reducedObjArr = [...counts].map(([grantee, amount]) => {
+      return { grantee, amount };
     });
     this.chartData = reducedObjArr;
   }
@@ -74,7 +74,7 @@ export default class FundingDashboardBar extends Vue {
     // Create axes
     // Create axes
     const categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-    categoryAxis.dataFields.category = "organization";
+    categoryAxis.dataFields.category = "grantee";
     categoryAxis.renderer.grid.template.location = 0;
     categoryAxis.renderer.minGridDistance = 30;
     categoryAxis.renderer.labels.template.horizontalCenter = "right";
@@ -86,7 +86,7 @@ export default class FundingDashboardBar extends Vue {
     const label = categoryAxis.renderer.labels.template;
     label.truncate = true;
     label.maxWidth = 200;
-    label.tooltipText = "{organization}";
+    label.tooltipText = "{grantee}";
 
     categoryAxis.events.on("sizechanged", function(ev) {
       const axis = ev.target;
@@ -110,7 +110,7 @@ export default class FundingDashboardBar extends Vue {
     series.sequencedInterpolation = true;
     series.dataFields.valueY = "amount";
 
-    series.dataFields.categoryX = "organization";
+    series.dataFields.categoryX = "grantee";
     series.tooltipText = "${amount} {valueY.totalPercent.formatNumber('#.00')}";
     series.columns.template.strokeWidth = 0;
 

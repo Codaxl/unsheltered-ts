@@ -187,10 +187,13 @@ import Vue from "vue";
 import { db } from "@/firebase";
 import format from "date-fns/format";
 import parseISO from "date-fns/parseISO";
+// list
+import fundingSource from "./FundingSource.json";
 
 export default Vue.extend({
   data: () => ({
     //// TODO:
+    fundingSource: fundingSource,
     sourceTypeSelect: ["Federal", "State", "County", "City"],
     // Firestore collection
     collection: db.collection("projects"),
@@ -285,6 +288,11 @@ export default Vue.extend({
         );
       const currentYear = new Date().getFullYear();
       return range(currentYear, currentYear - 5);
+    },
+    fundingSource() {
+      return fundingSource.select.map(item => {
+        return item.text;
+      });
     }
   },
   watch: {
