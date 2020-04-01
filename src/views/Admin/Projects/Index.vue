@@ -10,7 +10,7 @@
           :sort-desc="[true]"
           :items-per-page="5"
           multi-sort
-          single-expand="true"
+          :single-expand="singleExpand"
           :expanded.sync="expanded"
           item-key="ProjectID"
           show-expand
@@ -228,6 +228,8 @@ export default Vue.extend({
     // Data Table
     isLoading: false,
     dialog: false,
+    expanded: [],
+    singleExpand: true,
     headers: [
       {
         text: "Project ID",
