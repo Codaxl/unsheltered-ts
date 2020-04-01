@@ -429,7 +429,6 @@ export default Vue.extend({
         //
       };
       if (this.editedIndex > -1) {
-        this.editedItem.DateUpdated = Timestamp.fromDate(new Date());
         this.collection
           .doc(this.editedItem.ProjectID)
           .update({
@@ -437,6 +436,7 @@ export default Vue.extend({
             DateUpdated: Timestamp.fromDate(new Date())
           })
           .then(() => {
+            this.editedItem.DateUpdated = new Date();
             Object.assign(this.data[this.editedIndex], this.editedItem);
           });
       } else {
