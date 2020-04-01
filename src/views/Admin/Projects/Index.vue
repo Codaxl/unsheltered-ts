@@ -193,23 +193,55 @@
           </template>
           <template v-slot:expanded-item="{ headers, item }">
             <v-col :col="headers.length">
-              {{ item.ProjectID }}
-              {{ item.OrganizationID }}
-              {{ item.ProjectName }}
-              {{ item.ProjectCommonName }}
-              {{ item.OperatingStartDate }}
-              {{ item.OperatingEndDate }}
-              {{ item.ContinuumProject }}
-              {{ item.ProjectType }}
-              {{ item.ResidentialAffiliation }}
-              {{ item.TrackingMethod }}
-              {{ item.HMISParticipatingProject }}
-              {{ item.PITCount }}
-              {{ item.DateCreated }}
-              {{ item.DateUpdated }}
-              {{ item.UserID }}
-              {{ item.DateDeleted }}
-              {{ item.ExportID }}
+              <v-row> Project ID: {{ item.ProjectID }} </v-row>
+              <v-row>
+                {{ item.OrganizationID }}
+              </v-row>
+              <v-row>
+                {{ item.ProjectName }}
+              </v-row>
+              <v-row>
+                {{ item.ProjectCommonName }}
+              </v-row>
+              <v-row>
+                {{ item.OperatingStartDate }}
+              </v-row>
+              <v-row>
+                {{ item.OperatingEndDate }}
+              </v-row>
+              <v-row>
+                {{ item.ContinuumProject }}
+              </v-row>
+              <v-row>
+                {{ item.ProjectType }}
+              </v-row>
+              <v-row>
+                {{ item.ResidentialAffiliation }}
+              </v-row>
+              <v-row>
+                {{ item.TrackingMethod }}
+              </v-row>
+              <v-row>
+                {{ item.HMISParticipatingProject }}
+              </v-row>
+              <v-row>
+                {{ item.PITCount }}
+              </v-row>
+              <v-row>
+                {{ item.DateCreated }}
+              </v-row>
+              <v-row>
+                {{ item.DateUpdated }}
+              </v-row>
+              <v-row>
+                {{ item.UserID }}
+              </v-row>
+              <v-row>
+                {{ item.DateDeleted }}
+              </v-row>
+              <v-row>
+                {{ item.ExportID }}
+              </v-row>
             </v-col>
           </template>
         </v-data-table>
