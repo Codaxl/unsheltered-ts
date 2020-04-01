@@ -168,6 +168,9 @@
           <template v-slot:no-data>
             <v-btn color="primary" @click="initialize">Reset</v-btn>
           </template>
+          <template v-slot:item.DateCreated="{ item }">
+            {{ item.DateCreated | computedDateUpdated }}
+          </template>
           <template v-slot:item.DateUpdated="{ item }">
             {{ item.DateUpdated | computedDateUpdated }}
           </template>
@@ -370,10 +373,7 @@ export default Vue.extend({
               TrackingMethod: doc.data().TrackingMethod,
               HMISParticipatingProject: doc.data().HMISParticipatingProject,
               PITCount: doc.data().PITCount,
-              DateCreated: format(
-                doc.data().DateCreated.toDate(),
-                "dd-MM-yyyy' at 'HH:mm:ss a"
-              ),
+              DateCreated: doc.data().DateCreated,
               DateUpdated: doc.data().DateUpdated,
               UserID: doc.data().UserID,
               DateDeleted: doc.data().DateDeleted,
