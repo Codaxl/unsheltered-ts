@@ -169,10 +169,10 @@
             <v-btn color="primary" @click="initialize">Reset</v-btn>
           </template>
           <template v-slot:item.DateCreated="{ item }">
-            {{ item.DateCreated | computedDateUpdated }}
+            {{ item.DateCreated | dateFilter }}
           </template>
           <template v-slot:item.DateUpdated="{ item }">
-            {{ item.DateUpdated | computedDateUpdated }}
+            {{ item.DateUpdated | dateFilter }}
           </template>
           <template v-slot:item.actions="{ item }">
             <v-icon small class="mr-2" @click="editItem(item)">
@@ -317,7 +317,7 @@ export default Vue.extend({
     }
   },
   filters: {
-    computedDateUpdated: function(value: any) {
+    dateFilter: function(value: any) {
       return value ? format(value.toDate(), "dd-MM-yyyy' at 'HH:mm:ss a") : "";
     }
   },
@@ -429,6 +429,7 @@ export default Vue.extend({
         //
       };
       if (this.editedIndex > -1) {
+        this.editedItem.DateUpdated = Timestamp.fromDate(new Date());
         this.collection
           .doc(this.editedItem.ProjectID)
           .update({
