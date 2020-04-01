@@ -192,9 +192,25 @@
             <v-btn color="primary" @click="initialize">Reset</v-btn>
           </template>
           <template v-slot:expanded-item="{ headers, item }">
-            <td :colspan="headers.length">
-              More info about {{ item.ProjectName }}
-            </td>
+            <v-col :col="headers.length">
+              {{ item.ProjectID }}
+              {{ item.OrganizationID }}
+              {{ item.ProjectName }}
+              {{ item.ProjectCommonName }}
+              {{ item.OperatingStartDate }}
+              {{ item.OperatingEndDate }}
+              {{ item.ContinuumProject }}
+              {{ item.ProjectType }}
+              {{ item.ResidentialAffiliation }}
+              {{ item.TrackingMethod }}
+              {{ item.HMISParticipatingProject }}
+              {{ item.PITCount }}
+              {{ item.DateCreated }}
+              {{ item.DateUpdated }}
+              {{ item.UserID }}
+              {{ item.DateDeleted }}
+              {{ item.ExportID }}
+            </v-col>
           </template>
         </v-data-table>
       </v-col>
