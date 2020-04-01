@@ -439,8 +439,8 @@ export default Vue.extend({
           })
           .then(() => {
             Object.assign(this.data[this.editedIndex], {
-              ...firestoreData,
-              DateUpdated: timestamp
+              ...this.editedItem,
+              DateUpdated: timestamp.toDate()
             });
           });
       } else {
