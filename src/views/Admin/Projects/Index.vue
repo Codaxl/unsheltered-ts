@@ -270,7 +270,7 @@ export default Vue.extend({
       HMISParticipatingProject: 0,
       PITCount: null,
       DateCreated: new Date(),
-      DateUpdated: Timestamp.fromDate(new Date()).toDate(),
+      DateUpdated: new Date(),
       UserID: "",
       DateDeleted: null,
       ExportID: ""
@@ -291,13 +291,14 @@ export default Vue.extend({
       HMISParticipatingProject: 0,
       PITCount: null,
       DateCreated: new Date(),
-      DateUpdated: Timestamp.fromDate(new Date()).toDate(),
+      DateUpdated: new Date(),
       UserID: "",
       DateDeleted: null,
       ExportID: ""
       // Custom
     }
   }),
+
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? "New Project" : "Edit Project";
@@ -424,7 +425,6 @@ export default Vue.extend({
         TrackingMethod: this.editedItem.TrackingMethod,
         HMISParticipatingProject: this.editedItem.HMISParticipatingProject,
         PITCount: this.editedItem.PITCount,
-        DateUpdated: this.editedItem.DateUpdated,
         UserID: this.editedItem.UserID,
         DateDeleted: this.editedItem.DateDeleted,
         ExportID: this.editedItem.ExportID
@@ -434,7 +434,8 @@ export default Vue.extend({
         this.collection
           .doc(this.editedItem.ProjectID)
           .update({
-            ...firestoreData
+            ...firestoreData,
+            DateUpdated: timestamp
           })
           .then(() => {
             Object.assign(this.data[this.editedIndex], this.editedItem);
@@ -443,6 +444,7 @@ export default Vue.extend({
         this.collection
           .add({
             ...firestoreData,
+            DateUpdated: timestamp,
             DateCreated: timestamp
           })
           .then(docRef => {
@@ -457,6 +459,7 @@ export default Vue.extend({
               OperatingEndDate: new Date(this.editedItem.OperatingEndDate)
                 .toISOString()
                 .substr(0, 10),
+              DateUpdated: timestamp.toDate(),
               DateCreated: timestamp.toDate()
             });
           });
