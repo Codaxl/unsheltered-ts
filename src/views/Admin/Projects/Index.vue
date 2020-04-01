@@ -32,7 +32,7 @@
                       <v-row>
                         <v-col cols="12">
                           <v-text-field
-                            v-model="editedItem.projectName"
+                            v-model="editedItem.ProjectName"
                             label="Project name"
                             outlined
                           ></v-text-field>
@@ -48,7 +48,7 @@
                           >
                             <template v-slot:activator="{ on }">
                               <v-text-field
-                                v-model="editedItem.operatingStartDate"
+                                v-model="editedItem.OperatingStartDate"
                                 label="Project Start Date"
                                 prepend-icon="mdi-calendar"
                                 readonly
@@ -57,7 +57,7 @@
                               ></v-text-field>
                             </template>
                             <v-date-picker
-                              v-model="editedItem.operatingStartDate"
+                              v-model="editedItem.OperatingStartDate"
                               @input="menu = false"
                               scrollable
                               :max="maxValue"
@@ -77,7 +77,7 @@
                           >
                             <template v-slot:activator="{ on }">
                               <v-text-field
-                                :value="editedItem.operatingEndDate"
+                                :value="editedItem.OperatingEndDate"
                                 label="Project End Date"
                                 prepend-icon="mdi-calendar"
                                 readonly
@@ -86,7 +86,7 @@
                               ></v-text-field>
                             </template>
                             <v-date-picker
-                              v-model="editedItem.operatingEndDate"
+                              v-model="editedItem.OperatingEndDate"
                               @input="menu2 = false"
                               scrollable
                               :max="maxValue"
@@ -94,7 +94,7 @@
                             ></v-date-picker>
                           </v-menu>
                         </v-col>
-                        <v-col cols="12">
+                        <!-- <v-col cols="12">
                           <v-select
                             v-model="editedItem.year"
                             :items="selectYear"
@@ -136,7 +136,7 @@
                         <v-col cols="12">
                           <v-select
                             v-model="editedItem.sourceType"
-                            :items="sourceTypeSelect"
+                            :items="fundingSource"
                             chips
                             label="Source Type"
                             multiple
@@ -149,7 +149,7 @@
                             label="Category"
                             outlined
                           ></v-text-field>
-                        </v-col>
+                        </v-col> -->
                       </v-row>
                     </v-container>
                   </v-card-text>
@@ -184,19 +184,17 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { db } from "@/firebase";
+import { db, Timestamp } from "@/firebase";
 import format from "date-fns/format";
 import parseISO from "date-fns/parseISO";
 // list
-import fundingSource from "./FundingSource.json";
-
+import fundingSource from "./funding-source.json";
 export default Vue.extend({
   data: () => ({
     //// TODO:
-    fundingSource: fundingSource,
     sourceTypeSelect: ["Federal", "State", "County", "City"],
     // Firestore collection
-    collection: db.collection("projects"),
+    collection: db.collection("Project"),
     organizationSelect: [{}],
     // Date filter
     pattern: "yyyy-MM-dd",
@@ -214,66 +212,66 @@ export default Vue.extend({
     dialog: false,
     headers: [
       {
-        text: "ID",
+        text: "Project ID",
         align: "start",
         sortable: true,
-        value: "id"
+        value: "ProjectID"
       },
       {
-        text: "Amount",
+        text: "Organization ID",
         sortable: true,
-        value: "amount"
+        value: "OrganizationID"
       },
       {
-        text: "Project Name",
+        text: "Projec Name",
         sortable: true,
-        value: "projectName"
+        value: "ProjectName"
       },
-      {
-        text: "Grantee",
-        sortable: true,
-        value: "grantee"
-      },
-      {
-        text: "Grantor",
-        sortable: true,
-        value: "grantor"
-      },
-      {
-        text: "Project Start Date",
-        value: "operatingStartDate",
-        sortable: true
-      },
-      { text: "Project End Date", value: "operatingEndDate", sortable: true },
       { text: "Actions", value: "actions", sortable: false }
     ],
     data: [{}],
     editedIndex: -1,
     editedItem: {
-      id: "",
-      amount: "",
-      grantor: "",
-      grantee: "",
-      recipient: "",
-      sourceType: [],
-      year: new Date().getFullYear(),
-      category: "",
-      projectName: "",
-      operatingStartDate: new Date().toISOString().substr(0, 10),
-      operatingEndDate: new Date().toISOString().substr(0, 10)
+      //
+      ProjectID: "",
+      OrganizationID: "",
+      ProjectName: "",
+      ProjectCommonName: null,
+      OperatingStartDate: new Date().toISOString().substr(0, 10),
+      OperatingEndDate: new Date().toISOString().substr(0, 10),
+      ContinuumProject: 0,
+      ProjectType: null,
+      ResidentialAffiliation: null,
+      TrackingMethod: null,
+      HMISParticipatingProject: 0,
+      PITCount: null,
+      DateCreated: new Date(),
+      DateUpdated: new Date(),
+      UserID: "",
+      DateDeleted: null,
+      ExportID: ""
+      //
     },
     defaultItem: {
-      id: "",
-      amount: "",
-      grantor: "",
-      grantee: "",
-      recipient: "",
-      sourceType: [],
-      year: new Date().getFullYear(),
-      category: "",
-      projectName: "",
-      operatingStartDate: new Date().toISOString().substr(0, 10),
-      operatingEndDate: new Date().toISOString().substr(0, 10)
+      //
+      ProjectID: "",
+      OrganizationID: "",
+      ProjectName: "",
+      ProjectCommonName: null,
+      OperatingStartDate: new Date().toISOString().substr(0, 10),
+      OperatingEndDate: new Date().toISOString().substr(0, 10),
+      ContinuumProject: 0,
+      ProjectType: null,
+      ResidentialAffiliation: null,
+      TrackingMethod: null,
+      HMISParticipatingProject: 0,
+      PITCount: null,
+      DateCreated: new Date(),
+      DateUpdated: new Date(),
+      UserID: "",
+      DateDeleted: null,
+      ExportID: ""
+      //
     }
   }),
 
@@ -328,23 +326,31 @@ export default Vue.extend({
           this.data = [];
           snapshot.forEach(doc => {
             this.data.push({
-              id: doc.id,
-              amount: doc.data().amount,
-              grantor: doc.data().grantor,
-              grantee: doc.data().grantee,
-              recipient: doc.data().recipient,
-              sourceType: doc.data().sourceType,
-              year: doc.data().year,
-              category: doc.data().category,
-              projectName: doc.data().projectName,
-              operatingStartDate: format(
-                doc.data().operatingStartDate.toDate(),
+              //
+              ProjectID: doc.id,
+              OrganizationID: doc.data().OrganizationID,
+              ProjectName: doc.data().ProjectName,
+              ProjectCommonName: doc.data().ProjectCommonName,
+              OperatingStartDate: format(
+                doc.data().OperatingStartDate.toDate(),
                 this.pattern
               ),
-              operatingEndDate: format(
-                doc.data().operatingEndDate.toDate(),
+              OperatingEndDate: format(
+                doc.data().OperatingEndDate.toDate(),
                 this.pattern
-              )
+              ),
+              ContinuumProject: doc.data().ContinuumProject,
+              ProjectType: doc.data().ProjectType,
+              ResidentialAffiliation: doc.data().ResidentialAffiliation,
+              TrackingMethod: doc.data().TrackingMethod,
+              HMISParticipatingProject: doc.data().HMISParticipatingProject,
+              PITCount: doc.data().PITCount,
+              DateCreated: doc.data().DateCreated,
+              DateUpdated: doc.data().DateUpdated,
+              UserID: doc.data().UserID,
+              DateDeleted: doc.data().DateDeleted,
+              ExportID: doc.data().ExportID
+              //
             });
           });
           this.isLoading = false;
@@ -364,7 +370,7 @@ export default Vue.extend({
       const index: any = this.data.indexOf(item);
       confirm("Are you sure you want to delete this item?") &&
         this.data.splice(index, 1) &&
-        this.collection.doc(item.id).delete();
+        this.collection.doc(item.ProjectID).delete();
     },
 
     close() {
@@ -377,44 +383,54 @@ export default Vue.extend({
 
     save() {
       const firestoreData = {
-        amount: this.editedItem.amount,
-        grantor: this.editedItem.grantor,
-        grantee: this.editedItem.grantee,
-        recipient: this.editedItem.recipient,
-        sourceType: this.editedItem.sourceType,
-        year: this.editedItem.year,
-        category: this.editedItem.category,
-        projectName: this.editedItem.projectName,
-        operatingStartDate: parseISO(this.editedItem.operatingStartDate),
-        operatingEndDate: parseISO(this.editedItem.operatingEndDate)
+        //
+        ProjectID: this.editedItem.ProjectID,
+        OrganizationID: this.editedItem.OrganizationID,
+        ProjectName: this.editedItem.ProjectName,
+        ProjectCommonName: this.editedItem.ProjectCommonName,
+        OperatingStartDate: parseISO(this.editedItem.OperatingStartDate),
+        OperatingEndDate: parseISO(this.editedItem.OperatingEndDate),
+        ContinuumProject: this.editedItem.ContinuumProject,
+        ProjectType: this.editedItem.ProjectType,
+        ResidentialAffiliation: this.editedItem.ResidentialAffiliation,
+        TrackingMethod: this.editedItem.TrackingMethod,
+        HMISParticipatingProject: this.editedItem.HMISParticipatingProject,
+        PITCount: this.editedItem.PITCount,
+        UserID: this.editedItem.UserID,
+        DateDeleted: this.editedItem.DateDeleted,
+        ExportID: this.editedItem.ExportID
+        //
       };
       if (this.editedIndex > -1) {
         this.collection
-          .doc(this.editedItem.id)
-          .update(firestoreData)
+          .doc(this.editedItem.ProjectID)
+          .update({
+            ...firestoreData,
+            DateUpdated: Timestamp
+          })
           .then(() => {
             Object.assign(this.data[this.editedIndex], this.editedItem);
           });
       } else {
-        this.collection.add(firestoreData).then(docRef => {
-          this.data.push({
-            id: docRef.id,
-            amount: this.editedItem.amount,
-            grantor: this.editedItem.grantor,
-            grantee: this.editedItem.grantee,
-            recipient: this.editedItem.recipient,
-            sourceType: this.editedItem.sourceType,
-            year: this.editedItem.year,
-            category: this.editedItem.category,
-            projectName: this.editedItem.projectName,
-            operatingStartDate: new Date(this.editedItem.operatingStartDate)
-              .toISOString()
-              .substr(0, 10),
-            operatingEndDate: new Date(this.editedItem.operatingEndDate)
-              .toISOString()
-              .substr(0, 10)
+        this.collection
+          .add({
+            ...firestoreData,
+            DateCreated: Timestamp
+          })
+          .then(docRef => {
+            this.collection.doc(docRef.id).update({ ProjectID: docRef.id });
+          })
+          .then(() => {
+            this.data.push({
+              ...firestoreData,
+              OperatingStartDate: new Date(this.editedItem.OperatingStartDate)
+                .toISOString()
+                .substr(0, 10),
+              OperatingEndDate: new Date(this.editedItem.OperatingEndDate)
+                .toISOString()
+                .substr(0, 10)
+            });
           });
-        });
       }
       this.close();
     }

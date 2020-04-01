@@ -27,6 +27,8 @@ const db = firebase.firestore();
 const auth = firebase.auth();
 const currentUser = auth.currentUser;
 
+const Timestamp = firebase.firestore.Timestamp.fromDate(new Date());
+
 // firebase collections
 const usersCollection = db.collection("users");
 const postsCollection = db.collection("posts");
@@ -40,5 +42,6 @@ export {
   usersCollection,
   postsCollection,
   commentsCollection,
-  likesCollection
+  likesCollection,
+  Timestamp
 };
