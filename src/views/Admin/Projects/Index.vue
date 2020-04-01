@@ -10,6 +10,10 @@
           :sort-desc="[true]"
           :items-per-page="5"
           multi-sort
+          single-expand="true"
+          :expanded.sync="expanded"
+          item-key="ProjectID"
+          show-expand
           class="elevation-1"
         >
           <template v-slot:top>
@@ -166,6 +170,7 @@
               </v-dialog>
             </v-toolbar>
           </template>
+
           <template v-slot:no-data>
             <v-btn color="primary" @click="initialize">Reset</v-btn>
           </template>
@@ -185,6 +190,11 @@
           </template>
           <template v-slot:no-data>
             <v-btn color="primary" @click="initialize">Reset</v-btn>
+          </template>
+          <template v-slot:expanded-item="{ headers, item }">
+            <td :colspan="headers.length">
+              More info about {{ item.ProjectName }}
+            </td>
           </template>
         </v-data-table>
       </v-col>
