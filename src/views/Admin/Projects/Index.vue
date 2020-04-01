@@ -8,6 +8,7 @@
           :items="data"
           :sort-by="['operatingStartDate']"
           :sort-desc="[true]"
+          :items-per-page="5"
           multi-sort
           class="elevation-1"
         >
@@ -269,7 +270,7 @@ export default Vue.extend({
       HMISParticipatingProject: 0,
       PITCount: null,
       DateCreated: new Date(),
-      DateUpdated: new Date(),
+      DateUpdated: Timestamp.fromDate(new Date()).toDate(),
       UserID: "",
       DateDeleted: null,
       ExportID: ""
@@ -290,14 +291,13 @@ export default Vue.extend({
       HMISParticipatingProject: 0,
       PITCount: null,
       DateCreated: new Date(),
-      DateUpdated: new Date(),
+      DateUpdated: Timestamp.fromDate(new Date()).toDate(),
       UserID: "",
       DateDeleted: null,
       ExportID: ""
       // Custom
     }
   }),
-
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? "New Project" : "Edit Project";
@@ -411,8 +411,6 @@ export default Vue.extend({
 
     save() {
       const timestamp = Timestamp.fromDate(new Date());
-      this.editedItemItem.DateUpdated = timestamp;
-      this.editedItemItem.DateCreated = timestamp;
       const firestoreData = {
         //
         OrganizationID: this.editedItem.OrganizationID,
@@ -426,6 +424,7 @@ export default Vue.extend({
         TrackingMethod: this.editedItem.TrackingMethod,
         HMISParticipatingProject: this.editedItem.HMISParticipatingProject,
         PITCount: this.editedItem.PITCount,
+        DateUpdated: this.editedItem.DateUpdated,
         UserID: this.editedItem.UserID,
         DateDeleted: this.editedItem.DateDeleted,
         ExportID: this.editedItem.ExportID
@@ -435,8 +434,7 @@ export default Vue.extend({
         this.collection
           .doc(this.editedItem.ProjectID)
           .update({
-            ...firestoreData,
-            DateUpdated: timestamp
+            ...firestoreData
           })
           .then(() => {
             Object.assign(this.data[this.editedIndex], this.editedItem);
@@ -445,7 +443,6 @@ export default Vue.extend({
         this.collection
           .add({
             ...firestoreData,
-            DateUpdated: timestamp,
             DateCreated: timestamp
           })
           .then(docRef => {
@@ -459,7 +456,8 @@ export default Vue.extend({
                 .substr(0, 10),
               OperatingEndDate: new Date(this.editedItem.OperatingEndDate)
                 .toISOString()
-                .substr(0, 10)
+                .substr(0, 10),
+              DateCreated: timestamp.toDate()
             });
           });
       }
