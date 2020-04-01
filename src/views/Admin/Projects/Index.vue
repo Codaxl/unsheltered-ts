@@ -410,6 +410,9 @@ export default Vue.extend({
     },
 
     save() {
+      const timestamp = Timestamp.fromDate(new Date());
+      this.editItem.DateUpdated = timestamp;
+      this.editItem.DateCreated = timestamp;
       const firestoreData = {
         //
         OrganizationID: this.editedItem.OrganizationID,
@@ -433,7 +436,7 @@ export default Vue.extend({
           .doc(this.editedItem.ProjectID)
           .update({
             ...firestoreData,
-            DateUpdated: Timestamp.fromDate(new Date())
+            DateUpdated: timestamp
           })
           .then(() => {
             Object.assign(this.data[this.editedIndex], this.editedItem);
@@ -442,7 +445,8 @@ export default Vue.extend({
         this.collection
           .add({
             ...firestoreData,
-            DateCreated: Timestamp.fromDate(new Date())
+            DateUpdated: timestamp,
+            DateCreated: timestamp
           })
           .then(docRef => {
             this.collection.doc(docRef.id).update({ ProjectID: docRef.id });
