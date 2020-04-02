@@ -250,7 +250,7 @@
 
                         <div>
                           <b>Project Type:</b>
-                          {{ item.ProjectType | toText("ProjectType") }}
+                          {{ item.ProjectType | toText("projectType") }}
                         </div>
                       </v-col>
                     </v-row>
