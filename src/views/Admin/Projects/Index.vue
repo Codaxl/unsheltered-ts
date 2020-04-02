@@ -439,7 +439,8 @@ export default Vue.extend({
     },
     toText: function(item: any) {
       console.log(item);
-      const myMap = new Map(ProjectType);
+      const kvArray = ProjectType;
+      const myMap = new Map(kvArray);
 
       return myMap.get(item);
     }
