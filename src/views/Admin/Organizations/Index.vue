@@ -218,7 +218,7 @@ export default Vue.extend({
     dateFilter: function(value: any) {
       return value ? format(value, "yyyy-MM-dd' at 'HH:mm:ss a") : "";
     },
-    toTextNoYes: function(item: number, array: any) {
+    toTextNoYes: function(item: number) {
       const idArr = [item];
       const objArr = NoYes;
       const idValueMap: any = objArr.reduce(
