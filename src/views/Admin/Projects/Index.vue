@@ -442,6 +442,7 @@ export default Vue.extend({
       const reformattedArray = ProjectType.map(item => {
         const rObj = {};
         rObj[item.value] = item.text;
+        console.log(item.text);
         return rObj;
       });
     }
