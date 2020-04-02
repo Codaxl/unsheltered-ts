@@ -47,9 +47,9 @@
                       <v-row no-gutters>
                         <v-col cols="12">
                           <v-select
-                            v-model="editedItem.ContinuumProject"
-                            :items="noYes"
-                            :value="noYes.value"
+                            v-model="editedItem.OrganizationID"
+                            :items="organizationSelect"
+                            :value="organizationSelect.OrganizationID"
                             label="Organization"
                             outlined
                           ></v-select>
@@ -245,12 +245,13 @@
                         </div>
 
                         <div>
-                          <b>Continuum Project:</b> {{ item.ContinuumProject }}
+                          <b>Continuum Project:</b>
+                          {{ item.ContinuumProject | toTextNoYes }}
                         </div>
 
                         <div>
                           <b>Project Type:</b>
-                          {{ item.ProjectType | toText("ProjectType") }}
+                          {{ item.ProjectType | toTextProjectType }}
                         </div>
                       </v-col>
                     </v-row>
@@ -260,20 +261,22 @@
                       <v-col cols="12">
                         <div>
                           <b>Residential Affiliation:</b>
-                          {{ item.ResidentialAffiliation }}
+                          {{ item.ResidentialAffiliation | toTextNoYes }}
                         </div>
 
                         <div>
-                          <b>Tracking Method:</b> {{ item.TrackingMethod }}
+                          <b>Tracking Method:</b>
+                          {{ item.TrackingMethod | toTextTrackingMethod }}
                         </div>
 
                         <div>
                           <b>HMIS Participating Project:</b>
-                          {{ item.HMISParticipatingProject }}
+                          {{ item.HMISParticipatingProject | toTextNoYes }}
                         </div>
 
                         <div>
-                          <b>Target Population:</b> {{ item.TargetPopulation }}
+                          <b>Target Population:</b>
+                          {{ item.TargetPopulation | toTextTargetPopulation }}
                         </div>
 
                         <div><b>PIT Count:</b> {{ item.PITCount }}</div>
@@ -311,6 +314,7 @@
 
 <script lang="ts">
 import Vue from "vue";
+import UserStore from "@/store/user/user-store";
 import { db, Timestamp } from "@/firebase";
 import format from "date-fns/format";
 import parseISO from "date-fns/parseISO";
@@ -432,17 +436,48 @@ export default Vue.extend({
         );
       const currentYear = new Date().getFullYear();
       return range(currentYear, currentYear - 5);
+    },
+    userId(): string {
+      return UserStore.user.id;
     }
   },
   filters: {
     dateFilter: function(value: any) {
       return value ? format(value, "yyyy-MM-dd' at 'HH:mm:ss a") : "";
     },
-    toText: function(item: number, array: any) {
+    toTextNoYes: function(item: number, array: any) {
       const idArr = [item];
-      console.log(array);
-      console.log(item);
-      const objArr = window[array];
+      const objArr = NoYes;
+      const idValueMap: any = objArr.reduce(
+        (acc, { value, text }) => ({ ...acc, [value]: text }),
+        {}
+      );
+      const output = idArr.map(value => idValueMap[value]);
+      return output.toString();
+    },
+    toTextProjectType: function(item: number, array: any) {
+      const idArr = [item];
+      const objArr = ProjectType;
+      const idValueMap: any = objArr.reduce(
+        (acc, { value, text }) => ({ ...acc, [value]: text }),
+        {}
+      );
+      const output = idArr.map(value => idValueMap[value]);
+      return output.toString();
+    },
+    toTextTrackingMethod: function(item: number, array: any) {
+      const idArr = [item];
+      const objArr = TrackingMethod;
+      const idValueMap: any = objArr.reduce(
+        (acc, { value, text }) => ({ ...acc, [value]: text }),
+        {}
+      );
+      const output = idArr.map(value => idValueMap[value]);
+      return output.toString();
+    },
+    toTextTargetPopulation: function(item: number, array: any) {
+      const idArr = [item];
+      const objArr = TargetPopulation;
       const idValueMap: any = objArr.reduce(
         (acc, { value, text }) => ({ ...acc, [value]: text }),
         {}
@@ -546,7 +581,7 @@ export default Vue.extend({
         TargetPopulation: this.editedItem.TargetPopulation,
         PITCount: this.editedItem.PITCount,
         DateUpdated: timestamp,
-        UserID: this.editedItem.UserID,
+        UserID: this.userId,
         ExportID: this.editedItem.ExportID
         //
       };
