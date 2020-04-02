@@ -117,9 +117,9 @@
                         </v-col>
                         <v-col cols="12">
                           <v-autocomplete
-                            v-model="editedItem.ProjecType"
-                            :items="projecType"
-                            :value="projecType.value"
+                            v-model="editedItem.ProjectType"
+                            :items="projectType"
+                            :value="projectType.value"
                             label="Project Type"
                             outlined
                           ></v-autocomplete>
@@ -160,13 +160,15 @@
                             outlined
                           ></v-select>
                         </v-col>
-                        <v-autocomplete
-                          v-model="editedItem.TargetPopulation"
-                          :items="targetPopulation"
-                          :value="targetPopulation.value"
-                          label="Target Population"
-                          outlined
-                        ></v-autocomplete>
+                        <v-col cols="12">
+                          <v-autocomplete
+                            v-model="editedItem.TargetPopulation"
+                            :items="targetPopulation"
+                            :value="targetPopulation.value"
+                            label="Target Population"
+                            outlined
+                          ></v-autocomplete>
+                        </v-col>
                       </v-row>
                     </v-container>
                   </v-card-text>
