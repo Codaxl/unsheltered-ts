@@ -19,22 +19,41 @@
           <template v-slot:top>
             <v-toolbar flat color="white">
               <v-toolbar-title>Projects</v-toolbar-title>
-
               <v-spacer></v-spacer>
-              <v-dialog v-model="dialog" max-width="500px">
+              <v-dialog
+                v-model="dialog"
+                fullscreen
+                hide-overlay
+                transition="dialog-bottom-transition"
+              >
                 <template v-slot:activator="{ on }">
                   <v-btn color="primary" outlined class="mb-2" v-on="on"
                     >New Project</v-btn
                   >
                 </template>
                 <v-card>
-                  <v-card-title>
-                    <span class="headline">{{ formTitle }}</span>
-                  </v-card-title>
-
+                  <v-toolbar dark color="primary">
+                    <v-btn icon dark @click="dialog = false">
+                      <v-icon>mdi-close</v-icon>
+                    </v-btn>
+                    <v-toolbar-title>{{ formTitle }}</v-toolbar-title>
+                    <v-spacer></v-spacer>
+                    <v-toolbar-items>
+                      <v-btn dark text @click="save">Save</v-btn>
+                    </v-toolbar-items>
+                  </v-toolbar>
                   <v-card-text>
-                    <v-container>
+                    <v-container style="max-width:1080px;">
                       <v-row no-gutters>
+                        <v-col cols="12">
+                          <v-select
+                            v-model="editedItem.ContinuumProject"
+                            :items="noYes"
+                            :value="noYes.value"
+                            label="Organization"
+                            outlined
+                          ></v-select>
+                        </v-col>
                         <v-col cols="12">
                           <v-text-field
                             v-model="editedItem.ProjectName"
@@ -77,7 +96,6 @@
                             ></v-date-picker>
                           </v-menu>
                         </v-col>
-
                         <v-col cols="12" sm="6">
                           <v-menu
                             v-model="menu2"
@@ -147,7 +165,7 @@
                             v-model="editedItem.TrackingMethod"
                             :items="trackingMethod"
                             :value="trackingMethod.value"
-                            label="Recipient"
+                            label="Tracking Method"
                             outlined
                           ></v-autocomplete>
                         </v-col>
@@ -169,10 +187,16 @@
                             outlined
                           ></v-autocomplete>
                         </v-col>
+                        <v-col cols="12">
+                          <v-text-field
+                            v-model="editedItem.PITCount"
+                            label="PIT Count"
+                            outlined
+                          ></v-text-field>
+                        </v-col>
                       </v-row>
                     </v-container>
                   </v-card-text>
-
                   <v-card-actions>
                     <v-spacer></v-spacer>
                     <v-btn color="blue darken-1" text @click="close"
@@ -184,7 +208,6 @@
               </v-dialog>
             </v-toolbar>
           </template>
-
           <template v-slot:no-data>
             <v-btn color="primary" @click="initialize">Reset</v-btn>
           </template>
@@ -208,54 +231,41 @@
           <template v-slot:expanded-item="{ headers, item }">
             <td :colspan="headers.length">
               <v-container fill-height>
-                <v-row justify="center" align="center" no-gutters>
+                <v-row justify="center" align="center">
                   <v-col cols="12">
-                    <v-col cols="12" sm="4">
-                      Organization ID: {{ item.OrganizationID }}
-                    </v-col>
-
-                    <v-col cols="12">
-                      Project Common Name: {{ item.ProjectCommonName }}
-                    </v-col>
-
-                    <v-col cols="12">
-                      Continuum Project: {{ item.ContinuumProject }}
-                    </v-col>
-
-                    <v-col cols="12">
-                      Project Type: {{ item.ProjectType }}
-                    </v-col>
-
-                    <v-col cols="12">
-                      Residential Affiliation: {{ item.ResidentialAffiliation }}
-                    </v-col>
-
-                    <v-col cols="12">
-                      Tracking Method: {{ item.TrackingMethod }}
-                    </v-col>
-
-                    <v-col cols="12">
-                      HMIS Participating Project:
-                      {{ item.HMISParticipatingProject }}
-                    </v-col>
-
-                    <v-col cols="12">
-                      Target Population: {{ item.TargetPopulation }}
-                    </v-col>
-                    <v-col cols="12"> PIT Count: {{ item.PITCount }} </v-col>
-
-                    <v-col cols="12">
-                      Date Created: {{ item.DateCreated | dateFilter }}
-                    </v-col>
-
-                    <v-col cols="12">
-                      Date Updated: {{ item.DateUpdated | dateFilter }}
-                    </v-col>
-
-                    <v-col cols="12"> User ID: {{ item.UserID }} </v-col>
-
-                    <v-col cols="12"> Export ID: {{ item.ExportID }} </v-col>
+                    Organization ID: {{ item.OrganizationID }}
                   </v-col>
+                  <v-col cols="12">
+                    Project Common Name: {{ item.ProjectCommonName }}
+                  </v-col>
+                  <v-col cols="12">
+                    Continuum Project: {{ item.ContinuumProject }}
+                  </v-col>
+                  <v-col cols="12">
+                    Project Type: {{ item.ProjectType }}
+                  </v-col>
+                  <v-col cols="12">
+                    Residential Affiliation: {{ item.ResidentialAffiliation }}
+                  </v-col>
+                  <v-col cols="12">
+                    Tracking Method: {{ item.TrackingMethod }}
+                  </v-col>
+                  <v-col cols="12">
+                    HMIS Participating Project:
+                    {{ item.HMISParticipatingProject }}
+                  </v-col>
+                  <v-col cols="12">
+                    Target Population: {{ item.TargetPopulation }}
+                  </v-col>
+                  <v-col cols="12"> PIT Count: {{ item.PITCount }} </v-col>
+                  <v-col cols="12">
+                    Date Created: {{ item.DateCreated | dateFilter }}
+                  </v-col>
+                  <v-col cols="12">
+                    Date Updated: {{ item.DateUpdated | dateFilter }}
+                  </v-col>
+                  <v-col cols="12"> User ID: {{ item.UserID }} </v-col>
+                  <v-col cols="12"> Export ID: {{ item.ExportID }} </v-col>
                 </v-row>
               </v-container>
             </td>
@@ -377,7 +387,6 @@ export default Vue.extend({
       // Custom
     }
   }),
-
   computed: {
     formTitle() {
       return this.editedIndex === -1 ? "New Project" : "Edit Project";
@@ -406,13 +415,11 @@ export default Vue.extend({
       val || this.close();
     }
   },
-
   created() {
     this.isLoading = true;
     this.initialize();
     this.fetchOrganizations();
   },
-
   methods: {
     fetchOrganizations() {
       db.collection("organizations")
@@ -468,20 +475,17 @@ export default Vue.extend({
           console.log("Error getting documents", err);
         });
     },
-
     editItem(item: any) {
       this.editedIndex = this.data.indexOf(item);
       this.editedItem = Object.assign({}, item);
       this.dialog = true;
     },
-
     deleteItem(item: any) {
       const index: any = this.data.indexOf(item);
       confirm("Are you sure you want to delete this item?") &&
         this.data.splice(index, 1) &&
         this.collection.doc(item.ProjectID).delete();
     },
-
     close() {
       this.dialog = false;
       setTimeout(() => {
@@ -489,7 +493,6 @@ export default Vue.extend({
         this.editedIndex = -1;
       }, 300);
     },
-
     save() {
       const timestamp = Timestamp.fromDate(new Date());
       const firestoreData = {
