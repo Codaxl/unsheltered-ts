@@ -374,6 +374,14 @@ export default Vue.extend({
       { text: "Actions", value: "actions", sortable: false }
     ],
     data: [{}],
+    arrObj: [
+      { id: 1, name: "cat" },
+      { id: 0, name: "tiger" },
+      { id: 2, name: "dog" },
+      { id: null, name: "bear" },
+      { id: 8, name: "fish" },
+      { id: 13, name: "goat" }
+    ],
     editedIndex: -1,
     editedItem: {
       // HMIS
@@ -437,18 +445,10 @@ export default Vue.extend({
     dateFilter: function(value: any) {
       return value ? format(value, "yyyy-MM-dd' at 'HH:mm:ss a") : "";
     },
-    toText: function(item: number) {
+    toText: function(item: any) {
       console.log(item);
-      const arr = [13, 1, 16];
-      const arrObj = [
-        { id: 1, name: "cat" },
-        { id: 10, name: "tiger" },
-        { id: 3, name: "dog" },
-        { id: 16, name: "bear" },
-        { id: 8, name: "fish" },
-        { id: 13, name: "goat" }
-      ];
-      const result = arr.map(id => arrObj.find(o => o.id === id).name);
+      const arr = [item];
+      const result = arr.map(id => this.arrObj.find(o => o.id === id).name);
       console.log(result);
       return result;
     }
