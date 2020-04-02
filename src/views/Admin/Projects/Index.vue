@@ -42,6 +42,13 @@
                             outlined
                           ></v-text-field>
                         </v-col>
+                        <v-col cols="12">
+                          <v-text-field
+                            v-model="editedItem.ProjectCommonName"
+                            label="Project Common Name"
+                            outlined
+                          ></v-text-field>
+                        </v-col>
                         <v-col cols="12" sm="6">
                           <v-menu
                             v-model="menu"
@@ -99,62 +106,61 @@
                             ></v-date-picker>
                           </v-menu>
                         </v-col>
-                        <!-- <v-col cols="12">
+                        <v-col cols="12">
                           <v-select
-                            v-model="editedItem.year"
-                            :items="selectYear"
-                            label="Fiscal year"
+                            v-model="editedItem.ContinuumProject"
+                            :items="targetPopulation"
+                            label="Continuum Project"
                             outlined
                           ></v-select>
                         </v-col>
                         <v-col cols="12">
-                          <v-text-field
-                            v-model="editedItem.amount"
-                            label="Amount"
-                            outlined
-                          ></v-text-field>
-                        </v-col>
-                        <v-col cols="12">
                           <v-autocomplete
-                            v-model="editedItem.grantor"
-                            :items="organizationSelect"
-                            label="Grantor"
+                            v-model="editedItem.ProjecType"
+                            :items="targetPopulation"
+                            label="Project Type"
                             outlined
                           ></v-autocomplete>
                         </v-col>
                         <v-col cols="12">
                           <v-autocomplete
-                            v-model="editedItem.grantee"
-                            :items="organizationSelect"
-                            label="Grantee"
+                            v-model="editedItem.HousingType"
+                            :items="targetPopulation"
+                            label="Housing Type"
                             outlined
                           ></v-autocomplete>
                         </v-col>
                         <v-col cols="12">
+                          <v-select
+                            v-model="editedItem.ResidentialAffiliation"
+                            :items="targetPopulation"
+                            label="Residential Affiliation"
+                            outlined
+                          ></v-select>
+                        </v-col>
+                        <v-col cols="12">
                           <v-autocomplete
-                            v-model="editedItem.recipient"
-                            :items="organizationSelect"
+                            v-model="editedItem.TrackingMethod"
+                            :items="targetPopulation"
                             label="Recipient"
                             outlined
                           ></v-autocomplete>
                         </v-col>
                         <v-col cols="12">
                           <v-select
-                            v-model="editedItem.sourceType"
-                            :items="fundingSource"
-                            chips
-                            label="Source Type"
-                            multiple
+                            v-model="editedItem.HMISParticipatingProject"
+                            :items="targetPopulation"
+                            label="HMIS Participating Project"
                             outlined
                           ></v-select>
                         </v-col>
-                        <v-col cols="12">
-                          <v-text-field
-                            v-model="editedItem.category"
-                            label="Category"
-                            outlined
-                          ></v-text-field>
-                        </v-col> -->
+                        <v-autocomplete
+                          v-model="editedItem.TargetPopulation"
+                          :items="targetPopulation"
+                          :value="targetPopulation.value"
+                          label="Target Population"
+                          outlined
+                        ></v-autocomplete>
                       </v-row>
                     </v-container>
                   </v-card-text>
@@ -230,6 +236,11 @@
                     {{ item.HMISParticipatingProject }}
                   </v-col>
                 </v-row>
+                <v-row justify="center" align="center" no-gutters>
+                  <v-col cols="12" sm="4">
+                    Target Population: {{ item.TargetPopulation }}
+                  </v-col>
+                </v-row>
 
                 <v-row justify="center" align="center" no-gutters>
                   <v-col cols="12" sm="4">
@@ -268,11 +279,23 @@ import Vue from "vue";
 import { db, Timestamp } from "@/firebase";
 import format from "date-fns/format";
 import parseISO from "date-fns/parseISO";
-// list
-import fundingSource from "./funding-source.json";
+// lists
+import FundingSource from "./funding-source";
+import ProjectType from "./project-type";
+import HousingType from "./housing-type";
+import NoYes from "./no-yes";
+import TargetPopulation from "./target-population";
+
 export default Vue.extend({
   data: () => ({
     //// TODO:
+
+    projectType: ProjectType,
+    fundingSource: FundingSource,
+    housingType: HousingType,
+    targetPopulation: TargetPopulation,
+    noYes: NoYes,
+
     sourceTypeSelect: ["Federal", "State", "County", "City"],
     // Firestore collection
     collection: db.collection("Project"),
@@ -328,9 +351,11 @@ export default Vue.extend({
       OperatingEndDate: new Date().toISOString().substr(0, 10),
       ContinuumProject: 0,
       ProjectType: 0,
+      HousingType: 0,
       ResidentialAffiliation: 0,
       TrackingMethod: 0,
       HMISParticipatingProject: 0,
+      TargetPopulation: 0,
       PITCount: 0,
       DateCreated: new Date(),
       DateUpdated: new Date(),
@@ -348,9 +373,11 @@ export default Vue.extend({
       OperatingEndDate: new Date().toISOString().substr(0, 10),
       ContinuumProject: 0,
       ProjectType: 0,
+      HousingType: 0,
       ResidentialAffiliation: 0,
       TrackingMethod: 0,
       HMISParticipatingProject: 0,
+      TargetPopulation: 0,
       PITCount: 0,
       DateCreated: new Date(),
       DateUpdated: new Date(),
@@ -371,12 +398,12 @@ export default Vue.extend({
         );
       const currentYear = new Date().getFullYear();
       return range(currentYear, currentYear - 5);
-    },
-    fundingSource() {
-      return fundingSource.select.map(item => {
-        return item.text;
-      });
     }
+    // fundingSource() {
+    //   return fundingSource.select.map(item => {
+    //     return item.text;
+    //   });
+    // }
   },
   filters: {
     dateFilter: function(value: any) {
@@ -431,9 +458,11 @@ export default Vue.extend({
               ),
               ContinuumProject: doc.data().ContinuumProject,
               ProjectType: doc.data().ProjectType,
+              HousingType: doc.data().HousingType,
               ResidentialAffiliation: doc.data().ResidentialAffiliation,
               TrackingMethod: doc.data().TrackingMethod,
               HMISParticipatingProject: doc.data().HMISParticipatingProject,
+              TargetPopulation: doc.data().TargetPopulation,
               PITCount: doc.data().PITCount,
               DateCreated: doc.data().DateCreated.toDate(),
               DateUpdated: doc.data().DateUpdated.toDate(),
@@ -481,9 +510,11 @@ export default Vue.extend({
         OperatingEndDate: parseISO(this.editedItem.OperatingEndDate),
         ContinuumProject: this.editedItem.ContinuumProject,
         ProjectType: this.editedItem.ProjectType,
+        HousingType: this.editedItem.HousingType,
         ResidentialAffiliation: this.editedItem.ResidentialAffiliation,
         TrackingMethod: this.editedItem.TrackingMethod,
         HMISParticipatingProject: this.editedItem.HMISParticipatingProject,
+        TargetPopulation: this.editedItem.TargetPopulation,
         PITCount: this.editedItem.PITCount,
         UserID: this.editedItem.UserID,
         ExportID: this.editedItem.ExportID
