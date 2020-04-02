@@ -209,58 +209,54 @@
             <td :colspan="headers.length">
               <v-container fill-height>
                 <v-row justify="center" align="center" no-gutters>
-                  <v-col cols="12" sm="4">
+                  <v-col cols="12">
                     Organization ID: {{ item.OrganizationID }}
                   </v-col>
 
-                  <v-col cols="12" sm="4">
+                  <v-col cols="12">
                     Project Common Name: {{ item.ProjectCommonName }}
                   </v-col>
 
-                  <v-col cols="12" sm="4">
+                  <v-col cols="12">
                     Continuum Project: {{ item.ContinuumProject }}
                   </v-col>
 
-                  <v-col cols="12" sm="4">
+                  <v-col cols="12">
                     Project Type: {{ item.ProjectType }}
                   </v-col>
 
-                  <v-col cols="12" sm="4">
+                  <v-col cols="12">
                     Residential Affiliation: {{ item.ResidentialAffiliation }}
                   </v-col>
 
-                  <v-col cols="12" sm="4">
+                  <v-col cols="12">
                     Tracking Method: {{ item.TrackingMethod }}
                   </v-col>
 
-                  <v-col cols="12" sm="4">
+                  <v-col cols="12">
                     HMIS Participating Project:
                     {{ item.HMISParticipatingProject }}
                   </v-col>
 
-                  <v-col cols="12" sm="4">
+                  <v-col cols="12">
                     Target Population: {{ item.TargetPopulation }}
                   </v-col>
                 </v-row>
 
                 <v-row justify="center" align="center" no-gutters>
-                  <v-col cols="12" sm="4">
-                    PIT Count: {{ item.PITCount }}
-                  </v-col>
+                  <v-col cols="12"> PIT Count: {{ item.PITCount }} </v-col>
 
-                  <v-col cols="12" sm="4">
+                  <v-col cols="12">
                     Date Created: {{ item.DateCreated | dateFilter }}
                   </v-col>
 
-                  <v-col cols="12" sm="4">
+                  <v-col cols="12">
                     Date Updated: {{ item.DateUpdated | dateFilter }}
                   </v-col>
 
-                  <v-col cols="12" sm="4"> User ID: {{ item.UserID }} </v-col>
+                  <v-col cols="12"> User ID: {{ item.UserID }} </v-col>
 
-                  <v-col cols="12" sm="4">
-                    Export ID: {{ item.ExportID }}
-                  </v-col>
+                  <v-col cols="12"> Export ID: {{ item.ExportID }} </v-col>
                 </v-row>
               </v-container>
             </td>
