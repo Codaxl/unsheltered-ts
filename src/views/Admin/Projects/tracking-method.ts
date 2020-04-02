@@ -1,10 +1,10 @@
 export default [
   {
-    value: "0",
+    value: 0,
     text: "Entry/Exit Date"
   },
   {
-    value: "3",
+    value: 3,
     text: "Night-by-Night"
   }
 ];
