@@ -109,7 +109,8 @@
                         <v-col cols="12">
                           <v-select
                             v-model="editedItem.ContinuumProject"
-                            :items="targetPopulation"
+                            :items="noYes"
+                            :value="noYes.value"
                             label="Continuum Project"
                             outlined
                           ></v-select>
@@ -117,7 +118,8 @@
                         <v-col cols="12">
                           <v-autocomplete
                             v-model="editedItem.ProjecType"
-                            :items="targetPopulation"
+                            :items="projecType"
+                            :value="projecType.value"
                             label="Project Type"
                             outlined
                           ></v-autocomplete>
@@ -125,7 +127,8 @@
                         <v-col cols="12">
                           <v-autocomplete
                             v-model="editedItem.HousingType"
-                            :items="targetPopulation"
+                            :items="housingType"
+                            :value="housingType.value"
                             label="Housing Type"
                             outlined
                           ></v-autocomplete>
@@ -133,7 +136,8 @@
                         <v-col cols="12">
                           <v-select
                             v-model="editedItem.ResidentialAffiliation"
-                            :items="targetPopulation"
+                            :items="noYes"
+                            :value="noYes.value"
                             label="Residential Affiliation"
                             outlined
                           ></v-select>
@@ -141,7 +145,8 @@
                         <v-col cols="12">
                           <v-autocomplete
                             v-model="editedItem.TrackingMethod"
-                            :items="targetPopulation"
+                            :items="trackingMethod"
+                            :value="trackingMethod.value"
                             label="Recipient"
                             outlined
                           ></v-autocomplete>
@@ -149,7 +154,8 @@
                         <v-col cols="12">
                           <v-select
                             v-model="editedItem.HMISParticipatingProject"
-                            :items="targetPopulation"
+                            :items="noYes"
+                            :value="noYes.value"
                             label="HMIS Participating Project"
                             outlined
                           ></v-select>
@@ -285,18 +291,17 @@ import ProjectType from "./project-type";
 import HousingType from "./housing-type";
 import NoYes from "./no-yes";
 import TargetPopulation from "./target-population";
+import TrackingMethod from "./tracking-method";
 
 export default Vue.extend({
   data: () => ({
     //// TODO:
-
     projectType: ProjectType,
     fundingSource: FundingSource,
     housingType: HousingType,
     targetPopulation: TargetPopulation,
+    trackingMethod: TrackingMethod,
     noYes: NoYes,
-
-    sourceTypeSelect: ["Federal", "State", "County", "City"],
     // Firestore collection
     collection: db.collection("Project"),
     organizationSelect: [{}],
