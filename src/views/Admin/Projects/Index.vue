@@ -34,7 +34,7 @@
 
                   <v-card-text>
                     <v-container>
-                      <v-row>
+                      <v-row no-gutters>
                         <v-col cols="12">
                           <v-text-field
                             v-model="editedItem.ProjectName"
@@ -212,39 +212,32 @@
                   <v-col cols="12" sm="4">
                     Organization ID: {{ item.OrganizationID }}
                   </v-col>
-                </v-row>
-                <v-row justify="center" align="center" no-gutters>
+
                   <v-col cols="12" sm="4">
                     Project Common Name: {{ item.ProjectCommonName }}
                   </v-col>
-                </v-row>
-                <v-row justify="center" align="center" no-gutters>
+
                   <v-col cols="12" sm="4">
                     Continuum Project: {{ item.ContinuumProject }}
                   </v-col>
-                </v-row>
-                <v-row justify="center" align="center" no-gutters>
+
                   <v-col cols="12" sm="4">
                     Project Type: {{ item.ProjectType }}
                   </v-col>
-                </v-row>
-                <v-row justify="center" align="center" no-gutters>
+
                   <v-col cols="12" sm="4">
                     Residential Affiliation: {{ item.ResidentialAffiliation }}
                   </v-col>
-                </v-row>
-                <v-row justify="center" align="center" no-gutters>
+
                   <v-col cols="12" sm="4">
                     Tracking Method: {{ item.TrackingMethod }}
                   </v-col>
-                </v-row>
-                <v-row justify="center" align="center" no-gutters>
+
                   <v-col cols="12" sm="4">
                     HMIS Participating Project:
                     {{ item.HMISParticipatingProject }}
                   </v-col>
-                </v-row>
-                <v-row justify="center" align="center" no-gutters>
+
                   <v-col cols="12" sm="4">
                     Target Population: {{ item.TargetPopulation }}
                   </v-col>
@@ -254,21 +247,17 @@
                   <v-col cols="12" sm="4">
                     PIT Count: {{ item.PITCount }}
                   </v-col>
-                </v-row>
-                <v-row justify="center" align="center" no-gutters>
+
                   <v-col cols="12" sm="4">
                     Date Created: {{ item.DateCreated | dateFilter }}
                   </v-col>
-                </v-row>
-                <v-row justify="center" align="center" no-gutters>
+
                   <v-col cols="12" sm="4">
                     Date Updated: {{ item.DateUpdated | dateFilter }}
                   </v-col>
-                </v-row>
-                <v-row justify="center" align="center" no-gutters>
+
                   <v-col cols="12" sm="4"> User ID: {{ item.UserID }} </v-col>
-                </v-row>
-                <v-row justify="center" align="center" no-gutters>
+
                   <v-col cols="12" sm="4">
                     Export ID: {{ item.ExportID }}
                   </v-col>
