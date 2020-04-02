@@ -193,37 +193,69 @@
           </template>
           <template v-slot:expanded-item="{ headers, item }">
             <td :colspan="headers.length">
-              <v-container fluid>
-                <v-row no-gutters>
-                  <v-col>
-                    <v-card-text>{{ item.ProjectID }}</v-card-text>
-                    <v-card-text
-                      >Peek-a-boo!
-                      aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</v-card-text
-                    >
-                    <div class="datatable-container"></div>
+              <v-container fill-height>
+                <v-row justify="center" align="center" no-gutters>
+                  <v-col cols="12" sm="4">
+                    Organization ID: {{ item.OrganizationID }}
+                  </v-col>
+                </v-row>
+                <v-row justify="center" align="center" no-gutters>
+                  <v-col cols="12" sm="4">
+                    Project Common Name: {{ item.ProjectCommonName }}
+                  </v-col>
+                </v-row>
+                <v-row justify="center" align="center" no-gutters>
+                  <v-col cols="12" sm="4">
+                    Continuum Project: {{ item.ContinuumProject }}
+                  </v-col>
+                </v-row>
+                <v-row justify="center" align="center" no-gutters>
+                  <v-col cols="12" sm="4">
+                    Project Type: {{ item.ProjectType }}
+                  </v-col>
+                </v-row>
+                <v-row justify="center" align="center" no-gutters>
+                  <v-col cols="12" sm="4">
+                    Residential Affiliation: {{ item.ResidentialAffiliation }}
+                  </v-col>
+                </v-row>
+                <v-row justify="center" align="center" no-gutters>
+                  <v-col cols="12" sm="4">
+                    Tracking Method: {{ item.TrackingMethod }}
+                  </v-col>
+                </v-row>
+                <v-row justify="center" align="center" no-gutters>
+                  <v-col cols="12" sm="4">
+                    HMIS Participating Project:
+                    {{ item.HMISParticipatingProject }}
+                  </v-col>
+                </v-row>
+
+                <v-row justify="center" align="center" no-gutters>
+                  <v-col cols="12" sm="4">
+                    PIT Count: {{ item.PITCount }}
+                  </v-col>
+                </v-row>
+                <v-row justify="center" align="center" no-gutters>
+                  <v-col cols="12" sm="4">
+                    Date Created: {{ item.DateCreated | dateFilter }}
+                  </v-col>
+                </v-row>
+                <v-row justify="center" align="center" no-gutters>
+                  <v-col cols="12" sm="4">
+                    Date Updated: {{ item.DateUpdated | dateFilter }}
+                  </v-col>
+                </v-row>
+                <v-row justify="center" align="center" no-gutters>
+                  <v-col cols="12" sm="4"> User ID: {{ item.UserID }} </v-col>
+                </v-row>
+                <v-row justify="center" align="center" no-gutters>
+                  <v-col cols="12" sm="4">
+                    Export ID: {{ item.ExportID }}
                   </v-col>
                 </v-row>
               </v-container>
             </td>
-
-            <!-- Project ID: {{ item.ProjectID }}
-              Project ID: {{ item.OrganizationID }}
-              Project ID: {{ item.ProjectName }}
-              Project ID: {{ item.ProjectCommonName }}
-              Project ID: {{ item.OperatingStartDate }}
-              Project ID: {{ item.OperatingEndDate }}
-              Project ID: {{ item.ContinuumProject }}
-              Project ID: {{ item.ProjectType }}
-              Project ID: {{ item.ResidentialAffiliation }}
-              Project ID: {{ item.TrackingMethod }}
-              Project ID: {{ item.HMISParticipatingProject }}
-              Project ID: {{ item.PITCount }}
-              Project ID: {{ item.DateCreated }}
-              Project ID: {{ item.DateUpdated }}
-              Project ID: {{ item.UserID }}
-              Project ID: {{ item.DateDeleted }}
-              Project ID: {{ item.ExportID }} -->
           </template>
         </v-data-table>
       </v-col>
@@ -281,16 +313,6 @@ export default Vue.extend({
         sortable: true,
         value: "OperatingEndDate"
       },
-      {
-        text: "Date Created",
-        sortable: true,
-        value: "DateCreated"
-      },
-      {
-        text: "Date Updated",
-        sortable: true,
-        value: "DateUpdated"
-      },
 
       { text: "Actions", value: "actions", sortable: false }
     ],
@@ -301,19 +323,18 @@ export default Vue.extend({
       ProjectID: "",
       OrganizationID: "",
       ProjectName: "",
-      ProjectCommonName: null,
+      ProjectCommonName: "",
       OperatingStartDate: new Date().toISOString().substr(0, 10),
       OperatingEndDate: new Date().toISOString().substr(0, 10),
       ContinuumProject: 0,
-      ProjectType: null,
-      ResidentialAffiliation: null,
-      TrackingMethod: null,
+      ProjectType: 0,
+      ResidentialAffiliation: 0,
+      TrackingMethod: 0,
       HMISParticipatingProject: 0,
-      PITCount: null,
+      PITCount: 0,
       DateCreated: new Date(),
       DateUpdated: new Date(),
       UserID: "",
-      DateDeleted: null,
       ExportID: ""
       // Custom
     },
@@ -322,19 +343,18 @@ export default Vue.extend({
       ProjectID: "",
       OrganizationID: "",
       ProjectName: "",
-      ProjectCommonName: null,
+      ProjectCommonName: "",
       OperatingStartDate: new Date().toISOString().substr(0, 10),
       OperatingEndDate: new Date().toISOString().substr(0, 10),
       ContinuumProject: 0,
-      ProjectType: null,
-      ResidentialAffiliation: null,
-      TrackingMethod: null,
+      ProjectType: 0,
+      ResidentialAffiliation: 0,
+      TrackingMethod: 0,
       HMISParticipatingProject: 0,
-      PITCount: null,
+      PITCount: 0,
       DateCreated: new Date(),
       DateUpdated: new Date(),
       UserID: "",
-      DateDeleted: null,
       ExportID: ""
       // Custom
     }
@@ -418,7 +438,6 @@ export default Vue.extend({
               DateCreated: doc.data().DateCreated.toDate(),
               DateUpdated: doc.data().DateUpdated.toDate(),
               UserID: doc.data().UserID,
-              DateDeleted: doc.data().DateDeleted,
               ExportID: doc.data().ExportID
               //
             });
@@ -467,7 +486,6 @@ export default Vue.extend({
         HMISParticipatingProject: this.editedItem.HMISParticipatingProject,
         PITCount: this.editedItem.PITCount,
         UserID: this.editedItem.UserID,
-        DateDeleted: this.editedItem.DateDeleted,
         ExportID: this.editedItem.ExportID
         //
       };
