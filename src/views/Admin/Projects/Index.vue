@@ -231,52 +231,68 @@
           <template v-slot:expanded-item="{ headers, item }">
             <td :colspan="headers.length">
               <v-container>
-                <v-row>
+                <v-row no-gutters>
                   <v-col cols="12" md="4">
-                    <v-row>
+                    <v-row no-gutters>
                       <v-col cols="12">
-                        <b>Organization ID:</b> {{ item.OrganizationID }} <br />
+                        <div>
+                          <b>Organization ID:</b> {{ item.OrganizationID }}
+                        </div>
 
-                        <b>Project Common Name:</b>
-                        {{ item.ProjectCommonName }} <br />
+                        <div>
+                          <b>Project Common Name:</b>
+                          {{ item.ProjectCommonName }}
+                        </div>
 
-                        <b>Continuum Project:</b> {{ item.ContinuumProject }}
-                        <br />
+                        <div>
+                          <b>Continuum Project:</b> {{ item.ContinuumProject }}
+                        </div>
 
-                        <b>Project Type:</b> {{ item.ProjectType }} <br />
+                        <div><b>Project Type:</b> {{ item.ProjectType }}</div>
                       </v-col>
                     </v-row>
                   </v-col>
                   <v-col cols="12" md="4">
-                    <v-row>
+                    <v-row no-gutters>
                       <v-col cols="12">
-                        <b>Residential Affiliation:</b>
-                        {{ item.ResidentialAffiliation }} <br />
+                        <div>
+                          <b>Residential Affiliation:</b>
+                          {{ item.ResidentialAffiliation }}
+                        </div>
 
-                        <b>Tracking Method:</b> {{ item.TrackingMethod }} <br />
+                        <div>
+                          <b>Tracking Method:</b> {{ item.TrackingMethod }}
+                        </div>
 
-                        <b>HMIS Participating Project:</b>
-                        {{ item.HMISParticipatingProject }} <br />
+                        <div>
+                          <b>HMIS Participating Project:</b>
+                          {{ item.HMISParticipatingProject }}
+                        </div>
 
-                        <b>Target Population:</b> {{ item.TargetPopulation }}
-                        <br />
+                        <div>
+                          <b>Target Population:</b> {{ item.TargetPopulation }}
+                        </div>
 
-                        <b>PIT Count:</b> {{ item.PITCount }} <br />
+                        <div><b>PIT Count:</b> {{ item.PITCount }}</div>
                       </v-col>
                     </v-row>
                   </v-col>
                   <v-col cols="12" md="4">
-                    <v-row>
+                    <v-row no-gutters>
                       <v-col cols="12">
-                        <b>Date Created:</b>
-                        {{ item.DateCreated | dateFilter }} <br />
+                        <div>
+                          <b>Date Created:</b>
+                          {{ item.DateCreated | dateFilter }}
+                        </div>
 
-                        <b>Date Updated:</b>
-                        {{ item.DateUpdated | dateFilter }} <br />
+                        <div>
+                          <b>Date Updated:</b>
+                          {{ item.DateUpdated | dateFilter }}
+                        </div>
 
-                        <b>User ID:</b> {{ item.UserID }} <br />
+                        <div><b>User ID:</b> {{ item.UserID }}</div>
 
-                        <b>Export ID:</b> {{ item.ExportID }} <br />
+                        <div><b>Export ID:</b> {{ item.ExportID }}</div>
                       </v-col>
                     </v-row>
                   </v-col>
