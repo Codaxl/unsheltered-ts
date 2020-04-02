@@ -297,8 +297,6 @@
                         </div>
 
                         <div><b>User ID:</b> {{ item.UserID }}</div>
-
-                        <div><b>Export ID:</b> {{ item.ExportID }}</div>
                       </v-col>
                     </v-row>
                   </v-col>
@@ -398,8 +396,7 @@ export default Vue.extend({
       PITCount: 0,
       DateCreated: new Date(),
       DateUpdated: new Date(),
-      UserID: "",
-      ExportID: ""
+      UserID: ""
       // Custom
     },
     defaultItem: {
@@ -420,8 +417,7 @@ export default Vue.extend({
       PITCount: 0,
       DateCreated: new Date(),
       DateUpdated: new Date(),
-      UserID: "",
-      ExportID: ""
+      UserID: ""
       // Custom
     }
   }),
@@ -497,14 +493,14 @@ export default Vue.extend({
   },
   methods: {
     fetchOrganizations() {
-      db.collection("organizations")
+      db.collection("Organization")
         .get()
         .then(snapshot => {
           this.organizationSelect = [];
           snapshot.forEach(doc => {
             this.organizationSelect.push({
-              OrganizationID: doc.data().OrganizationID,
-              OrganizationName: doc.data().organizationName
+              value: doc.data().OrganizationID,
+              text: doc.data().OrganizationName
             });
           });
         })
@@ -541,8 +537,7 @@ export default Vue.extend({
             PITCount: doc.data().PITCount,
             DateCreated: doc.data().DateCreated.toDate(),
             DateUpdated: doc.data().DateUpdated.toDate(),
-            UserID: doc.data().UserID,
-            ExportID: doc.data().ExportID
+            UserID: doc.data().UserID
             //
           });
         });
@@ -584,8 +579,8 @@ export default Vue.extend({
         TargetPopulation: this.editedItem.TargetPopulation,
         PITCount: this.editedItem.PITCount,
         DateUpdated: timestamp,
-        UserID: this.userId,
-        ExportID: this.editedItem.ExportID
+        UserID: this.userId
+
         //
       };
       if (this.editedIndex > -1) {
