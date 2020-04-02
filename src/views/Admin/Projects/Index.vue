@@ -259,15 +259,14 @@
                   <v-col cols="12" md="6">
                     <b>Target Population:</b> {{ item.TargetPopulation }}
                   </v-col>
-
+                  <v-col cols="12" md="6"
+                    ><b>PIT Count:</b> {{ item.PITCount }}
+                  </v-col>
                   <v-col cols="12" md="6">
                     <b>Date Created:</b> {{ item.DateCreated | dateFilter }}
                   </v-col>
                   <v-col cols="12" md="6">
                     <b>Date Updated:</b> {{ item.DateUpdated | dateFilter }}
-                  </v-col>
-                  <v-col cols="12" md="6"
-                    ><b>PIT Count:</b> {{ item.PITCount }}
                   </v-col>
                   <v-col cols="12" md="6"
                     ><b>User ID:</b> {{ item.UserID }}
