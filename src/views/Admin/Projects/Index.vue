@@ -250,7 +250,7 @@
 
                         <div>
                           <b>Project Type:</b>
-                          {{ item.ProjectType | toText("projectType") }}
+                          {{ item.ProjectType | toText("ProjectType") }}
                         </div>
                       </v-col>
                     </v-row>
@@ -442,7 +442,7 @@ export default Vue.extend({
       const idArr = [item];
       console.log(array);
       console.log(item);
-      const objArr = eval(array);
+      const objArr = window[array];
       const idValueMap: any = objArr.reduce(
         (acc, { value, text }) => ({ ...acc, [value]: text }),
         {}
