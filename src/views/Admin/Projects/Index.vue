@@ -248,7 +248,9 @@
                           <b>Continuum Project:</b> {{ item.ContinuumProject }}
                         </div>
 
-                        <div><b>Project Type:</b> {{ item.ProjectType }}</div>
+                        <div>
+                          <b>Project Type:</b> {{ item.ProjectType | toText }}
+                        </div>
                       </v-col>
                     </v-row>
                   </v-col>
@@ -430,15 +432,15 @@ export default Vue.extend({
       const currentYear = new Date().getFullYear();
       return range(currentYear, currentYear - 5);
     }
-    // fundingSource() {
-    //   return fundingSource.select.map(item => {
-    //     return item.text;
-    //   });
-    // }
   },
   filters: {
     dateFilter: function(value: any) {
       return value ? format(value, "yyyy-MM-dd' at 'HH:mm:ss a") : "";
+    },
+    toText: function(value: any) {
+      return FundingSource.map(item => {
+        return item.text;
+      });
     }
   },
   watch: {
