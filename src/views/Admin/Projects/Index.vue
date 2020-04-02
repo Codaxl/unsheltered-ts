@@ -439,7 +439,12 @@ export default Vue.extend({
     },
     toText: function(item: string) {
       console.log(item);
-      const reformattedArray = ProjectType.map(obj => {
+      const kvArray = [
+        { key: 1, value: 10 },
+        { key: 2, value: 20 },
+        { key: 3, value: 30 }
+      ];
+      const reformattedArray = kvArray.map(obj => {
         const payload = {};
         const mapping = [null, "rt", "do", "f1"];
         const key = mapping[obj.key];
