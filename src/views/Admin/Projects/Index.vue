@@ -437,15 +437,16 @@ export default Vue.extend({
     dateFilter: function(value: any) {
       return value ? format(value, "yyyy-MM-dd' at 'HH:mm:ss a") : "";
     },
-    toText: function(item: number) {
+    toText: function(item: string) {
       console.log(item);
-      const keys: any = { 1: "1", 2: "2", 3: "3" };
-      const result = ProjectType.map(({ value, text }) => ({
-        [keys[value]]: text
-      }));
-
-      console.log(result);
-      return result;
+      const reformattedArray = ProjectType.map(obj => {
+        const payload = {};
+        const mapping = [null, "rt", "do", "f1"];
+        const key = mapping[obj.key];
+        payload[key] = obj.value;
+        return payload;
+      });
+      console.log(reformattedArray);
     }
   },
   watch: {
