@@ -249,7 +249,8 @@
                         </div>
 
                         <div>
-                          <b>Project Type:</b> {{ item.ProjectType | toText }}
+                          <b>Project Type:</b>
+                          {{ item.ProjectType | toText(item, ProjectType) }}
                         </div>
                       </v-col>
                     </v-row>
@@ -374,14 +375,6 @@ export default Vue.extend({
       { text: "Actions", value: "actions", sortable: false }
     ],
     data: [{}],
-    arrObj: [
-      { id: 1, name: "cat" },
-      { id: 0, name: "tiger" },
-      { id: 2, name: "dog" },
-      { id: null, name: "bear" },
-      { id: 8, name: "fish" },
-      { id: 13, name: "goat" }
-    ],
     editedIndex: -1,
     editedItem: {
       // HMIS
@@ -445,12 +438,15 @@ export default Vue.extend({
     dateFilter: function(value: any) {
       return value ? format(value, "yyyy-MM-dd' at 'HH:mm:ss a") : "";
     },
-    toText: function(item: any) {
-      console.log(item);
-      const arr = [item];
-      const result = arr.map(id => this.arrObj.find(o => o.id === id).name);
-      console.log(result);
-      return result;
+    toText: function(item: number, array: any) {
+      const idArr = [item];
+      const objArr = array;
+      const idValueMap: any = objArr.reduce(
+        (acc, { value, text }) => ({ ...acc, [value]: text }),
+        {}
+      );
+      const output = idArr.map(value => idValueMap[value]);
+      return output.toString();
     }
   },
   watch: {
