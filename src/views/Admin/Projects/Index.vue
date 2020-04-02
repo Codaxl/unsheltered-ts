@@ -502,7 +502,10 @@ export default Vue.extend({
         .then(snapshot => {
           this.organizationSelect = [];
           snapshot.forEach(doc => {
-            this.organizationSelect.push(doc.data().organizationName);
+            this.organizationSelect.push({
+              OrganizationID: doc.data().OrganizationID,
+              OrganizationName: doc.data().organizationName
+            });
           });
         })
         .catch(err => {
