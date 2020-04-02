@@ -437,9 +437,12 @@ export default Vue.extend({
     dateFilter: function(value: any) {
       return value ? format(value, "yyyy-MM-dd' at 'HH:mm:ss a") : "";
     },
-    toText: function(value: any) {
-      return FundingSource.map(item => {
-        return item.text;
+    toText: function(item: any) {
+      console.log(item);
+      const reformattedArray = ProjectType.map(item => {
+        const rObj = {};
+        rObj[item.value] = item.text;
+        return rObj;
       });
     }
   },
