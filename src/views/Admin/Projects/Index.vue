@@ -322,6 +322,7 @@ import TrackingMethod from "./tracking-method";
 export default Vue.extend({
   data: () => ({
     //// TODO:
+    unsubscribe: 0,
     projectType: ProjectType,
     fundingSource: FundingSource,
     housingType: HousingType,
@@ -437,7 +438,7 @@ export default Vue.extend({
   },
   filters: {
     dateFilter: function(value: any) {
-      return value ? format(value, "dd-MM-yyyy' at 'HH:mm:ss a") : "";
+      return value ? format(value, "yyyy-MM-dd' at 'HH:mm:ss a") : "";
     }
   },
   watch: {
@@ -446,7 +447,6 @@ export default Vue.extend({
     }
   },
   created() {
-    this.isLoading = true;
     this.initialize();
     this.fetchOrganizations();
   },
@@ -465,45 +465,41 @@ export default Vue.extend({
         });
     },
     initialize() {
-      this.collection
-        .get()
-        .then(snapshot => {
-          this.data = [];
-          snapshot.forEach(doc => {
-            this.data.push({
-              //
-              ProjectID: doc.id,
-              OrganizationID: doc.data().OrganizationID,
-              ProjectName: doc.data().ProjectName,
-              ProjectCommonName: doc.data().ProjectCommonName,
-              OperatingStartDate: format(
-                doc.data().OperatingStartDate.toDate(),
-                "yyyy-MM-dd"
-              ),
-              OperatingEndDate: format(
-                doc.data().OperatingEndDate.toDate(),
-                "yyyy-MM-dd"
-              ),
-              ContinuumProject: doc.data().ContinuumProject,
-              ProjectType: doc.data().ProjectType,
-              HousingType: doc.data().HousingType,
-              ResidentialAffiliation: doc.data().ResidentialAffiliation,
-              TrackingMethod: doc.data().TrackingMethod,
-              HMISParticipatingProject: doc.data().HMISParticipatingProject,
-              TargetPopulation: doc.data().TargetPopulation,
-              PITCount: doc.data().PITCount,
-              DateCreated: doc.data().DateCreated.toDate(),
-              DateUpdated: doc.data().DateUpdated.toDate(),
-              UserID: doc.data().UserID,
-              ExportID: doc.data().ExportID
-              //
-            });
+      this.isLoading = true;
+      this.collection.onSnapshot(querySnapshot => {
+        this.data = [];
+        querySnapshot.forEach(doc => {
+          this.data.push({
+            //
+            ProjectID: doc.id,
+            OrganizationID: doc.data().OrganizationID,
+            ProjectName: doc.data().ProjectName,
+            ProjectCommonName: doc.data().ProjectCommonName,
+            OperatingStartDate: format(
+              doc.data().OperatingStartDate.toDate(),
+              "yyyy-MM-dd"
+            ),
+            OperatingEndDate: format(
+              doc.data().OperatingEndDate.toDate(),
+              "yyyy-MM-dd"
+            ),
+            ContinuumProject: doc.data().ContinuumProject,
+            ProjectType: doc.data().ProjectType,
+            HousingType: doc.data().HousingType,
+            ResidentialAffiliation: doc.data().ResidentialAffiliation,
+            TrackingMethod: doc.data().TrackingMethod,
+            HMISParticipatingProject: doc.data().HMISParticipatingProject,
+            TargetPopulation: doc.data().TargetPopulation,
+            PITCount: doc.data().PITCount,
+            DateCreated: doc.data().DateCreated.toDate(),
+            DateUpdated: doc.data().DateUpdated.toDate(),
+            UserID: doc.data().UserID,
+            ExportID: doc.data().ExportID
+            //
           });
-          this.isLoading = false;
-        })
-        .catch(err => {
-          console.log("Error getting documents", err);
         });
+        this.isLoading = false;
+      });
     },
     editItem(item: any) {
       this.editedIndex = this.data.indexOf(item);
@@ -513,7 +509,6 @@ export default Vue.extend({
     deleteItem(item: any) {
       const index: any = this.data.indexOf(item);
       confirm("Are you sure you want to delete this item?") &&
-        this.data.splice(index, 1) &&
         this.collection.doc(item.ProjectID).delete();
     },
     close() {
@@ -540,6 +535,7 @@ export default Vue.extend({
         HMISParticipatingProject: this.editedItem.HMISParticipatingProject,
         TargetPopulation: this.editedItem.TargetPopulation,
         PITCount: this.editedItem.PITCount,
+        DateUpdated: timestamp,
         UserID: this.editedItem.UserID,
         ExportID: this.editedItem.ExportID
         //
@@ -548,14 +544,7 @@ export default Vue.extend({
         this.collection
           .doc(this.editedItem.ProjectID)
           .update({
-            ...firestoreData,
-            DateUpdated: timestamp
-          })
-          .then(() => {
-            Object.assign(this.data[this.editedIndex], {
-              ...this.editedItem,
-              DateUpdated: timestamp.toDate()
-            });
+            ...firestoreData
           })
           .catch(e => {
             console.log(e);
@@ -564,24 +553,10 @@ export default Vue.extend({
         this.collection
           .add({
             ...firestoreData,
-            DateUpdated: timestamp,
             DateCreated: timestamp
           })
           .then(docRef => {
             this.collection.doc(docRef.id).update({ ProjectID: docRef.id });
-
-            this.data.push({
-              ...firestoreData,
-              ProjectID: docRef.id,
-              OperatingStartDate: new Date(this.editedItem.OperatingStartDate)
-                .toISOString()
-                .substr(0, 10),
-              OperatingEndDate: new Date(this.editedItem.OperatingEndDate)
-                .toISOString()
-                .substr(0, 10),
-              DateUpdated: timestamp.toDate(),
-              DateCreated: timestamp.toDate()
-            });
           })
           .catch(e => {
             console.log(e);
