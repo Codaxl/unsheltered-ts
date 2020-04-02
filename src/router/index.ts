@@ -200,6 +200,15 @@ const routes = [
           import(
             /* webpackChunkName: "about" */ "../views/Admin/Projects/Index.vue"
           )
+      },
+      {
+        // UserPosts will be rendered inside User's <router-view>
+        // when /user/:id/posts is matched
+        path: "organizations",
+        component: () =>
+          import(
+            /* webpackChunkName: "about" */ "../views/Admin/Organizations/Index.vue"
+          )
       }
     ]
   },
