@@ -192,8 +192,22 @@
             <v-btn color="primary" @click="initialize">Reset</v-btn>
           </template>
           <template v-slot:expanded-item="{ headers, item }">
-            <v-container fluid>
-              <!-- Project ID: {{ item.ProjectID }}
+            <td :colspan="headers.length">
+              <v-container fluid>
+                <v-row no-gutters>
+                  <v-col>
+                    <v-card-text>{{ item.ProjectID }}</v-card-text>
+                    <v-card-text
+                      >Peek-a-boo!
+                      aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</v-card-text
+                    >
+                    <div class="datatable-container"></div>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </td>
+
+            <!-- Project ID: {{ item.ProjectID }}
               Project ID: {{ item.OrganizationID }}
               Project ID: {{ item.ProjectName }}
               Project ID: {{ item.ProjectCommonName }}
@@ -210,25 +224,6 @@
               Project ID: {{ item.UserID }}
               Project ID: {{ item.DateDeleted }}
               Project ID: {{ item.ExportID }} -->
-
-              <v-list-item two-line>
-                <v-list-item-content>
-                  <v-list-item-title class="headline"
-                    >Details</v-list-item-title
-                  >
-                </v-list-item-content>
-              </v-list-item>
-
-              <v-list class="transparent">
-                <v-list-item>
-                  <v-list-item-title>Project ID:</v-list-item-title>
-
-                  <v-list-item-subtitle class="text-right">
-                    {{ item.ProjectID }}
-                  </v-list-item-subtitle>
-                </v-list-item>
-              </v-list>
-            </v-container>
           </template>
         </v-data-table>
       </v-col>
@@ -488,6 +483,9 @@ export default Vue.extend({
               ...this.editedItem,
               DateUpdated: timestamp.toDate()
             });
+          })
+          .catch(e => {
+            console.log(e);
           });
       } else {
         this.collection
@@ -511,6 +509,9 @@ export default Vue.extend({
               DateUpdated: timestamp.toDate(),
               DateCreated: timestamp.toDate()
             });
+          })
+          .catch(e => {
+            console.log(e);
           });
       }
       this.close();
