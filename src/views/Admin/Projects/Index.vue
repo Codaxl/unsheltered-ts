@@ -439,12 +439,12 @@ export default Vue.extend({
     },
     toText: function(item: number) {
       console.log(item);
-      let result;
-      if (typeof ProjectType[item] !== "undefined") {
-        result = ProjectType[item];
-        console.log(result.text);
-      }
-      return result.text;
+      const keys = { 1: "1", 2: "2", 3: "3" };
+      const result = ProjectType.map(({ value, text }) => ({
+        [keys[value]]: text
+      }));
+
+      console.log(result);
     }
   },
   watch: {
