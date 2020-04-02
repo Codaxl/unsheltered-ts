@@ -437,12 +437,14 @@ export default Vue.extend({
     dateFilter: function(value: any) {
       return value ? format(value, "yyyy-MM-dd' at 'HH:mm:ss a") : "";
     },
-    toText: function(item: any) {
+    toText: function(item: number) {
       console.log(item);
-      const kvArray = ProjectType;
-      const myMap = new Map(kvArray);
-
-      return myMap.get(item);
+      let result;
+      if (typeof ProjectType[item] !== "undefined") {
+        result = ProjectType[item];
+        console.log(result.text);
+      }
+      return result.text;
     }
   },
   watch: {
