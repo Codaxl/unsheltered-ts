@@ -439,16 +439,16 @@ export default Vue.extend({
     },
     toText: function(item: number) {
       console.log(item);
-      const arr = [13, 1, 16],
-        arrObj = [
-          { id: 1, name: "cat" },
-          { id: 10, name: "tiger" },
-          { id: 3, name: "dog" },
-          { id: 16, name: "bear" },
-          { id: 8, name: "fish" },
-          { id: 13, name: "goat" }
-        ],
-        result = arr.map(id => arrObj.find(o => o.id === id).name);
+      const arr = [13, 1, 16];
+      const arrObj = [
+        { id: 1, name: "cat" },
+        { id: 10, name: "tiger" },
+        { id: 3, name: "dog" },
+        { id: 16, name: "bear" },
+        { id: 8, name: "fish" },
+        { id: 13, name: "goat" }
+      ];
+      const result = arr.map(id => arrObj.find(o => o.id === id).name);
 
       console.log(result);
       return result;
