@@ -12,7 +12,7 @@
       </v-tab>
 
       <v-tab href="#tab-3">
-        Grants
+        Funders
       </v-tab>
       <v-tab href="#tab-4">
         Contacts

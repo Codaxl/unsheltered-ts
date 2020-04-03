@@ -166,5 +166,54 @@ export default [
   {
     value: 46,
     text: "Local or Other Funding Source (Please Specify)"
+  },
+  {
+    value: 101,
+    text: "HCD: CESH - Rental Assistance"
+  },
+  {
+    value: 102,
+    text: "HCD: CESH - Housing Relocation and Stabilization Services"
+  },
+  {
+    value: 103,
+    text: "HCD: CESH - Flexible Housing Subsidy Funds"
+  },
+  {
+    value: 104,
+    text: "HCD: CESH - Systems Support"
+  },
+  {
+    value: 105,
+    text:
+      "HCD: CESH - Development of a Plan Addressing Actions Within Service Area"
+  },
+  {
+    value: 106,
+    text: "HCD: CESH - Projected Administration Costs"
+  },
+  {
+    value: 107,
+    text: "BCSH: HEAP - Capital Improvements"
+  },
+  {
+    value: 108,
+    text: "BCSH: HEAP - Services"
+  },
+  {
+    value: 109,
+    text: "BCSH: HEAP - Rental Assistance or Subsidies"
+  },
+  {
+    value: 110,
+    text: "BCSH: HEAP - Homeless Youth Set-Aside"
+  },
+  {
+    value: 111,
+    text: "BCSH: HEAP - Administrative Costs"
+  },
+  {
+    value: 112,
+    text: "BCSH: HEAP - Other (Short-term Housing Interventions)"
   }
 ];

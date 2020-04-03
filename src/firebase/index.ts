@@ -28,7 +28,7 @@ const auth = firebase.auth();
 const currentUser = auth.currentUser;
 
 const Timestamp = firebase.firestore.Timestamp;
-
+const FieldValue = firebase.firestore.FieldValue;
 // firebase collections
 
-export { db, auth, currentUser, Timestamp };
+export { db, auth, currentUser, Timestamp, FieldValue };

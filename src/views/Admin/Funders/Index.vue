@@ -46,22 +46,22 @@
                     <v-container style="max-width:1080px;">
                       <v-row no-gutters>
                         <v-col cols="12">
-                          <v-select
+                          <v-autocomplete
                             v-model="editedItem.ProjectID"
                             :items="projectSelect"
                             :value="projectSelect.ProjectID"
                             label="Project"
                             outlined
-                          ></v-select>
+                          ></v-autocomplete>
                         </v-col>
                         <v-col cols="12">
-                          <v-select
+                          <v-autocomplete
                             v-model="editedItem.Funder"
                             :items="fundingSource"
                             :value="fundingSource.value"
                             label="Funder"
                             outlined
-                          ></v-select>
+                          ></v-autocomplete>
                         </v-col>
                         <v-col cols="12">
                           <v-text-field
@@ -231,7 +231,7 @@
 <script lang="ts">
 import Vue from "vue";
 import UserStore from "@/store/user/user-store";
-import { db, Timestamp } from "@/firebase";
+import { db, Timestamp, FieldValue } from "@/firebase";
 import format from "date-fns/format";
 import parseISO from "date-fns/parseISO";
 // lists
@@ -445,6 +445,11 @@ export default Vue.extend({
           })
           .then(docRef => {
             this.collection.doc(docRef.id).update({ FunderID: docRef.id });
+            db.collection("Project")
+              .doc(this.editedItem.ProjectID)
+              .update({
+                FunderID: FieldValue.arrayUnion(docRef.id)
+              });
           })
           .catch(e => {
             console.log(e);
