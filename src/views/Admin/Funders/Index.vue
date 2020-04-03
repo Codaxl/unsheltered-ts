@@ -6,19 +6,19 @@
           :loading="isLoading"
           :headers="headers"
           :items="data"
-          :sort-by="['OrganizationName']"
+          :sort-by="['operatingStartDate']"
           :sort-desc="[true]"
           :items-per-page="5"
           multi-sort
           :single-expand="singleExpand"
           :expanded.sync="expanded"
-          item-key="OrganizationID"
+          item-key="FunderID"
           show-expand
           class="elevation-1"
         >
           <template v-slot:top>
             <v-toolbar flat color="white">
-              <v-toolbar-title>Organizations</v-toolbar-title>
+              <v-toolbar-title>Funders</v-toolbar-title>
               <v-spacer></v-spacer>
               <v-dialog
                 v-model="dialog"
@@ -28,7 +28,7 @@
               >
                 <template v-slot:activator="{ on }">
                   <v-btn color="primary" outlined class="mb-2" v-on="on"
-                    >New Organization</v-btn
+                    >New Funder</v-btn
                   >
                 </template>
                 <v-card>
@@ -46,27 +46,76 @@
                     <v-container style="max-width:1080px;">
                       <v-row no-gutters>
                         <v-col cols="12">
-                          <v-text-field
-                            v-model="editedItem.OrganizationName"
-                            label="Organization name"
-                            outlined
-                          ></v-text-field>
-                        </v-col>
-                        <v-col cols="12">
-                          <v-text-field
-                            v-model="editedItem.OrganizationCommonName"
-                            label="Organization Common Name"
-                            outlined
-                          ></v-text-field>
-                        </v-col>
-                        <v-col cols="12">
                           <v-select
-                            v-model="editedItem.VictimServicesProvider"
-                            :items="noYes"
-                            :value="noYes.value"
-                            label="Victim Services Provider"
+                            v-model="editedItem.ProjectID"
+                            :items="projectSelect"
+                            :value="projectSelect.ProjectID"
+                            label="Organization"
                             outlined
                           ></v-select>
+                        </v-col>
+                        <v-col cols="12">
+                          <v-text-field
+                            v-model="editedItem.Funder"
+                            label="Funder name"
+                            outlined
+                          ></v-text-field>
+                        </v-col>
+                        <v-col cols="12" sm="6">
+                          <v-menu
+                            v-model="menu"
+                            :close-on-content-click="false"
+                            :nudge-right="40"
+                            transition="scale-transition"
+                            offset-y
+                            min-width="290px"
+                          >
+                            <template v-slot:activator="{ on }">
+                              <v-text-field
+                                v-model="editedItem.StartDate"
+                                label="Funder Start Date"
+                                prepend-icon="mdi-calendar"
+                                readonly
+                                v-on="on"
+                                outlined
+                              ></v-text-field>
+                            </template>
+                            <v-date-picker
+                              v-model="editedItem.StartDate"
+                              @input="menu = false"
+                              scrollable
+                              :max="maxValue"
+                              :min="minValue"
+                            ></v-date-picker>
+                          </v-menu>
+                        </v-col>
+                        <v-col cols="12" sm="6">
+                          <v-menu
+                            v-model="menu2"
+                            :close-on-content-click="false"
+                            :nudge-right="40"
+                            transition="scale-transition"
+                            offset-y
+                            min-width="290px"
+                          >
+                            <template v-slot:activator="{ on }">
+                              <v-text-field
+                                :value="editedItem.EndDate"
+                                label="Funder End Date"
+                                prepend-icon="mdi-calendar"
+                                readonly
+                                v-on="on"
+                                outlined
+                              ></v-text-field>
+                            </template>
+                            <v-date-picker
+                              v-model="editedItem.EndDate"
+                              @input="menu2 = false"
+                              scrollable
+                              :max="maxValue"
+                              :min="minValue"
+                            ></v-date-picker>
+                          </v-menu>
                         </v-col>
                       </v-row>
                     </v-container>
@@ -108,18 +157,12 @@
                 <v-row no-gutters>
                   <v-col cols="12" md="4">
                     <v-row no-gutters>
-                      <v-col cols="12">
-                        <div>
-                          <b>Organization Common Name:</b>
-                          {{ item.OrganizationCommonName }}
-                        </div>
-                      </v-col>
-                      <v-col cols="12">
-                        <div>
-                          <b>Victim Services Provider:</b>
-                          {{ item.VictimServicesProvider | toTextNoYes }}
-                        </div>
-                      </v-col>
+                      <v-col cols="12"> </v-col>
+                    </v-row>
+                  </v-col>
+                  <v-col cols="12" md="4">
+                    <v-row no-gutters>
+                      <v-col cols="12"> </v-col>
                     </v-row>
                   </v-col>
                   <v-col cols="12" md="4">
@@ -129,10 +172,12 @@
                           <b>Date Created:</b>
                           {{ item.DateCreated | dateFilter }}
                         </div>
+
                         <div>
                           <b>Date Updated:</b>
                           {{ item.DateUpdated | dateFilter }}
                         </div>
+
                         <div><b>User ID:</b> {{ item.UserID }}</div>
                       </v-col>
                     </v-row>
@@ -152,15 +197,26 @@ import Vue from "vue";
 import UserStore from "@/store/user/user-store";
 import { db, Timestamp } from "@/firebase";
 import format from "date-fns/format";
+import parseISO from "date-fns/parseISO";
 // lists
-import NoYes from "./no-yes";
+import FundingSource from "./funding-source";
 
 export default Vue.extend({
   data: () => ({
     //// TODO:
-    noYes: NoYes,
+    fundingSource: FundingSource,
     // Firestore collection
-    collection: db.collection("Organization"),
+    collection: db.collection("Funder"),
+    projectSelect: [{}],
+    // Datepicker
+    minValue: new Date(
+      new Date().setFullYear(new Date().getFullYear() - 4)
+    ).toISOString(),
+    maxValue: new Date(
+      new Date().setFullYear(new Date().getFullYear() + 1)
+    ).toISOString(),
+    menu: false,
+    menu2: false,
     // Data Table
     isLoading: false,
     dialog: false,
@@ -168,15 +224,25 @@ export default Vue.extend({
     singleExpand: true,
     headers: [
       {
-        text: "Organization ID",
+        text: "Funder ID",
         align: "start",
         sortable: false,
-        value: "OrganizationID"
+        value: "FunderID"
       },
       {
-        text: "Organization Name",
+        text: "Funder Name",
         sortable: true,
-        value: "OrganizationName"
+        value: "FunderName"
+      },
+      {
+        text: "Operating Start Date",
+        sortable: true,
+        value: "OperatingStartDate"
+      },
+      {
+        text: "Operating End Date",
+        sortable: true,
+        value: "OperatingEndDate"
       },
 
       { text: "Actions", value: "actions", sortable: false }
@@ -185,10 +251,13 @@ export default Vue.extend({
     editedIndex: -1,
     editedItem: {
       // HMIS
-      OrganizationID: "",
-      OrganizationName: "",
-      OrganizationCommonName: "",
-      VictimServicesProvider: 0,
+      FunderID: "",
+      ProjectID: "",
+      Funder: 0,
+      FunderOther: "",
+      GrantID: "",
+      StartDate: new Date().toISOString().substr(0, 10),
+      EndDate: new Date().toISOString().substr(0, 10),
       DateCreated: new Date(),
       DateUpdated: new Date(),
       UserID: ""
@@ -196,10 +265,13 @@ export default Vue.extend({
     },
     defaultItem: {
       // HMIS
-      OrganizationID: "",
-      OrganizationName: "",
-      OrganizationCommonName: "",
-      VictimServicesProvider: 0,
+      FunderID: "",
+      ProjectID: "",
+      Funder: 0,
+      FunderOther: "",
+      GrantID: "",
+      StartDate: new Date().toISOString().substr(0, 10),
+      EndDate: new Date().toISOString().substr(0, 10),
       DateCreated: new Date(),
       DateUpdated: new Date(),
       UserID: ""
@@ -208,7 +280,7 @@ export default Vue.extend({
   }),
   computed: {
     formTitle() {
-      return this.editedIndex === -1 ? "New Organization" : "Edit Organization";
+      return this.editedIndex === -1 ? "New Funder" : "Edit Funder";
     },
     userId(): string {
       return UserStore.user.id;
@@ -218,9 +290,9 @@ export default Vue.extend({
     dateFilter: function(value: any) {
       return value ? format(value, "yyyy-MM-dd' at 'HH:mm:ss a") : "";
     },
-    toTextNoYes: function(item: number) {
+    toTextFunder: function(item: number, array: any) {
       const idArr = [item];
-      const objArr = NoYes;
+      const objArr = FundingSource;
       const idValueMap: any = objArr.reduce(
         (acc, { value, text }) => ({ ...acc, [value]: text }),
         {}
@@ -236,8 +308,25 @@ export default Vue.extend({
   },
   created() {
     this.initialize();
+    this.fetchOrganization();
   },
   methods: {
+    fetchOrganization() {
+      db.collection("Organization")
+        .get()
+        .then(snapshot => {
+          this.projectSelect = [];
+          snapshot.forEach(doc => {
+            this.projectSelect.push({
+              value: doc.data().ProjectID,
+              text: doc.data().OrganizationName
+            });
+          });
+        })
+        .catch(err => {
+          console.log("Error getting documents", err);
+        });
+    },
     initialize() {
       this.isLoading = true;
       this.collection.onSnapshot(querySnapshot => {
@@ -245,10 +334,16 @@ export default Vue.extend({
         querySnapshot.forEach(doc => {
           this.data.push({
             //
-            OrganizationID: doc.id,
-            OrganizationName: doc.data().OrganizationName,
-            OrganizationCommonName: doc.data().OrganizationCommonName,
-            VictimServicesProvider: doc.data().VictimServicesProvider,
+            FunderID: doc.id,
+            ProjectID: doc.data().ProjectID,
+            Funder: doc.data().Funder,
+            FunderOther: doc.data().FunderOther,
+            GrantID: doc.data().GrantID,
+            StartDate: format(
+              doc.data().OperatingStartDate.toDate(),
+              "yyyy-MM-dd"
+            ),
+            EndDate: format(doc.data().OperatingEndDate.toDate(), "yyyy-MM-dd"),
             DateCreated: doc.data().DateCreated.toDate(),
             DateUpdated: doc.data().DateUpdated.toDate(),
             UserID: doc.data().UserID
@@ -266,7 +361,7 @@ export default Vue.extend({
     deleteItem(item: any) {
       const index: any = this.data.indexOf(item);
       confirm("Are you sure you want to delete this item?") &&
-        this.collection.doc(item.OrganizationID).delete();
+        this.collection.doc(item.FunderID).delete();
     },
     close() {
       this.dialog = false;
@@ -279,17 +374,19 @@ export default Vue.extend({
       const timestamp = Timestamp.fromDate(new Date());
       const firestoreData = {
         //
-        OrganizationID: this.editedItem.OrganizationID,
-        OrganizationName: this.editedItem.OrganizationName,
-        OrganizationCommonName: this.editedItem.OrganizationCommonName,
-        VictimServicesProvider: this.editedItem.VictimServicesProvider,
+        ProjectID: this.editedItem.ProjectID,
+        Funder: this.editedItem.Funder,
+        FunderOther: this.editedItem.FunderOther,
+        GrantID: this.editedItem.GrantID,
+        StartDate: parseISO(this.editedItem.StartDate),
+        EndDate: parseISO(this.editedItem.EndDate),
         DateUpdated: timestamp,
         UserID: this.userId
         //
       };
       if (this.editedIndex > -1) {
         this.collection
-          .doc(this.editedItem.OrganizationID)
+          .doc(this.editedItem.FunderID)
           .update({
             ...firestoreData
           })
@@ -303,9 +400,7 @@ export default Vue.extend({
             DateCreated: timestamp
           })
           .then(docRef => {
-            this.collection
-              .doc(docRef.id)
-              .update({ OrganizationID: docRef.id });
+            this.collection.doc(docRef.id).update({ FunderID: docRef.id });
           })
           .catch(e => {
             console.log(e);

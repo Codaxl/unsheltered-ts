@@ -317,7 +317,6 @@ import { db, Timestamp } from "@/firebase";
 import format from "date-fns/format";
 import parseISO from "date-fns/parseISO";
 // lists
-import FundingSource from "./funding-source";
 import ProjectType from "./project-type";
 import HousingType from "./housing-type";
 import NoYes from "./no-yes";
@@ -327,9 +326,7 @@ import TrackingMethod from "./tracking-method";
 export default Vue.extend({
   data: () => ({
     //// TODO:
-    unsubscribe: 0,
     projectType: ProjectType,
-    fundingSource: FundingSource,
     housingType: HousingType,
     targetPopulation: TargetPopulation,
     trackingMethod: TrackingMethod,
@@ -489,10 +486,10 @@ export default Vue.extend({
   },
   created() {
     this.initialize();
-    this.fetchOrganizations();
+    this.fetchOrganization();
   },
   methods: {
-    fetchOrganizations() {
+    fetchOrganization() {
       db.collection("Organization")
         .get()
         .then(snapshot => {
