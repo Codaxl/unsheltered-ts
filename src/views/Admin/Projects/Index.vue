@@ -448,7 +448,7 @@ export default Vue.extend({
       const output = idArr.map(value => idValueMap[value]);
       return output.toString();
     },
-    toTextProjectType: function(item: number, array: any) {
+    toTextProjectType: function(item: number) {
       const idArr = [item];
       const objArr = ProjectType;
       const idValueMap: any = objArr.reduce(
@@ -458,7 +458,7 @@ export default Vue.extend({
       const output = idArr.map(value => idValueMap[value]);
       return output.toString();
     },
-    toTextTrackingMethod: function(item: number, array: any) {
+    toTextTrackingMethod: function(item: number) {
       const idArr = [item];
       const objArr = TrackingMethod;
       const idValueMap: any = objArr.reduce(
@@ -468,7 +468,7 @@ export default Vue.extend({
       const output = idArr.map(value => idValueMap[value]);
       return output.toString();
     },
-    toTextTargetPopulation: function(item: number, array: any) {
+    toTextTargetPopulation: function(item: number) {
       const idArr = [item];
       const objArr = TargetPopulation;
       const idValueMap: any = objArr.reduce(

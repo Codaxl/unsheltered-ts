@@ -140,7 +140,7 @@
             {{ item.Funder | toTextFunder }}
           </template>
           <template v-slot:item.ProjectID="{ item }">
-            {{ item.ProjectID | toTextProjectID }}
+            {{ item.ProjectID }}
           </template>
           <template v-slot:item.DateCreated="{ item }">
             {{ item.DateCreated | dateFilter }}
@@ -308,19 +308,9 @@ export default Vue.extend({
     dateFilter: function(value: any) {
       return value ? format(value, "yyyy-MM-dd' at 'HH:mm:ss a") : "";
     },
-    toTextFunder: function(item: number, array: any) {
+    toTextFunder: function(item: number) {
       const idArr = [item];
       const objArr = FundingSource;
-      const idValueMap: any = objArr.reduce(
-        (acc, { value, text }) => ({ ...acc, [value]: text }),
-        {}
-      );
-      const output = idArr.map(value => idValueMap[value]);
-      return output.toString();
-    },
-    toTextProjectID: function(item: number, array: any) {
-      const idArr = [item];
-      const objArr = this.projectSelect;
       const idValueMap: any = objArr.reduce(
         (acc, { value, text }) => ({ ...acc, [value]: text }),
         {}
