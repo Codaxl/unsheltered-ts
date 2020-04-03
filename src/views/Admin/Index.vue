@@ -1,46 +1,32 @@
 <template>
-  <div id="dynamic-component-demo" class="demo">
-    <button
-      v-for="tab in tabs"
-      v-bind:key="tab"
-      v-bind:class="['tab-button', { active: currentTab === tab }]"
-      v-on:click="currentTab = tab"
-    >
-      {{ tab }}
-    </button>
+  <v-tabs v-model="activeTab">
+    <v-tab v-for="tab in tabs" :key="tab.id" :to="tab.route">{{
+      tab.name
+    }}</v-tab>
 
-    <component v-bind:is="currentTabComponent" class="tab"></component>
-  </div>
+    <v-tabs-items v-model="activeTab" @change="updateRouter($event)">
+      <v-tab-item v-for="tab in tabs" :key="tab.id" :to="tab.route">
+        <router-view />
+      </v-tab-item>
+    </v-tabs-items>
+  </v-tabs>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import Projects from "./Projects/Index.vue";
-import Organizations from "./Organizations/Index.vue";
-
-Vue.component("tab-projects", {
-  template: "<projects></projects>"
-});
-Vue.component("tab-organizations", {
-  template: "<organizations></organizations>"
-});
 
 export default Vue.extend({
-  components: {
-    Projects,
-    Organizations
-  },
-
   data: () => ({
-    currentTab: "Home",
-    tabs: ["Home", "Posts", "Archive"]
+    activeTab: "",
+    tabs: [
+      { id: "1", name: "Projects", route: "/admin/projects" },
+      { id: "2", name: "Organizations", route: "/admin/organizations" }
+    ]
   }),
-
-  computed: {
-    currentTabComponent: function() {
-      return "tab-" + this.currentTab.toLowerCase();
+  methods: {
+    updateRouter(val) {
+      this.$router.push(val);
     }
   }
 });
 </script>
-<style></style>
