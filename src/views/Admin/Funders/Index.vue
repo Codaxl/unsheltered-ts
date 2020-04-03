@@ -135,6 +135,9 @@
             <v-btn color="primary" @click="initialize">Reset</v-btn>
           </template>
           <template v-slot:item.DateCreated="{ item }">
+            {{ item.Funder | toTextFunder }}
+          </template>
+          <template v-slot:item.DateCreated="{ item }">
             {{ item.DateCreated | dateFilter }}
           </template>
           <template v-slot:item.DateUpdated="{ item }">
@@ -232,17 +235,17 @@ export default Vue.extend({
       {
         text: "Funder Name",
         sortable: true,
-        value: "FunderName"
+        value: "Funder"
       },
       {
-        text: "Operating Start Date",
+        text: "Start Date",
         sortable: true,
-        value: "OperatingStartDate"
+        value: "StartDate"
       },
       {
-        text: "Operating End Date",
+        text: "End Date",
         sortable: true,
-        value: "OperatingEndDate"
+        value: "EndDate"
       },
 
       { text: "Actions", value: "actions", sortable: false }
