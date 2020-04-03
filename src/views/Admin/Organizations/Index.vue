@@ -7,7 +7,7 @@
           :headers="headers"
           :items="data"
           :sort-by="['OrganizationName']"
-          :sort-desc="[true]"
+          :sort-desc="[false]"
           :items-per-page="5"
           multi-sort
           :single-expand="singleExpand"
