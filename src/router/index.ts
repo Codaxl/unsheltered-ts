@@ -1,10 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
-import Admin from "../views/Admin.vue";
-import Projects from "../views/Admin/Projects/Index.vue";
-import Organizations from "../views/Admin/Projects/Index.vue";
-
 import scrollBehavior from "./scroll-behavior";
 
 Vue.use(VueRouter);
@@ -183,17 +179,54 @@ const routes = [
     ]
   },
   {
+    // UserPosts will be rendered inside User's <router-view>
+    // when /user/:id/posts is matched
     path: "/admin",
-    component: Admin,
-    props: true,
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/Admin.vue"),
     children: [
       {
+        // UserProfile will be rendered inside User's <router-view>
+        // when /user/:id/profile is matched
         path: "",
-        component: Projects
+        component: () =>
+          import(/* webpackChunkName: "about" */ "../views/Admin/Index.vue")
       },
       {
-        path: "project",
-        component: Organizations
+        // UserPosts will be rendered inside User's <router-view>
+        // when /user/:id/posts is matched
+        path: "projects",
+        component: () =>
+          import(
+            /* webpackChunkName: "about" */ "../views/Admin/Projects/Index.vue"
+          )
+      },
+      {
+        // UserPosts will be rendered inside User's <router-view>
+        // when /user/:id/posts is matched
+        path: "organizations",
+        component: () =>
+          import(
+            /* webpackChunkName: "about" */ "../views/Admin/Organizations/Index.vue"
+          )
+      },
+      {
+        // UserPosts will be rendered inside User's <router-view>
+        // when /user/:id/posts is matched
+        path: "funders",
+        component: () =>
+          import(
+            /* webpackChunkName: "about" */ "../views/Admin/Funders/Index.vue"
+          )
+      },
+      {
+        // UserPosts will be rendered inside User's <router-view>
+        // when /user/:id/posts is matched
+        path: "contacts",
+        component: () =>
+          import(
+            /* webpackChunkName: "about" */ "../views/Admin/Contacts/Index.vue"
+          )
       }
     ]
   },
