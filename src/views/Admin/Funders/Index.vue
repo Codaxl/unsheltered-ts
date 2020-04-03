@@ -336,6 +336,7 @@ export default Vue.extend({
       const output = idArr.map(value => idValueMap[value]);
       return output.toString();
     },
+    //https://stackoverflow.com/questions/42828664/access-vue-instance-data-inside-filter-method
     toTextProjectID: function(item: number, projectSelect: Array<any>) {
       const idArr = [item];
       const objArr = projectSelect;

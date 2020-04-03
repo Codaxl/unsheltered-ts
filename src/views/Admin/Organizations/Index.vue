@@ -110,16 +110,24 @@
                     <v-row no-gutters>
                       <v-col cols="12">
                         <div>
+                          <b>Organization ID:</b>
+                          {{ item.OrganizationID }}
+                        </div>
+                        <div>
                           <b>Organization Common Name:</b>
                           {{ item.OrganizationCommonName }}
                         </div>
-                      </v-col>
-                      <v-col cols="12">
+
                         <div>
                           <b>Victim Services Provider:</b>
                           {{ item.VictimServicesProvider | toTextNoYes }}
                         </div>
                       </v-col>
+                    </v-row>
+                  </v-col>
+                  <v-col cols="12" md="4">
+                    <v-row no-gutters>
+                      <v-col cols="12"> </v-col>
                     </v-row>
                   </v-col>
                   <v-col cols="12" md="4">
@@ -168,13 +176,8 @@ export default Vue.extend({
     singleExpand: true,
     headers: [
       {
-        text: "Organization ID",
-        align: "start",
-        sortable: false,
-        value: "OrganizationID"
-      },
-      {
         text: "Organization Name",
+        align: "start",
         sortable: true,
         value: "OrganizationName"
       },

@@ -235,6 +235,7 @@
                   <v-col cols="12" md="4">
                     <v-row no-gutters>
                       <v-col cols="12">
+                        <div><b>Project ID:</b> {{ item.ProjectID }}</div>
                         <div>
                           <b>Organization ID:</b> {{ item.OrganizationID }}
                         </div>
@@ -350,13 +351,8 @@ export default Vue.extend({
     singleExpand: true,
     headers: [
       {
-        text: "Project ID",
-        align: "start",
-        sortable: false,
-        value: "ProjectID"
-      },
-      {
         text: "Project Name",
+        align: "start",
         sortable: true,
         value: "ProjectName"
       },
