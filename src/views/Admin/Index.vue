@@ -6,7 +6,7 @@
 
     <v-tabs-items v-model="activeTab" @change="updateRouter($event)">
       <v-tab-item v-for="tab in tabs" :key="tab.id" :to="tab.route">
-        <router-view />
+        <router-view></router-view>
       </v-tab-item>
     </v-tabs-items>
   </v-tabs>
@@ -24,7 +24,7 @@ export default Vue.extend({
     ]
   }),
   methods: {
-    updateRouter(val) {
+    updateRouter(val: any) {
       this.$router.push(val);
     }
   }
