@@ -63,6 +63,20 @@
                             outlined
                           ></v-select>
                         </v-col>
+                        <v-col cols="12">
+                          <v-text-field
+                            v-model="editedItem.FunderOther"
+                            label="Other"
+                            outlined
+                          ></v-text-field>
+                        </v-col>
+                        <v-col cols="12">
+                          <v-text-field
+                            v-model="editedItem.GrantID"
+                            label="Grant ID"
+                            outlined
+                          ></v-text-field>
+                        </v-col>
                         <v-col cols="12" sm="6">
                           <v-menu
                             v-model="menu"
@@ -139,9 +153,6 @@
           <template v-slot:item.Funder="{ item }">
             {{ item.Funder | toTextFunder }}
           </template>
-          <template v-slot:item.ProjectID="{ item }">
-            {{ item.ProjectID }}
-          </template>
           <template v-slot:item.DateCreated="{ item }">
             {{ item.DateCreated | dateFilter }}
           </template>
@@ -165,7 +176,24 @@
                 <v-row no-gutters>
                   <v-col cols="12" md="4">
                     <v-row no-gutters>
-                      <v-col cols="12"> </v-col>
+                      <v-col cols="12">
+                        <div>
+                          <b>Funder ID:</b>
+                          {{ item.FunderID }}
+                        </div>
+                        <div>
+                          <b>Project Name:</b>
+                          {{ item.ProjectID | toTextProjectID(projectSelect) }}
+                        </div>
+                        <div>
+                          <b>Project ID:</b>
+                          {{ item.ProjectID }}
+                        </div>
+                        <div>
+                          <b>Funder Other:</b>
+                          {{ item.FunderOther }}
+                        </div>
+                      </v-col>
                     </v-row>
                   </v-col>
                   <v-col cols="12" md="4">
@@ -232,18 +260,8 @@ export default Vue.extend({
     singleExpand: true,
     headers: [
       {
-        text: "Funder ID",
-        align: "start",
-        sortable: false,
-        value: "FunderID"
-      },
-      {
-        text: "Project Name",
-        sortable: true,
-        value: "ProjectName"
-      },
-      {
         text: "Funder",
+        align: "start",
         sortable: true,
         value: "Funder"
       },
@@ -311,6 +329,16 @@ export default Vue.extend({
     toTextFunder: function(item: number) {
       const idArr = [item];
       const objArr = FundingSource;
+      const idValueMap: any = objArr.reduce(
+        (acc, { value, text }) => ({ ...acc, [value]: text }),
+        {}
+      );
+      const output = idArr.map(value => idValueMap[value]);
+      return output.toString();
+    },
+    toTextProjectID: function(item: number, projectSelect: Array<any>) {
+      const idArr = [item];
+      const objArr = projectSelect;
       const idValueMap: any = objArr.reduce(
         (acc, { value, text }) => ({ ...acc, [value]: text }),
         {}
