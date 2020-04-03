@@ -50,16 +50,18 @@
                             v-model="editedItem.ProjectID"
                             :items="projectSelect"
                             :value="projectSelect.ProjectID"
-                            label="Organization"
+                            label="Project"
                             outlined
                           ></v-select>
                         </v-col>
                         <v-col cols="12">
-                          <v-text-field
+                          <v-select
                             v-model="editedItem.Funder"
-                            label="Funder name"
+                            :items="fundingSource"
+                            :value="fundingSource.value"
+                            label="Funder"
                             outlined
-                          ></v-text-field>
+                          ></v-select>
                         </v-col>
                         <v-col cols="12" sm="6">
                           <v-menu
@@ -134,8 +136,11 @@
           <template v-slot:no-data>
             <v-btn color="primary" @click="initialize">Reset</v-btn>
           </template>
-          <template v-slot:item.DateCreated="{ item }">
+          <template v-slot:item.Funder="{ item }">
             {{ item.Funder | toTextFunder }}
+          </template>
+          <template v-slot:item.ProjectID="{ item }">
+            {{ item.ProjectID | toTextProjectID }}
           </template>
           <template v-slot:item.DateCreated="{ item }">
             {{ item.DateCreated | dateFilter }}
@@ -233,9 +238,19 @@ export default Vue.extend({
         value: "FunderID"
       },
       {
-        text: "Funder Name",
+        text: "Project Name",
+        sortable: true,
+        value: "ProjectName"
+      },
+      {
+        text: "Funder",
         sortable: true,
         value: "Funder"
+      },
+      {
+        text: "Grant ID",
+        sortable: true,
+        value: "GrantID"
       },
       {
         text: "Start Date",
@@ -302,6 +317,16 @@ export default Vue.extend({
       );
       const output = idArr.map(value => idValueMap[value]);
       return output.toString();
+    },
+    toTextProjectID: function(item: number, array: any) {
+      const idArr = [item];
+      const objArr = this.projectSelect;
+      const idValueMap: any = objArr.reduce(
+        (acc, { value, text }) => ({ ...acc, [value]: text }),
+        {}
+      );
+      const output = idArr.map(value => idValueMap[value]);
+      return output.toString();
     }
   },
   watch: {
@@ -315,14 +340,14 @@ export default Vue.extend({
   },
   methods: {
     fetchOrganization() {
-      db.collection("Organization")
+      db.collection("Project")
         .get()
         .then(snapshot => {
           this.projectSelect = [];
           snapshot.forEach(doc => {
             this.projectSelect.push({
               value: doc.data().ProjectID,
-              text: doc.data().OrganizationName
+              text: doc.data().ProjectName
             });
           });
         })
@@ -342,11 +367,8 @@ export default Vue.extend({
             Funder: doc.data().Funder,
             FunderOther: doc.data().FunderOther,
             GrantID: doc.data().GrantID,
-            StartDate: format(
-              doc.data().OperatingStartDate.toDate(),
-              "yyyy-MM-dd"
-            ),
-            EndDate: format(doc.data().OperatingEndDate.toDate(), "yyyy-MM-dd"),
+            StartDate: format(doc.data().StartDate.toDate(), "yyyy-MM-dd"),
+            EndDate: format(doc.data().EndDate.toDate(), "yyyy-MM-dd"),
             DateCreated: doc.data().DateCreated.toDate(),
             DateUpdated: doc.data().DateUpdated.toDate(),
             UserID: doc.data().UserID
