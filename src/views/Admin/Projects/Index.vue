@@ -234,8 +234,8 @@
           <template v-slot:no-data>
             <v-btn color="primary" @click="initialize">Reset</v-btn>
           </template>
-          <template v-slot:expanded-item="{ headers, item }">
-            <td :colspan="headers.length">
+          <template v-slot:expanded-item="{ headers, item }" class="ma-0 pa-0">
+            <td :colspan="headers.length" class="ma-0 pa-0">
               <v-container>
                 <v-row no-gutters>
                   <v-col cols="12" md="4">
@@ -281,11 +281,11 @@
                   <v-col cols="12" md="4">
                     <v-row no-gutters>
                       <v-col cols="12">
-                        <div><b>User ID:</b> {{ item.UserID }}</div>
                         <div><b>Project ID:</b> {{ item.ProjectID }}</div>
                         <div>
                           <b>Organization ID:</b> {{ item.OrganizationID }}
                         </div>
+                        <div><b>User ID:</b> {{ item.UserID }}</div>
                         <div>
                           <b>Date Created:</b>
                           {{ item.DateCreated | dateFilter }}
@@ -300,6 +300,28 @@
                   </v-col>
                 </v-row>
               </v-container>
+              <v-simple-table dense>
+                <template v-slot:default>
+                  <thead>
+                    <tr>
+                      <th>Funder</th>
+                      <th>Grant ID</th>
+                      <th>Start Date</th>
+                      <th>End Date</th>
+                      <th>Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>t</td>
+                      <td>t</td>
+                      <td>t</td>
+                      <td>t</td>
+                      <td>t</td>
+                    </tr>
+                  </tbody>
+                </template>
+              </v-simple-table>
             </td>
           </template>
         </v-data-table>
@@ -624,3 +646,4 @@ export default Vue.extend({
   }
 });
 </script>
+<style></style>
