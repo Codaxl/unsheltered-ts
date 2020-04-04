@@ -211,6 +211,12 @@
           <template v-slot:no-data>
             <v-btn color="primary" @click="initialize">Reset</v-btn>
           </template>
+          <template v-slot:item.ProjectType="{ item }">
+            {{ item.ProjectType | toTextProjectType }}
+          </template>
+          <template v-slot:item.OrganizationID="{ item }">
+            {{ item.OrganizationID | toTextOrganizationID(organizationSelect) }}
+          </template>
           <template v-slot:item.DateCreated="{ item }">
             {{ item.DateCreated | dateFilter }}
           </template>
@@ -235,24 +241,17 @@
                   <v-col cols="12" md="4">
                     <v-row no-gutters>
                       <v-col cols="12">
-                        <div><b>Project ID:</b> {{ item.ProjectID }}</div>
-                        <div>
-                          <b>Organization ID:</b> {{ item.OrganizationID }}
-                        </div>
-
                         <div>
                           <b>Project Common Name:</b>
                           {{ item.ProjectCommonName }}
                         </div>
-
                         <div>
                           <b>Continuum Project:</b>
                           {{ item.ContinuumProject | toTextNoYes }}
                         </div>
-
                         <div>
-                          <b>Project Type:</b>
-                          {{ item.ProjectType | toTextProjectType }}
+                          <b>HMIS Participating Project:</b>
+                          {{ item.HMISParticipatingProject | toTextNoYes }}
                         </div>
                       </v-col>
                     </v-row>
@@ -271,11 +270,6 @@
                         </div>
 
                         <div>
-                          <b>HMIS Participating Project:</b>
-                          {{ item.HMISParticipatingProject | toTextNoYes }}
-                        </div>
-
-                        <div>
                           <b>Target Population:</b>
                           {{ item.TargetPopulation | toTextTargetPopulation }}
                         </div>
@@ -287,6 +281,11 @@
                   <v-col cols="12" md="4">
                     <v-row no-gutters>
                       <v-col cols="12">
+                        <div><b>User ID:</b> {{ item.UserID }}</div>
+                        <div><b>Project ID:</b> {{ item.ProjectID }}</div>
+                        <div>
+                          <b>Organization ID:</b> {{ item.OrganizationID }}
+                        </div>
                         <div>
                           <b>Date Created:</b>
                           {{ item.DateCreated | dateFilter }}
@@ -296,8 +295,6 @@
                           <b>Date Updated:</b>
                           {{ item.DateUpdated | dateFilter }}
                         </div>
-
-                        <div><b>User ID:</b> {{ item.UserID }}</div>
                       </v-col>
                     </v-row>
                   </v-col>
@@ -355,6 +352,16 @@ export default Vue.extend({
         align: "start",
         sortable: true,
         value: "ProjectName"
+      },
+      {
+        text: "Project Type",
+        sortable: true,
+        value: "ProjectType"
+      },
+      {
+        text: "Organization Name",
+        sortable: true,
+        value: "OrganizationID"
       },
       {
         text: "Operating Start Date",
@@ -447,6 +454,20 @@ export default Vue.extend({
     toTextProjectType: function(item: number) {
       const idArr = [item];
       const objArr = ProjectType;
+      const idValueMap: any = objArr.reduce(
+        (acc, { value, text }) => ({ ...acc, [value]: text }),
+        {}
+      );
+      const output = idArr.map(value => idValueMap[value]);
+      return output.toString();
+    },
+    //https://stackoverflow.com/questions/42828664/access-vue-instance-data-inside-filter-method
+    toTextOrganizationID: function(
+      item: number,
+      organizationSelect: Array<any>
+    ) {
+      const idArr = [item];
+      const objArr = organizationSelect;
       const idValueMap: any = objArr.reduce(
         (acc, { value, text }) => ({ ...acc, [value]: text }),
         {}

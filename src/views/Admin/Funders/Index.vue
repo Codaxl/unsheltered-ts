@@ -77,6 +77,13 @@
                             outlined
                           ></v-text-field>
                         </v-col>
+                        <v-col cols="12">
+                          <v-text-field
+                            v-model="editedItem.Amount"
+                            label="Amount"
+                            outlined
+                          ></v-text-field>
+                        </v-col>
                         <v-col cols="12" sm="6">
                           <v-menu
                             v-model="menu"
@@ -198,7 +205,12 @@
                   </v-col>
                   <v-col cols="12" md="4">
                     <v-row no-gutters>
-                      <v-col cols="12"> </v-col>
+                      <v-col cols="12">
+                        <div>
+                          <b>Amount:</b>
+                          {{ item.Amount | currency }}
+                        </div>
+                      </v-col>
                     </v-row>
                   </v-col>
                   <v-col cols="12" md="4">
@@ -296,8 +308,9 @@ export default Vue.extend({
       EndDate: new Date().toISOString().substr(0, 10),
       DateCreated: new Date(),
       DateUpdated: new Date(),
-      UserID: ""
+      UserID: "",
       // Custom
+      Amount: ""
     },
     defaultItem: {
       // HMIS
@@ -310,8 +323,9 @@ export default Vue.extend({
       EndDate: new Date().toISOString().substr(0, 10),
       DateCreated: new Date(),
       DateUpdated: new Date(),
-      UserID: ""
+      UserID: "",
       // Custom
+      Amount: ""
     }
   }),
   computed: {
@@ -390,8 +404,9 @@ export default Vue.extend({
             EndDate: format(doc.data().EndDate.toDate(), "yyyy-MM-dd"),
             DateCreated: doc.data().DateCreated.toDate(),
             DateUpdated: doc.data().DateUpdated.toDate(),
-            UserID: doc.data().UserID
+            UserID: doc.data().UserID,
             //
+            Amount: doc.data().Amount
           });
         });
         this.isLoading = false;
@@ -425,8 +440,9 @@ export default Vue.extend({
         StartDate: parseISO(this.editedItem.StartDate),
         EndDate: parseISO(this.editedItem.EndDate),
         DateUpdated: timestamp,
-        UserID: this.userId
+        UserID: this.userId,
         //
+        Amount: this.editedItem.Amount
       };
       if (this.editedIndex > -1) {
         this.collection
@@ -445,11 +461,6 @@ export default Vue.extend({
           })
           .then(docRef => {
             this.collection.doc(docRef.id).update({ FunderID: docRef.id });
-            db.collection("Project")
-              .doc(this.editedItem.ProjectID)
-              .update({
-                FunderID: FieldValue.arrayUnion(docRef.id)
-              });
           })
           .catch(e => {
             console.log(e);
