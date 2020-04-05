@@ -313,7 +313,7 @@
                   </thead>
                   <tbody>
                     <tr>
-                      <td>t</td>
+                      <td>{{ item.StartDate }}</td>
                       <td>t</td>
                       <td>t</td>
                       <td>t</td>
@@ -463,8 +463,14 @@ export default Vue.extend({
       return UserStore.user.id;
     },
     merge() {
-      Merge.byKey(this.data, this.result, "ProjectID");
-      return this.result;
+      const messagesWithUserNames = this.data.map(msg => {
+        const haveEqualId = user => user.ProjectID === msg.ProjectID;
+        const userWithEqualId = this.funder.find(haveEqualId);
+        return Object.assign({}, msg, userWithEqualId);
+      });
+      console.log(messagesWithUserNames);
+
+      return Merge.byKey(this.data, this.funder, "ProjectID");
     }
   },
   filters: {
