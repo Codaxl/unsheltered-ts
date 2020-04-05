@@ -5,7 +5,7 @@
         <v-data-table
           :loading="isLoading"
           :headers="headers"
-          :items="merge"
+          :items="data"
           :sort-by="['operatingStartDate']"
           :sort-desc="[true]"
           :items-per-page="5"
@@ -312,12 +312,13 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <td>{{ item.StartDate }}</td>
-                      <td>t</td>
-                      <td>t</td>
-                      <td>t</td>
-                      <td>t</td>
+                    <tr v-for="(fund, index) in item.Funder" :key="index">
+                      <td>{{ item.Funder[index] }}</td>
+                      <td></td>
+
+                      <td></td>
+                      <td></td>
+                      <td></td>
                     </tr>
                   </tbody>
                 </template>
@@ -463,13 +464,6 @@ export default Vue.extend({
       return UserStore.user.id;
     },
     merge() {
-      const messagesWithUserNames = this.data.map(msg => {
-        const haveEqualId = user => user.ProjectID === msg.ProjectID;
-        const userWithEqualId = this.funder.find(haveEqualId);
-        return Object.assign({}, msg, userWithEqualId);
-      });
-      console.log(messagesWithUserNames);
-
       return Merge.byKey(this.data, this.funder, "ProjectID");
     }
   },
@@ -587,11 +581,11 @@ export default Vue.extend({
             PITCount: doc.data().PITCount,
             DateCreated: doc.data().DateCreated.toDate(),
             DateUpdated: doc.data().DateUpdated.toDate(),
-            UserID: doc.data().UserID
+            UserID: doc.data().UserID,
             //
+            Funder: doc.data().Funder
           });
         });
-        this.isLoading = false;
       });
       db.collection("Funder")
         .get()
@@ -608,6 +602,7 @@ export default Vue.extend({
               EndDate: format(doc.data().EndDate.toDate(), "yyyy-MM-dd")
             });
           });
+          this.isLoading = false;
         })
         .catch(err => {
           console.log("Error getting documents", err);

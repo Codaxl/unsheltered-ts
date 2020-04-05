@@ -46,14 +46,13 @@
                     <v-container style="max-width:1080px;">
                       <v-row no-gutters>
                         <v-col cols="12">
-                          <v-autocomplete
-                            v-model="editedItem.ProjectID"
-                            :items="projectSelect"
-                            :value="projectSelect.ProjectID"
-                            label="Project"
+                          <v-text-field
+                            v-model="editedItem.GrantID"
+                            label="Grant ID"
                             outlined
-                          ></v-autocomplete>
+                          ></v-text-field>
                         </v-col>
+
                         <v-col cols="12">
                           <v-autocomplete
                             v-model="editedItem.Funder"
@@ -67,13 +66,6 @@
                           <v-text-field
                             v-model="editedItem.FunderOther"
                             label="Other"
-                            outlined
-                          ></v-text-field>
-                        </v-col>
-                        <v-col cols="12">
-                          <v-text-field
-                            v-model="editedItem.GrantID"
-                            label="Grant ID"
                             outlined
                           ></v-text-field>
                         </v-col>
@@ -139,6 +131,15 @@
                               :min="minValue"
                             ></v-date-picker>
                           </v-menu>
+                        </v-col>
+                        <v-col cols="12">
+                          <v-autocomplete
+                            v-model="editedItem.ProjectID"
+                            :items="projectSelect"
+                            :value="projectSelect.ProjectID"
+                            label="Add Project"
+                            outlined
+                          ></v-autocomplete>
                         </v-col>
                       </v-row>
                     </v-container>
