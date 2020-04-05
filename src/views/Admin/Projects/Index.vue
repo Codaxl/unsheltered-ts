@@ -534,7 +534,10 @@ export default Vue.extend({
   },
   methods: {
     merge() {
-      return (this.result = Merge.byKey(this.data, this.funder, "ProjectID"));
+      let result = [];
+      result = Merge.byKey(this.data, this.funder, "ProjectID");
+      console.log(result);
+      return result;
     },
     fetchOrganization() {
       db.collection("Organization")
