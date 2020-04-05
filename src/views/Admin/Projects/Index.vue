@@ -234,8 +234,8 @@
           <template v-slot:no-data>
             <v-btn color="primary" @click="initialize">Reset</v-btn>
           </template>
-          <template v-slot:expanded-item="{ headers, item }" class="ma-0 pa-0">
-            <td :colspan="headers.length" class="ma-0 pa-0">
+          <template v-slot:expanded-item="{ headers, item }">
+            <td :colspan="headers.length" class="ma-0 pa-2">
               <v-container>
                 <v-row no-gutters>
                   <v-col cols="12" md="4">
@@ -342,6 +342,8 @@ import HousingType from "./housing-type";
 import NoYes from "./no-yes";
 import TargetPopulation from "./target-population";
 import TrackingMethod from "./tracking-method";
+// Merge
+import Merge from "./merge";
 
 export default Vue.extend({
   data: () => ({
@@ -354,6 +356,7 @@ export default Vue.extend({
     // Firestore collection
     collection: db.collection("Project"),
     organizationSelect: [{}],
+    funder: [{}],
     // Datepicker
     minValue: new Date(
       new Date().setFullYear(new Date().getFullYear() - 4)
@@ -526,6 +529,7 @@ export default Vue.extend({
   created() {
     this.initialize();
     this.fetchOrganization();
+    this.fetchFund();
   },
   methods: {
     fetchOrganization() {
@@ -539,6 +543,28 @@ export default Vue.extend({
               text: doc.data().OrganizationName
             });
           });
+        })
+        .catch(err => {
+          console.log("Error getting documents", err);
+        });
+    },
+    fetchFund() {
+      db.collection("Funder")
+        .get()
+        .then(snapshot => {
+          this.funder = [];
+          snapshot.forEach(doc => {
+            this.funder.push({
+              //
+              FunderID: doc.id,
+              ProjectID: doc.data().ProjectID,
+              GrantID: doc.data().GrantID,
+              Amount: doc.data().Amount,
+              StartDate: format(doc.data().StartDate.toDate(), "yyyy-MM-dd"),
+              EndDate: format(doc.data().EndDate.toDate(), "yyyy-MM-dd")
+            });
+          });
+          console.log(this.funder);
         })
         .catch(err => {
           console.log("Error getting documents", err);
@@ -579,6 +605,28 @@ export default Vue.extend({
         });
         this.isLoading = false;
       });
+      db.collection("Funder")
+        .get()
+        .then(snapshot => {
+          this.funder = [];
+          snapshot.forEach(doc => {
+            this.funder.push({
+              //
+              FunderID: doc.id,
+              ProjectID: doc.data().ProjectID,
+              GrantID: doc.data().GrantID,
+              Amount: doc.data().Amount,
+              StartDate: format(doc.data().StartDate.toDate(), "yyyy-MM-dd"),
+              EndDate: format(doc.data().EndDate.toDate(), "yyyy-MM-dd")
+            });
+          });
+          console.log(this.funder);
+        })
+        .catch(err => {
+          console.log("Error getting documents", err);
+        });
+
+      Merge.byKey(this.data, this.funder, "ProjectID");
     },
     editItem(item: any) {
       this.editedIndex = this.data.indexOf(item);
