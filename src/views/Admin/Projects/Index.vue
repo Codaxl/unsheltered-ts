@@ -5,7 +5,7 @@
         <v-data-table
           :loading="isLoading"
           :headers="headers"
-          :items="data"
+          :items="merge"
           :sort-by="['operatingStartDate']"
           :sort-desc="[true]"
           :items-per-page="5"
@@ -461,6 +461,10 @@ export default Vue.extend({
     },
     userId(): string {
       return UserStore.user.id;
+    },
+    merge() {
+      Merge.byKey(this.data, this.result, "ProjectID");
+      return this.result;
     }
   },
   filters: {
@@ -530,15 +534,8 @@ export default Vue.extend({
   created() {
     this.initialize();
     this.fetchOrganization();
-    this.merge();
   },
   methods: {
-    merge() {
-      let result = [];
-      result = Merge.byKey(this.data, this.funder, "ProjectID");
-      console.log(result);
-      return result;
-    },
     fetchOrganization() {
       db.collection("Organization")
         .get()
