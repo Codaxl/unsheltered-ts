@@ -357,6 +357,7 @@ export default Vue.extend({
     collection: db.collection("Project"),
     organizationSelect: [{}],
     funder: [{}],
+    result: [{}],
     // Datepicker
     minValue: new Date(
       new Date().setFullYear(new Date().getFullYear() - 4)
@@ -529,9 +530,12 @@ export default Vue.extend({
   created() {
     this.initialize();
     this.fetchOrganization();
-    this.fetchFund();
+    this.merge();
   },
   methods: {
+    merge() {
+      return (this.result = Merge.byKey(this.data, this.funder, "ProjectID"));
+    },
     fetchOrganization() {
       db.collection("Organization")
         .get()
@@ -543,28 +547,6 @@ export default Vue.extend({
               text: doc.data().OrganizationName
             });
           });
-        })
-        .catch(err => {
-          console.log("Error getting documents", err);
-        });
-    },
-    fetchFund() {
-      db.collection("Funder")
-        .get()
-        .then(snapshot => {
-          this.funder = [];
-          snapshot.forEach(doc => {
-            this.funder.push({
-              //
-              FunderID: doc.id,
-              ProjectID: doc.data().ProjectID,
-              GrantID: doc.data().GrantID,
-              Amount: doc.data().Amount,
-              StartDate: format(doc.data().StartDate.toDate(), "yyyy-MM-dd"),
-              EndDate: format(doc.data().EndDate.toDate(), "yyyy-MM-dd")
-            });
-          });
-          console.log(this.funder);
         })
         .catch(err => {
           console.log("Error getting documents", err);
@@ -620,13 +602,10 @@ export default Vue.extend({
               EndDate: format(doc.data().EndDate.toDate(), "yyyy-MM-dd")
             });
           });
-          console.log(this.funder);
         })
         .catch(err => {
           console.log("Error getting documents", err);
         });
-
-      Merge.byKey(this.data, this.funder, "ProjectID");
     },
     editItem(item: any) {
       this.editedIndex = this.data.indexOf(item);
