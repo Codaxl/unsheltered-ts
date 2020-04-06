@@ -212,10 +212,10 @@
             <v-btn color="primary" @click="initialize">Reset</v-btn>
           </template>
           <template v-slot:item.ProjectType="{ item }">
-            {{ item.ProjectType | toTextProjectType }}
+            {{ item.ProjectType | toText(projectType) }}
           </template>
           <template v-slot:item.OrganizationID="{ item }">
-            {{ item.OrganizationID | toTextOrganizationID(organizationSelect) }}
+            {{ item.OrganizationID | toText(organizationSelect) }}
           </template>
           <template v-slot:item.DateCreated="{ item }">
             {{ item.DateCreated | dateFilter }}
@@ -254,11 +254,11 @@
                           </div>
                           <div>
                             <b>Continuum Project:</b>
-                            {{ item.ContinuumProject | toTextNoYes }}
+                            {{ item.ContinuumProject | toText(noYes) }}
                           </div>
                           <div>
                             <b>HMIS Participating Project:</b>
-                            {{ item.HMISParticipatingProject | toTextNoYes }}
+                            {{ item.HMISParticipatingProject | toText(noYes) }}
                           </div>
                         </v-col>
                       </v-row>
@@ -268,17 +268,19 @@
                         <v-col cols="12">
                           <div>
                             <b>Residential Affiliation:</b>
-                            {{ item.ResidentialAffiliation | toTextNoYes }}
+                            {{ item.ResidentialAffiliation | toText(noYes) }}
                           </div>
 
                           <div>
                             <b>Tracking Method:</b>
-                            {{ item.TrackingMethod | toTextTrackingMethod }}
+                            {{ item.TrackingMethod | toText(trackingMethod) }}
                           </div>
 
                           <div>
                             <b>Target Population:</b>
-                            {{ item.TargetPopulation | toTextTargetPopulation }}
+                            {{
+                              item.TargetPopulation | toText(targetPopulation)
+                            }}
                           </div>
 
                           <div><b>PIT Count:</b> {{ item.PITCount }}</div>
@@ -316,7 +318,11 @@
                           hide-default-footer
                           color="blue"
                           dense
-                        ></v-data-table>
+                        >
+                          <template v-slot:item.Funder="{ item }">
+                            {{ item.Funder | toText(fundingSource) }}
+                          </template>
+                        </v-data-table>
                       </v-card>
                     </v-col>
                   </v-row>
@@ -342,6 +348,7 @@ import HousingType from "./housing-type";
 import NoYes from "./no-yes";
 import TargetPopulation from "./target-population";
 import TrackingMethod from "./tracking-method";
+import FundingSource from "../Funders/funding-source";
 // Merge
 import Merge from "./merge";
 
@@ -352,6 +359,7 @@ export default Vue.extend({
     housingType: HousingType,
     targetPopulation: TargetPopulation,
     trackingMethod: TrackingMethod,
+    fundingSource: FundingSource,
     noYes: NoYes,
     // Firestore collection
     collection: db.collection("Project"),
@@ -404,10 +412,10 @@ export default Vue.extend({
     ],
     subDataHeaders: [
       {
-        text: "Funder ID",
+        text: "Funder",
         align: "start",
         sortable: true,
-        value: "FunderID"
+        value: "Funder"
       },
       {
         text: "Grant ID",
@@ -498,54 +506,11 @@ export default Vue.extend({
     dateFilter: function(value: any) {
       return value ? format(value, "yyyy-MM-dd' at 'HH:mm:ss a") : "";
     },
-    toTextNoYes: function(item: number) {
-      const idArr = [item];
-      const objArr = NoYes;
-      const idValueMap: any = objArr.reduce(
-        (acc, { value, text }) => ({ ...acc, [value]: text }),
-        {}
-      );
-      const output = idArr.map(value => idValueMap[value]);
-      return output.toString();
-    },
-    toTextProjectType: function(item: number) {
-      const idArr = [item];
-      const objArr = ProjectType;
-      const idValueMap: any = objArr.reduce(
-        (acc, { value, text }) => ({ ...acc, [value]: text }),
-        {}
-      );
-      const output = idArr.map(value => idValueMap[value]);
-      return output.toString();
-    },
     //https://stackoverflow.com/questions/42828664/access-vue-instance-data-inside-filter-method
-    toTextOrganizationID: function(
-      item: number,
-      organizationSelect: Array<any>
-    ) {
+    toText: function(item: number, organizationSelect: Array<any>) {
       const idArr = [item];
-      const objArr = organizationSelect;
-      const idValueMap: any = objArr.reduce(
-        (acc, { value, text }) => ({ ...acc, [value]: text }),
-        {}
-      );
-      const output = idArr.map(value => idValueMap[value]);
-      return output.toString();
-    },
-    toTextTrackingMethod: function(item: number) {
-      const idArr = [item];
-      const objArr = TrackingMethod;
-      const idValueMap: any = objArr.reduce(
-        (acc, { value, text }) => ({ ...acc, [value]: text }),
-        {}
-      );
-      const output = idArr.map(value => idValueMap[value]);
-      return output.toString();
-    },
-    toTextTargetPopulation: function(item: number) {
-      const idArr = [item];
-      const objArr = TargetPopulation;
-      const idValueMap: any = objArr.reduce(
+
+      const idValueMap: any = organizationSelect.reduce(
         (acc, { value, text }) => ({ ...acc, [value]: text }),
         {}
       );
@@ -622,6 +587,7 @@ export default Vue.extend({
             this.funder.push({
               //
               FunderID: doc.id,
+              Funder: doc.data().Funder,
               ProjectID: doc.data().ProjectID,
               GrantID: doc.data().GrantID,
               Amount: doc.data().Amount,
