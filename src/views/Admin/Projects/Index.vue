@@ -25,8 +25,9 @@
                   <v-icon @click="toggle"
                     >{{ isOpen ? "mdi-minus" : "mdi-plus" }}
                   </v-icon>
-
-                  {{ items[0].OrganizationID | toText(organizationSelect) }}
+                  <span class="px-1">
+                    {{ items[0].OrganizationID | toText(organizationSelect) }}
+                  </span>
                   <v-icon @click="remove">{{ "mdi-close" }} </v-icon>
                 </v-col>
               </v-row>
