@@ -15,20 +15,18 @@
           :expanded.sync="expanded"
           item-key="ProjectID"
           show-expand
-          show-group-by
           class="elevation-1"
         >
-          <template v-slot:group.header="{ items, isOpen, toggle, remove }">
+          <template v-slot:group.header="{ items, isOpen, toggle }">
             <th :colspan="headers.length">
-              <v-row v-if="items[0].OrganizationID" align="center">
+              <v-row align="center">
                 <v-col>
                   <v-icon @click="toggle"
                     >{{ isOpen ? "mdi-minus" : "mdi-plus" }}
                   </v-icon>
-                  <span class="px-1">
+                  <span v-if="items[0].OrganizationID" class="px-1">
                     {{ items[0].OrganizationID | toText(organizationSelect) }}
                   </span>
-                  <v-icon @click="remove">{{ "mdi-close" }} </v-icon>
                 </v-col>
               </v-row>
             </th>
@@ -44,9 +42,9 @@
                 transition="dialog-bottom-transition"
               >
                 <template v-slot:activator="{ on }">
-                  <v-btn color="primary" outlined class="mb-2" v-on="on"
-                    >New Project</v-btn
-                  >
+                  <v-btn dark small color="pink" fab v-on="on">
+                    <v-icon>mdi-plus</v-icon>
+                  </v-btn>
                 </template>
                 <v-card>
                   <v-toolbar dark color="primary">

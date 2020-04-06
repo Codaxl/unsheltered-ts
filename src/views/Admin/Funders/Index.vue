@@ -27,9 +27,9 @@
                 transition="dialog-bottom-transition"
               >
                 <template v-slot:activator="{ on }">
-                  <v-btn color="primary" outlined class="mb-2" v-on="on"
-                    >New Funder</v-btn
-                  >
+                  <v-btn dark small color="pink" fab v-on="on">
+                    <v-icon>mdi-plus</v-icon>
+                  </v-btn>
                 </template>
                 <v-card>
                   <v-toolbar dark color="primary">
