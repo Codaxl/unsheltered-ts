@@ -8,14 +8,30 @@
           :items="merge"
           :sort-by="['operatingStartDate']"
           :sort-desc="[true]"
+          group-by="OrganizationID"
           :items-per-page="5"
           multi-sort
           :single-expand="singleExpand"
           :expanded.sync="expanded"
           item-key="ProjectID"
           show-expand
+          show-group-by
           class="elevation-1"
         >
+          <template v-slot:group.header="{ items, isOpen, toggle, remove }">
+            <th :colspan="headers.length">
+              <v-row v-if="items[0].OrganizationID" align="center">
+                <v-col>
+                  <v-icon @click="toggle"
+                    >{{ isOpen ? "mdi-minus" : "mdi-plus" }}
+                  </v-icon>
+
+                  {{ items[0].OrganizationID | toText(organizationSelect) }}
+                  <v-icon @click="remove">{{ "mdi-close" }} </v-icon>
+                </v-col>
+              </v-row>
+            </th>
+          </template>
           <template v-slot:top>
             <v-toolbar flat color="white">
               <v-toolbar-title>Projects</v-toolbar-title>
@@ -507,10 +523,10 @@ export default Vue.extend({
       return value ? format(value, "yyyy-MM-dd' at 'HH:mm:ss a") : "";
     },
     //https://stackoverflow.com/questions/42828664/access-vue-instance-data-inside-filter-method
-    toText: function(item: number, organizationSelect: Array<any>) {
+    toText: function(item: number, variable: Array<any>) {
       const idArr = [item];
 
-      const idValueMap: any = organizationSelect.reduce(
+      const idValueMap: any = variable.reduce(
         (acc, { value, text }) => ({ ...acc, [value]: text }),
         {}
       );
