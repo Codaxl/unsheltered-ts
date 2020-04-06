@@ -32,8 +32,8 @@
                     {{ groupBy }}
                   </span>
                   <span v-if="groupBy == 'OrganizationID'" class="px-1">
-                    {{ items[0].OrganizationID | toText(organizationSelect) }}
-                    {{ groupBy }}
+                    {{ items[0].OrganizationID | toText(organizationSelect)
+                    }}{{ groupBy }}
                   </span>
                   <span v-if="groupBy == 'DateCreated'" class="px-1">
                     {{ items[0].DateCreated | dateFilter }} {{ groupBy }}
@@ -41,7 +41,7 @@
                   <span v-if="groupBy == 'DateUpdated'" class="px-1">
                     {{ items[0].DateUpdated | dateFilter }} {{ groupBy }}
                   </span>
-                  <span v-else class="px-1">
+                  <span v-if="groupBy == 'DateCreated'" class="px-1">
                     None
                   </span>
                   <v-icon @click="remove">{{ "mdi-close" }} </v-icon>
