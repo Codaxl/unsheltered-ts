@@ -305,6 +305,7 @@
                 :items="item.subData"
                 :items-per-page="5"
                 hide-default-footer
+                color="blue"
                 dense
               ></v-data-table>
             </td>
