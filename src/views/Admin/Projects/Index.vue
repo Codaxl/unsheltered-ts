@@ -5,7 +5,7 @@
         <v-data-table
           :loading="isLoading"
           :headers="headers"
-          :items="data"
+          :items="merge"
           :sort-by="['operatingStartDate']"
           :sort-desc="[true]"
           :items-per-page="5"
@@ -312,13 +312,12 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <tr v-for="(fund, index) in item.Funder" :key="index">
-                      <td>{{ item.Funder[index] }}</td>
-                      <td></td>
-
-                      <td></td>
-                      <td></td>
-                      <td></td>
+                    <tr>
+                      <td>{{ item.FunderID }}</td>
+                      <td>t</td>
+                      <td>t</td>
+                      <td>t</td>
+                      <td>t</td>
                     </tr>
                   </tbody>
                 </template>
@@ -581,11 +580,11 @@ export default Vue.extend({
             PITCount: doc.data().PITCount,
             DateCreated: doc.data().DateCreated.toDate(),
             DateUpdated: doc.data().DateUpdated.toDate(),
-            UserID: doc.data().UserID,
+            UserID: doc.data().UserID
             //
-            Funder: doc.data().Funder
           });
         });
+        this.isLoading = false;
       });
       db.collection("Funder")
         .get()
@@ -602,7 +601,6 @@ export default Vue.extend({
               EndDate: format(doc.data().EndDate.toDate(), "yyyy-MM-dd")
             });
           });
-          this.isLoading = false;
         })
         .catch(err => {
           console.log("Error getting documents", err);
