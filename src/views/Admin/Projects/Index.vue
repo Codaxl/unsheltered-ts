@@ -300,28 +300,13 @@
                   </v-col>
                 </v-row>
               </v-container>
-              <v-simple-table dense>
-                <template v-slot:default>
-                  <thead>
-                    <tr>
-                      <th>Funder</th>
-                      <th>Grant ID</th>
-                      <th>Start Date</th>
-                      <th>End Date</th>
-                      <th>Amount</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>{{ item.FunderID }}</td>
-                      <td>t</td>
-                      <td>t</td>
-                      <td>t</td>
-                      <td>t</td>
-                    </tr>
-                  </tbody>
-                </template>
-              </v-simple-table>
+              <v-data-table
+                :headers="subDataHeaders"
+                :items="item.subData"
+                :items-per-page="5"
+                hide-default-footer
+                dense
+              ></v-data-table>
             </td>
           </template>
         </v-data-table>
@@ -401,6 +386,34 @@ export default Vue.extend({
       },
 
       { text: "Actions", value: "actions", sortable: false }
+    ],
+    subDataHeaders: [
+      {
+        text: "Funder ID",
+        align: "start",
+        sortable: true,
+        value: "FunderID"
+      },
+      {
+        text: "Grant ID",
+        sortable: true,
+        value: "GrantID"
+      },
+      {
+        text: "Start Date",
+        sortable: true,
+        value: "StartDate"
+      },
+      {
+        text: "End Date",
+        sortable: true,
+        value: "EndDate"
+      },
+      {
+        text: "Amount",
+        sortable: true,
+        value: "Amount"
+      }
     ],
     data: [{}],
     editedIndex: -1,
