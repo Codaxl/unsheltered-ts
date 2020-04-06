@@ -308,7 +308,7 @@
                   </v-row>
                   <v-row>
                     <v-col cols="12">
-                      <v-card flat outlined color="blue" class="mt-2">
+                      <v-card class="mt-2">
                         <v-data-table
                           :headers="subDataHeaders"
                           :items="item.subData"
