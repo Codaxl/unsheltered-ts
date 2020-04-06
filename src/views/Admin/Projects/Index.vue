@@ -16,17 +16,35 @@
           item-key="ProjectID"
           show-expand
           class="elevation-1"
+          show-group-by
         >
-          <template v-slot:group.header="{ items, isOpen, toggle }">
+          <template
+            v-slot:group.header="{ items, isOpen, toggle, remove, groupBy }"
+          >
             <th :colspan="headers.length">
               <v-row align="center">
                 <v-col>
                   <v-icon @click="toggle"
                     >{{ isOpen ? "mdi-minus" : "mdi-plus" }}
                   </v-icon>
-                  <span v-if="items[0].OrganizationID" class="px-1">
-                    {{ items[0].OrganizationID | toText(organizationSelect) }}
+                  <span v-if="groupBy == 'ProjectType'" class="px-1">
+                    {{ items[0].ProjectType | toText(projectType) }}
+                    {{ groupBy }}
                   </span>
+                  <span v-if="groupBy == 'OrganizationID'" class="px-1">
+                    {{ items[0].OrganizationID | toText(organizationSelect) }}
+                    {{ groupBy }}
+                  </span>
+                  <span v-if="groupBy == 'DateCreated'" class="px-1">
+                    {{ items[0].DateCreated | dateFilter }} {{ groupBy }}
+                  </span>
+                  <span v-if="groupBy == 'DateUpdated'" class="px-1">
+                    {{ items[0].DateUpdated | dateFilter }} {{ groupBy }}
+                  </span>
+                  <span v-else class="px-1">
+                    None
+                  </span>
+                  <v-icon @click="remove">{{ "mdi-close" }} </v-icon>
                 </v-col>
               </v-row>
             </th>
