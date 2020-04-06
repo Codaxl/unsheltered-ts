@@ -236,78 +236,92 @@
           </template>
           <template v-slot:expanded-item="{ headers, item }">
             <td :colspan="headers.length" class="ma-0 pa-2">
-              <v-container>
-                <v-row no-gutters>
-                  <v-col cols="12" md="4">
-                    <v-row no-gutters>
-                      <v-col cols="12">
-                        <div>
-                          <b>Project Common Name:</b>
-                          {{ item.ProjectCommonName }}
-                        </div>
-                        <div>
-                          <b>Continuum Project:</b>
-                          {{ item.ContinuumProject | toTextNoYes }}
-                        </div>
-                        <div>
-                          <b>HMIS Participating Project:</b>
-                          {{ item.HMISParticipatingProject | toTextNoYes }}
-                        </div>
-                      </v-col>
-                    </v-row>
-                  </v-col>
-                  <v-col cols="12" md="4">
-                    <v-row no-gutters>
-                      <v-col cols="12">
-                        <div>
-                          <b>Residential Affiliation:</b>
-                          {{ item.ResidentialAffiliation | toTextNoYes }}
-                        </div>
+              <v-lazy
+                :options="{
+                  threshold: 0.5
+                }"
+                min-height="150"
+                transition="fade-transition"
+              >
+                <v-container>
+                  <v-row no-gutters>
+                    <v-col cols="12" md="4">
+                      <v-row no-gutters>
+                        <v-col cols="12">
+                          <div>
+                            <b>Project Common Name:</b>
+                            {{ item.ProjectCommonName }}
+                          </div>
+                          <div>
+                            <b>Continuum Project:</b>
+                            {{ item.ContinuumProject | toTextNoYes }}
+                          </div>
+                          <div>
+                            <b>HMIS Participating Project:</b>
+                            {{ item.HMISParticipatingProject | toTextNoYes }}
+                          </div>
+                        </v-col>
+                      </v-row>
+                    </v-col>
+                    <v-col cols="12" md="4">
+                      <v-row no-gutters>
+                        <v-col cols="12">
+                          <div>
+                            <b>Residential Affiliation:</b>
+                            {{ item.ResidentialAffiliation | toTextNoYes }}
+                          </div>
 
-                        <div>
-                          <b>Tracking Method:</b>
-                          {{ item.TrackingMethod | toTextTrackingMethod }}
-                        </div>
+                          <div>
+                            <b>Tracking Method:</b>
+                            {{ item.TrackingMethod | toTextTrackingMethod }}
+                          </div>
 
-                        <div>
-                          <b>Target Population:</b>
-                          {{ item.TargetPopulation | toTextTargetPopulation }}
-                        </div>
+                          <div>
+                            <b>Target Population:</b>
+                            {{ item.TargetPopulation | toTextTargetPopulation }}
+                          </div>
 
-                        <div><b>PIT Count:</b> {{ item.PITCount }}</div>
-                      </v-col>
-                    </v-row>
-                  </v-col>
-                  <v-col cols="12" md="4">
-                    <v-row no-gutters>
-                      <v-col cols="12">
-                        <div><b>Project ID:</b> {{ item.ProjectID }}</div>
-                        <div>
-                          <b>Organization ID:</b> {{ item.OrganizationID }}
-                        </div>
-                        <div><b>User ID:</b> {{ item.UserID }}</div>
-                        <div>
-                          <b>Date Created:</b>
-                          {{ item.DateCreated | dateFilter }}
-                        </div>
+                          <div><b>PIT Count:</b> {{ item.PITCount }}</div>
+                        </v-col>
+                      </v-row>
+                    </v-col>
+                    <v-col cols="12" md="4">
+                      <v-row no-gutters>
+                        <v-col cols="12">
+                          <div><b>Project ID:</b> {{ item.ProjectID }}</div>
+                          <div>
+                            <b>Organization ID:</b> {{ item.OrganizationID }}
+                          </div>
+                          <div><b>User ID:</b> {{ item.UserID }}</div>
+                          <div>
+                            <b>Date Created:</b>
+                            {{ item.DateCreated | dateFilter }}
+                          </div>
 
-                        <div>
-                          <b>Date Updated:</b>
-                          {{ item.DateUpdated | dateFilter }}
-                        </div>
-                      </v-col>
-                    </v-row>
-                  </v-col>
-                </v-row>
-              </v-container>
-              <v-data-table
-                :headers="subDataHeaders"
-                :items="item.subData"
-                :items-per-page="5"
-                hide-default-footer
-                color="blue"
-                dense
-              ></v-data-table>
+                          <div>
+                            <b>Date Updated:</b>
+                            {{ item.DateUpdated | dateFilter }}
+                          </div>
+                        </v-col>
+                      </v-row>
+                    </v-col>
+                  </v-row>
+                  <v-row>
+                    <v-col cols="12">
+                      <v-card flat outlined color="blue" class="mt-2">
+                        <v-data-table
+                          :headers="subDataHeaders"
+                          :items="item.subData"
+                          :items-per-page="5"
+                          hide-default-footer
+                          color="blue"
+                          dense
+                        ></v-data-table>
+                      </v-card>
+                    </v-col>
+                  </v-row>
+                </v-container>
+              </v-lazy>
             </td>
           </template>
         </v-data-table>
