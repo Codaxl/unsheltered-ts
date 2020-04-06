@@ -24,31 +24,35 @@
             <th :colspan="headers.length">
               <v-row align="center">
                 <v-col>
-                  <v-icon @click="toggle"
-                    >{{ isOpen ? "mdi-minus" : "mdi-plus" }}
-                  </v-icon>
-                  <span v-if="groupBy == 'ProjectType'" class="px-1">
-                    {{ items[0].ProjectType | toText(projectType) }}
-                    {{ groupBy }}
-                  </span>
-                  <span v-if="groupBy == 'OrganizationID'" class="px-1">
-                    {{ items[0].OrganizationID | toText(organizationSelect)
-                    }}{{ groupBy }}
-                  </span>
-                  <span v-if="groupBy == 'DateCreated'" class="px-1">
-                    {{ items[0].DateCreated | dateFilter }} {{ groupBy }}
-                  </span>
-                  <span v-if="groupBy == 'DateUpdated'" class="px-1">
-                    {{ items[0].DateUpdated | dateFilter }} {{ groupBy }}
-                  </span>
-                  <span v-if="groupBy == 'DateCreated'" class="px-1">
-                    None
-                  </span>
-                  <v-icon @click="remove">{{ "mdi-close" }} </v-icon>
+                  <div v-if="groupBy.length > 0">
+                    <v-icon @click="toggle"
+                      >{{ isOpen ? "mdi-minus" : "mdi-plus" }}
+                    </v-icon>
+                    <span v-if="groupBy == 'ProjectType'" class="px-1">
+                      {{ items[0].ProjectType | toText(projectType) }}
+                    </span>
+                    <span v-if="groupBy == 'OrganizationID'" class="px-1">
+                      {{ items[0].OrganizationID | toText(organizationSelect) }}
+                    </span>
+                    <span v-if="groupBy == 'OperatingStartDate'" class="px-1">
+                      {{ items[0].OperatingStartDate }}
+                    </span>
+                    <span v-if="groupBy == 'OperatingEndDate'" class="px-1">
+                      {{ items[0].OperatingEndDate }}
+                    </span>
+                    <v-icon @click="remove">{{ "mdi-close" }} </v-icon>
+                  </div>
+                  <div v-else>
+                    <span class="px-1">
+                      None
+                    </span>
+                    <v-icon @click="remove">{{ "mdi-close" }} </v-icon>
+                  </div>
                 </v-col>
               </v-row>
             </th>
           </template>
+
           <template v-slot:top>
             <v-toolbar flat color="white">
               <v-toolbar-title>Projects</v-toolbar-title>
