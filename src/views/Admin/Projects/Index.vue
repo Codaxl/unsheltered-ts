@@ -266,7 +266,7 @@
               >{{
                 item.HMISParticipatingProject === 1
                   ? "mdi-check-circle"
-                  : "mdi-close-circle-outline"
+                  : "mdi-close-circle"
               }}</v-icon
             >
           </template>
@@ -274,17 +274,17 @@
             <v-icon :color="item.ContinuumProject === 1 ? 'green' : 'red'">{{
               item.ContinuumProject === 1
                 ? "mdi-check-circle"
-                : "mdi-close-circle-outline"
+                : "mdi-close-circle"
             }}</v-icon>
           </template>
           <template v-slot:item.AmountTotal="{ item }">
             {{ item.AmountTotal | currency }}
           </template>
           <template v-slot:item.actions="{ item }">
-            <v-icon small class="mr-2" @click="editItem(item)">
+            <v-icon class="mr-2" @click="editItem(item)">
               mdi-pencil
             </v-icon>
-            <v-icon small @click="deleteItem(item)">
+            <v-icon @click="deleteItem(item)">
               mdi-delete
             </v-icon>
           </template>
@@ -378,10 +378,10 @@
                           >
                             <template v-slot:activator="{ on }">
                               <v-btn icon v-on="on">
-                                <v-icon color="blue">mdi-alert-circle</v-icon>
+                                <v-icon>mdi-alert-circle</v-icon>
                               </v-btn>
                             </template>
-                            <span>Future funding</span>
+                            <span>Future Funder</span>
                           </v-tooltip>
                         </template>
                         <template v-slot:item.Funder="{ item }">
@@ -492,6 +492,7 @@ export default Vue.extend({
       {
         text: "Notice",
         align: "start",
+        sortable: false,
         value: "Tooltip"
       },
       {

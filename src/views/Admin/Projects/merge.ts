@@ -4,17 +4,19 @@ export default class Merge {
       const i = array2.filter(a => a[key] === e[key]).map(a => a);
       e.subData = i;
 
-      const input = Object.keys(e.subData);
+      const obj = Object.keys(e.subData);
 
-      if (input.length > 0) {
+      if (obj.length > 0) {
         let total = 0;
         const today = new Date();
 
-        for (let i = 0; i < input.length; i++) {
-          if (isNaN(e.subData[i].Amount)) {
+        for (let i = 0; i < obj.length; i++) {
+          const amount = e.subData[i].Amount;
+          const startDate = new Date(e.subData[i].StartDate);
+          if (isNaN(amount)) {
             continue;
           }
-          if (new Date(e.subData[i].StartDate) < today) {
+          if (startDate < today) {
             total += Number(e.subData[i].Amount);
           }
         }
