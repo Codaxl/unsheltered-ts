@@ -245,12 +245,8 @@
           <template v-slot:no-data>
             <v-btn color="primary" @click="initialize">Reset</v-btn>
           </template>
-          <template v-slot:item.Funder="{ item }">
-            <v-badge :color="item.ContinuumProject === 1 ? 'green' : 'red'" dot>
-              <template v-slot:item.ProjectName="{ item }"
-                >{{ item.ProjectName }}
-              </template></v-badge
-            >
+          <template v-slot:item.ProjectName="{ item }">
+            {{ item.ProjectName }}
           </template>
           <template v-slot:item.ProjectType="{ item }">
             {{ item.ProjectType | toText(projectType) }}
