@@ -453,11 +453,13 @@ export default Vue.extend({
       },
       {
         text: "Continuum Project",
+        align: "center",
         sortable: true,
         value: "ContinuumProject"
       },
       {
         text: "HMIS Participating Project",
+        align: "center",
         sortable: true,
         value: "HMISParticipatingProject"
       },
