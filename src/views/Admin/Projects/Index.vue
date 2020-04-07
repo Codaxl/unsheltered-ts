@@ -120,8 +120,6 @@
                               v-model="editedItem.OperatingStartDate"
                               @input="menu = false"
                               scrollable
-                              :max="maxValue"
-                              :min="minValue"
                             ></v-date-picker>
                           </v-menu>
                         </v-col>
@@ -148,8 +146,6 @@
                               v-model="editedItem.OperatingEndDate"
                               @input="menu2 = false"
                               scrollable
-                              :max="maxValue"
-                              :min="minValue"
                             ></v-date-picker>
                           </v-menu>
                         </v-col>
@@ -252,6 +248,12 @@
           <template v-slot:item.DateUpdated="{ item }">
             {{ item.DateUpdated | dateFilter }}
           </template>
+          <template v-slot:item.HMISParticipatingProject="{ item }">
+            {{ item.HMISParticipatingProject | toText(noYes) }}
+          </template>
+          <template v-slot:item.ContinuumProject="{ item }">
+            {{ item.HMISParticipatingProject | toText(noYes) }}
+          </template>
           <template v-slot:item.actions="{ item }">
             <v-icon small class="mr-2" @click="editItem(item)">
               mdi-pencil
@@ -351,6 +353,9 @@
                           <template v-slot:item.Funder="{ item }">
                             {{ item.Funder | toText(fundingSource) }}
                           </template>
+                          <template v-slot:item.Amount="{ item }">
+                            {{ item.Amount | currency }}
+                          </template>
                         </v-data-table>
                       </v-card>
                     </v-col>
@@ -396,12 +401,6 @@ export default Vue.extend({
     funder: [{}],
     result: [{}],
     // Datepicker
-    minValue: new Date(
-      new Date().setFullYear(new Date().getFullYear() - 4)
-    ).toISOString(),
-    maxValue: new Date(
-      new Date().setFullYear(new Date().getFullYear() + 1)
-    ).toISOString(),
     menu: false,
     menu2: false,
     // Data Table
@@ -606,9 +605,9 @@ export default Vue.extend({
             //
           });
         });
-        this.isLoading = false;
       });
       db.collection("Funder")
+        .where("EndDate", ">=", new Date())
         .get()
         .then(snapshot => {
           this.funder = [];
@@ -624,6 +623,7 @@ export default Vue.extend({
               EndDate: format(doc.data().EndDate.toDate(), "yyyy-MM-dd")
             });
           });
+          this.isLoading = false;
         })
         .catch(err => {
           console.log("Error getting documents", err);
