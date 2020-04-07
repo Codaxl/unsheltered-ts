@@ -359,23 +359,39 @@
                   </v-row>
                   <v-row>
                     <v-col cols="12">
-                      <v-card class="mt-2">
-                        <v-data-table
-                          :headers="subDataHeaders"
-                          :items="item.subData"
-                          :items-per-page="5"
-                          hide-default-footer
-                          color="blue"
-                          dense
-                        >
-                          <template v-slot:item.Funder="{ item }">
-                            {{ item.Funder | toText(fundingSource) }}
-                          </template>
-                          <template v-slot:item.Amount="{ item }">
-                            {{ item.Amount | currency }}
-                          </template>
-                        </v-data-table>
-                      </v-card>
+                      <v-data-table
+                        :headers="subDataHeaders"
+                        :items="item.subData"
+                        :items-per-page="5"
+                        hide-default-footer
+                        class="test elevation-2"
+                        dense
+                      >
+                        <template v-slot:body="{ items }">
+                          <tbody>
+                            <tr
+                              v-for="item in items"
+                              :key="item.FunderID"
+                              :class="
+                                item.StartDate >
+                                new Date().toISOString().substr(0, 10)
+                                  ? 'blue--text'
+                                  : ''
+                              "
+                            >
+                              <td>
+                                <span>{{
+                                  item.Funder | toText(fundingSource)
+                                }}</span>
+                              </td>
+                              <td>{{ item.GrantID }}</td>
+                              <td>{{ item.StartDate }}</td>
+                              <td>{{ item.EndDate }}</td>
+                              <td>{{ item.Amount | currency }}</td>
+                            </tr>
+                          </tbody>
+                        </template>
+                      </v-data-table>
                     </v-col>
                   </v-row>
                 </v-container>
@@ -636,9 +652,8 @@ export default Vue.extend({
             PITCount: doc.data().PITCount,
             DateCreated: doc.data().DateCreated.toDate(),
             DateUpdated: doc.data().DateUpdated.toDate(),
-            UserID: doc.data().UserID,
+            UserID: doc.data().UserID
             // Custom
-            AmountTotal: doc.data().AmountTotal
           });
         });
       });
@@ -731,4 +746,8 @@ export default Vue.extend({
   }
 });
 </script>
-<style></style>
+<style scoped>
+.test .theme--light.v-table {
+  background-color: #00f;
+}
+</style>

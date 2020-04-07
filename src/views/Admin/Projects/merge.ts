@@ -8,16 +8,20 @@ export default class Merge {
 
       if (input.length > 0) {
         let total = 0;
+        const today = new Date();
+        console.log(today);
+
         for (let i = 0; i < input.length; i++) {
           if (isNaN(e.subData[i].Amount)) {
             continue;
           }
-          total += Number(e.subData[i].Amount);
+          if (new Date(e.subData[i].StartDate) < today) {
+            total += Number(e.subData[i].Amount);
+          }
         }
         return (e.AmountTotal = total);
       }
     });
-    console.log(array1);
     return array1;
   }
 }
