@@ -1,7 +1,7 @@
 export default [
   {
     value: 1,
-    text: "Emergency Shelter "
+    text: "Emergency Shelter"
   },
   {
     value: 2,

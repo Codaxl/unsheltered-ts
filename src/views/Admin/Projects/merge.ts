@@ -9,7 +9,6 @@ export default class Merge {
       if (input.length > 0) {
         let total = 0;
         const today = new Date();
-        console.log(today);
 
         for (let i = 0; i < input.length; i++) {
           if (isNaN(e.subData[i].Amount)) {
