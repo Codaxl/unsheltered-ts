@@ -39,6 +39,15 @@
                   <span v-if="groupBy == 'OperatingEndDate'" class="px-1">
                     {{ items[0].OperatingEndDate }}
                   </span>
+                  <span
+                    v-if="groupBy == 'HMISParticipatingProject'"
+                    class="px-1"
+                  >
+                    {{ items[0].HMISParticipatingProject | toText(noYes) }}
+                  </span>
+                  <span v-if="groupBy == 'ContinuumProject'" class="px-1">
+                    {{ items[0].ContinuumProject | toText(noYes) }}
+                  </span>
                   <v-icon @click="remove">{{ "mdi-close" }} </v-icon>
                 </v-col>
               </v-row>
@@ -236,6 +245,13 @@
           <template v-slot:no-data>
             <v-btn color="primary" @click="initialize">Reset</v-btn>
           </template>
+          <template v-slot:item.Funder="{ item }">
+            <v-badge :color="item.ContinuumProject === 1 ? 'green' : 'red'" dot>
+              <template v-slot:item.ProjectName="{ item }"
+                >{{ item.ProjectName }}
+              </template></v-badge
+            >
+          </template>
           <template v-slot:item.ProjectType="{ item }">
             {{ item.ProjectType | toText(projectType) }}
           </template>
@@ -249,11 +265,23 @@
             {{ item.DateUpdated | dateFilter }}
           </template>
           <template v-slot:item.HMISParticipatingProject="{ item }">
-            {{ item.HMISParticipatingProject | toText(noYes) }}
+            <v-icon
+              :color="item.HMISParticipatingProject === 1 ? 'green' : 'red'"
+              >{{
+                item.HMISParticipatingProject === 1
+                  ? "mdi-check-circle"
+                  : "mdi-close-circle-outline"
+              }}</v-icon
+            >
           </template>
           <template v-slot:item.ContinuumProject="{ item }">
-            {{ item.HMISParticipatingProject | toText(noYes) }}
+            <v-icon :color="item.ContinuumProject === 1 ? 'green' : 'red'">{{
+              item.ContinuumProject === 1
+                ? "mdi-check-circle"
+                : "mdi-close-circle-outline"
+            }}</v-icon>
           </template>
+
           <template v-slot:item.actions="{ item }">
             <v-icon small class="mr-2" @click="editItem(item)">
               mdi-pencil
@@ -282,14 +310,6 @@
                           <div>
                             <b>Project Common Name:</b>
                             {{ item.ProjectCommonName }}
-                          </div>
-                          <div>
-                            <b>Continuum Project:</b>
-                            {{ item.ContinuumProject | toText(noYes) }}
-                          </div>
-                          <div>
-                            <b>HMIS Participating Project:</b>
-                            {{ item.HMISParticipatingProject | toText(noYes) }}
                           </div>
                         </v-col>
                       </v-row>
@@ -434,6 +454,16 @@ export default Vue.extend({
         text: "Operating End Date",
         sortable: true,
         value: "OperatingEndDate"
+      },
+      {
+        text: "Continuum Project",
+        sortable: true,
+        value: "ContinuumProject"
+      },
+      {
+        text: "HMIS Participating Project",
+        sortable: true,
+        value: "HMISParticipatingProject"
       },
 
       { text: "Actions", value: "actions", sortable: false }
