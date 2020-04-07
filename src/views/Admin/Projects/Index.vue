@@ -464,7 +464,7 @@ export default Vue.extend({
         value: "HMISParticipatingProject"
       },
 
-      { text: "Actions", value: "actions", sortable: false }
+      { text: "Actions", value: "actions", align: "center", sortable: false }
     ],
     subDataHeaders: [
       {
