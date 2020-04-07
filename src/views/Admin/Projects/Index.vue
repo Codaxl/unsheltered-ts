@@ -362,34 +362,33 @@
                       <v-data-table
                         :headers="subDataHeaders"
                         :items="item.subData"
+                        item-key="FunderID"
                         :items-per-page="5"
                         hide-default-footer
                         class="test elevation-2"
                         dense
                       >
-                        <template v-slot:body="{ items }">
-                          <tbody>
-                            <tr
-                              v-for="item in items"
-                              :key="item.FunderID"
-                              :class="
-                                item.StartDate >
+                        <template v-slot:item.Tooltip="{ item }">
+                          <v-tooltip
+                            top
+                            v-if="
+                              item.StartDate >
                                 new Date().toISOString().substr(0, 10)
-                                  ? 'blue--text'
-                                  : ''
-                              "
-                            >
-                              <td>
-                                <span>{{
-                                  item.Funder | toText(fundingSource)
-                                }}</span>
-                              </td>
-                              <td>{{ item.GrantID }}</td>
-                              <td>{{ item.StartDate }}</td>
-                              <td>{{ item.EndDate }}</td>
-                              <td>{{ item.Amount | currency }}</td>
-                            </tr>
-                          </tbody>
+                            "
+                          >
+                            <template v-slot:activator="{ on }">
+                              <v-btn icon v-on="on">
+                                <v-icon color="blue">mdi-alert-circle</v-icon>
+                              </v-btn>
+                            </template>
+                            <span>Future funding</span>
+                          </v-tooltip>
+                        </template>
+                        <template v-slot:item.Funder="{ item }">
+                          {{ item.Funder | toText(fundingSource) }}
+                        </template>
+                        <template v-slot:item.Amount="{ item }">
+                          {{ item.Amount | currency }}
                         </template>
                       </v-data-table>
                     </v-col>
@@ -491,8 +490,12 @@ export default Vue.extend({
     ],
     subDataHeaders: [
       {
-        text: "Funder",
+        text: "Notice",
         align: "start",
+        value: "Tooltip"
+      },
+      {
+        text: "Funder",
         sortable: true,
         value: "Funder"
       },
