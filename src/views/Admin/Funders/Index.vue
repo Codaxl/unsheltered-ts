@@ -186,13 +186,12 @@
                     <v-row no-gutters>
                       <v-col cols="12">
                         <div>
-                          <b>Project Name:</b>
-                          {{ item.ProjectID | toTextProjectID(projectSelect) }}
-                        </div>
-
-                        <div>
                           <b>Funder Other:</b>
                           {{ item.FunderOther }}
+                        </div>
+                        <div>
+                          <b>Funder ID:</b>
+                          {{ item.FunderID }}
                         </div>
                         <div>
                           <b>Amount:</b>
@@ -203,20 +202,21 @@
                   </v-col>
                   <v-col cols="12" md="4">
                     <v-row no-gutters>
-                      <v-col cols="12"> </v-col>
+                      <v-col cols="12">
+                        <div>
+                          <b>Project ID:</b>
+                          {{ item.ProjectID }}
+                        </div>
+                        <div>
+                          <b>Project Name:</b>
+                          {{ item.ProjectID | toTextProjectID(projectSelect) }}
+                        </div>
+                      </v-col>
                     </v-row>
                   </v-col>
                   <v-col cols="12" md="4">
                     <v-row no-gutters>
                       <v-col cols="12">
-                        <div>
-                          <b>Funder ID:</b>
-                          {{ item.FunderID }}
-                        </div>
-                        <div>
-                          <b>Project ID:</b>
-                          {{ item.ProjectID }}
-                        </div>
                         <div><b>User ID:</b> {{ item.UserID }}</div>
                         <div>
                           <b>Date Created:</b>

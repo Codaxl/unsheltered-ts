@@ -105,7 +105,12 @@
                 <v-row no-gutters>
                   <v-col cols="12" md="4">
                     <v-row no-gutters>
-                      <v-col cols="12"> </v-col>
+                      <v-col cols="12">
+                        <div>
+                          <b>Organization ID:</b>
+                          {{ item.OrganizationID }}
+                        </div>
+                      </v-col>
                     </v-row>
                   </v-col>
                   <v-col cols="12" md="4">
@@ -116,10 +121,6 @@
                   <v-col cols="12" md="4">
                     <v-row no-gutters>
                       <v-col cols="12">
-                        <div>
-                          <b>Organization ID:</b>
-                          {{ item.OrganizationID }}
-                        </div>
                         <div><b>User ID:</b> {{ item.UserID }}</div>
                         <div>
                           <b>Date Created:</b>
