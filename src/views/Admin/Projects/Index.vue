@@ -277,7 +277,9 @@
                 : "mdi-close-circle-outline"
             }}</v-icon>
           </template>
-
+          <template v-slot:item.AmountTotal="{ item }">
+            {{ item.AmountTotal | currency }}
+          </template>
           <template v-slot:item.actions="{ item }">
             <v-icon small class="mr-2" @click="editItem(item)">
               mdi-pencil
@@ -463,6 +465,11 @@ export default Vue.extend({
         sortable: true,
         value: "HMISParticipatingProject"
       },
+      {
+        text: "Amount Total",
+        sortable: true,
+        value: "AmountTotal"
+      },
 
       { text: "Actions", value: "actions", align: "center", sortable: false }
     ],
@@ -629,8 +636,9 @@ export default Vue.extend({
             PITCount: doc.data().PITCount,
             DateCreated: doc.data().DateCreated.toDate(),
             DateUpdated: doc.data().DateUpdated.toDate(),
-            UserID: doc.data().UserID
-            //
+            UserID: doc.data().UserID,
+            // Custom
+            AmountTotal: doc.data().AmountTotal
           });
         });
       });

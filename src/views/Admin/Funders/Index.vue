@@ -310,7 +310,7 @@ export default Vue.extend({
       DateUpdated: new Date(),
       UserID: "",
       // Custom
-      Amount: ""
+      Amount: 0.0
     },
     defaultItem: {
       // HMIS
@@ -325,7 +325,7 @@ export default Vue.extend({
       DateUpdated: new Date(),
       UserID: "",
       // Custom
-      Amount: ""
+      Amount: 0.0
     }
   }),
   computed: {
@@ -442,7 +442,7 @@ export default Vue.extend({
         DateUpdated: timestamp,
         UserID: this.userId,
         //
-        Amount: this.editedItem.Amount
+        Amount: Number(this.editedItem.Amount)
       };
       if (this.editedIndex > -1) {
         this.collection
@@ -460,6 +460,7 @@ export default Vue.extend({
             DateCreated: timestamp
           })
           .then(docRef => {
+            // Set FunderID to new Funder document
             this.collection.doc(docRef.id).update({ FunderID: docRef.id });
           })
           .catch(e => {
