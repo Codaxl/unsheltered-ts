@@ -85,11 +85,8 @@
           <template v-slot:no-data>
             <v-btn color="primary" @click="initialize">Reset</v-btn>
           </template>
-          <template v-slot:item.DateCreated="{ item }">
-            {{ item.DateCreated | dateFilter }}
-          </template>
-          <template v-slot:item.DateUpdated="{ item }">
-            {{ item.DateUpdated | dateFilter }}
+          <template v-slot:item.VictimServicesProvider="{ item }">
+            {{ item.VictimServicesProvider | toText(noYes) }}
           </template>
           <template v-slot:item.actions="{ item }">
             <v-icon small class="mr-2" @click="editItem(item)">
@@ -108,21 +105,7 @@
                 <v-row no-gutters>
                   <v-col cols="12" md="4">
                     <v-row no-gutters>
-                      <v-col cols="12">
-                        <div>
-                          <b>Organization ID:</b>
-                          {{ item.OrganizationID }}
-                        </div>
-                        <div>
-                          <b>Organization Common Name:</b>
-                          {{ item.OrganizationCommonName }}
-                        </div>
-
-                        <div>
-                          <b>Victim Services Provider:</b>
-                          {{ item.VictimServicesProvider | toTextNoYes }}
-                        </div>
-                      </v-col>
+                      <v-col cols="12"> </v-col>
                     </v-row>
                   </v-col>
                   <v-col cols="12" md="4">
@@ -134,6 +117,11 @@
                     <v-row no-gutters>
                       <v-col cols="12">
                         <div>
+                          <b>Organization ID:</b>
+                          {{ item.OrganizationID }}
+                        </div>
+                        <div><b>User ID:</b> {{ item.UserID }}</div>
+                        <div>
                           <b>Date Created:</b>
                           {{ item.DateCreated | dateFilter }}
                         </div>
@@ -141,7 +129,6 @@
                           <b>Date Updated:</b>
                           {{ item.DateUpdated | dateFilter }}
                         </div>
-                        <div><b>User ID:</b> {{ item.UserID }}</div>
                       </v-col>
                     </v-row>
                   </v-col>
@@ -181,7 +168,11 @@ export default Vue.extend({
         sortable: true,
         value: "OrganizationName"
       },
-
+      {
+        text: "Victim Services Provider",
+        sortable: true,
+        value: "VictimServicesProvider"
+      },
       { text: "Actions", value: "actions", sortable: false }
     ],
     data: [{}],
@@ -221,10 +212,11 @@ export default Vue.extend({
     dateFilter: function(value: any) {
       return value ? format(value, "yyyy-MM-dd' at 'HH:mm:ss a") : "";
     },
-    toTextNoYes: function(item: number) {
+    //https://stackoverflow.com/questions/42828664/access-vue-instance-data-inside-filter-method
+    toText: function(item: number, variable: Array<any>) {
       const idArr = [item];
-      const objArr = NoYes;
-      const idValueMap: any = objArr.reduce(
+
+      const idValueMap: any = variable.reduce(
         (acc, { value, text }) => ({ ...acc, [value]: text }),
         {}
       );
