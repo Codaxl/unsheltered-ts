@@ -346,7 +346,6 @@ export default Vue.extend({
     sources: ["Federal", "State", "County", "City"],
     e4: "",
     // Firestore collection
-    collection: db.collection("Project"),
     organizationSelect: [{}],
     funder: [{}],
     result: [{}],
@@ -378,6 +377,99 @@ export default Vue.extend({
     },
     merge() {
       return Merge.byKey(this.data, this.funder, "ProjectID");
+    },
+
+    projects(): Array<object> {
+      return fundStoreState.data;
+    },
+
+    totalAmount(): number {
+      return this.projects.reduce(
+        (acc: number, item: any) => acc + parseFloat(item.amount),
+        0
+      );
+    },
+    //https://gist.github.com/quangnd/572c6d410cb6512b7f252af0f2eb7cae
+
+    // Solution: https://appdividend.com/2019/04/11/how-to-get-distinct-values-from-array-in-javascript/#Javascript_Unique_Array_Example
+    totalGrantees(): number {
+      const uniqueArr = [
+        ...new Set(this.projects.map((data: any) => data.grantee))
+      ];
+      return new Set(uniqueArr).size;
+    },
+
+    totalGrants(): number {
+      const uniqueArr = [
+        ...new Set(this.projects.map((data: any) => data.grant))
+      ];
+      return new Set(uniqueArr).size;
+    },
+
+    //TODO Make this efficient
+    // Federal const query indexOf(this.query) solution?
+
+    filteredFederal(): any {
+      return this.projects.filter(
+        (c: any) => c.sourceType.indexOf("Federal") !== -1
+      );
+    },
+
+    totalFederal(): number {
+      const federalTotal = this.filteredFederal.reduce(
+        (a: number, b: any) => a + parseFloat(b.amount),
+        0
+      );
+      fundStoreState.setFederalTotal(federalTotal);
+      return federalTotal;
+    },
+    // State
+
+    filteredState(): any {
+      return this.projects.filter(
+        (c: any) => c.sourceType.indexOf("State") !== -1
+      );
+    },
+
+    totalState(): number {
+      const stateTotal = this.filteredState.reduce(
+        (a: number, b: any) => a + parseFloat(b.amount),
+        0
+      );
+      fundStoreState.setStateTotal(stateTotal);
+      return stateTotal;
+    },
+    // County
+
+    filteredCounty(): any {
+      return this.projects.filter(
+        (c: any) => c.sourceType.indexOf("County") !== -1
+      );
+    },
+
+    totalCounty(): number {
+      const countyTotal = this.filteredCounty.reduce(
+        (a: number, b: any) => a + parseFloat(b.amount),
+        0
+      );
+      fundStoreState.setCountyTotal(countyTotal);
+      return countyTotal;
+    },
+    // City
+
+    filteredCity(): any {
+      return this.projects.filter(
+        (c: any) => c.sourceType.indexOf("City") !== -1
+      );
+    },
+
+    totalCity(): number {
+      const cityTotal = this.filteredCity.reduce(
+        (a: number, b: any) => a + parseFloat(b.amount),
+        0
+      );
+      fundStoreState.setCityTotal(cityTotal);
+      return cityTotal;
     }
   },
   filters: {
@@ -419,7 +511,11 @@ export default Vue.extend({
     },
     initialize() {
       this.isLoading = true;
-      this.collection.onSnapshot(querySnapshot => {
+      fundStoreState.setYearFilter(this.e1);
+      fundStoreState.setOrgFilter(this.e2);
+      fundStoreState.setGrantFilter(this.e3);
+      fundStoreState.setSourceFilter(this.e4);
+      db.collection("Project").onSnapshot(querySnapshot => {
         this.data = [];
         querySnapshot.forEach(doc => {
           this.data.push({

@@ -84,9 +84,13 @@ export default class Merge {
         }
 
         return (e.AmountTotal = total);
+      } else {
+        e.AmountTotal = 0;
+        return;
       }
     });
 
+    console.log(array1);
     return array1;
   }
 }
