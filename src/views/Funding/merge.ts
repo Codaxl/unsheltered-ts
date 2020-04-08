@@ -87,7 +87,6 @@ export default class Merge {
       }
     });
 
-    console.log(array1);
     return array1;
   }
 }

@@ -4,7 +4,6 @@
       <v-tab href="#one">Projects</v-tab>
       <v-tab href="#two">Organizations</v-tab>
       <v-tab href="#three">Funders</v-tab>
-      <v-tabs-slider color="pink"></v-tabs-slider>
     </v-tabs>
 
     <v-tabs-items v-model="tabs">

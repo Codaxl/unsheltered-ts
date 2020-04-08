@@ -18,42 +18,6 @@
           class="elevation-1"
           show-group-by
         >
-          <template
-            v-slot:group.header="{ items, isOpen, toggle, remove, groupBy }"
-          >
-            <th :colspan="headers.length">
-              <v-row align="center">
-                <v-col>
-                  <v-icon @click="toggle"
-                    >{{ isOpen ? "mdi-minus" : "mdi-plus" }}
-                  </v-icon>
-                  <span v-if="groupBy == 'ProjectType'" class="px-1">
-                    {{ items[0].ProjectType | toText(projectType) }}
-                  </span>
-                  <span v-if="groupBy == 'OrganizationID'" class="px-1">
-                    {{ items[0].OrganizationID | toText(organizationSelect) }}
-                  </span>
-                  <span v-if="groupBy == 'OperatingStartDate'" class="px-1">
-                    {{ items[0].OperatingStartDate }}
-                  </span>
-                  <span v-if="groupBy == 'OperatingEndDate'" class="px-1">
-                    {{ items[0].OperatingEndDate }}
-                  </span>
-                  <span
-                    v-if="groupBy == 'HMISParticipatingProject'"
-                    class="px-1"
-                  >
-                    {{ items[0].HMISParticipatingProject | toText(noYes) }}
-                  </span>
-                  <span v-if="groupBy == 'ContinuumProject'" class="px-1">
-                    {{ items[0].ContinuumProject | toText(noYes) }}
-                  </span>
-                  <v-icon @click="remove">{{ "mdi-close" }} </v-icon>
-                </v-col>
-              </v-row>
-            </th>
-          </template>
-
           <template v-slot:top>
             <v-toolbar flat color="white">
               <v-toolbar-title>Projects</v-toolbar-title>
@@ -242,6 +206,41 @@
               </v-dialog>
             </v-toolbar>
           </template>
+          <template
+            v-slot:group.header="{ items, isOpen, toggle, remove, groupBy }"
+          >
+            <th :colspan="headers.length">
+              <v-row align="center">
+                <v-col>
+                  <v-icon @click="toggle"
+                    >{{ isOpen ? "mdi-minus" : "mdi-plus" }}
+                  </v-icon>
+                  <span v-if="groupBy == 'ProjectType'" class="px-1">
+                    {{ items[0].ProjectType | toText(projectType) }}
+                  </span>
+                  <span v-if="groupBy == 'OrganizationID'" class="px-1">
+                    {{ items[0].OrganizationID | toText(organizationSelect) }}
+                  </span>
+                  <span v-if="groupBy == 'OperatingStartDate'" class="px-1">
+                    {{ items[0].OperatingStartDate }}
+                  </span>
+                  <span v-if="groupBy == 'OperatingEndDate'" class="px-1">
+                    {{ items[0].OperatingEndDate }}
+                  </span>
+                  <span
+                    v-if="groupBy == 'HMISParticipatingProject'"
+                    class="px-1"
+                  >
+                    {{ items[0].HMISParticipatingProject | toText(noYes) }}
+                  </span>
+                  <span v-if="groupBy == 'ContinuumProject'" class="px-1">
+                    {{ items[0].ContinuumProject | toText(noYes) }}
+                  </span>
+                  <v-icon @click="remove">{{ "mdi-close" }} </v-icon>
+                </v-col>
+              </v-row>
+            </th>
+          </template>
           <template v-slot:no-data>
             <v-btn color="primary" @click="initialize">Reset</v-btn>
           </template>
@@ -261,10 +260,10 @@
             {{ item.DateUpdated | dateFilter }}
           </template>
           <template v-slot:item.HMISParticipatingProject="{ item }">
-            {{ item.HMISParticipatingProject | noYes }}
+            {{ item.HMISParticipatingProject | toText(noYes) }}
           </template>
           <template v-slot:item.ContinuumProject="{ item }">
-            {{ item.ContinuumProject | noYes }}
+            {{ item.ContinuumProject | toText(noYes) }}
           </template>
           <template v-slot:item.AmountTotal="{ item }">
             {{ item.AmountTotal | currency }}
