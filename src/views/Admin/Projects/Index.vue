@@ -261,21 +261,10 @@
             {{ item.DateUpdated | dateFilter }}
           </template>
           <template v-slot:item.HMISParticipatingProject="{ item }">
-            <v-icon
-              :color="item.HMISParticipatingProject === 1 ? 'green' : 'red'"
-              >{{
-                item.HMISParticipatingProject === 1
-                  ? "mdi-check-circle"
-                  : "mdi-close-circle"
-              }}</v-icon
-            >
+            {{ item.HMISParticipatingProject | noYes }}
           </template>
           <template v-slot:item.ContinuumProject="{ item }">
-            <v-icon :color="item.ContinuumProject === 1 ? 'green' : 'red'">{{
-              item.ContinuumProject === 1
-                ? "mdi-check-circle"
-                : "mdi-close-circle"
-            }}</v-icon>
+            {{ item.ContinuumProject | noYes }}
           </template>
           <template v-slot:item.AmountTotal="{ item }">
             {{ item.AmountTotal | currency }}
