@@ -22,7 +22,7 @@
                     label="Year"
                     hide-details
                     outlined
-                    @change="loadFunds"
+                    @change="merge"
                   ></v-select>
                 </v-row>
               </v-col>
@@ -36,7 +36,7 @@
                     hide-details
                     outlined
                     clearable
-                    @change="loadFunds"
+                    @change="merge"
                   ></v-select>
                 </v-row>
               </v-col>
@@ -50,7 +50,7 @@
                     hide-details
                     outlined
                     clearable
-                    @change="loadFunds"
+                    @change="merge"
                   ></v-select>
                 </v-row>
               </v-col>
@@ -64,7 +64,7 @@
                     hide-details
                     outlined
                     clearable
-                    @change="loadFunds"
+                    @change="merge"
                   ></v-select>
                 </v-row>
               </v-col>
@@ -85,9 +85,7 @@
                       <h2 class="headline">Total</h2>
                     </v-card-title>
                     <v-card-text class="text-center" v-if="!isLoading">
-                      <span class="display-1 font-weight-light">{{
-                        totalAmount | currency
-                      }}</span>
+                      <span class="display-1 font-weight-light"></span>
                     </v-card-text>
                   </v-card>
                 </div>
@@ -105,9 +103,7 @@
                       <h2 class="headline">Organizations</h2>
                     </v-card-title>
                     <v-card-text class="text-center" v-if="!isLoading">
-                      <span class="display-1 font-weight-light ">{{
-                        totalGrantees
-                      }}</span>
+                      <span class="display-1 font-weight-light "></span>
                     </v-card-text>
                   </v-card>
                 </div>
@@ -125,9 +121,7 @@
                       <h2 class="headline">Grants</h2>
                     </v-card-title>
                     <v-card-text class="text-center" v-if="!isLoading">
-                      <span class="display-1 font-weight-light">{{
-                        totalGrants
-                      }}</span>
+                      <span class="display-1 font-weight-light"></span>
                     </v-card-text>
                   </v-card>
                 </div>
@@ -154,9 +148,7 @@
                       </v-tooltip>
                     </v-card-title>
                     <v-card-text v-if="!isLoading">
-                      <span class="display-1 font-weight-light">{{
-                        totalFederal | currency
-                      }}</span>
+                      <span class="display-1 font-weight-light"></span>
                     </v-card-text>
                   </v-card>
                 </div>
@@ -178,9 +170,7 @@
                       </v-tooltip>
                     </v-card-title>
                     <v-card-text v-if="!isLoading">
-                      <span class="display-1 font-weight-light">{{
-                        totalState | currency
-                      }}</span>
+                      <span class="display-1 font-weight-light"></span>
                     </v-card-text>
                   </v-card>
                 </div>
@@ -202,9 +192,7 @@
                       </v-tooltip>
                     </v-card-title>
                     <v-card-text v-if="!isLoading">
-                      <span class="display-1 font-weight-light">{{
-                        totalCounty | currency
-                      }}</span>
+                      <span class="display-1 font-weight-light"></span>
                     </v-card-text>
                   </v-card>
                 </div>
@@ -226,9 +214,7 @@
                       </v-tooltip>
                     </v-card-title>
                     <v-card-text v-if="!isLoading">
-                      <span class="display-1 font-weight-light">{{
-                        totalCity | currency
-                      }}</span>
+                      <span class="display-1 font-weight-light"></span>
                     </v-card-text>
                   </v-card>
                 </div>
@@ -332,8 +318,27 @@ import FundStore from "@/store/funds/funds-store";
 const fundStoreState = getModule(FundStore);
 
 export default Vue.extend({
+  components: {
+    FundingDashboardPie,
+    FundingDashboardBar,
+    FundingGrantTable,
+    FundingOrganizationTable
+  },
   data: () => ({
     //// TODO:
+    breadcrumbs: [
+      {
+        text: "Home",
+        disabled: false,
+        href: "/"
+      },
+      {
+        text: "Funding",
+        disabled: true,
+        href: "/funding"
+      }
+    ],
+    e1: 2019,
     componentKey: 0,
     e2: "",
     grants: ["CoC", "CDBG", "ESG", "HOME", "HOPWA"],
