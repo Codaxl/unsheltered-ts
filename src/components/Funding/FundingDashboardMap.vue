@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <v-container>
     <div class="hello" ref="chartdiv"></div>
   </v-container>
@@ -1088,4 +1088,4 @@ export default class FundingDashboardMap extends Vue {
   width: 100%;
   height: 500px;
 }
-</style>
+</style> -->

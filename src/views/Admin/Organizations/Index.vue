@@ -149,7 +149,7 @@ import UserStore from "@/store/user/user-store";
 import { db, Timestamp } from "@/firebase";
 import format from "date-fns/format";
 // lists
-import NoYes from "./no-yes";
+import NoYes from "@/util/constants/admin/no-yes";
 
 export default Vue.extend({
   data: () => ({

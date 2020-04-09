@@ -167,6 +167,7 @@ export default [
     value: 46,
     text: "Local or Other Funding Source (Please Specify)"
   },
+  //State Funding NOT found in the HMIS CSV Specifications
   {
     value: 101,
     text: "HCD: CESH - Rental Assistance"
@@ -217,7 +218,69 @@ export default [
     text: "BCSH: HEAP - Other (Short-term Housing Interventions)"
   },
   {
+    value: 113,
+    text: "CDSS: HDAP - Administration"
+  },
+  {
+    value: 114,
+    text: "CDSS: HDAP - Outreach"
+  },
+  {
+    value: 115,
+    text: "CDSS: HDAP - Case Management"
+  },
+  {
+    value: 116,
+    text: "CDSS: HDAP - Disability Benefits Advocacy"
+  },
+  {
+    value: 117,
+    text: "CDSS: HDAP - Housing-Related Case Management"
+  },
+  {
+    value: 118,
+    text: "CDSS: HDAP - Housing Financial Assistance"
+  },
+  {
+    value: 119,
+    text: "CDSS: HDAP - Workforce Development"
+  },
+  //County Funding NOT found in the HMIS CSV Specifications
+  {
     value: 201,
     text: "County General Fund"
+  },
+  //Federal Funding NOT found in the HMIS CSV Specifications
+  {
+    value: 301,
+    text: "FEMA: EFSP - Served Meals"
+  },
+  {
+    value: 302,
+    text: "FEMA: EFSP - Other Food"
+  },
+  {
+    value: 303,
+    text: "FEMA: EFSP - Mass Shelter"
+  },
+  {
+    value: 304,
+    text: "FEMA: EFSP - Other Shelter"
+  },
+  {
+    value: 305,
+    text: "FEMA: EFSP - Supplies/Equipment"
+  },
+  {
+    value: 306,
+    text: "FEMA: EFSP - Building Code/Accessibility Repairs"
+  },
+  {
+    value: 307,
+    text: "FEMA: EFSP -  Utilities"
+  },
+  {
+    value: 308,
+    text: "FEMA: EFSP - Administration"
   }
 ];

@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <v-card>
     <v-container>
       <div class="hello" ref="fundingDashboardBar"></div>
@@ -161,4 +161,4 @@ export default class FundingDashboardBar extends Vue {
   width: 100%;
   height: 650px;
 }
-</style>
+</style> -->

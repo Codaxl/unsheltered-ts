@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div>
     <v-data-table
       :headers="headers"
@@ -48,4 +48,4 @@ export default Vue.extend({
 });
 </script>
 
-<style></style>
+<style></style> -->

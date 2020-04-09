@@ -5,9 +5,12 @@ import store from "./store";
 import vuetify from "./plugins/vuetify";
 // Directives
 import "./directives/vue-the-mask";
-import "./directives/vue-currency";
-import "./directives/vue-datefns";
-import "./directives/vue-strip";
+
+// Filters
+import "./util/filters/vue-currency";
+import "./util/filters/vue-datefns";
+import "./util/filters/vue-strip";
+
 import axios from "axios";
 import VueAxios from "vue-axios";
 

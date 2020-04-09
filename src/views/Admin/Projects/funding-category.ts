@@ -13,11 +13,11 @@ const na = [34];
 const pfs = [35];
 const pih = [36];
 const vaGDP = [37, 38, 39, 40, 41, 42, 45];
-
+const efsp = [301, 302, 303, 304, 305, 306, 307, 308];
 // State
 const hcdCESH = [101, 102, 103, 104, 105, 106];
 const bcshHEAP = [107, 108, 109, 110, 111, 112];
-
+const hdap = [113, 114, 115, 116, 117, 118, 119];
 // County
 const county = [201];
 
@@ -39,8 +39,10 @@ export {
   pfs,
   pih,
   vaGDP,
+  efsp,
   hcdCESH,
   bcshHEAP,
-  local,
-  county
+  hdap,
+  county,
+  local
 };

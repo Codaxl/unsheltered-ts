@@ -13,11 +13,13 @@ import {
   pfs,
   pih,
   vaGDP,
+  efsp,
   hcdCESH,
   bcshHEAP,
-  local,
-  county
-} from "./funding-category";
+  hdap,
+  county,
+  local
+} from "./funding/funding-category";
 
 export default class Merge {
   static byKey(array1: any[], array2: any[], key: string) {
@@ -51,13 +53,11 @@ export default class Merge {
             ...vaSSVF,
             ...pfs,
             ...pih,
-            ...vaGDP
+            ...vaGDP,
+            ...efsp
           ];
-          const state = [...hcdCESH, ...bcshHEAP];
+          const state = [...hcdCESH, ...bcshHEAP, ...hdap];
 
-          if (isNaN(amount)) {
-            continue;
-          }
           // Amount
           if (startDate < today) {
             total += Number(e.subData[i].Amount);
@@ -82,11 +82,14 @@ export default class Merge {
 
           e.subData[i].OrganizationID = organizationID.toString();
         }
+        e.AmountTotal = total;
+        return;
+      } else {
+        e.AmountTotal = 0;
 
-        return (e.AmountTotal = total);
+        return;
       }
     });
-
     return array1;
   }
 }

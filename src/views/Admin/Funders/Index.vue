@@ -247,7 +247,7 @@ import { db, Timestamp, FieldValue } from "@/firebase";
 import format from "date-fns/format";
 import parseISO from "date-fns/parseISO";
 // lists
-import FundingSource from "./funding-source";
+import FundingSource from "@/util/constants/admin/funding/funding-source";
 
 export default Vue.extend({
   data: () => ({

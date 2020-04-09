@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <v-card>
     <v-container>
       <div>
@@ -108,4 +108,4 @@ export default class FundingDashboardPie extends Vue {
   width: 100%;
   height: 500px;
 }
-</style>
+</style> -->

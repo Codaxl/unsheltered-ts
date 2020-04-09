@@ -398,14 +398,14 @@ import { db, Timestamp } from "@/firebase";
 import format from "date-fns/format";
 import parseISO from "date-fns/parseISO";
 // lists
-import ProjectType from "./project-type";
-import HousingType from "./housing-type";
-import NoYes from "./no-yes";
-import TargetPopulation from "./target-population";
-import TrackingMethod from "./tracking-method";
-import FundingSource from "../Funders/funding-source";
+import ProjectType from "@/util/constants/admin/projects/project-type";
+import HousingType from "@/util/constants/admin/projects/housing-type";
+import NoYes from "@/util/constants/admin/no-yes";
+import TargetPopulation from "@/util/constants/admin/projects/target-population";
+import TrackingMethod from "@/util/constants/admin/projects/tracking-method";
+import FundingSource from "@/util/constants/admin/funding/funding-source";
 // Merge
-import Merge from "./merge";
+import Merge from "@/util/constants/admin/merge";
 
 export default Vue.extend({
   data: () => ({
