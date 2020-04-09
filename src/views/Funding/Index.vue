@@ -79,9 +79,9 @@
         </v-row>
 
         <v-row>
-          <v-col cols="12" sm="4">
+          <v-col cols="12" sm="3">
             <div>
-              <v-card class="mb-4" style="min-height:100px;">
+              <v-card class="mb-4" style="min-height:125px;">
                 <v-card-title>
                   <h2 class="headline">Federal</h2>
                   <v-tooltip bottom>
@@ -92,12 +92,14 @@
                   </v-tooltip>
                 </v-card-title>
                 <v-card-text>
-                  <span class="display-1 font-weight-light"></span>
+                  <span class="display-1 font-weight-light">{{
+                    federalTotal | currency
+                  }}</span>
                 </v-card-text>
               </v-card>
             </div>
             <div>
-              <v-card class="mb-4" style="min-height:100px;">
+              <v-card class="mb-4" style="min-height:125px;">
                 <v-card-title>
                   <h2 class="headline">State</h2>
                   <v-tooltip bottom>
@@ -108,12 +110,14 @@
                   </v-tooltip>
                 </v-card-title>
                 <v-card-text>
-                  <span class="display-1 font-weight-light"></span>
+                  <span class="display-1 font-weight-light">{{
+                    federalTotal | currency
+                  }}</span>
                 </v-card-text>
               </v-card>
             </div>
             <div>
-              <v-card class="mb-4" style="min-height:100px;">
+              <v-card class="mb-4" style="min-height:125px;">
                 <v-card-title>
                   <h2 class="headline">County</h2>
                   <v-tooltip bottom>
@@ -124,14 +128,16 @@
                   </v-tooltip>
                 </v-card-title>
                 <v-card-text>
-                  <span class="display-1 font-weight-light"></span>
+                  <span class="display-1 font-weight-light">{{
+                    federalTotal | currency
+                  }}</span>
                 </v-card-text>
               </v-card>
             </div>
             <div>
-              <v-card class="mb-4" style="min-height:100px;">
+              <v-card class="mb-4" style="min-height:125px;">
                 <v-card-title>
-                  <h2 class="headline">City</h2>
+                  <h2 class="headline">Local</h2>
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
                       <v-icon class="mx-1" v-on="on">mdi-help-circle</v-icon>
@@ -140,12 +146,14 @@
                   </v-tooltip>
                 </v-card-title>
                 <v-card-text>
-                  <span class="display-1 font-weight-light"></span>
+                  <span class="display-1 font-weight-light">{{
+                    federalTotal | currency
+                  }}</span>
                 </v-card-text>
               </v-card>
             </div>
           </v-col>
-          <v-col cols="12" sm="8">
+          <v-col cols="12" sm="9">
             <div>
               <v-lazy
                 :options="{
@@ -167,10 +175,10 @@
 </template>
 
 <script lang="ts">
-import Vue from "vue";
-import { Component } from "vue-property-decorator";
+import { Component, Vue } from "vue-property-decorator";
 import FundingDashboardPie from "@/components/Funding/FundingDashboardPie.vue";
 import UserStore from "@/store/user/user-store";
+import { mapState } from "vuex";
 import { db, Timestamp } from "@/firebase";
 import format from "date-fns/format";
 import parseISO from "date-fns/parseISO";
@@ -194,6 +202,13 @@ import { DataServices } from "./FirestoreDataServices";
   components: {
     FundingDashboardPie
   },
+  computed: mapState("FundStore", [
+    "federalTotal",
+    "stateTotal",
+    "countyTotal",
+    "localTotal",
+    "naTotal"
+  ]),
 
   filters: {
     dateFilter: function(value: any) {
@@ -214,6 +229,7 @@ import { DataServices } from "./FirestoreDataServices";
 })
 export default class FundingDashboard extends Vue {
   //// TODO:
+  public federalTotal!: number;
   private componentKey = 0;
   private projectType = ProjectType;
   private housingType = HousingType;

@@ -77,7 +77,7 @@ export default class Merge {
             e.subData[i].FunderCategory = "Local";
           }
           if (na.includes(funder) || isNaN(funder)) {
-            e.subData[i].FunderCategory = "NA";
+            e.subData[i].FunderCategory = "NA: Not applicable";
           }
 
           e.subData[i].OrganizationID = organizationID.toString();

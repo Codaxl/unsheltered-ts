@@ -1,4 +1,4 @@
-<!-- <template>
+<template>
   <v-card>
     <v-container>
       <div>
@@ -16,9 +16,6 @@ import { Component } from "vue-property-decorator";
 import { getModule } from "vuex-module-decorators";
 import FundStore from "@/store/funds/funds-store";
 const fundStoreState = getModule(FundStore);
-
-// DATA
-import { FundsDataServices } from "@/views/Funding/FirestoreDataServices";
 
 // AMCHARTS
 import * as am4core from "@amcharts/amcharts4/core";
@@ -51,8 +48,12 @@ export default class FundingDashboardPie extends Vue {
       amount: fundStoreState.countyTotal
     },
     {
-      source: "City",
-      amount: fundStoreState.cityTotal
+      source: "Local",
+      amount: fundStoreState.localTotal
+    },
+    {
+      source: "NA: Not applicable",
+      amount: fundStoreState.naTotal
     }
   ];
 
@@ -67,7 +68,7 @@ export default class FundingDashboardPie extends Vue {
     container.layout = "horizontal";
 
     const chart = container.createChild(am4charts.PieChart);
-
+    console.log(fundStoreState.subData);
     // Add data
     chart.data = this.data;
     // Add and configure Series
@@ -106,6 +107,6 @@ export default class FundingDashboardPie extends Vue {
 <style scoped>
 .hello {
   width: 100%;
-  height: 500px;
+  height: 525px;
 }
-</style> -->
+</style>

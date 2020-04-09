@@ -27,7 +27,8 @@ export default class FundStore extends VuexModule {
   public federalTotal = 0;
   public stateTotal = 0;
   public countyTotal = 0;
-  public cityTotal = 0;
+  public localTotal = 0;
+  public naTotal = 0;
 
   public grantSelect = [{}];
   public tableGrant = [{}];
@@ -114,10 +115,13 @@ export default class FundStore extends VuexModule {
     this.countyTotal = newTotal;
   }
   @Mutation
-  public setCityTotal(newTotal: number) {
-    this.cityTotal = newTotal;
+  public setLocalTotal(newTotal: number) {
+    this.localTotal = newTotal;
   }
-
+  @Mutation
+  public setNaTotal(newTotal: number) {
+    this.naTotal = newTotal;
+  }
   @Mutation
   public setYearFilter(year: number) {
     this.yearFilter = year;

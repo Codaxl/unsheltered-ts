@@ -41,27 +41,73 @@ export class FirestoreDataServices {
         });
     });
 
-    return Promise.all([promise1, promise2]).then(values => {
+    Promise.all([promise1, promise2]).then(values => {
       const project: any = values[0];
       const funder: any = values[1];
       const dataState = new Promise(function(resolve, reject) {
         const merge = Merge.byKey(project, funder, "ProjectID");
-
+        console.log("1");
         fundStoreState.setData(merge);
 
         resolve(fundStoreState);
       });
+
+      console.log(dataState);
       const subDataState = new Promise(function(resolve, reject) {
         const uniqueArr = fundStoreState.data.map((data: any) => data.subData);
         const concatArr = Array.prototype.concat(...uniqueArr);
-
+        console.log("2");
         fundStoreState.setSubData(concatArr);
 
         resolve(fundStoreState);
       });
+      console.log("3");
+
+      const filteredFederal = fundStoreState.subData.filter(
+        (c: any) => c.FunderCategory.indexOf("Federal") !== -1
+      );
+      const federalTotal = filteredFederal.reduce(
+        (a: number, b: any) => a + b.Amount,
+        0
+      );
+      fundStoreState.setFederalTotal(federalTotal);
+
+      const filteredState = fundStoreState.subData.filter(
+        (c: any) => c.FunderCategory.indexOf("State") !== -1
+      );
+      const stateTotal = filteredState.reduce(
+        (a: number, b: any) => a + b.Amount,
+        0
+      );
+      fundStoreState.setStateTotal(stateTotal);
+
+      const filteredCounty = fundStoreState.subData.filter(
+        (c: any) => c.FunderCategory.indexOf("County") !== -1
+      );
+      const countyTotal = filteredCounty.reduce(
+        (a: number, b: any) => a + b.Amount,
+        0
+      );
+      fundStoreState.setCountyTotal(countyTotal);
+
+      const filteredLocal = fundStoreState.subData.filter(
+        (c: any) => c.FunderCategory.indexOf("Local") !== -1
+      );
+      const localTotal = filteredLocal.reduce(
+        (a: number, b: any) => a + b.Amount,
+        0
+      );
+      fundStoreState.setLocalTotal(localTotal);
+      const filteredNa = fundStoreState.subData.filter(
+        (c: any) => c.FunderCategory.indexOf("NA: Not applicable") !== -1
+      );
+      const naTotal = filteredNa.reduce((a: number, b: any) => a + b.Amount, 0);
+      fundStoreState.setNaTotal(naTotal);
 
       return Promise.resolve([dataState, subDataState]);
     });
+
+    return;
   }
 }
 
