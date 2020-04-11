@@ -66,9 +66,10 @@ export default class FundingDashboardPie extends Vue {
     container.width = am4core.percent(100);
     container.height = am4core.percent(100);
     container.layout = "horizontal";
+    console.log("final");
 
     const chart = container.createChild(am4charts.PieChart);
-    console.log(fundStoreState.subData);
+
     // Add data
     chart.data = this.data;
     // Add and configure Series
@@ -86,7 +87,35 @@ export default class FundingDashboardPie extends Vue {
 
     // Add legend
     chart.legend = new am4charts.Legend();
+    /**
+     * ========================================================
+     * Enabling responsive features
+     * ========================================================
+     */
 
+    chart.responsive.enabled = true;
+    chart.responsive.rules.push({
+      relevant: function(target) {
+        if (target.pixelWidth <= 600) {
+          return true;
+        }
+        return false;
+      },
+      state: function(target, stateId) {
+        if (target instanceof am4charts.PieSeries) {
+          const state = target.states.create(stateId);
+
+          const labelState = target.labels.template.states.create(stateId);
+          labelState.properties.disabled = true;
+
+          const tickState = target.ticks.template.states.create(stateId);
+          tickState.properties.disabled = true;
+          return state as any;
+        }
+
+        return null;
+      }
+    });
     this.container = container;
   }
   mounted() {
@@ -107,6 +136,6 @@ export default class FundingDashboardPie extends Vue {
 <style scoped>
 .hello {
   width: 100%;
-  height: 525px;
+  height: 640px;
 }
 </style>

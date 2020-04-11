@@ -3,16 +3,18 @@
     <v-row align="center" justify="center">
       <v-col>
         <v-row>
-          <h1 class="display-1 font-weight-light my-8">
-            Funding
-          </h1>
+          <v-col>
+            <h1 class="display-1 font-weight-light my-2">
+              Funding
+            </h1>
+          </v-col>
         </v-row>
         <v-row>
-          <v-col cols="12" md="3">
+          <v-col cols="12" lg="3" md="6" sm="6">
             <v-card
               dark
               class="mx-auto"
-              style="min-height:125px;"
+              style="min-height:100px;"
               color="deep-purple lighten-1"
             >
               <v-card-title class="justify-center">
@@ -25,11 +27,11 @@
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col cols="12" md="3">
+          <v-col cols="12" lg="3" md="6" sm="6">
             <v-card
               dark
               class="mx-auto"
-              style="min-height:125px;"
+              style="min-height:50px;"
               color="teal lighten-1"
             >
               <v-card-title class="justify-center">
@@ -42,11 +44,11 @@
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col cols="12" md="3">
+          <v-col cols="12" lg="3" md="6" sm="6">
             <v-card
               dark
               class="mx-auto"
-              style="min-height:125px;"
+              style="min-height:100px;"
               color="orange lighten-1"
             >
               <v-card-title class="justify-center">
@@ -59,11 +61,11 @@
               </v-card-text>
             </v-card>
           </v-col>
-          <v-col cols="12" md="3">
+          <v-col cols="12" lg="3" md="6" sm="6">
             <v-card
               dark
               class="mx-auto"
-              style="min-height:125px;"
+              style="min-height:100px;"
               color="yellow darken-1"
             >
               <v-card-title class="justify-center">
@@ -79,9 +81,9 @@
         </v-row>
 
         <v-row>
-          <v-col cols="12" sm="3">
+          <v-col cols="12" lg="3" md="6">
             <div>
-              <v-card class="mb-4" style="min-height:125px;">
+              <v-card class="mb-4" style="min-height:100px;">
                 <v-card-title>
                   <h2 class="headline">Federal</h2>
                   <v-tooltip bottom>
@@ -99,7 +101,7 @@
               </v-card>
             </div>
             <div>
-              <v-card class="mb-4" style="min-height:125px;">
+              <v-card class="mb-4" style="min-height:100px;">
                 <v-card-title>
                   <h2 class="headline">State</h2>
                   <v-tooltip bottom>
@@ -111,13 +113,13 @@
                 </v-card-title>
                 <v-card-text>
                   <span class="display-1 font-weight-light">{{
-                    federalTotal | currency
+                    stateTotal | currency
                   }}</span>
                 </v-card-text>
               </v-card>
             </div>
             <div>
-              <v-card class="mb-4" style="min-height:125px;">
+              <v-card class="mb-4" style="min-height:100px;">
                 <v-card-title>
                   <h2 class="headline">County</h2>
                   <v-tooltip bottom>
@@ -129,31 +131,49 @@
                 </v-card-title>
                 <v-card-text>
                   <span class="display-1 font-weight-light">{{
-                    federalTotal | currency
+                    countyTotal | currency
                   }}</span>
                 </v-card-text>
               </v-card>
             </div>
             <div>
-              <v-card class="mb-4" style="min-height:125px;">
+              <v-card class="mb-4" style="min-height:100px;">
                 <v-card-title>
                   <h2 class="headline">Local</h2>
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
                       <v-icon class="mx-1" v-on="on">mdi-help-circle</v-icon>
                     </template>
-                    <span>Go to City Funding</span>
+                    <span>Go to Local Funding</span>
                   </v-tooltip>
                 </v-card-title>
                 <v-card-text>
                   <span class="display-1 font-weight-light">{{
-                    federalTotal | currency
+                    localTotal | currency
+                  }}</span>
+                </v-card-text>
+              </v-card>
+            </div>
+            <div>
+              <v-card class="mb-4" style="min-height:100px;">
+                <v-card-title>
+                  <h2 class="headline">NA: Not applicable</h2>
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on }">
+                      <v-icon class="mx-1" v-on="on">mdi-help-circle</v-icon>
+                    </template>
+                    <span>Not Applicable</span>
+                  </v-tooltip>
+                </v-card-title>
+                <v-card-text>
+                  <span class="display-1 font-weight-light">{{
+                    naTotal | currency
                   }}</span>
                 </v-card-text>
               </v-card>
             </div>
           </v-col>
-          <v-col cols="12" sm="9">
+          <v-col cols="12" lg="9" md="6">
             <div>
               <v-lazy
                 :options="{
@@ -182,13 +202,6 @@ import { mapState } from "vuex";
 import { db, Timestamp } from "@/firebase";
 import format from "date-fns/format";
 import parseISO from "date-fns/parseISO";
-// lists
-import ProjectType from "@/util/constants/admin/projects/project-type";
-import HousingType from "@/util/constants/admin/projects/housing-type";
-import NoYes from "@/util/constants/admin/no-yes";
-import TargetPopulation from "@/util/constants/admin/projects/target-population";
-import TrackingMethod from "@/util/constants/admin/projects/tracking-method";
-import FundingSource from "@/util/constants/admin/funding/funding-source";
 // Merge
 import Merge from "@/util/constants/admin/merge";
 // Vuex
@@ -231,109 +244,9 @@ export default class FundingDashboard extends Vue {
   //// TODO:
   public federalTotal!: number;
   private componentKey = 0;
-  private projectType = ProjectType;
-  private housingType = HousingType;
-  private targetPopulation = TargetPopulation;
-  private trackingMethod = TrackingMethod;
-  private fundingSource = FundingSource;
-  private noYes = NoYes;
-  // Firestore collection
-  private organizationSelect = [{}];
-  private funder = [{}];
-  private result = [{}];
-  // Datepicker
-  private menu = false;
-  private menu2 = false;
   // Data Table
   private isLoading = false;
-  private dialog = false;
-  private expanded = [];
-  private singleExpand = true;
-  private headers = [
-    {
-      text: "Project Name",
-      align: "start",
-      sortable: true,
-      value: "ProjectName"
-    },
-    {
-      text: "Project Type",
-      sortable: true,
-      value: "ProjectType"
-    },
-    {
-      text: "Organization Name",
-      sortable: true,
-      value: "OrganizationID"
-    },
-    {
-      text: "Operating Start Date",
-      sortable: true,
-      value: "OperatingStartDate"
-    },
-    {
-      text: "Operating End Date",
-      sortable: true,
-      value: "OperatingEndDate"
-    },
-    {
-      text: "Continuum Project",
-      align: "center",
-      sortable: true,
-      value: "ContinuumProject"
-    },
-    {
-      text: "HMIS Participating Project",
-      align: "center",
-      sortable: true,
-      value: "HMISParticipatingProject"
-    },
-    {
-      text: "Amount Total",
-      sortable: true,
-      value: "AmountTotal"
-    },
 
-    { text: "Actions", value: "actions", align: "center", sortable: false }
-  ];
-  private subDataHeaders = [
-    {
-      text: "Notice",
-      align: "start",
-      sortable: false,
-      value: "Tooltip"
-    },
-    {
-      text: "Funder",
-      sortable: true,
-      value: "Funder"
-    },
-    {
-      text: "Grant ID",
-      sortable: true,
-      value: "GrantID"
-    },
-    {
-      text: "Start Date",
-      sortable: true,
-      value: "StartDate"
-    },
-    {
-      text: "End Date",
-      sortable: true,
-      value: "EndDate"
-    },
-    {
-      text: "Amount",
-      sortable: true,
-      value: "Amount"
-    }
-  ];
-  private editedIndex = -1;
-
-  get formTitle() {
-    return this.editedIndex === -1 ? "New Project" : "Edit Project";
-  }
   get selectYear(): number[] {
     const range = (a: number, b: number) =>
       Array.from(new Array(b > a ? b - a : a - b), (x, i) =>
@@ -368,28 +281,73 @@ export default class FundingDashboard extends Vue {
   }
   created() {
     this.initialize();
-    this.fetchOrganization();
   }
 
-  private fetchOrganization() {
-    db.collection("Organization")
-      .get()
-      .then(snapshot => {
-        this.organizationSelect = [];
-        snapshot.forEach(doc => {
-          this.organizationSelect.push({
-            value: doc.data().OrganizationID,
-            text: doc.data().OrganizationName
-          });
-        });
-      })
-      .catch(err => {
-        console.log("Error getting documents", err);
-      });
-  }
+  //TODO: Move to initialize
+  // private fetchOrganization() {
+  //   db.collection("Organization")
+  //     .get()
+  //     .then(snapshot => {
+  //       this.organizationSelect = [];
+  //       snapshot.forEach(doc => {
+  //         this.organizationSelect.push({
+  //           value: doc.data().OrganizationID,
+  //           text: doc.data().OrganizationName
+  //         });
+  //       });
+  //     })
+  //     .catch(err => {
+  //       console.log("Error getting documents", err);
+  //     });
+  // }
   private initialize() {
     const dataService = new DataServices();
-    dataService.GetAll();
+    dataService.GetAll().then((data: any) => {
+      this.setData();
+      this.componentKey += 1;
+    });
+  }
+  private setData() {
+    const filteredFederal = fundStoreState.subData.filter(
+      (c: any) => c.FunderCategory.indexOf("Federal") !== -1
+    );
+    const federalTotal = filteredFederal.reduce(
+      (a: number, b: any) => a + b.Amount,
+      0
+    );
+    fundStoreState.setFederalTotal(federalTotal);
+
+    const filteredState = fundStoreState.subData.filter(
+      (c: any) => c.FunderCategory.indexOf("State") !== -1
+    );
+    const stateTotal = filteredState.reduce(
+      (a: number, b: any) => a + b.Amount,
+      0
+    );
+    fundStoreState.setStateTotal(stateTotal);
+
+    const filteredCounty = fundStoreState.subData.filter(
+      (c: any) => c.FunderCategory.indexOf("County") !== -1
+    );
+    const countyTotal = filteredCounty.reduce(
+      (a: number, b: any) => a + b.Amount,
+      0
+    );
+    fundStoreState.setCountyTotal(countyTotal);
+
+    const filteredLocal = fundStoreState.subData.filter(
+      (c: any) => c.FunderCategory.indexOf("Local") !== -1
+    );
+    const localTotal = filteredLocal.reduce(
+      (a: number, b: any) => a + b.Amount,
+      0
+    );
+    fundStoreState.setLocalTotal(localTotal);
+    const filteredNa = fundStoreState.subData.filter(
+      (c: any) => c.FunderCategory.indexOf("NA: Not applicable") !== -1
+    );
+    const naTotal = filteredNa.reduce((a: number, b: any) => a + b.Amount, 0);
+    fundStoreState.setNaTotal(naTotal);
   }
 }
 </script>

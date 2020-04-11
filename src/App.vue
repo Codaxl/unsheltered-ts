@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app clipped-left color="primary" dark>
+    <v-app-bar app clipped-left style="background-color: inherit;" flat>
       <div class="d-flex align-center">
         <v-app-bar-nav-icon @click="drawer = !drawer" />
         <v-img
