@@ -1,28 +1,31 @@
 <template>
-  <v-container>
-    <v-row>
-      <v-col cols="12">
-        <v-card dark :loading="loading">
-          <div id="chartdiv" ref="chartdiv" class="hello"></div>
-        </v-card>
-      </v-col>
-      <v-col cols="12">
-        <v-alert border="top" colored-border type="info" elevation="2">
-          California COVID-19 Hospital Data and Case Statistics. Thank you to
-          the California Department of Public Health for making this
-          <a
-            href="https://data.chhs.ca.gov/dataset/california-covid-19-hospital-data-and-case-statistics"
-            >data</a
-          >
-          avialable. Statewide cumulative daily inventory of hospital status
-          aggregated to the county level. This dataset depicts: total confirmed
-          cases, total deaths, both positive and suspected positive COVID-19
-          patients, as well as Intensive Care Unit (ISU) positive and suspected
-          positive COVID-19 patients.
-        </v-alert>
-      </v-col>
-    </v-row>
-  </v-container>
+  <div>
+    <v-card dark :loading="isLoading">
+      <div id="chartdiv" ref="chartdiv" class="hello"></div>
+    </v-card>
+    <div class="py-2">
+      <v-alert
+        dismissible
+        border="top"
+        colored-border
+        type="info"
+        elevation="2"
+      >
+        California COVID-19 Hospital Data and Case Statistics. Thank you to the
+        California Department of Public Health for making this
+        <a
+          href="https://data.chhs.ca.gov/dataset/california-covid-19-hospital-data-and-case-statistics"
+          >data</a
+        >
+        avialable. Statewide cumulative daily inventory of hospital status
+        aggregated to the county level. This dataset depicts: total confirmed
+        cases, total deaths, both positive and suspected positive COVID-19
+        patients, as well as Intensive Care Unit (ISU) positive and suspected
+        positive COVID-19 patients. Cumulative totals previous to 4/1 are not
+        available.
+      </v-alert>
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -57,7 +60,7 @@ export default class FundingDashboardPie extends Vue {
     chartdiv: HTMLElement;
   };
   private container: any;
-  private loading = false;
+  private isLoading = false;
 
   private chartData: any = [];
 
@@ -177,9 +180,6 @@ export default class FundingDashboardPie extends Vue {
       }
 
       const data = CaTimeline[index];
-
-      console.log("data2", data);
-
       return data;
     }
 
@@ -1427,11 +1427,11 @@ export default class FundingDashboardPie extends Vue {
     this.container = container;
   }
   private chhsCovid: Array<object> = [];
-
-  mounted() {
+  created() {
+    this.isLoading = true;
     Vue.axios
-      .get(
-        "https://data.chhs.ca.gov/datastore/odata3.0/6cd8d424-dfaa-4bdd-9410-a3d656e1176e?$format=json"
+      .post(
+        "https://data.chhs.ca.gov/datastore/odata3.0/6cd8d424-dfaa-4bdd-9410-a3d656e1176e?$top=5&$format=json"
       )
       .then(response => {
         this.chhsCovid = response["data"]["value"];
@@ -1446,11 +1446,9 @@ export default class FundingDashboardPie extends Vue {
       });
     setTimeout(() => {
       this.init();
+      this.isLoading = false;
     }, 500);
-
-    this.loading = false;
   }
-
   beforeDestroy() {
     if (this.container) {
       this.container.dispose();
