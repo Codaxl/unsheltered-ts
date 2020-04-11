@@ -1425,10 +1425,12 @@ export default class FundingDashboardPie extends Vue {
      */
 
     this.container = container;
+    this.isLoading = false;
   }
   private chhsCovid: Array<object> = [];
   created() {
     this.isLoading = true;
+    console.log("1");
     Vue.axios
       .post(
         "https://data.chhs.ca.gov/datastore/odata3.0/6cd8d424-dfaa-4bdd-9410-a3d656e1176e?$top=5&$format=json"
@@ -1446,7 +1448,6 @@ export default class FundingDashboardPie extends Vue {
       });
     setTimeout(() => {
       this.init();
-      this.isLoading = false;
     }, 500);
   }
   beforeDestroy() {

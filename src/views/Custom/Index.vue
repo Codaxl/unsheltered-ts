@@ -9,7 +9,7 @@
           min-height="500"
           transition="fade-transition"
         >
-          <covid :key="componentKey"></covid>
+          <covid v-if="!isLoading" :key="componentKey"></covid>
         </v-lazy>
       </v-col>
     </v-row>
@@ -68,12 +68,15 @@ export default class CovidDashboard extends Vue {
   private isLoading = false;
 
   created() {
+    this.isLoading = true;
     this.initialize();
   }
   private initialize() {
     const dataService = new DataServices();
     dataService.GetAll().then((data: any) => {
       this.setData();
+      this.isLoading = false;
+      console.log("3");
     });
   }
   private setData() {
