@@ -8,9 +8,17 @@
       </v-col>
       <v-col cols="12">
         <v-alert border="top" colored-border type="info" elevation="2">
-          Vestibulum ullamcorper mauris at ligula. Nam pretium turpis et arcu.
-          Ut varius tincidunt libero. Curabitur ligula sapien, tincidunt non,
-          euismod vitae, posuere imperdiet, leo. Morbi nec metus.
+          California COVID-19 Hospital Data and Case Statistics. Thank you to
+          the California Department of Public Health for making this
+          <a
+            href="https://data.chhs.ca.gov/dataset/california-covid-19-hospital-data-and-case-statistics"
+            >data</a
+          >
+          avialable. Statewide cumulative daily inventory of hospital status
+          aggregated to the county level. This dataset depicts: total confirmed
+          cases, total deaths, both positive and suspected positive COVID-19
+          patients, as well as Intensive Care Unit (ISU) positive and suspected
+          positive COVID-19 patients.
         </v-alert>
       </v-col>
     </v-row>
