@@ -71,7 +71,7 @@ export class ApiDataServices {
           };
         });
         // console.log(groupArrays)
-        covidStoreState.setTimeline(groupArrays);
+        covidStoreState.setTimeline(JSON.parse(JSON.stringify(groupArrays)));
         resolve(covidStoreState);
       });
     });

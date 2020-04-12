@@ -1,30 +1,33 @@
 <template>
   <div>
-    <v-card dark :loading="isLoading">
+    <v-card dark :loading="isLoading" style="background-color: #212327;">
       <div id="chartdiv" ref="chartdiv" class="hello"></div>
+      <v-expansion-panels>
+        <v-expansion-panel>
+          <v-expansion-panel-header disable-icon-rotate>
+            California COVID-19 Hospital Data and Case Statistics. California
+            Department of Public Health.
+            <template v-slot:actions>
+              <v-icon>mdi-alert-circle</v-icon>
+            </template>
+          </v-expansion-panel-header>
+          <v-expansion-panel-content>
+            Thank you to the California Department of Public Health for making
+            this
+            <a
+              href="https://data.chhs.ca.gov/dataset/california-covid-19-hospital-data-and-case-statistics"
+              >data</a
+            >
+            avialable. Statewide cumulative daily inventory of hospital status
+            aggregated to the county level. This dataset depicts: total
+            confirmed cases, total deaths, both positive and suspected positive
+            COVID-19 patients, as well as Intensive Care Unit (ISU) positive and
+            suspected positive COVID-19 patients. Cumulative totals previous to
+            4/1 are not available.
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </v-expansion-panels>
     </v-card>
-    <div class="py-2">
-      <v-alert
-        dismissible
-        border="top"
-        colored-border
-        type="info"
-        elevation="2"
-      >
-        California COVID-19 Hospital Data and Case Statistics. Thank you to the
-        California Department of Public Health for making this
-        <a
-          href="https://data.chhs.ca.gov/dataset/california-covid-19-hospital-data-and-case-statistics"
-          >data</a
-        >
-        avialable. Statewide cumulative daily inventory of hospital status
-        aggregated to the county level. This dataset depicts: total confirmed
-        cases, total deaths, both positive and suspected positive COVID-19
-        patients, as well as Intensive Care Unit (ISU) positive and suspected
-        positive COVID-19 patients. Cumulative totals previous to 4/1 are not
-        available.
-      </v-alert>
-    </div>
   </div>
 </template>
 
@@ -65,7 +68,7 @@ export default class Covid extends Vue {
   private chartData: any = [];
   public init() {
     const covidTimeline: any = covidStoreState.timeline;
-
+    console.log(covidTimeline);
     const populations: any = {
       "99999": 0,
       "06001": 1643700,
@@ -148,7 +151,7 @@ export default class Covid extends Vue {
 
     // last date of the data
     const lastDate = new Date(covidTimeline[covidTimeline.length - 1].date);
-    // console.log(lastDate);
+    console.log(covidTimeline[covidTimeline.length - 1].date);
     let currentDate = lastDate;
 
     let currentPolygon: any;
@@ -224,7 +227,10 @@ export default class Covid extends Vue {
 
     // main container
     // https://www.amcharts.com/docs/v4/concepts/svg-engine/containers/
-    const container: any = am4core.create("chartdiv", am4core.Container);
+    const container: any = am4core.create(
+      this.$refs.chartdiv,
+      am4core.Container
+    );
     container.width = am4core.percent(100);
     container.height = am4core.percent(100);
 
@@ -897,7 +903,7 @@ export default class Covid extends Vue {
     confirmedSeries.hidden = false;
     const deathsSeries = addSeries("deaths", deathsColor);
 
-    const series: any = { confirmed: confirmedSeries, deaths: deathsSeries };
+    let series: any = { confirmed: confirmedSeries, deaths: deathsSeries };
     // add series
     function addSeries(name: any, color: any) {
       const series = lineChart.series.push(new am4charts.LineSeries());
@@ -940,6 +946,8 @@ export default class Covid extends Vue {
 
       return series;
     }
+
+    series = { confirmed: confirmedSeries, deaths: deathsSeries };
 
     let columnSeries: any;
 
