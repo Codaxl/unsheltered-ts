@@ -36,9 +36,8 @@ export class ApiDataServices {
       const timelineState = new Promise(function(resolve, reject) {
         // this gives an object with dates as keys
         const groups = covid.reduce((groups: any, arr: any) => {
-          const date = arr.MostRecentDate.split("/")
-            .reverse()
-            .join("-");
+          const date = new Date(arr.MostRecentDate).toISOString().substr(0, 10);
+
           const obj = CountyId;
           const idArr = [arr.CountyName];
           const idValueMap: any = obj.reduce(
@@ -53,6 +52,7 @@ export class ApiDataServices {
           groups[date].push({
             confirmed: Number(arr.COVID19PositivePatients),
             deaths: Number(arr.TotalCountDeaths),
+            recovered: Number(arr.ICUCOVID19PositivePatients),
             id: output.toString()
           });
           return groups;
@@ -76,8 +76,6 @@ export class ApiDataServices {
 
         resolve(covidStoreState);
       });
-
-      console.log("covid", covid);
     });
   }
 }

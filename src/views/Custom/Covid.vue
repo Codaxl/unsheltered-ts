@@ -68,7 +68,8 @@ export default class FundingDashboardPie extends Vue {
   private chartData: any = [];
 
   public init() {
-    const covidTimeline = covidStoreState.timeline;
+    console.log(CaTotalTimeline);
+    const covidTimeline: any = covidStoreState.timeline;
     const populations: any = {
       "06001": 1643700,
       "06003": 1146,
@@ -170,7 +171,7 @@ export default class FundingDashboardPie extends Vue {
 
     // make a map of country indexes for later use
     const countryIndexMap: any = {};
-    const list = covidTimeline[covidTimeline.length - 1]["list"];
+    const list: any = covidTimeline[covidTimeline.length - 1].list;
     for (let i = 0; i < list.length; i++) {
       const country = list[i];
       countryIndexMap[country.id] = i;
@@ -191,7 +192,7 @@ export default class FundingDashboardPie extends Vue {
     const slideData = getSlideData();
 
     // as we will be modifying raw data, make a copy
-    const mapData = JSON.parse(JSON.stringify(slideData["list"]));
+    const mapData = JSON.parse(JSON.stringify(slideData.list));
 
     // remove items with 0 values for better performance
     for (let i = mapData.length - 1; i >= 0; i--) {
@@ -532,7 +533,7 @@ export default class FundingDashboardPie extends Vue {
     // what to do when slider is dragged
     slider.events.on("rangechanged", function(event: any) {
       const index = Math.round((covidTimeline.length - 1) * slider.start);
-      updateMapData(getSlideData(index)["list"]);
+      updateMapData(getSlideData(index).list);
       updateTotals(index);
     });
     // stop animation if dragged
@@ -1167,7 +1168,7 @@ export default class FundingDashboardPie extends Vue {
     function setCountryData(countryIndex: any) {
       // instead of setting whole data array, we modify current raw data so that a nice animation would happen
       for (let i = 0; i < lineChart.data.length; i++) {
-        const di = covidTimeline[i]["list"];
+        const di = covidTimeline[i].list;
 
         const countryData = di[countryIndex];
         const dataContext = lineChart.data[i];
