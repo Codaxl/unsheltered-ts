@@ -16,7 +16,7 @@ export class ApiDataServices {
     const promise1 = new Promise(function(resolve, reject) {
       Vue.axios
         .post(
-          "https://data.chhs.ca.gov/datastore/odata3.0/6cd8d424-dfaa-4bdd-9410-a3d656e1176e?$format=json"
+          "https://data.chhs.ca.gov/datastore/odata3.0/6cd8d424-dfaa-4bdd-9410-a3d656e1176e?$top=638&$format=json"
         )
         .then(response => {
           const timelineRecords = response["data"]["value"].map((v: any) =>
@@ -26,6 +26,7 @@ export class ApiDataServices {
               {}
             )
           );
+          console.log(timelineRecords);
           resolve(timelineRecords);
         });
     });
@@ -48,21 +49,29 @@ export class ApiDataServices {
         const groupArrays = Object.keys(groups).map(date => {
           const arr = groups[date];
 
-          const sum = arr.reduce((a: any, b: any) => ({
-            confirmed: a.confirmed + b.confirmed,
-            deaths: a.deaths + b.deaths,
-            recovered: a.recovered + b.recovered
-          }));
+          const totalAmount1 = arr.reduce(
+            (prev, curr) => prev + (Number(curr.confirmed) || 0),
+            0
+          );
+          const totalAmount2 = arr.reduce(
+            (prev, curr) => prev + (Number(curr.deaths) || 0),
+            0
+          );
+          const totalAmount3 = arr.reduce(
+            (prev, curr) => prev + (Number(curr.recovered) || 0),
+            0
+          );
 
           return {
-            ...sum,
+            confirmed: totalAmount1,
+            deaths: totalAmount2,
+            recovered: totalAmount3,
             date,
             list: groups[date]
           };
         });
 
         covidStoreState.setTimeline(groupArrays);
-        covidStoreState.setTotalTimeline(groupArrays);
         resolve(covidStoreState);
       });
     });

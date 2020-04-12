@@ -11,15 +11,9 @@ import store from "@/store";
 export default class CovidStore extends VuexModule {
   // States
   public timeline = [{}];
-  public totalTimeline = [{}];
-
   // Mutations
   @Mutation
   public setTimeline(data: Array<object>) {
     this.timeline = data;
-  }
-  @Mutation
-  public setTotalTimeline(data: Array<object>) {
-    this.totalTimeline = data;
   }
 }

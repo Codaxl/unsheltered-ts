@@ -147,6 +147,7 @@ export default class Covid extends Vue {
 
     // last date of the data
     const lastDate = new Date(covidTimeline[covidTimeline.length - 1].date);
+    console.log(lastDate);
     let currentDate = lastDate;
 
     let currentPolygon: any;
