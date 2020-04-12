@@ -41,11 +41,12 @@ import am4themesAnimated from "@amcharts/amcharts4/themes/animated";
 import am4themesDark from "@amcharts/amcharts4/themes/dark";
 
 // Vuex
-import { mapState } from "vuex";
+
 import { getModule } from "vuex-module-decorators";
 import CovidStore from "@/store/covid/covid-store";
 const covidStoreState = getModule(CovidStore);
 
+import CaTimeline from "./data/js/CaTimeline";
 import CaTotalTimeline from "./data/js/CaTotalTimeline";
 import CountiesCa from "./data/js/CaCounties";
 import CountyGeo from "./data/json/CountyGeo.json";
@@ -55,9 +56,7 @@ am4core.useTheme(am4themesAnimated);
 am4core.useTheme(am4themesDark);
 // Themes end
 
-@Component({
-  computed: mapState("CovidStore", ["timeline"])
-})
+@Component({})
 export default class FundingDashboardPie extends Vue {
   $refs!: {
     chartdiv: HTMLElement;
@@ -68,7 +67,6 @@ export default class FundingDashboardPie extends Vue {
   private chartData: any = [];
 
   public init() {
-    console.log(CaTotalTimeline);
     const covidTimeline: any = covidStoreState.timeline;
     const populations: any = {
       "06001": 1643700,
@@ -1339,8 +1337,9 @@ export default class FundingDashboardPie extends Vue {
         const di = data[i];
         const image = bubbleSeries.getImageById(di.id);
         const polygon: any = polygonSeries.getPolygonById(di.id);
-        const population = Number(populations[image.dataItem.dataContext.id]);
+        let population: any;
         if (image) {
+          population = Number(populations[image.dataItem.dataContext.id]);
           image.dataItem.dataContext.confirmed = di.confirmed;
           image.dataItem.dataContext.deaths = di.deaths;
         }

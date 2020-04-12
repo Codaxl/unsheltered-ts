@@ -60,6 +60,7 @@ export class ApiDataServices {
 
         // Edit: to add it in the array format instead
         const groupArrays = Object.keys(groups).map(date => {
+          console.log(groups[date][0].confirmed);
           return {
             date,
             list: groups[date]
@@ -67,13 +68,7 @@ export class ApiDataServices {
         });
 
         covidStoreState.setTimeline(groupArrays);
-
-        resolve(covidStoreState);
-      });
-
-      const totalTimelineState = new Promise(function(resolve, reject) {
-        covidStoreState.setTotalTimeline(covid);
-
+        covidStoreState.setTotalTimeline(groupArrays);
         resolve(covidStoreState);
       });
     });
