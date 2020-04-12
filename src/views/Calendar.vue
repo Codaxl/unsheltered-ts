@@ -1,9 +1,6 @@
 <template>
   <div id="calendar">
     <v-container style="max-width:1080px;">
-      <div>
-        <v-breadcrumbs :items="breadcrumbs" large></v-breadcrumbs>
-      </div>
       <calendar-component></calendar-component>
     </v-container>
   </div>

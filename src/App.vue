@@ -1,8 +1,17 @@
 <template>
   <v-app>
-    <v-app-bar app clipped-left style="background-color: inherit;" flat>
-      <div class="d-flex align-center">
-        <v-app-bar-nav-icon @click="drawer = !drawer" />
+    <v-app-bar
+      :collapse="!collapseOnScroll"
+      :collapse-on-scroll="collapseOnScroll"
+      color="white"
+      flat
+      scroll-target="#scrolling-techniques-6"
+      app
+      clipped-left
+    >
+      <v-app-bar-nav-icon @click="drawer = !drawer" />
+
+      <v-toolbar-title>
         <v-img
           alt="Vuetify Logo"
           class="shrink mr-2 hidden-sm-and-down"
@@ -10,76 +19,10 @@
           src="@/assets/unsheltered-logo-dark.png"
           transition="scale-transition"
           width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="@/assets/unsheltered-name-dark.png"
-          width="150"
-        />
-      </div>
+      /></v-toolbar-title>
       <v-spacer></v-spacer>
 
-      <v-spacer></v-spacer>
-
-      <div class="hidden-sm-and-down" v-if="!isSignedIn">
-        <v-btn class="ma-2" outlined color="white" to="/Login">Login</v-btn>
-      </div>
-      <div v-else>
-        <v-menu
-          v-model="menu"
-          :close-on-content-click="false"
-          :nudge-width="200"
-          offset-y
-        >
-          <template v-slot:activator="{ on }">
-            <v-btn class="ma-2" text fab color="white" v-on="on">
-              <v-icon>mdi-account-circle</v-icon>
-            </v-btn>
-          </template>
-
-          <v-card>
-            <v-list>
-              <v-list-item exact>
-                <v-list-item-avatar>
-                  <img
-                    src="https://cdn.vuetifyjs.com/images/john.jpg"
-                    alt="John"
-                  />
-                </v-list-item-avatar>
-
-                <v-list-item-content>
-                  <v-list-item-title>{{ userName }}</v-list-item-title>
-                  <v-list-item-subtitle>Email</v-list-item-subtitle>
-                </v-list-item-content>
-              </v-list-item>
-            </v-list>
-
-            <v-row class="py-4" align="center" justify="center">
-              <v-btn outlined to="/Profile">Manage your Account</v-btn>
-            </v-row>
-            <v-divider></v-divider>
-
-            <v-list>
-              <v-list-item>
-                <v-list-item-action>
-                  <v-switch v-model="hints" color="purple"></v-switch>
-                </v-list-item-action>
-                <v-list-item-title>Dark Mode</v-list-item-title>
-              </v-list-item>
-            </v-list>
-
-            <v-card-actions>
-              <v-row align="center" justify="center">
-                <v-btn outlined v-on:click="signOut">Logout</v-btn>
-              </v-row>
-            </v-card-actions>
-          </v-card>
-        </v-menu>
-      </div>
+      <v-checkbox v-model="collapseOnScroll" hide-details></v-checkbox>
     </v-app-bar>
 
     <v-navigation-drawer
@@ -101,13 +44,6 @@
           </v-list-item-icon>
           <v-list-item-title>Covid-19</v-list-item-title>
         </v-list-item>
-        <!-- <v-list-item exact color="primary" to="/about">
-          <v-list-item-icon>
-            <v-icon>mdi-information</v-icon>
-          </v-list-item-icon>
-          <v-list-item-title>About</v-list-item-title>
-        </v-list-item> -->
-
         <v-list-item exact color="primary" to="/news">
           <v-list-item-icon>
             <v-icon>mdi-newspaper</v-icon>
@@ -122,14 +58,6 @@
 
           <v-list-item-title>Calendar</v-list-item-title>
         </v-list-item>
-
-        <!-- <v-list-item exact color="primary" to="/events">
-          <v-list-item-icon>
-            <v-icon>mdi-calendar-text</v-icon>
-          </v-list-item-icon>
-          <v-list-item-title>Events</v-list-item-title>
-        </v-list-item> -->
-
         <v-list-group prepend-icon="mdi-account-circle">
           <template v-slot:activator>
             <v-list-item-title>Funding</v-list-item-title>
@@ -139,10 +67,7 @@
             <v-list-item-icon> </v-list-item-icon>
             <v-list-item-title>Dashboard</v-list-item-title>
           </v-list-item>
-          <!-- <v-list-item exact color="primary" to="/funding/summary">
-            <v-list-item-icon> </v-list-item-icon>
-            <v-list-item-title>Summary</v-list-item-title>
-          </v-list-item> -->
+
           <v-list-group no-action sub-group>
             <template v-slot:activator>
               <v-list-item-content>
@@ -243,6 +168,7 @@ export default class SiteHeader extends Vue {
       })
       .finally(() => (this.isLoading = false));
   }
+  private collapseOnScroll = false;
   private isLoading = false;
   private items = [];
   private model = null;

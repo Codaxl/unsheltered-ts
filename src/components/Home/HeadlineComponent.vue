@@ -4,8 +4,8 @@
       <div>
         <v-card class="mx-auto">
           <v-img
-            src="@/assets/front.png"
-            lazy-src="@/assets/front.png"
+            src="@/assets/covid-front.png"
+            lazy-src="@/assets/covid-front.png"
             aspect-ratio="1"
             class="grey lighten-2"
             max-height="628"
@@ -20,15 +20,17 @@
             </template>
           </v-img>
           <v-card-text>
-            The purpose of this website is to collect structural components of
-            homeless funding and its allocation to programs. Information on who
-            is receiving funding in Riverside County, where those Funds are
-            distributed, and contact information is vital to efficient
-            management, transparency and organizational purposes.
+            “There were far too many homeless people on the streets and in
+            shelters...three months ago when we didn’t even know the word
+            ‘coronavirus,’” - Monsignor Sullivan.
+            <a
+              href="https://www.americamagazine.org/politics-society/2020/04/03/what-will-happen-people-who-are-homeless-covid-19-crisis-continues"
+              >Source</a
+            >.
           </v-card-text>
 
           <v-card-actions>
-            <v-btn text color="deep-purple accent-4" to="/news">
+            <v-btn text color="blue-grey darken-2" to="/covid">
               Continue
             </v-btn>
             <v-spacer></v-spacer>

@@ -1,8 +1,5 @@
 <template>
   <v-container style="max-width:1080px;" fluid>
-    <div>
-      <v-breadcrumbs :items="breadcrumbs" large></v-breadcrumbs>
-    </div>
     <v-row>
       <v-col cols="12">
         <v-card class="mx-auto" max-width="600" flat tile>
