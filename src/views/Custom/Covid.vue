@@ -32,11 +32,6 @@
 import Vue from "vue";
 import { Component } from "vue-property-decorator";
 
-// Vuex
-import { getModule } from "vuex-module-decorators";
-import FundStore from "@/store/funds/funds-store";
-const fundStoreState = getModule(FundStore);
-
 /* Imports */
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
@@ -45,16 +40,24 @@ import * as am4maps from "@amcharts/amcharts4/maps";
 import am4themesAnimated from "@amcharts/amcharts4/themes/animated";
 import am4themesDark from "@amcharts/amcharts4/themes/dark";
 
-import CaTimeline from "./data/js/CaTimeline";
+// Vuex
+import { mapState } from "vuex";
+import { getModule } from "vuex-module-decorators";
+import CovidStore from "@/store/covid/covid-store";
+const covidStoreState = getModule(CovidStore);
+
 import CaTotalTimeline from "./data/js/CaTotalTimeline";
 import CountiesCa from "./data/js/CaCounties";
 import CountyGeo from "./data/json/CountyGeo.json";
+
 // Themes begin
 am4core.useTheme(am4themesAnimated);
 am4core.useTheme(am4themesDark);
 // Themes end
 
-@Component({})
+@Component({
+  computed: mapState("CovidStore", ["timeline"])
+})
 export default class FundingDashboardPie extends Vue {
   $refs!: {
     chartdiv: HTMLElement;
@@ -65,6 +68,7 @@ export default class FundingDashboardPie extends Vue {
   private chartData: any = [];
 
   public init() {
+    const covidTimeline = covidStoreState.timeline;
     const populations: any = {
       "06001": 1643700,
       "06003": 1146,
@@ -166,7 +170,7 @@ export default class FundingDashboardPie extends Vue {
 
     // make a map of country indexes for later use
     const countryIndexMap: any = {};
-    const list = CaTimeline[CaTimeline.length - 1].list;
+    const list = covidTimeline[covidTimeline.length - 1]["list"];
     for (let i = 0; i < list.length; i++) {
       const country = list[i];
       countryIndexMap[country.id] = i;
@@ -176,10 +180,10 @@ export default class FundingDashboardPie extends Vue {
     // if index is not set, get last slide
     function getSlideData(index?: any) {
       if (index == undefined) {
-        index = CaTimeline.length - 1;
+        index = covidTimeline.length - 1;
       }
 
-      const data = CaTimeline[index];
+      const data = covidTimeline[index];
       return data;
     }
 
@@ -187,7 +191,7 @@ export default class FundingDashboardPie extends Vue {
     const slideData = getSlideData();
 
     // as we will be modifying raw data, make a copy
-    const mapData = JSON.parse(JSON.stringify(slideData.list));
+    const mapData = JSON.parse(JSON.stringify(slideData["list"]));
 
     // remove items with 0 values for better performance
     for (let i = mapData.length - 1; i >= 0; i--) {
@@ -308,7 +312,7 @@ export default class FundingDashboardPie extends Vue {
       new am4maps.MapImageSeries()
     );
     bubbleSeries.data = JSON.parse(JSON.stringify(mapData));
-    console.log(mapData);
+
     bubbleSeries.dataFields.value = "confirmed";
     bubbleSeries.dataFields.id = "id";
 
@@ -527,8 +531,8 @@ export default class FundingDashboardPie extends Vue {
 
     // what to do when slider is dragged
     slider.events.on("rangechanged", function(event: any) {
-      const index = Math.round((CaTimeline.length - 1) * slider.start);
-      updateMapData(getSlideData(index).list);
+      const index = Math.round((covidTimeline.length - 1) * slider.start);
+      updateMapData(getSlideData(index)["list"]);
       updateTotals(index);
     });
     // stop animation if dragged
@@ -1163,7 +1167,7 @@ export default class FundingDashboardPie extends Vue {
     function setCountryData(countryIndex: any) {
       // instead of setting whole data array, we modify current raw data so that a nice animation would happen
       for (let i = 0; i < lineChart.data.length; i++) {
-        const di = CaTimeline[i].list;
+        const di = covidTimeline[i]["list"];
 
         const countryData = di[countryIndex];
         const dataContext = lineChart.data[i];
@@ -1427,25 +1431,8 @@ export default class FundingDashboardPie extends Vue {
     this.container = container;
     this.isLoading = false;
   }
-  private chhsCovid: Array<object> = [];
   created() {
     this.isLoading = true;
-    console.log("1");
-    Vue.axios
-      .post(
-        "https://data.chhs.ca.gov/datastore/odata3.0/6cd8d424-dfaa-4bdd-9410-a3d656e1176e?$top=5&$format=json"
-      )
-      .then(response => {
-        this.chhsCovid = response["data"]["value"];
-        const result = this.chhsCovid.map(v =>
-          Object.entries(v).reduce(
-            (acc, [key, value]) =>
-              Object.assign(acc, { [key.replace(/\s+/g, "")]: value }),
-            {}
-          )
-        );
-        console.log("data", result);
-      });
     setTimeout(() => {
       this.init();
     }, 500);

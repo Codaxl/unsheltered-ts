@@ -20,45 +20,16 @@
 import { Component, Vue } from "vue-property-decorator";
 import Covid from "./Covid.vue";
 
-import format from "date-fns/format";
-import parseISO from "date-fns/parseISO";
-// Merge
-import Merge from "@/util/constants/admin/merge";
 // Vuex
-import { mapState } from "vuex";
 import { getModule } from "vuex-module-decorators";
-import FundStore from "@/store/funds/funds-store";
-const fundStoreState = getModule(FundStore);
+import CovidStore from "@/store/covid/covid-store";
+const covidStoreState = getModule(CovidStore);
 // DATA
 import { DataServices } from "./DataServices";
 @Component({
-  name: "FundingDashboard",
+  name: "CovidDashboard",
   components: {
     Covid
-  },
-  computed: mapState("FundStore", [
-    "federalTotal",
-    "stateTotal",
-    "countyTotal",
-    "localTotal",
-    "naTotal"
-  ]),
-
-  filters: {
-    dateFilter: function(value: any) {
-      return value ? format(value, "yyyy-MM-dd' at 'HH:mm:ss a") : "";
-    },
-    //https://stackoverflow.com/questions/42828664/access-vue-instance-data-inside-filter-method
-    toText: function(item: number, variable: Array<any>) {
-      const idArr = [item];
-
-      const idValueMap: any = variable.reduce(
-        (acc, { value, text }) => ({ ...acc, [value]: text }),
-        {}
-      );
-      const output = idArr.map(value => idValueMap[value]);
-      return output.toString();
-    }
   }
 })
 export default class CovidDashboard extends Vue {
@@ -74,13 +45,8 @@ export default class CovidDashboard extends Vue {
   private initialize() {
     const dataService = new DataServices();
     dataService.GetAll().then((data: any) => {
-      this.setData();
       this.isLoading = false;
-      console.log("3");
     });
-  }
-  private setData() {
-    console.log("Data");
   }
 }
 </script>
