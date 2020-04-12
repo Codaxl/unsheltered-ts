@@ -1,4 +1,5 @@
 export default [
+  { value: "99999", text: "Unassigned" },
   { value: "06001", text: "Alameda" },
   { value: "06003", text: "Alpine" },
   { value: "06005", text: "Amador" },

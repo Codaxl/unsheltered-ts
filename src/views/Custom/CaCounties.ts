@@ -1,5 +1,6 @@
 export default [
   {
+    "99999": "Unassigned",
     "06001": "Alameda",
     "06003": "Alpine",
     "06005": "Amador",

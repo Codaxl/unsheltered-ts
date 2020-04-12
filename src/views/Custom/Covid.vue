@@ -67,6 +67,7 @@ export default class Covid extends Vue {
     const covidTimeline: any = covidStoreState.timeline;
 
     const populations: any = {
+      "99999": 0,
       "06001": 1643700,
       "06003": 1146,
       "06005": 37829,
@@ -147,7 +148,7 @@ export default class Covid extends Vue {
 
     // last date of the data
     const lastDate = new Date(covidTimeline[covidTimeline.length - 1].date);
-    console.log(lastDate);
+    // console.log(lastDate);
     let currentDate = lastDate;
 
     let currentPolygon: any;
@@ -169,9 +170,9 @@ export default class Covid extends Vue {
     // TODO make sue list totals 58
     // make a map of country indexes for later use
     const countryIndexMap: any = {};
-    console.log(covidTimeline[covidTimeline.length - 1]);
+
     const list: any = covidTimeline[covidTimeline.length - 1].list;
-    console.log(list);
+
     for (let i = 0; i < list.length; i++) {
       const country = list[i];
       countryIndexMap[country.id] = i;
@@ -896,7 +897,7 @@ export default class Covid extends Vue {
     confirmedSeries.hidden = false;
     const deathsSeries = addSeries("deaths", deathsColor);
 
-    let series: any = { confirmed: confirmedSeries, deaths: deathsSeries };
+    const series: any = { confirmed: confirmedSeries, deaths: deathsSeries };
     // add series
     function addSeries(name: any, color: any) {
       const series = lineChart.series.push(new am4charts.LineSeries());
@@ -939,8 +940,6 @@ export default class Covid extends Vue {
 
       return series;
     }
-
-    series = { confirmed: confirmedSeries, deaths: deathsSeries };
 
     let columnSeries: any;
 
@@ -1342,6 +1341,7 @@ export default class Covid extends Vue {
         let population: any;
         if (image) {
           population = Number(populations[image.dataItem.dataContext.id]);
+
           image.dataItem.dataContext.confirmed = di.confirmed;
           image.dataItem.dataContext.deaths = di.deaths;
         }

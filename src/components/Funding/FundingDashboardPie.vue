@@ -21,8 +21,8 @@ const fundStoreState = getModule(FundStore);
 import * as am4core from "@amcharts/amcharts4/core";
 import * as am4charts from "@amcharts/amcharts4/charts";
 import am4themesAnimated from "@amcharts/amcharts4/themes/animated";
-
-am4core.useTheme(am4themesAnimated);
+import am4themesMaterial from "@amcharts/amcharts4/themes/material";
+import am4themesDark from "@amcharts/amcharts4/themes/dark";
 
 @Component({})
 export default class FundingDashboardPie extends Vue {
@@ -58,6 +58,9 @@ export default class FundingDashboardPie extends Vue {
   ];
 
   public init() {
+    am4core.unuseTheme(am4themesDark);
+    am4core.useTheme(am4themesAnimated);
+    am4core.useTheme(am4themesMaterial);
     this.loading = true;
     const container = am4core.create(
       this.$refs.fundingDashboardPie,
@@ -66,7 +69,7 @@ export default class FundingDashboardPie extends Vue {
     container.width = am4core.percent(100);
     container.height = am4core.percent(100);
     container.layout = "horizontal";
-    console.log("final");
+    // console.log("final");
 
     const chart = container.createChild(am4charts.PieChart);
 
