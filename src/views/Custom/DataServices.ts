@@ -67,6 +67,18 @@ export class ApiDataServices {
           };
         });
 
+        // Edit: to add it in the array format instead
+        const groupArrays2 = Object.keys(groups).map(date => {
+          const arrSum = arr => arr.reduce((a, b) => a + b, 0);
+          console.log(groups[date][0].confirmed);
+          return {
+            confirmed: arrSum(groups[date][0].confirmed),
+            deaths: arrSum(groups[date][0].deaths),
+            recovered: arrSum(groups[date][0].recovered),
+            date
+          };
+        });
+
         covidStoreState.setTimeline(groupArrays);
         covidStoreState.setTotalTimeline(groupArrays);
         resolve(covidStoreState);
