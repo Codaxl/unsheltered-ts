@@ -1,9 +1,9 @@
 <template>
   <div>
-    <v-card dark :loading="isLoading" style="background-color: #212327;">
+    <v-card dark :loading="isLoading">
       <div id="chartdiv" ref="chartdiv" class="hello"></div>
       <v-expansion-panels>
-        <v-expansion-panel>
+        <v-expansion-panel style="background:#1e2128;color:white">
           <v-expansion-panel-header disable-icon-rotate>
             California COVID-19 Hospital Data and Case Statistics. California
             Department of Public Health.
@@ -338,7 +338,7 @@ export default class Covid extends Vue {
     imageTemplate.nonScaling = true;
     imageTemplate.strokeOpacity = 0;
     imageTemplate.fillOpacity = 0.55;
-    imageTemplate.tooltipText = "{NAMELSAD}: [bold]{value}[/]";
+    imageTemplate.tooltipText = "{name}: [bold]{value}[/]";
     imageTemplate.applyOnClones = true;
 
     imageTemplate.events.on("over", handleImageOver);
@@ -942,7 +942,7 @@ export default class Covid extends Vue {
       series.tooltip!.background.fill = am4core.color("#000000");
       series.tooltip!.dy = -4;
       series.tooltip!.fontSize = "0.8em";
-      series.tooltipText = "Total {NAMELSAD}: {valueY}";
+      series.tooltipText = "Total {name}: {valueY}";
 
       return series;
     }
@@ -982,7 +982,7 @@ export default class Covid extends Vue {
       series.tooltip!.background.fill = am4core.color("#000000");
       series.tooltip!.fontSize = "0.8em";
       series.tooltipText =
-        "{NAMELSAD}: {valueY.previousChange.formatNumber('+#,###|#,###|0')}";
+        "{name}: {valueY.previousChange.formatNumber('+#,###|#,###|0')}";
 
       return series;
     }
@@ -1066,7 +1066,7 @@ export default class Covid extends Vue {
       }
 
       bubbleSeries.mapImages.template.tooltipText =
-        "[bold]{NAMELSAD}: {value}[/] [font-size:10px]\n" + currentTypeName;
+        "[bold]{name}: {value}[/] [font-size:10px]\n" + currentTypeName;
 
       // make button active
       const activeButton = buttons[name];
@@ -1146,7 +1146,7 @@ export default class Covid extends Vue {
       // save current polygon
       currentPolygon = mapPolygon;
       const countryIndex = countryIndexMap[mapPolygon.dataItem.id];
-      currentCountry = mapPolygon.dataItem.dataContext.NAMELSAD;
+      currentCountry = mapPolygon.dataItem.dataContext.name;
 
       // make others inactive
       polygonSeries.mapPolygons.each(function(polygon: any) {
@@ -1220,8 +1220,8 @@ export default class Covid extends Vue {
         // make bubble hovered too
         const image = bubbleSeries.getImageById(mapPolygon.dataItem.id);
         if (image) {
-          image.dataItem.dataContext.NAMELSAD =
-            mapPolygon.dataItem.dataContext.NAMELSAD;
+          image.dataItem.dataContext.name =
+            mapPolygon.dataItem.dataContext.name;
           image.isHover = true;
         }
       }
@@ -1429,7 +1429,7 @@ export default class Covid extends Vue {
 
     function updateCountryTooltip() {
       polygonSeries.mapPolygons.template.tooltipText =
-        "[bold]{NAMELSAD}: {value.formatNumber('#.')}[/]\n[font-size:10px]" +
+        "[bold]{name}: {value.formatNumber('#.')}[/]\n[font-size:10px]" +
         currentTypeName +
         " per million";
     }
