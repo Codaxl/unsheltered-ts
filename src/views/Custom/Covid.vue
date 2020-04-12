@@ -55,7 +55,7 @@ am4core.useTheme(am4themesDark);
 // Themes end
 
 @Component({})
-export default class FundingDashboardPie extends Vue {
+export default class Covid extends Vue {
   $refs!: {
     chartdiv: HTMLElement;
   };
@@ -63,10 +63,9 @@ export default class FundingDashboardPie extends Vue {
   private isLoading = false;
 
   private chartData: any = [];
-
   public init() {
     const covidTimeline: any = covidStoreState.timeline;
-    const covidTotalTimeline: any = covidStoreState.totalTimeline;
+
     const populations: any = {
       "06001": 1643700,
       "06003": 1146,
@@ -147,9 +146,7 @@ export default class FundingDashboardPie extends Vue {
     let currentCountry = "California (Total)";
 
     // last date of the data
-    const lastDate = new Date(
-      covidTotalTimeline[covidTotalTimeline.length - 1].date
-    );
+    const lastDate = new Date(covidTimeline[covidTimeline.length - 1].date);
     let currentDate = lastDate;
 
     let currentPolygon: any;
@@ -168,9 +165,12 @@ export default class FundingDashboardPie extends Vue {
     // PREPARE DATA
     //////////////////////////////////////////////////////////////////////////////
 
+    // TODO make sue list totals 58
     // make a map of country indexes for later use
     const countryIndexMap: any = {};
+    console.log(covidTimeline[covidTimeline.length - 1]);
     const list: any = covidTimeline[covidTimeline.length - 1].list;
+    console.log(list);
     for (let i = 0; i < list.length; i++) {
       const country = list[i];
       countryIndexMap[country.id] = i;
@@ -738,7 +738,7 @@ export default class FundingDashboardPie extends Vue {
     lineChart.paddingTop = 3;
 
     // make a copy of data as we will be modifying it
-    lineChart.data = JSON.parse(JSON.stringify(covidTotalTimeline));
+    lineChart.data = JSON.parse(JSON.stringify(covidTimeline));
 
     // date axis
     // https://www.amcharts.com/docs/v4/concepts/axes/date-axis/
@@ -1273,7 +1273,7 @@ export default class FundingDashboardPie extends Vue {
 
       // update line chart data (again, modifying instead of setting new data for a nice animation)
       for (let i = 0; i < lineChart.data.length; i++) {
-        const di = covidTotalTimeline[i];
+        const di = covidTimeline[i];
         const dataContext = lineChart.data[i];
         dataContext.confirmed = di.confirmed;
         dataContext.deaths = di.deaths;
@@ -1298,7 +1298,7 @@ export default class FundingDashboardPie extends Vue {
     // update total values in buttons
     function updateTotals(index: any) {
       if (!isNaN(index)) {
-        const di = covidTotalTimeline[index];
+        const di = covidTimeline[index];
         const date = new Date(di.date);
         currentDate = date;
 

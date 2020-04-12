@@ -10,7 +10,7 @@ import format from "date-fns/format";
 import parseISO from "date-fns/parseISO";
 
 export class ApiDataServices {
-  getAll(docToCovidRecordMap: any) {
+  getAll(docToCovidRecordMap: any, docToTimelineRecordMap: any) {
     const covidRecords: Array<object> = [];
 
     const promise1 = new Promise(function(resolve, reject) {
@@ -35,38 +35,17 @@ export class ApiDataServices {
 
       const timelineState = new Promise(function(resolve, reject) {
         // this gives an object with dates as keys
-        const groups = covid.reduce((groups: any, arr: any) => {
-          const date = new Date(arr.MostRecentDate).toISOString().substr(0, 10);
-
-          const obj = CountyId;
-          const idArr = [arr.CountyName];
-          const idValueMap: any = obj.reduce(
-            (acc, { text, value }) => ({ ...acc, [text]: value }),
-            {}
-          );
-          const output = idArr.map(value => idValueMap[value]);
-
+        const groups = covid.reduce((groups: any, doc: any) => {
+          const date = new Date(doc.MostRecentDate).toISOString().substr(0, 10);
           if (!groups[date]) {
             groups[date] = [];
           }
-          groups[date].push({
-            confirmed: Number(arr.COVID19PositivePatients),
-            deaths: Number(arr.TotalCountDeaths),
-            recovered: Number(arr.ICUCOVID19PositivePatients),
-            id: output.toString()
-          });
+          groups[date].push(docToTimelineRecordMap(doc));
           return groups;
         }, {});
 
         // Edit: to add it in the array format instead
         const groupArrays = Object.keys(groups).map(date => {
-          return {
-            date,
-            list: groups[date]
-          };
-        });
-
-        const groupArrays2 = Object.keys(groups).map(date => {
           const arr = groups[date];
 
           const sum = arr.reduce((a: any, b: any) => ({
@@ -75,19 +54,45 @@ export class ApiDataServices {
             recovered: a.recovered + b.recovered
           }));
 
-          console.log(confirmed);
           return {
             ...sum,
-            date
+            date,
+            list: groups[date]
           };
         });
 
         covidStoreState.setTimeline(groupArrays);
-        covidStoreState.setTotalTimeline(groupArrays2);
+        covidStoreState.setTotalTimeline(groupArrays);
         resolve(covidStoreState);
       });
     });
   }
+}
+export class TimelineRecord {
+  //
+  confirmed = 0;
+  deaths = 0;
+  recovered = 0;
+  id = "";
+}
+
+export function DocToTimelineRecordMap(doc: any): TimelineRecord {
+  const obj = CountyId;
+  const idArr = [doc.CountyName];
+  const idValueMap: any = obj.reduce(
+    (acc, { text, value }) => ({ ...acc, [text]: value }),
+    {}
+  );
+  const output = idArr.map(value => idValueMap[value]);
+
+  const timelineRecord = {
+    //
+    confirmed: Number(doc.COVID19PositivePatients),
+    deaths: Number(doc.TotalCountDeaths),
+    recovered: Number(doc.ICUCOVID19PositivePatients),
+    id: output.toString()
+  };
+  return timelineRecord;
 }
 
 export class CovidRecord {
@@ -125,6 +130,9 @@ export class DataServices {
     this.dataServices = new ApiDataServices();
   }
   GetAll() {
-    return this.dataServices.getAll(DocToCovidRecordMap);
+    return this.dataServices.getAll(
+      DocToCovidRecordMap,
+      DocToTimelineRecordMap
+    );
   }
 }
