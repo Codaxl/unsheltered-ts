@@ -2,24 +2,26 @@
   <v-app>
     <v-app-bar
       :collapse="!collapseOnScroll"
-      :collapse-on-scroll="collapseOnScroll"
       color="white"
       flat
-      scroll-target="#scrolling-techniques-6"
       app
       clipped-left
     >
       <v-app-bar-nav-icon @click="drawer = !drawer" />
 
       <v-toolbar-title>
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2 hidden-sm-and-down"
-          contain
-          src="@/assets/unsheltered-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-      /></v-toolbar-title>
+        <v-row align="center" style="min-width:200px;">
+          <v-img
+            alt="Vuetify Logo"
+            class="shrink mr-2 hidden-sm-and-down"
+            contain
+            src="@/assets/unsheltered-logo-dark.png"
+            transition="scale-transition"
+            width="40"
+          />
+          Unsheltered.io
+        </v-row>
+      </v-toolbar-title>
       <v-spacer></v-spacer>
 
       <v-checkbox v-model="collapseOnScroll" hide-details></v-checkbox>
@@ -68,7 +70,7 @@
             <v-list-item-title>Dashboard</v-list-item-title>
           </v-list-item>
 
-          <v-list-group no-action sub-group>
+          <!-- <v-list-group no-action sub-group>
             <template v-slot:activator>
               <v-list-item-content>
                 <v-list-item-title>Federal</v-list-item-title>
@@ -111,7 +113,7 @@
             >
               <v-list-item-title v-text="funds[0]"></v-list-item-title>
             </v-list-item>
-          </v-list-group>
+          </v-list-group> -->
         </v-list-group>
       </v-list>
     </v-navigation-drawer>
@@ -180,13 +182,9 @@ export default class SiteHeader extends Vue {
   private message = false;
   private hints = true;
   private drawer = null;
-  private federalFunds = [["CoC", "/funding/federal/coc"]];
-  private stateFunds = [
-    ["CESH", "/funding/state/cesh"],
-    ["HEAP", "/funding/state/heap"],
-    ["ESG", "/funding/state/esg"]
-  ];
-  private countyFunds = [["General", "/funding/county/general"]];
+  private federalFunds = [];
+  private stateFunds = [];
+  private countyFunds = [];
 
   private toTop() {
     this.$vuetify.goTo(0);

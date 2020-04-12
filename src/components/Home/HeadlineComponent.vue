@@ -6,8 +6,7 @@
           <v-img
             src="@/assets/covid-front.png"
             lazy-src="@/assets/covid-front.png"
-            aspect-ratio="1"
-            class="grey lighten-2"
+            aspect-ratio="1.7"
             max-height="628"
           >
             <template v-slot:placeholder>

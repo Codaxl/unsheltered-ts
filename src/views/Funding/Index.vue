@@ -189,6 +189,19 @@
             </div>
           </v-col>
         </v-row>
+        <v-row>
+          <v-col cols="12">
+            <v-lazy
+              :options="{
+                threshold: 0.5
+              }"
+              min-height="500"
+              transition="fade-transition"
+            >
+              <project :key="componentKey"></project>
+            </v-lazy>
+          </v-col>
+        </v-row>
       </v-col>
     </v-row>
   </v-container>
@@ -197,6 +210,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import FundingDashboardPie from "@/components/Funding/FundingDashboardPie.vue";
+import Project from "./Project.vue";
 import UserStore from "@/store/user/user-store";
 import { mapState } from "vuex";
 import { db, Timestamp } from "@/firebase";
@@ -213,7 +227,8 @@ import { DataServices } from "./FirestoreDataServices";
 @Component({
   name: "FundingDashboard",
   components: {
-    FundingDashboardPie
+    FundingDashboardPie,
+    Project
   },
   computed: mapState("FundStore", [
     "federalTotal",
