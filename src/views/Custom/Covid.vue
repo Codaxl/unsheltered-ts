@@ -68,7 +68,7 @@ export default class Covid extends Vue {
   private chartData: any = [];
   public init() {
     const covidTimeline: any = covidStoreState.timeline;
-    console.log(covidTimeline);
+
     const populations: any = {
       "99999": 0,
       "06001": 1643700,
@@ -151,7 +151,7 @@ export default class Covid extends Vue {
 
     // last date of the data
     const lastDate = new Date(covidTimeline[covidTimeline.length - 1].date);
-    console.log(covidTimeline[covidTimeline.length - 1].date);
+
     let currentDate = lastDate;
 
     let currentPolygon: any;

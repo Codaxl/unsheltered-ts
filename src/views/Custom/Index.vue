@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-row align="center" justify="center">
+    <v-row align="center" justify="center" no-gutters>
       <v-col>
         <v-lazy
           :options="{
