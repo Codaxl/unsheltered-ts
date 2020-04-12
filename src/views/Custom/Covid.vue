@@ -46,8 +46,6 @@ import { getModule } from "vuex-module-decorators";
 import CovidStore from "@/store/covid/covid-store";
 const covidStoreState = getModule(CovidStore);
 
-import CaTimeline from "./data/js/CaTimeline";
-import CaTotalTimeline from "./data/js/CaTotalTimeline";
 import CountiesCa from "./data/js/CaCounties";
 import CountyGeo from "./data/json/CountyGeo.json";
 
@@ -68,6 +66,7 @@ export default class FundingDashboardPie extends Vue {
 
   public init() {
     const covidTimeline: any = covidStoreState.timeline;
+    const covidTotalTimeline: any = covidStoreState.totalTimeline;
     const populations: any = {
       "06001": 1643700,
       "06003": 1146,
@@ -148,7 +147,9 @@ export default class FundingDashboardPie extends Vue {
     let currentCountry = "California (Total)";
 
     // last date of the data
-    const lastDate = new Date(CaTotalTimeline[CaTotalTimeline.length - 1].date);
+    const lastDate = new Date(
+      covidTotalTimeline[covidTotalTimeline.length - 1].date
+    );
     let currentDate = lastDate;
 
     let currentPolygon: any;
@@ -737,7 +738,7 @@ export default class FundingDashboardPie extends Vue {
     lineChart.paddingTop = 3;
 
     // make a copy of data as we will be modifying it
-    lineChart.data = JSON.parse(JSON.stringify(CaTotalTimeline));
+    lineChart.data = JSON.parse(JSON.stringify(covidTotalTimeline));
 
     // date axis
     // https://www.amcharts.com/docs/v4/concepts/axes/date-axis/
@@ -1272,7 +1273,7 @@ export default class FundingDashboardPie extends Vue {
 
       // update line chart data (again, modifying instead of setting new data for a nice animation)
       for (let i = 0; i < lineChart.data.length; i++) {
-        const di = CaTotalTimeline[i];
+        const di = covidTotalTimeline[i];
         const dataContext = lineChart.data[i];
         dataContext.confirmed = di.confirmed;
         dataContext.deaths = di.deaths;
@@ -1297,7 +1298,7 @@ export default class FundingDashboardPie extends Vue {
     // update total values in buttons
     function updateTotals(index: any) {
       if (!isNaN(index)) {
-        const di = CaTotalTimeline[index];
+        const di = covidTotalTimeline[index];
         const date = new Date(di.date);
         currentDate = date;
 

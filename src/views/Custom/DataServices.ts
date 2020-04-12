@@ -60,27 +60,30 @@ export class ApiDataServices {
 
         // Edit: to add it in the array format instead
         const groupArrays = Object.keys(groups).map(date => {
-          console.log(groups[date][0].confirmed);
           return {
             date,
             list: groups[date]
           };
         });
 
-        // Edit: to add it in the array format instead
         const groupArrays2 = Object.keys(groups).map(date => {
-          const arrSum = arr => arr.reduce((a, b) => a + b, 0);
-          console.log(groups[date][0].confirmed);
+          const arr = groups[date];
+
+          const sum = arr.reduce((a: any, b: any) => ({
+            confirmed: a.confirmed + b.confirmed,
+            deaths: a.deaths + b.deaths,
+            recovered: a.recovered + b.recovered
+          }));
+
+          console.log(confirmed);
           return {
-            confirmed: arrSum(groups[date][0].confirmed),
-            deaths: arrSum(groups[date][0].deaths),
-            recovered: arrSum(groups[date][0].recovered),
+            ...sum,
             date
           };
         });
 
         covidStoreState.setTimeline(groupArrays);
-        covidStoreState.setTotalTimeline(groupArrays);
+        covidStoreState.setTotalTimeline(groupArrays2);
         resolve(covidStoreState);
       });
     });
