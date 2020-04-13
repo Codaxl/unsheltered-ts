@@ -19,7 +19,7 @@
             transition="scale-transition"
             width="40"
           />
-          Unsheltered.io
+          <span class="font-weight-bold grey--text">Unsheltered.io</span>
         </v-row>
       </v-toolbar-title>
       <v-spacer></v-spacer>

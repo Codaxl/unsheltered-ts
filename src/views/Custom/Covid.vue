@@ -67,68 +67,70 @@ export default class Covid extends Vue {
 
   private chartData: any = [];
   public init() {
-    const covidTimeline: any = covidStoreState.timeline;
-
+    const covidTimeline: any = JSON.parse(
+      JSON.stringify(covidStoreState.timeline)
+    );
+    // console.log(covidTimeline[0])
     const populations: any = {
-      "99999": 0,
-      "06001": 1643700,
-      "06003": 1146,
-      "06005": 37829,
-      "06007": 227075,
-      "06009": 45235,
-      "06011": 21464,
-      "06013": 1133247,
-      "06015": 27424,
-      "06017": 186661,
-      "06019": 978130,
-      "06021": 27897,
-      "06023": 135768,
-      "06025": 180216,
-      "06027": 18085,
-      "06029": 883053,
-      "06031": 150075,
-      "06033": 64148,
-      "06035": 31185,
-      "06037": 10098052,
-      "06039": 155013,
-      "06041": 260295,
-      "06043": 17540,
-      "06045": 87422,
-      "06047": 269075,
-      "06049": 8938,
-      "06051": 14174,
-      "06053": 433212,
-      "06055": 140530,
-      "06057": 99092,
-      "06059": 3164182,
-      "06061": 380077,
-      "06063": 18699,
-      "06065": 2383286,
-      "06067": 1510023,
-      "06069": 59416,
-      "06071": 2135413,
-      "06073": 3302833,
-      "06075": 870044,
-      "06077": 732212,
-      "06079": 281455,
-      "06081": 765935,
-      "06083": 443738,
-      "06085": 1922200,
-      "06087": 273765,
-      "06089": 179085,
-      "06091": 2930,
-      "06093": 43540,
-      "06095": 438530,
-      "06097": 501317,
-      "06099": 539301,
-      "06101": 95872,
-      "06103": 63373,
-      "06105": 12862,
-      "06107": 460477,
-      "06109": 53932,
-      "06111": 848112,
-      "06113": 214977,
-      "06115": 75493
+      "CA-99999": "0",
+      "CA-06001": "1643700",
+      "CA-06003": "1146",
+      "CA-06005": "37829",
+      "CA-06007": "227075",
+      "CA-06009": "45235",
+      "CA-06011": "21464",
+      "CA-06013": "1133247",
+      "CA-06015": "27424",
+      "CA-06017": "186661",
+      "CA-06019": "978130",
+      "CA-06021": "27897",
+      "CA-06023": "135768",
+      "CA-06025": "180216",
+      "CA-06027": "18085",
+      "CA-06029": "883053",
+      "CA-06031": "150075",
+      "CA-06033": "64148",
+      "CA-06035": "31185",
+      "CA-06037": "10098052",
+      "CA-06039": "155013",
+      "CA-06041": "260295",
+      "CA-06043": "17540",
+      "CA-06045": "87422",
+      "CA-06047": "269075",
+      "CA-06049": "8938",
+      "CA-06051": "14174",
+      "CA-06053": "433212",
+      "CA-06055": "140530",
+      "CA-06057": "99092",
+      "CA-06059": "3164182",
+      "CA-06061": "380077",
+      "CA-06063": "18699",
+      "CA-06065": "2383286",
+      "CA-06067": "1510023",
+      "CA-06069": "59416",
+      "CA-06071": "2135413",
+      "CA-06073": "3302833",
+      "CA-06075": "870044",
+      "CA-06077": "732212",
+      "CA-06079": "281455",
+      "CA-06081": "765935",
+      "CA-06083": "443738",
+      "CA-06085": "1922200",
+      "CA-06087": "273765",
+      "CA-06089": "179085",
+      "CA-06091": "2930",
+      "CA-06093": "43540",
+      "CA-06095": "438530",
+      "CA-06097": "501317",
+      "CA-06099": "539301",
+      "CA-06101": "95872",
+      "CA-06103": "63373",
+      "CA-06105": "12862",
+      "CA-06107": "460477",
+      "CA-06109": "53932",
+      "CA-06111": "848112",
+      "CA-06113": "214977",
+      "CA-06115": "75493"
     };
 
     const numberFormatter = new am4core.NumberFormatter();
@@ -170,7 +172,6 @@ export default class Covid extends Vue {
     // PREPARE DATA
     //////////////////////////////////////////////////////////////////////////////
 
-    // TODO make sue list totals 58
     // make a map of country indexes for later use
     const countryIndexMap: any = {};
 
@@ -178,7 +179,9 @@ export default class Covid extends Vue {
 
     for (let i = 0; i < list.length; i++) {
       const country = list[i];
+      // console.log("country", country)
       countryIndexMap[country.id] = i;
+      // console.log(countryIndexMap[country.id])
     }
 
     // function that returns current slide
@@ -189,6 +192,11 @@ export default class Covid extends Vue {
       }
 
       const data = covidTimeline[index];
+      // augment with names
+      for (let i = 0; i < data.list.length; i++) {
+        data.list[i].name = idToName(data.list[i].id);
+      }
+
       return data;
     }
 
@@ -227,10 +235,7 @@ export default class Covid extends Vue {
 
     // main container
     // https://www.amcharts.com/docs/v4/concepts/svg-engine/containers/
-    const container: any = am4core.create(
-      this.$refs.chartdiv,
-      am4core.Container
-    );
+    const container: any = am4core.create("chartdiv", am4core.Container);
     container.width = am4core.percent(100);
     container.height = am4core.percent(100);
 
@@ -748,13 +753,15 @@ export default class Covid extends Vue {
     // make a copy of data as we will be modifying it
     lineChart.data = JSON.parse(JSON.stringify(covidTimeline));
 
+    //
+    // console.log(lineChart.data )
     // date axis
     // https://www.amcharts.com/docs/v4/concepts/axes/date-axis/
     const dateAxis: any = lineChart.xAxes.push(new am4charts.DateAxis());
     dateAxis.renderer.minGridDistance = 50;
     dateAxis.renderer.grid.template.stroke = am4core.color("#000000");
     dateAxis.renderer.grid.template.strokeOpacity = 0.25;
-    dateAxis.max = lastDate.getTime() + am4core.time.getDuration("day", 5);
+    dateAxis.max = lastDate.getTime() + am4core.time.getDuration("day", 2);
     dateAxis.tooltip.label.fontSize = "0.8em";
     dateAxis.tooltip.background.fill = confirmedColor;
     dateAxis.tooltip.background.stroke = confirmedColor;
@@ -935,13 +942,13 @@ export default class Covid extends Vue {
       circleHoverState.properties.scale = 1.4;
 
       // tooltip setup
-      series.tooltip!.pointerOrientation = "down";
-      series.tooltip!.getStrokeFromObject = true;
-      series.tooltip!.getFillFromObject = false;
-      series.tooltip!.background.fillOpacity = 0.2;
-      series.tooltip!.background.fill = am4core.color("#000000");
-      series.tooltip!.dy = -4;
-      series.tooltip!.fontSize = "0.8em";
+      series.tooltip.pointerOrientation = "down";
+      series.tooltip.getStrokeFromObject = true;
+      series.tooltip.getFillFromObject = false;
+      series.tooltip.background.fillOpacity = 0.2;
+      series.tooltip.background.fill = am4core.color("#000000");
+      series.tooltip.dy = -4;
+      series.tooltip.fontSize = "0.8em";
       series.tooltipText = "Total {name}: {valueY}";
 
       return series;
@@ -1145,9 +1152,12 @@ export default class Covid extends Vue {
       }
       // save current polygon
       currentPolygon = mapPolygon;
+
       const countryIndex = countryIndexMap[mapPolygon.dataItem.id];
+      // console.log("countryIndex", countryIndexMap)
       currentCountry = mapPolygon.dataItem.dataContext.name;
 
+      // console.log("currentCountry", currentCountry)
       // make others inactive
       polygonSeries.mapPolygons.each(function(polygon: any) {
         polygon.isActive = false;
@@ -1159,6 +1169,7 @@ export default class Covid extends Vue {
       }
       // we delay change of data for better performance (so that data is not changed whil zooming)
       countryDataTimeout = setTimeout(function() {
+        // console.log("countryDataTimeout", countryIndex)
         setCountryData(countryIndex);
       }, 1000); // you can adjust number, 1000 is one second
 
@@ -1176,17 +1187,26 @@ export default class Covid extends Vue {
       // instead of setting whole data array, we modify current raw data so that a nice animation would happen
       for (let i = 0; i < lineChart.data.length; i++) {
         const di = covidTimeline[i].list;
-
+        // console.log("setcountry", covidTimeline[i].list)
         const countryData = di[countryIndex];
+        // console.log("countryData", countryData)
         const dataContext = lineChart.data[i];
+        // console.log("dataContext", lineChart.data[i])
+
+        // If there is data, set bottom chart recovered, confirmed, deaths, min and max.
         if (countryData) {
+          // dataContext.recovered..., is set to countryData
+          dataContext.recovered = countryData.recovered;
           dataContext.confirmed = countryData.confirmed;
           dataContext.deaths = countryData.deaths;
+
           valueAxis.min = undefined;
           valueAxis.max = undefined;
         } else {
+          dataContext.recovered = 0;
           dataContext.confirmed = 0;
           dataContext.deaths = 0;
+
           valueAxis.min = 0;
           valueAxis.max = 10;
         }
@@ -1194,6 +1214,7 @@ export default class Covid extends Vue {
 
       lineChart.invalidateRawData();
       updateTotals(currentIndex);
+      // console.log("updateTotals", currentIndex)
       setTimeout(updateSeriesTooltip, 1000);
     }
 
@@ -1321,6 +1342,7 @@ export default class Covid extends Vue {
         }
         for (const key in buttons) {
           const count = Number(lineChart.data[index][key]);
+          // console.log(lineChart.data[index])
           if (!isNaN(count)) {
             buttons[key].label.text =
               capitalizeFirstLetter(key) +
@@ -1354,12 +1376,14 @@ export default class Covid extends Vue {
           image.dataItem.dataContext.deaths = di.deaths;
         }
 
-        if (polygon) {
+        if (polygon && population > 0) {
+          // console.log(di.confirmed, di.id)
+          di.confirmed = di.confirmed || 0;
           polygon.dataItem.dataContext.confirmedPC =
             (di.confirmed / population) * 1000000;
           polygon.dataItem.dataContext.deathsPC =
             (di.deaths / population) * 1000000;
-
+          // console.log(population)
           /*if (polygon.dataItem.dataContext.confirmedPC > maxPC.confirmed) {
     					maxPC.confirmed = polygon.dataItem.dataContext.confirmedPC;
     				}
@@ -1437,6 +1461,9 @@ export default class Covid extends Vue {
     /**
      * Country/state list on the right
      */
+    function idToName(id: any) {
+      return CountiesCa[id] ? CountiesCa[id] : id;
+    }
 
     this.container = container;
     this.isLoading = false;

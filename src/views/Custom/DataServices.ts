@@ -70,8 +70,17 @@ export class ApiDataServices {
             list: groups[date]
           };
         });
+
+        // Sort Ascending by Date
+        groupArrays.sort(function compare(a, b) {
+          const dateA: any = new Date(a.date);
+          const dateB: any = new Date(b.date);
+          // console.log(dateB)
+          return dateA - dateB;
+        });
+
         // console.log(groupArrays)
-        covidStoreState.setTimeline(JSON.parse(JSON.stringify(groupArrays)));
+        covidStoreState.setTimeline(groupArrays);
         resolve(covidStoreState);
       });
     });
