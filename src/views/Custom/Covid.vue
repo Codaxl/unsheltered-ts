@@ -70,67 +70,67 @@ export default class Covid extends Vue {
     const covidTimeline: any = JSON.parse(
       JSON.stringify(covidStoreState.timeline)
     );
-    // console.log(covidTimeline[0])
+    console.log(covidTimeline[1]);
     const populations: any = {
-      "CA-99999": "0",
-      "CA-06001": "1643700",
-      "CA-06003": "1146",
-      "CA-06005": "37829",
-      "CA-06007": "227075",
-      "CA-06009": "45235",
-      "CA-06011": "21464",
-      "CA-06013": "1133247",
-      "CA-06015": "27424",
-      "CA-06017": "186661",
-      "CA-06019": "978130",
-      "CA-06021": "27897",
-      "CA-06023": "135768",
-      "CA-06025": "180216",
-      "CA-06027": "18085",
-      "CA-06029": "883053",
-      "CA-06031": "150075",
-      "CA-06033": "64148",
-      "CA-06035": "31185",
-      "CA-06037": "10098052",
-      "CA-06039": "155013",
-      "CA-06041": "260295",
-      "CA-06043": "17540",
-      "CA-06045": "87422",
-      "CA-06047": "269075",
-      "CA-06049": "8938",
-      "CA-06051": "14174",
-      "CA-06053": "433212",
-      "CA-06055": "140530",
-      "CA-06057": "99092",
-      "CA-06059": "3164182",
-      "CA-06061": "380077",
-      "CA-06063": "18699",
-      "CA-06065": "2383286",
-      "CA-06067": "1510023",
-      "CA-06069": "59416",
-      "CA-06071": "2135413",
-      "CA-06073": "3302833",
-      "CA-06075": "870044",
-      "CA-06077": "732212",
-      "CA-06079": "281455",
-      "CA-06081": "765935",
-      "CA-06083": "443738",
-      "CA-06085": "1922200",
-      "CA-06087": "273765",
-      "CA-06089": "179085",
-      "CA-06091": "2930",
-      "CA-06093": "43540",
-      "CA-06095": "438530",
-      "CA-06097": "501317",
-      "CA-06099": "539301",
-      "CA-06101": "95872",
-      "CA-06103": "63373",
-      "CA-06105": "12862",
-      "CA-06107": "460477",
-      "CA-06109": "53932",
-      "CA-06111": "848112",
-      "CA-06113": "214977",
-      "CA-06115": "75493"
+      alameda: "1643700",
+      alpine: "1146",
+      amador: "37829",
+      butte: "227075",
+      calaveras: "45235",
+      colusa: "21464",
+      "contra-costa": "1133247",
+      "del-norte": "27424",
+      "el-dorado": "186661",
+      fresno: "978130",
+      glenn: "27897",
+      humboldt: "135768",
+      imperial: "180216",
+      inyo: "18085",
+      kern: "883053",
+      kings: "150075",
+      lake: "64148",
+      lassen: "31185",
+      "los-angeles": "10098052",
+      madera: "155013",
+      marin: "260295",
+      mariposa: "17540",
+      mendocino: "87422",
+      merced: "269075",
+      modoc: "8938",
+      mono: "14174",
+      monterey: "433212",
+      napa: "140530",
+      nevada: "99092",
+      orange: "3164182",
+      placer: "380077",
+      plumas: "18699",
+      riverside: "2383286",
+      sacramento: "1510023",
+      "san-benito": "59416",
+      "san-bernardino": "2135413",
+      "san-diego": "3302833",
+      "san-francisco": "870044",
+      "san-joaquin": "732212",
+      "san-luis-obispo": "281455",
+      "san-mateo": "765935",
+      "santa-barbara": "443738",
+      "santa-clara": "1922200",
+      "santa-cruz": "273765",
+      shasta: "179085",
+      sierra: "2930",
+      siskiyou: "43540",
+      solano: "438530",
+      sonoma: "501317",
+      stanislaus: "539301",
+      sutter: "95872",
+      tehama: "63373",
+      trinity: "12862",
+      tulare: "460477",
+      tuolumne: "53932",
+      unassigned: "0",
+      ventura: "848112",
+      yolo: "214977",
+      yuba: "75493"
     };
 
     const numberFormatter = new am4core.NumberFormatter();
@@ -192,11 +192,6 @@ export default class Covid extends Vue {
       }
 
       const data = covidTimeline[index];
-      // augment with names
-      for (let i = 0; i < data.list.length; i++) {
-        data.list[i].name = idToName(data.list[i].id);
-      }
-
       return data;
     }
 
@@ -1461,9 +1456,6 @@ export default class Covid extends Vue {
     /**
      * Country/state list on the right
      */
-    function idToName(id: any) {
-      return CountiesCa[id] ? CountiesCa[id] : id;
-    }
 
     this.container = container;
     this.isLoading = false;
