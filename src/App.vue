@@ -24,7 +24,7 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
 
-      <v-checkbox v-model="collapseOnScroll" hide-details></v-checkbox>
+      <!-- <v-checkbox v-model="collapseOnScroll" hide-details></v-checkbox> -->
     </v-app-bar>
 
     <v-navigation-drawer
@@ -170,7 +170,7 @@ export default class SiteHeader extends Vue {
       })
       .finally(() => (this.isLoading = false));
   }
-  private collapseOnScroll = false;
+  private collapseOnScroll = true;
   private isLoading = false;
   private items = [];
   private model = null;

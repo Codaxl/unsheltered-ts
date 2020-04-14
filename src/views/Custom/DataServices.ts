@@ -19,7 +19,7 @@ export class ApiDataServices {
           "https://data.chhs.ca.gov/datastore/odata3.0/6cd8d424-dfaa-4bdd-9410-a3d656e1176e?$top=10000&$format=json"
         )
         .then(response => {
-          console.log(response);
+          // console.log(response);
           const timelineRecords = response["data"]["value"].map((v: any) =>
             Object.entries(v).reduce(
               (acc, [key, value]) =>
@@ -80,7 +80,7 @@ export class ApiDataServices {
           return dateA - dateB;
         });
 
-        console.log(groupArrays);
+        // console.log(groupArrays);
         covidStoreState.setTimeline(groupArrays);
         resolve(covidStoreState);
       });

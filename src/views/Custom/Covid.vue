@@ -70,7 +70,8 @@ export default class Covid extends Vue {
     const covidTimeline: any = JSON.parse(
       JSON.stringify(covidStoreState.timeline)
     );
-    console.log(covidTimeline[1]);
+
+    // console.log(covidTimeline[1]);
     const populations: any = {
       alameda: "1643700",
       alpine: "1146",
@@ -181,7 +182,7 @@ export default class Covid extends Vue {
       const country = list[i];
       // console.log("country", country)
       countryIndexMap[country.id] = i;
-      // console.log(countryIndexMap[country.id])
+      // console.log("index set", countryIndexMap[country.id])
     }
 
     // function that returns current slide
@@ -441,6 +442,7 @@ export default class Covid extends Vue {
 
     absolutePerCapitaSwitch.events.on("toggled", function() {
       if (absolutePerCapitaSwitch.isActive) {
+        showWorld();
         bubbleSeries.hide(0);
         perCapita = true;
         bubbleSeries.interpolationDuration = 0;
@@ -756,7 +758,7 @@ export default class Covid extends Vue {
     dateAxis.renderer.minGridDistance = 50;
     dateAxis.renderer.grid.template.stroke = am4core.color("#000000");
     dateAxis.renderer.grid.template.strokeOpacity = 0.25;
-    dateAxis.max = lastDate.getTime() + am4core.time.getDuration("day", 2);
+    dateAxis.max = lastDate.getTime() + am4core.time.getDuration("day", 3);
     dateAxis.tooltip.label.fontSize = "0.8em";
     dateAxis.tooltip.background.fill = confirmedColor;
     dateAxis.tooltip.background.stroke = confirmedColor;
@@ -1149,10 +1151,7 @@ export default class Covid extends Vue {
       currentPolygon = mapPolygon;
 
       const countryIndex = countryIndexMap[mapPolygon.dataItem.id];
-      // console.log("countryIndex", countryIndexMap)
       currentCountry = mapPolygon.dataItem.dataContext.name;
-
-      // console.log("currentCountry", currentCountry)
       // make others inactive
       polygonSeries.mapPolygons.each(function(polygon: any) {
         polygon.isActive = false;
@@ -1163,9 +1162,10 @@ export default class Covid extends Vue {
         clearTimeout(countryDataTimeout);
       }
       // we delay change of data for better performance (so that data is not changed whil zooming)
+
       countryDataTimeout = setTimeout(function() {
-        // console.log("countryDataTimeout", countryIndex)
-        setCountryData(countryIndex);
+        const countyId = currentCountry.replace(/\s+/g, "-").toLowerCase();
+        setCountryData(countryIndex, countyId);
       }, 1000); // you can adjust number, 1000 is one second
 
       updateTotals(currentIndex);
@@ -1178,15 +1178,19 @@ export default class Covid extends Vue {
     }
 
     // change line chart data to the selected states
-    function setCountryData(countryIndex: any) {
+    function setCountryData(countryIndex: any, id: any) {
+      // console.log("lineChart data",lineChart.data)
       // instead of setting whole data array, we modify current raw data so that a nice animation would happen
+      // for each date...
       for (let i = 0; i < lineChart.data.length; i++) {
         const di = covidTimeline[i].list;
-        // console.log("setcountry", covidTimeline[i].list)
-        const countryData = di[countryIndex];
-        // console.log("countryData", countryData)
+        const toFind = id;
+        const filtered = di.filter(function(el: any) {
+          return el.id === toFind;
+        });
+        // for the day, what values
+        const countryData = filtered[0];
         const dataContext = lineChart.data[i];
-        // console.log("dataContext", lineChart.data[i])
 
         // If there is data, set bottom chart recovered, confirmed, deaths, min and max.
         if (countryData) {
