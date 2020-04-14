@@ -71,7 +71,6 @@ export default class Covid extends Vue {
       JSON.stringify(covidStoreState.timeline)
     );
 
-    // console.log(covidTimeline[1]);
     const populations: any = {
       alameda: "1643700",
       alpine: "1146",
@@ -167,7 +166,7 @@ export default class Covid extends Vue {
 
     let sliderAnimation: any;
 
-    let perCapita = false;
+    // let perCapita = false;
 
     //////////////////////////////////////////////////////////////////////////////
     // PREPARE DATA
@@ -180,9 +179,7 @@ export default class Covid extends Vue {
 
     for (let i = 0; i < list.length; i++) {
       const country = list[i];
-      // console.log("country", country)
       countryIndexMap[country.id] = i;
-      // console.log("index set", countryIndexMap[country.id])
     }
 
     // function that returns current slide
@@ -427,52 +424,52 @@ export default class Covid extends Vue {
     title.y = 20;
 
     // switch between map and globe
-    const absolutePerCapitaSwitch: any = mapChart.createChild(
-      am4core.SwitchButton
-    );
-    absolutePerCapitaSwitch.align = "center";
-    absolutePerCapitaSwitch.y = 15;
-    absolutePerCapitaSwitch.leftLabel.text = "Absolute";
-    absolutePerCapitaSwitch.leftLabel.fill = am4core.color("#ffffff");
-    absolutePerCapitaSwitch.rightLabel.fill = am4core.color("#ffffff");
-    absolutePerCapitaSwitch.rightLabel.text = "Per Capita";
-    absolutePerCapitaSwitch.rightLabel.interactionsEnabled = true;
-    //absolutePerCapitaSwitch.rightLabel.tooltipText = "When calculating max value, countries with population less than 100.000 are not included."
-    absolutePerCapitaSwitch.verticalCenter = "top";
-
-    absolutePerCapitaSwitch.events.on("toggled", function() {
-      if (absolutePerCapitaSwitch.isActive) {
-        showWorld();
-        bubbleSeries.hide(0);
-        perCapita = true;
-        bubbleSeries.interpolationDuration = 0;
-        polygonSeries.heatRules.getIndex(0).max = colors[currentType];
-        //polygonSeries.heatRules.getIndex(0).maxValue = maxPC[currentType];
-        polygonSeries.mapPolygons.template.applyOnClones = true;
-
-        sizeSlider.hide();
-        filterSlider.hide();
-        sizeLabel.hide();
-        filterLabel.hide();
-
-        updateCountryTooltip();
-      } else {
-        perCapita = false;
-        polygonSeries.interpolationDuration = 0;
-        bubbleSeries.interpolationDuration = 1000;
-        bubbleSeries.show();
-        polygonSeries.heatRules.getIndex(0).max = countryColor;
-        polygonSeries.mapPolygons.template.tooltipText = undefined;
-        sizeSlider.show();
-        filterSlider.show();
-        sizeLabel.show();
-        filterLabel.show();
-      }
-      polygonSeries.mapPolygons.each(function(mapPolygon: any) {
-        mapPolygon.fill += mapPolygon.fill;
-        mapPolygon.defaultState.properties.fill = undefined;
-      });
-    });
+    // const absolutePerCapitaSwitch: any = mapChart.createChild(
+    //   am4core.SwitchButton
+    // );
+    // absolutePerCapitaSwitch.align = "center";
+    // absolutePerCapitaSwitch.y = 15;
+    // absolutePerCapitaSwitch.leftLabel.text = "Absolute";
+    // absolutePerCapitaSwitch.leftLabel.fill = am4core.color("#ffffff");
+    // absolutePerCapitaSwitch.rightLabel.fill = am4core.color("#ffffff");
+    // absolutePerCapitaSwitch.rightLabel.text = "Per Capita";
+    // absolutePerCapitaSwitch.rightLabel.interactionsEnabled = true;
+    // //absolutePerCapitaSwitch.rightLabel.tooltipText = "When calculating max value, countries with population less than 100.000 are not included."
+    // absolutePerCapitaSwitch.verticalCenter = "top";
+    //
+    // absolutePerCapitaSwitch.events.on("toggled", function() {
+    //   if (absolutePerCapitaSwitch.isActive) {
+    //     showWorld();
+    //     bubbleSeries.hide(0);
+    //     perCapita = true;
+    //     bubbleSeries.interpolationDuration = 0;
+    //     polygonSeries.heatRules.getIndex(0).max = colors[currentType];
+    //     //polygonSeries.heatRules.getIndex(0).maxValue = maxPC[currentType];
+    //     polygonSeries.mapPolygons.template.applyOnClones = true;
+    //
+    //     sizeSlider.hide();
+    //     filterSlider.hide();
+    //     sizeLabel.hide();
+    //     filterLabel.hide();
+    //
+    //     updateCountryTooltip();
+    //   } else {
+    //     perCapita = false;
+    //     polygonSeries.interpolationDuration = 0;
+    //     bubbleSeries.interpolationDuration = 1000;
+    //     bubbleSeries.show();
+    //     polygonSeries.heatRules.getIndex(0).max = countryColor;
+    //     polygonSeries.mapPolygons.template.tooltipText = undefined;
+    //     sizeSlider.show();
+    //     filterSlider.show();
+    //     sizeLabel.show();
+    //     filterLabel.show();
+    //   }
+    //   polygonSeries.mapPolygons.each(function(mapPolygon: any) {
+    //     mapPolygon.fill += mapPolygon.fill;
+    //     mapPolygon.defaultState.properties.fill = undefined;
+    //   });
+    // });
 
     // buttons & chart container
     const buttonsAndChartContainer: any = container.createChild(
@@ -749,9 +746,6 @@ export default class Covid extends Vue {
 
     // make a copy of data as we will be modifying it
     lineChart.data = JSON.parse(JSON.stringify(covidTimeline));
-
-    //
-    // console.log(lineChart.data )
     // date axis
     // https://www.amcharts.com/docs/v4/concepts/axes/date-axis/
     const dateAxis: any = lineChart.xAxes.push(new am4charts.DateAxis());
@@ -1129,10 +1123,10 @@ export default class Covid extends Vue {
       // update heat rule's maxValue
       bubbleSeries.heatRules.getIndex(0).maxValue = max[currentType];
       //polygonSeries.heatRules.getIndex(0).maxValue = maxPC[currentType];
-      if (perCapita) {
-        polygonSeries.heatRules.getIndex(0).max = colors[name];
-        updateCountryTooltip();
-      }
+      // if (perCapita) {
+      //   polygonSeries.heatRules.getIndex(0).max = colors[name];
+      //   updateCountryTooltip();
+      // }
     }
 
     // select a country
@@ -1165,7 +1159,7 @@ export default class Covid extends Vue {
 
       countryDataTimeout = setTimeout(function() {
         const countyId = currentCountry.replace(/\s+/g, "-").toLowerCase();
-        setCountryData(countryIndex, countyId);
+        setCountryData(countyId);
       }, 1000); // you can adjust number, 1000 is one second
 
       updateTotals(currentIndex);
@@ -1178,8 +1172,7 @@ export default class Covid extends Vue {
     }
 
     // change line chart data to the selected states
-    function setCountryData(countryIndex: any, id: any) {
-      // console.log("lineChart data",lineChart.data)
+    function setCountryData(id: any) {
       // instead of setting whole data array, we modify current raw data so that a nice animation would happen
       // for each date...
       for (let i = 0; i < lineChart.data.length; i++) {
@@ -1213,7 +1206,6 @@ export default class Covid extends Vue {
 
       lineChart.invalidateRawData();
       updateTotals(currentIndex);
-      // console.log("updateTotals", currentIndex)
       setTimeout(updateSeriesTooltip, 1000);
     }
 
@@ -1341,7 +1333,6 @@ export default class Covid extends Vue {
         }
         for (const key in buttons) {
           const count = Number(lineChart.data[index][key]);
-          // console.log(lineChart.data[index])
           if (!isNaN(count)) {
             buttons[key].label.text =
               capitalizeFirstLetter(key) +
@@ -1376,13 +1367,11 @@ export default class Covid extends Vue {
         }
 
         if (polygon && population > 0) {
-          // console.log(di.confirmed, di.id)
           di.confirmed = di.confirmed || 0;
           polygon.dataItem.dataContext.confirmedPC =
             (di.confirmed / population) * 1000000;
           polygon.dataItem.dataContext.deathsPC =
             (di.deaths / population) * 1000000;
-          // console.log(population)
           /*if (polygon.dataItem.dataContext.confirmedPC > maxPC.confirmed) {
     					maxPC.confirmed = polygon.dataItem.dataContext.confirmedPC;
     				}
