@@ -44,12 +44,14 @@ import am4themesAnimated from "@amcharts/amcharts4/themes/animated";
 import am4themesDark from "@amcharts/amcharts4/themes/dark";
 
 // Vuex
+
 import { getModule } from "vuex-module-decorators";
 import CovidStore from "@/store/covid/covid-store";
 const covidStoreState = getModule(CovidStore);
 
+import CountiesCa from "./data/js/CaCounties";
 import CountyGeo from "./data/json/CountyGeo.json";
-import CaPopulation from "./data/js/CaPopulation";
+
 // Themes begin
 am4core.useTheme(am4themesAnimated);
 am4core.useTheme(am4themesDark);
@@ -69,7 +71,67 @@ export default class Covid extends Vue {
       JSON.stringify(covidStoreState.timeline)
     );
 
-    const populations: any = CaPopulation;
+    const populations: any = {
+      alameda: "1643700",
+      alpine: "1146",
+      amador: "37829",
+      butte: "227075",
+      calaveras: "45235",
+      colusa: "21464",
+      "contra-costa": "1133247",
+      "del-norte": "27424",
+      "el-dorado": "186661",
+      fresno: "978130",
+      glenn: "27897",
+      humboldt: "135768",
+      imperial: "180216",
+      inyo: "18085",
+      kern: "883053",
+      kings: "150075",
+      lake: "64148",
+      lassen: "31185",
+      "los-angeles": "10098052",
+      madera: "155013",
+      marin: "260295",
+      mariposa: "17540",
+      mendocino: "87422",
+      merced: "269075",
+      modoc: "8938",
+      mono: "14174",
+      monterey: "433212",
+      napa: "140530",
+      nevada: "99092",
+      orange: "3164182",
+      placer: "380077",
+      plumas: "18699",
+      riverside: "2383286",
+      sacramento: "1510023",
+      "san-benito": "59416",
+      "san-bernardino": "2135413",
+      "san-diego": "3302833",
+      "san-francisco": "870044",
+      "san-joaquin": "732212",
+      "san-luis-obispo": "281455",
+      "san-mateo": "765935",
+      "santa-barbara": "443738",
+      "santa-clara": "1922200",
+      "santa-cruz": "273765",
+      shasta: "179085",
+      sierra: "2930",
+      siskiyou: "43540",
+      solano: "438530",
+      sonoma: "501317",
+      stanislaus: "539301",
+      sutter: "95872",
+      tehama: "63373",
+      trinity: "12862",
+      tulare: "460477",
+      tuolumne: "53932",
+      unassigned: "0",
+      ventura: "848112",
+      yolo: "214977",
+      yuba: "75493"
+    };
 
     const numberFormatter = new am4core.NumberFormatter();
 

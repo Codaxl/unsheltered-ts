@@ -163,7 +163,7 @@
 <script lang="ts">
 import Vue from "vue";
 import UserStore from "@/store/user/user-store";
-import { db, Timestamp } from "@/firebase";
+import { db } from "@/firebase";
 import format from "date-fns/format";
 import parseISO from "date-fns/parseISO";
 // lists
@@ -323,9 +323,6 @@ export default Vue.extend({
               text: doc.data().OrganizationName
             });
           });
-        })
-        .catch(err => {
-          console.log("Error getting documents", err);
         });
     },
     initialize() {
@@ -380,9 +377,6 @@ export default Vue.extend({
             });
           });
           this.isLoading = false;
-        })
-        .catch(err => {
-          console.log("Error getting documents", err);
         });
     }
   }

@@ -42,7 +42,7 @@
         </v-list-item>
         <v-list-item exact color="primary" to="/covid">
           <v-list-item-icon>
-            <v-icon>mdi-biohazard</v-icon>
+            <v-icon color="green">$vuetify.icons.smith</v-icon>
           </v-list-item-icon>
           <v-list-item-title>Covid-19</v-list-item-title>
         </v-list-item>
