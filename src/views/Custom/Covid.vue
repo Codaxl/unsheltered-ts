@@ -4,8 +4,10 @@
       <v-row no-gutters>
         <v-col cols="9">
           <v-row>
-            <v-col style="max-width:100x;">
-              <v-slider v-model="value" vertical></v-slider>
+            <v-col>
+              <div style="max-width:100x;">
+                <v-slider v-model="value" vertical></v-slider>
+              </div>
             </v-col>
             <v-col>
               <div id="covid" ref="covid" class="hello"></div>
