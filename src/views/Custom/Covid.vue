@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-card dark :loading="isLoading" class="mx-auto">
+    <v-card dark :loading="isLoading" class="mx-auto style">
       <v-card-title>
         COVID-19
       </v-card-title>
@@ -34,10 +34,11 @@
             :headers="headers"
             :items="chartData"
             item-key="name"
+            class="style"
           ></v-data-table>
         </v-col>
       </v-row>
-      <v-expansion-panels>
+      <v-expansion-panels class="style">
         <v-expansion-panel>
           <v-expansion-panel-header disable-icon-rotate>
             California COVID-19 Hospital Data and Case Statistics. California
@@ -1450,8 +1451,12 @@ export default class Covid extends Vue {
 </script>
 
 <style scoped>
+.style {
+  background-color: #212327;
+}
 .hello {
   max-width: 100%;
   height: 750px;
+  background-color: #212327;
 }
 </style>

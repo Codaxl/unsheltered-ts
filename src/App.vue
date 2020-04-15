@@ -1,31 +1,21 @@
 <template>
   <v-app>
-    <v-app-bar
-      :collapse="!collapseOnScroll"
-      color="white"
-      flat
-      app
-      clipped-left
-      style="min-width:500px;"
-    >
+    <v-app-bar :collapse="!collapseOnScroll" flat app clipped-left>
       <v-app-bar-nav-icon @click="drawer = !drawer" />
-
-      <v-toolbar-title>
-        <v-row align="center" style="min-width:200px;">
-          <v-img
-            alt="Vuetify Logo"
-            class="shrink mr-2 hidden-sm-and-down"
-            contain
-            src="@/assets/unsheltered-logo-dark.png"
-            transition="scale-transition"
-            width="40"
-          />
-          <span class="font-weight-bold grey--text">Unsheltered.io</span>
-        </v-row>
-      </v-toolbar-title>
+      <v-row align="center" style="min-width:200px;">
+        <v-img
+          alt="Vuetify Logo"
+          class="shrink mr-2 hidden-sm-and-down"
+          contain
+          src="@/assets/unsheltered-logo-dark.png"
+          transition="scale-transition"
+          width="40"
+        />
+        <span class="font-weight-bold grey--text">Unsheltered.io</span>
+      </v-row>
       <v-spacer></v-spacer>
 
-      <v-checkbox v-model="collapseOnScroll" hide-details></v-checkbox>
+      <!-- <v-checkbox v-model="collapseOnScroll" hide-details></v-checkbox> -->
     </v-app-bar>
 
     <v-navigation-drawer
@@ -171,7 +161,7 @@ export default class SiteHeader extends Vue {
       })
       .finally(() => (this.isLoading = false));
   }
-  private collapseOnScroll = true;
+  private collapseOnScroll = false;
   private isLoading = false;
   private items = [];
   private model = null;
@@ -220,5 +210,10 @@ export default class SiteHeader extends Vue {
 .fade-enter,
 .fade-leave-active {
   opacity: 0;
+}
+.v-toolbar.v-toolbar--collapsed {
+  max-width: 275px !important;
+  justify-content: center;
+  overflow: hidden;
 }
 </style>
