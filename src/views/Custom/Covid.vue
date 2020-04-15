@@ -1,45 +1,48 @@
 <template>
   <div>
-    <v-card dark :loading="isLoading">
-      <v-col cols="9">
-        <div id="covid" ref="covid" class="hello"></div>
-        <v-expansion-panels>
-          <v-expansion-panel style="background:#1e2128;color:white">
-            <v-expansion-panel-header disable-icon-rotate>
-              California COVID-19 Hospital Data and Case Statistics. California
-              Department of Public Health.
-              <template v-slot:actions>
-                <v-icon>mdi-alert-circle</v-icon>
-              </template>
-            </v-expansion-panel-header>
-            <v-expansion-panel-content>
-              Thank you to the California Department of Public Health for making
-              this
-              <a
-                href="https://data.chhs.ca.gov/dataset/california-covid-19-hospital-data-and-case-statistics"
-                >data</a
-              >
-              avialable. Statewide cumulative daily inventory of hospital status
-              aggregated to the county level. This dataset depicts: total
-              confirmed cases, total deaths, both positive and suspected
-              positive COVID-19 patients, as well as Intensive Care Unit (ISU)
-              positive and suspected positive COVID-19 patients. Cumulative
-              totals previous to 4/1 are not available.
-            </v-expansion-panel-content>
-          </v-expansion-panel>
-        </v-expansion-panels>
-      </v-col>
-      <v-col cols="3">
-        <v-data-table
-          dark
-          dense
-          hide-default-footer
-          :items-per-page="-1"
-          :headers="headers"
-          :items="chartData"
-          item-key="name"
-        ></v-data-table>
-      </v-col>
+    <v-card dark :loading="isLoading" style="background:#212327;">
+      <v-row no-gutters>
+        <v-col cols="9">
+          <div id="covid" ref="covid" class="hello"></div>
+        </v-col>
+        <v-col cols="3">
+          <v-data-table
+            dark
+            dense
+            hide-default-footer
+            :items-per-page="-1"
+            :headers="headers"
+            :items="chartData"
+            item-key="name"
+            style="background:#212327;"
+          ></v-data-table>
+        </v-col>
+      </v-row>
+      <v-expansion-panels>
+        <v-expansion-panel style="background:#212327;">
+          <v-expansion-panel-header disable-icon-rotate>
+            California COVID-19 Hospital Data and Case Statistics. California
+            Department of Public Health.
+            <template v-slot:actions>
+              <v-icon>mdi-alert-circle</v-icon>
+            </template>
+          </v-expansion-panel-header>
+          <v-expansion-panel-content>
+            Thank you to the California Department of Public Health for making
+            this
+            <a
+              href="https://data.chhs.ca.gov/dataset/california-covid-19-hospital-data-and-case-statistics"
+              >data</a
+            >
+            avialable. Statewide cumulative daily inventory of hospital status
+            aggregated to the county level. This dataset depicts: total
+            confirmed cases, total deaths, both positive and suspected positive
+            COVID-19 patients, as well as Intensive Care Unit (ISU) positive and
+            suspected positive COVID-19 patients. Cumulative totals previous to
+            4/1 are not available.
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </v-expansion-panels>
     </v-card>
   </div>
 </template>
@@ -1430,7 +1433,7 @@ export default class Covid extends Vue {
 <style scoped>
 .hello {
   max-width: 100%;
-  height: 800px;
+  height: 765px;
   background-color: #212327;
 }
 </style>
