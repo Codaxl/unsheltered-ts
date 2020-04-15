@@ -6,6 +6,7 @@
       flat
       app
       clipped-left
+      style="min-width:500px;"
     >
       <v-app-bar-nav-icon @click="drawer = !drawer" />
 
@@ -24,7 +25,7 @@
       </v-toolbar-title>
       <v-spacer></v-spacer>
 
-      <!-- <v-checkbox v-model="collapseOnScroll" hide-details></v-checkbox> -->
+      <v-checkbox v-model="collapseOnScroll" hide-details></v-checkbox>
     </v-app-bar>
 
     <v-navigation-drawer
@@ -60,7 +61,7 @@
 
           <v-list-item-title>Calendar</v-list-item-title>
         </v-list-item>
-        <v-list-group prepend-icon="mdi-account-circle">
+        <v-list-group prepend-icon="mdi-bank">
           <template v-slot:activator>
             <v-list-item-title>Funding</v-list-item-title>
           </template>

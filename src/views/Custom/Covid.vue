@@ -1,11 +1,6 @@
 <template>
   <div>
-    <v-card
-      dark
-      :loading="isLoading"
-      style="background:#212327;"
-      class="mx-auto"
-    >
+    <v-card dark :loading="isLoading" class="mx-auto">
       <v-card-title>
         COVID-19
       </v-card-title>
@@ -39,12 +34,11 @@
             :headers="headers"
             :items="chartData"
             item-key="name"
-            style="background:#212327;"
           ></v-data-table>
         </v-col>
       </v-row>
       <v-expansion-panels>
-        <v-expansion-panel style="background:#212327;">
+        <v-expansion-panel>
           <v-expansion-panel-header disable-icon-rotate>
             California COVID-19 Hospital Data and Case Statistics. California
             Department of Public Health.
@@ -82,7 +76,6 @@ import * as am4charts from "@amcharts/amcharts4/charts";
 import * as am4maps from "@amcharts/amcharts4/maps";
 
 import am4themesAnimated from "@amcharts/amcharts4/themes/animated";
-import am4themesDark from "@amcharts/amcharts4/themes/dark";
 
 // Vuex
 import { getModule } from "vuex-module-decorators";
@@ -96,7 +89,7 @@ import { camelCase } from "@/mixins/format";
 
 // Themes begin
 am4core.useTheme(am4themesAnimated);
-am4core.useTheme(am4themesDark);
+
 // Themes end
 @Component({})
 export default class Covid extends Vue {
@@ -500,7 +493,8 @@ export default class Covid extends Vue {
     chartAndSliderContainer.height = am4core.percent(100);
     chartAndSliderContainer.width = am4core.percent(100);
     chartAndSliderContainer.background = new am4core.RoundedRectangle();
-    chartAndSliderContainer.background.fill = am4core.color("#212327");
+    // https://github.com/vuetifyjs/vuetify/blob/master/packages/vuetify/src/styles/settings/_dark.scss
+    chartAndSliderContainer.background.fill = am4core.color("#1E1E1E");
     chartAndSliderContainer.background.cornerRadius(30, 30, 30, 30);
     chartAndSliderContainer.background.fillOpacity = 0.25;
     chartAndSliderContainer.paddingTop = 12;
@@ -1458,7 +1452,6 @@ export default class Covid extends Vue {
 <style scoped>
 .hello {
   max-width: 100%;
-  height: 765px;
-  background-color: #212327;
+  height: 750px;
 }
 </style>
