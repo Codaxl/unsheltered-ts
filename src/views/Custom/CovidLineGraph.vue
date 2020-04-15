@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-card dark :loading="isLoading">
-      <div id="chartdiv" ref="chartdiv" class="hello"></div>
+      <div id="covidLineGraph" ref="covidLineGraph" class="hello"></div>
     </v-card>
   </div>
 </template>
@@ -32,7 +32,7 @@ am4core.useTheme(am4themesDark);
 @Component({})
 export default class CovidLineGraph extends Vue {
   $refs!: {
-    chartdiv: HTMLElement;
+    covidLineGraph: HTMLElement;
   };
   private container: any;
   private isLoading = false;
@@ -42,7 +42,7 @@ export default class CovidLineGraph extends Vue {
     const covidTimeline: any = JSON.parse(
       JSON.stringify(covidStoreState.timeline)
     );
-
+    console.log(covidTimeline);
     // END OF DATA
 
     //////////////////////////////////////////////////////////////////////////////
@@ -51,7 +51,10 @@ export default class CovidLineGraph extends Vue {
 
     // main container
     // https://www.amcharts.com/docs/v4/concepts/svg-engine/containers/
-    const container: any = am4core.create("chartdiv", am4core.Container);
+    const container: any = am4core.create(
+      this.$refs.covidLineGraph,
+      am4core.Container
+    );
     container.width = am4core.percent(100);
     container.height = am4core.percent(100);
 
@@ -67,7 +70,7 @@ export default class CovidLineGraph extends Vue {
     }
 
     // Create series
-    function createSeries(s, name) {
+    function createSeries(s: string, name: string) {
       const series = chart.series.push(new am4charts.LineSeries());
       series.dataFields.valueY = "value" + s;
       series.dataFields.dateX = "date";
@@ -82,21 +85,21 @@ export default class CovidLineGraph extends Vue {
       const dimmed = segment.states.create("dimmed");
       dimmed.properties.stroke = am4core.color("#dadada");
 
-      segment.events.on("over", function(event) {
+      segment.events.on("over", function(event: any) {
         processOver(event.target.parent.parent.parent);
       });
 
-      segment.events.on("out", function(event) {
+      segment.events.on("out", function(event: any) {
         processOut(event.target.parent.parent.parent);
       });
 
       const data = [];
-      let value = Math.round(Math.random() * 100) + 100;
+      let value: number = Math.round(Math.random() * 100) + 100;
       for (let i = 1; i < 100; i++) {
         value += Math.round(
           (Math.random() < 0.5 ? 1 : -1) * Math.random() * 30 + i / 5
         );
-        const dataItem = { date: new Date(2018, 0, i) };
+        const dataItem: any = { date: new Date(2018, 0, i) };
         dataItem["value" + s] = value;
         data.push(dataItem);
       }
@@ -108,24 +111,26 @@ export default class CovidLineGraph extends Vue {
     chart.legend = new am4charts.Legend();
     chart.legend.position = "right";
     chart.legend.scrollable = true;
-    chart.legend.itemContainers.template.events.on("over", function(event) {
+    chart.legend.itemContainers.template.events.on("over", function(
+      event: any
+    ) {
       processOver(event.target.dataItem.dataContext);
     });
 
-    chart.legend.itemContainers.template.events.on("out", function(event) {
+    chart.legend.itemContainers.template.events.on("out", function(event: any) {
       processOut(event.target.dataItem.dataContext);
     });
 
-    function processOver(hoveredSeries) {
+    function processOver(hoveredSeries: any) {
       hoveredSeries.toFront();
 
-      hoveredSeries.segments.each(function(segment) {
+      hoveredSeries.segments.each(function(segment: any) {
         segment.setState("hover");
       });
 
-      chart.series.each(function(series) {
+      chart.series.each(function(series: any) {
         if (series != hoveredSeries) {
-          series.segments.each(function(segment) {
+          series.segments.each(function(segment: any) {
             segment.setState("dimmed");
           });
           series.bulletsContainer.setState("dimmed");
@@ -133,9 +138,9 @@ export default class CovidLineGraph extends Vue {
       });
     }
 
-    function processOut(hoveredSeries) {
-      chart.series.each(function(series) {
-        series.segments.each(function(segment) {
+    function processOut(hoveredSeries: any) {
+      chart.series.each(function(series: any) {
+        series.segments.each(function(segment: any) {
           segment.setState("default");
         });
         series.bulletsContainer.setState("default");

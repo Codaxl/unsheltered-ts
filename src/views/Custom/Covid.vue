@@ -1,32 +1,45 @@
 <template>
   <div>
     <v-card dark :loading="isLoading">
-      <div id="chartdiv" ref="chartdiv" class="hello"></div>
-      <v-expansion-panels>
-        <v-expansion-panel style="background:#1e2128;color:white">
-          <v-expansion-panel-header disable-icon-rotate>
-            California COVID-19 Hospital Data and Case Statistics. California
-            Department of Public Health.
-            <template v-slot:actions>
-              <v-icon>mdi-alert-circle</v-icon>
-            </template>
-          </v-expansion-panel-header>
-          <v-expansion-panel-content>
-            Thank you to the California Department of Public Health for making
-            this
-            <a
-              href="https://data.chhs.ca.gov/dataset/california-covid-19-hospital-data-and-case-statistics"
-              >data</a
-            >
-            avialable. Statewide cumulative daily inventory of hospital status
-            aggregated to the county level. This dataset depicts: total
-            confirmed cases, total deaths, both positive and suspected positive
-            COVID-19 patients, as well as Intensive Care Unit (ISU) positive and
-            suspected positive COVID-19 patients. Cumulative totals previous to
-            4/1 are not available.
-          </v-expansion-panel-content>
-        </v-expansion-panel>
-      </v-expansion-panels>
+      <v-col cols="9">
+        <div id="covid" ref="covid" class="hello"></div>
+        <v-expansion-panels>
+          <v-expansion-panel style="background:#1e2128;color:white">
+            <v-expansion-panel-header disable-icon-rotate>
+              California COVID-19 Hospital Data and Case Statistics. California
+              Department of Public Health.
+              <template v-slot:actions>
+                <v-icon>mdi-alert-circle</v-icon>
+              </template>
+            </v-expansion-panel-header>
+            <v-expansion-panel-content>
+              Thank you to the California Department of Public Health for making
+              this
+              <a
+                href="https://data.chhs.ca.gov/dataset/california-covid-19-hospital-data-and-case-statistics"
+                >data</a
+              >
+              avialable. Statewide cumulative daily inventory of hospital status
+              aggregated to the county level. This dataset depicts: total
+              confirmed cases, total deaths, both positive and suspected
+              positive COVID-19 patients, as well as Intensive Care Unit (ISU)
+              positive and suspected positive COVID-19 patients. Cumulative
+              totals previous to 4/1 are not available.
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
+      </v-col>
+      <v-col cols="3">
+        <v-data-table
+          dark
+          dense
+          hide-default-footer
+          :items-per-page="-1"
+          :headers="headers"
+          :items="chartData"
+          item-key="name"
+        ></v-data-table>
+      </v-col>
     </v-card>
   </div>
 </template>
@@ -60,12 +73,20 @@ am4core.useTheme(am4themesDark);
 @Component({})
 export default class Covid extends Vue {
   $refs!: {
-    chartdiv: HTMLElement;
+    covid: HTMLElement;
   };
   private container: any;
   private isLoading = false;
 
-  private chartData: any = [];
+  private chartData: any = JSON.parse(JSON.stringify(covidStoreState.timeline));
+  private headers = [
+    {
+      text: "Confirmed",
+      align: "start",
+      sortable: false,
+      value: "confirmed"
+    }
+  ];
   public init() {
     const covidTimeline: any = JSON.parse(
       JSON.stringify(covidStoreState.timeline)
@@ -168,7 +189,7 @@ export default class Covid extends Vue {
 
     // main container
     // https://www.amcharts.com/docs/v4/concepts/svg-engine/containers/
-    const container: any = am4core.create("chartdiv", am4core.Container);
+    const container: any = am4core.create(this.$refs.covid, am4core.Container);
     container.width = am4core.percent(100);
     container.height = am4core.percent(100);
 

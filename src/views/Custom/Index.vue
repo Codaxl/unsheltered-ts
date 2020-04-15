@@ -1,7 +1,7 @@
 <template>
   <v-container>
-    <v-row align="center" justify="center" no-gutters>
-      <v-col>
+    <v-row align="center" justify="center">
+      <v-col cols="12">
         <v-lazy
           :options="{
             threshold: 0.5
@@ -10,6 +10,21 @@
           transition="fade-transition"
         >
           <covid v-if="!isLoading" :key="componentKey"></covid>
+        </v-lazy>
+      </v-col>
+
+      <v-col cols="12">
+        <v-lazy
+          :options="{
+            threshold: 0.5
+          }"
+          min-height="500"
+          transition="fade-transition"
+        >
+          <covid-line-graph
+            v-if="!isLoading"
+            :key="componentKey"
+          ></covid-line-graph>
         </v-lazy>
       </v-col>
     </v-row>
@@ -38,7 +53,6 @@ export default class CovidDashboard extends Vue {
   private componentKey = 0;
   // Data Table
   private isLoading = false;
-
   created() {
     this.isLoading = true;
     this.initialize();
