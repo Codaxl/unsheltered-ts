@@ -1,6 +1,12 @@
 <template>
   <v-app>
-    <v-app-bar :collapse="!collapseOnScroll" flat app clipped-left>
+    <v-app-bar
+      :collapse="!collapseOnScroll"
+      flat
+      app
+      clipped-left
+      color="white"
+    >
       <v-app-bar-nav-icon @click="drawer = !drawer" />
       <v-row align="center" style="min-width:200px;">
         <v-img

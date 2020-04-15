@@ -7,19 +7,31 @@
       <v-card-subtitle>
         California
       </v-card-subtitle>
+      <v-row class="mx-auto">
+        <v-col cols="12">
+          <div>
+            <v-subheader class="pl-0">Max bubble size</v-subheader>
+            <v-slider
+              v-model="slider"
+              :thumb-size="24"
+              thumb-label="always"
+              color="primary"
+            ></v-slider>
+          </div>
+          <div>
+            <v-subheader class="pl-0">Filter max values</v-subheader>
+            <v-slider
+              v-model="slider"
+              :thumb-size="24"
+              thumb-label="always"
+              color="primary"
+            ></v-slider>
+          </div>
+        </v-col>
+      </v-row>
       <v-row no-gutters>
         <v-col cols="9">
           <v-row>
-            <v-col lg="1">
-              <v-slider v-model="value" vertical></v-slider>
-              <v-slider
-                dark
-                v-model="value"
-                vertical
-                thumb-label="always"
-                :thumb-size="24"
-              ></v-slider>
-            </v-col>
             <v-col>
               <div id="covid" ref="covid" class="hello"></div>
             </v-col>
@@ -38,9 +50,9 @@
           ></v-data-table>
         </v-col>
       </v-row>
-      <v-expansion-panels class="style">
+      <v-expansion-panels>
         <v-expansion-panel>
-          <v-expansion-panel-header disable-icon-rotate>
+          <v-expansion-panel-header disable-icon-rotate class="style">
             California COVID-19 Hospital Data and Case Statistics. California
             Department of Public Health.
             <template v-slot:actions>
@@ -99,7 +111,7 @@ export default class Covid extends Vue {
   };
   private container: any;
   private isLoading = false;
-  private value = 24;
+  private slider = 45;
   private chartData: any = JSON.parse(JSON.stringify(covidStoreState.timeline));
   private headers = [
     {
