@@ -19,7 +19,7 @@
 <script lang="ts">
 import { Component, Vue } from "vue-property-decorator";
 import Covid from "./Covid.vue";
-
+import CovidLineGraph from "./CovidLineGraph.vue";
 // Vuex
 import { getModule } from "vuex-module-decorators";
 import CovidStore from "@/store/covid/covid-store";
@@ -29,7 +29,8 @@ import { DataServices } from "./DataServices";
 @Component({
   name: "CovidDashboard",
   components: {
-    Covid
+    Covid,
+    CovidLineGraph
   }
 })
 export default class CovidDashboard extends Vue {

@@ -50,11 +50,13 @@ const covidStoreState = getModule(CovidStore);
 
 import CountyGeo from "./data/json/CountyGeo.json";
 import CaPopulation from "./data/js/CaPopulation";
+
+import { camelCase } from "@/mixins/format";
+
 // Themes begin
 am4core.useTheme(am4themesAnimated);
 am4core.useTheme(am4themesDark);
 // Themes end
-
 @Component({})
 export default class Covid extends Vue {
   $refs!: {
@@ -1094,9 +1096,8 @@ export default class Covid extends Vue {
         clearTimeout(countryDataTimeout);
       }
       // we delay change of data for better performance (so that data is not changed whil zooming)
-
       countryDataTimeout = setTimeout(function() {
-        const countyId = currentCountry.replace(/\s+/g, "-").toLowerCase();
+        const countyId = camelCase(currentCountry);
         setCountryData(countyId);
       }, 1000); // you can adjust number, 1000 is one second
 
