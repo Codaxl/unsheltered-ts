@@ -3,7 +3,12 @@
     <v-card dark :loading="isLoading" style="background:#212327;">
       <v-row no-gutters>
         <v-col cols="9">
-          <div id="covid" ref="covid" class="hello"></div>
+          <v-row>
+            <div style="max-width:50px;">
+              <v-slider v-model="value" vertical></v-slider>
+            </div>
+            <div id="covid" ref="covid" class="hello"></div>
+          </v-row>
         </v-col>
         <v-col cols="3">
           <v-data-table
@@ -377,15 +382,15 @@ export default class Covid extends Vue {
     // END OF MAP
 
     // top title
-    const title: any = mapChart.titles.create();
-    title.fontSize = "1.5em";
-    title.text = "COVID-19 California Spread Data";
-    title.align = "left";
-    title.horizontalCenter = "left";
-    title.marginLeft = 20;
-    title.paddingBottom = 10;
-    title.fill = am4core.color("#ffffff");
-    title.y = 20;
+    // const title: any = mapChart.titles.create();
+    // title.fontSize = "1.5em";
+    // title.text = "COVID-19 California Spread Data";
+    // title.align = "left";
+    // title.horizontalCenter = "left";
+    // title.marginLeft = 20;
+    // title.paddingBottom = 10;
+    // title.fill = am4core.color("#ffffff");
+    // title.y = 20;
 
     // switch between map and globe
     // const absolutePerCapitaSwitch: any = mapChart.createChild(
@@ -476,7 +481,7 @@ export default class Covid extends Vue {
     chartAndSliderContainer.width = am4core.percent(100);
     chartAndSliderContainer.background = new am4core.RoundedRectangle();
     chartAndSliderContainer.background.fill = am4core.color("#000000");
-    chartAndSliderContainer.background.cornerRadius(30, 30, 0, 0);
+    chartAndSliderContainer.background.cornerRadius(30, 30, 30, 30);
     chartAndSliderContainer.background.fillOpacity = 0.25;
     chartAndSliderContainer.paddingTop = 12;
     chartAndSliderContainer.paddingBottom = 0;
