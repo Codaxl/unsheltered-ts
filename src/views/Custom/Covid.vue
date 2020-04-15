@@ -22,7 +22,7 @@
                 v-model="value"
                 vertical
                 thumb-label="always"
-                thumb-size="24"
+                :thumb-size="24"
               ></v-slider>
             </v-col>
             <v-col>
@@ -105,7 +105,7 @@ export default class Covid extends Vue {
   };
   private container: any;
   private isLoading = false;
-
+  private value = 24;
   private chartData: any = JSON.parse(JSON.stringify(covidStoreState.timeline));
   private headers = [
     {
@@ -500,7 +500,7 @@ export default class Covid extends Vue {
     chartAndSliderContainer.height = am4core.percent(100);
     chartAndSliderContainer.width = am4core.percent(100);
     chartAndSliderContainer.background = new am4core.RoundedRectangle();
-    chartAndSliderContainer.background.fill = am4core.color("#000000");
+    chartAndSliderContainer.background.fill = am4core.color("#212327");
     chartAndSliderContainer.background.cornerRadius(30, 30, 30, 30);
     chartAndSliderContainer.background.fillOpacity = 0.25;
     chartAndSliderContainer.paddingTop = 12;
