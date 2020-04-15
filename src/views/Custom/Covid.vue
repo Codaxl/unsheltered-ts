@@ -1,11 +1,29 @@
 <template>
   <div>
-    <v-card dark :loading="isLoading" style="background:#212327;">
+    <v-card
+      dark
+      :loading="isLoading"
+      style="background:#212327;"
+      class="mx-auto"
+    >
+      <v-card-title>
+        COVID-19
+      </v-card-title>
+      <v-card-subtitle>
+        California
+      </v-card-subtitle>
       <v-row no-gutters>
         <v-col cols="9">
           <v-row>
-            <v-col md="auto">
+            <v-col lg="1">
               <v-slider v-model="value" vertical></v-slider>
+              <v-slider
+                dark
+                v-model="value"
+                vertical
+                thumb-label="always"
+                thumb-size="24"
+              ></v-slider>
             </v-col>
             <v-col>
               <div id="covid" ref="covid" class="hello"></div>
