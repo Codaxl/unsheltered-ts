@@ -8,22 +8,24 @@
         California
       </v-card-subtitle>
       <v-row class="mx-auto">
-        <v-col cols="12">
+        <v-col lg="2">
           <div>
             <v-subheader class="pl-0">Max bubble size</v-subheader>
             <v-slider
               v-model="slider"
               :thumb-size="24"
-              thumb-label="always"
+              thumb-label
               color="primary"
             ></v-slider>
           </div>
+        </v-col>
+        <v-col lg="2">
           <div>
-            <v-subheader class="pl-0">Filter max values</v-subheader>
+            <v-subheader class="pl-0">Max bubble size</v-subheader>
             <v-slider
               v-model="slider"
               :thumb-size="24"
-              thumb-label="always"
+              thumb-label
               color="primary"
             ></v-slider>
           </div>
