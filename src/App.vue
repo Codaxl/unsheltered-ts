@@ -30,7 +30,7 @@
       app
       floating
     >
-      <v-list rounded>
+      <v-list rounded dense>
         <v-list-item color="primary" to="/">
           <v-list-item-icon>
             <v-icon>mdi-home</v-icon>

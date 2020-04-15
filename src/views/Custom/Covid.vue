@@ -21,7 +21,7 @@
         </v-col>
         <v-col lg="2">
           <div>
-            <v-subheader class="pl-0">Max bubble size</v-subheader>
+            <v-subheader class="pl-0">Filter max values</v-subheader>
             <v-slider
               v-model="slider"
               :thumb-size="24"
@@ -83,7 +83,7 @@
 
 <script lang="ts">
 import Vue from "vue";
-import { Component } from "vue-property-decorator";
+import { Watch, Component } from "vue-property-decorator";
 
 /* Imports */
 import * as am4core from "@amcharts/amcharts4/core";
@@ -113,7 +113,7 @@ export default class Covid extends Vue {
   };
   private container: any;
   private isLoading = false;
-  private slider = 45;
+  private slider = 50;
   private chartData: any = JSON.parse(JSON.stringify(covidStoreState.timeline));
   private headers = [
     {
@@ -595,6 +595,7 @@ export default class Covid extends Vue {
       "down"
     ).properties.fill = confirmedColor;
     sizeSlider.horizontalCenter = "middle";
+    console.log(this.slider);
 
     sizeSlider.events.on("rangechanged", function() {
       sizeSlider.startGrip.scale = 0.75 + sizeSlider.start;
@@ -1449,6 +1450,10 @@ export default class Covid extends Vue {
 
     this.container = container;
     this.isLoading = false;
+  }
+  @Watch("slider")
+  onPropertyChanged(value: string, oldValue: string) {
+    console.log(value);
   }
   created() {
     this.isLoading = true;
