@@ -534,6 +534,7 @@ export default class Covid extends Vue {
     slider.height = 15;
     slider.start = 1;
 
+    // PLAY BUTTON SLIDER: THIS EVENT WILL TRIGGER DATE CHANGE ON LINE/BAR GRAPH
     // what to do when slider is dragged
     slider.events.on("rangechanged", function(event: any) {
       const index = Math.round((covidTimeline.length - 1) * slider.start);
@@ -595,10 +596,11 @@ export default class Covid extends Vue {
       "down"
     ).properties.fill = confirmedColor;
     sizeSlider.horizontalCenter = "middle";
-    console.log(this.slider);
 
+    // THIS WILL SLIDER EVENT WILL DETERMINE MAXE BUBBLE SIZE
     sizeSlider.events.on("rangechanged", function() {
       sizeSlider.startGrip.scale = 0.75 + sizeSlider.start;
+      console.log(sizeSlider.start);
       bubbleSeries.heatRules.getIndex(0).max = 30 + sizeSlider.start * 100;
       circle.clones.each(function(clone: any) {
         clone.radius += clone.radius;
@@ -1452,7 +1454,7 @@ export default class Covid extends Vue {
     this.isLoading = false;
   }
   @Watch("slider")
-  onPropertyChanged(value: string, oldValue: string) {
+  onPropertyChanged(value: number) {
     console.log(value);
   }
   created() {
