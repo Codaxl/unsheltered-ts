@@ -123,6 +123,19 @@ export default class Covid extends Vue {
       value: "confirmed"
     }
   ];
+
+  created() {
+    this.isLoading = true;
+    setTimeout(() => {
+      this.init();
+    }, 500);
+  }
+
+  @Watch("slider")
+  onPropertyChanged(value: number) {
+    console.log(value);
+  }
+
   public init() {
     const covidTimeline: any = JSON.parse(
       JSON.stringify(covidStoreState.timeline)
@@ -1452,16 +1465,6 @@ export default class Covid extends Vue {
 
     this.container = container;
     this.isLoading = false;
-  }
-  @Watch("slider")
-  onPropertyChanged(value: number) {
-    console.log(value);
-  }
-  created() {
-    this.isLoading = true;
-    setTimeout(() => {
-      this.init();
-    }, 500);
   }
   beforeDestroy() {
     if (this.container) {
