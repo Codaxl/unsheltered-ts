@@ -1488,7 +1488,8 @@ export default class Covid extends Vue {
       /**
        * Country/state list on the right
        */
-      container.data = covidStoreState.timeline;
+      container.data = [covidStoreState.timeline];
+
       container.exporting.menu = new am4core.ExportMenu();
       container.exporting.menu.container = document.getElementById("tools");
 
