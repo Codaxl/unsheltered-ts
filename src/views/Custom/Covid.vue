@@ -7,6 +7,7 @@
       <v-card-subtitle>
         California
       </v-card-subtitle>
+
       <v-row class="mx-auto">
         <v-col lg="2">
           <div>
@@ -35,6 +36,7 @@
         <v-col cols="9">
           <v-row>
             <v-col>
+              <div id="tools"></div>
               <div id="covid" ref="covid" class="hello"></div>
             </v-col>
           </v-row>
@@ -127,9 +129,9 @@ export default class Covid extends Vue {
 
   @Watch("slider")
   onPropertyChanged(value: number) {
-    // console.log(value)
-
-    this.container.events.on("hit", console.log("hit"));
+    // console.log(valueChange)
+    const valueChange = value / 100;
+    console.log(valueChange);
   }
 
   mounted() {
@@ -488,7 +490,8 @@ export default class Covid extends Vue {
       //   });
       // });
 
-      // buttons & chart container
+      // buttons & chart
+
       const buttonsAndChartContainer: any = container.createChild(
         am4core.Container
       );
@@ -589,6 +592,7 @@ export default class Covid extends Vue {
       slider.startGrip.background.states.copyFrom(playButton.background.states);
 
       // bubble size slider
+
       const sizeSlider: any = container.createChild(am4core.Slider);
       sizeSlider.orientation = "vertical";
       sizeSlider.height = am4core.percent(12);
@@ -621,8 +625,10 @@ export default class Covid extends Vue {
 
       // THIS WILL SLIDER EVENT WILL DETERMINE MAXE BUBBLE SIZE
       sizeSlider.events.on("rangechanged", function() {
-        sizeSlider.startGrip.scale = 0.75 + sizeSlider.start;
-        console.log(sizeSlider.start);
+        // THIS IS THE GRIP SCALE THAT CHANGES
+        const valueChange = (sizeSlider.startGrip.scale =
+          0.75 + sizeSlider.start);
+
         bubbleSeries.heatRules.getIndex(0).max = 30 + sizeSlider.start * 100;
         circle.clones.each(function(clone: any) {
           clone.radius += clone.radius;
@@ -1482,6 +1488,9 @@ export default class Covid extends Vue {
       /**
        * Country/state list on the right
        */
+      container.data = covidStoreState.timeline;
+      container.exporting.menu = new am4core.ExportMenu();
+      container.exporting.menu.container = document.getElementById("tools");
 
       this.container = container;
       this.isLoading = false;

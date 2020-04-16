@@ -8,7 +8,7 @@
       color="white"
     >
       <v-app-bar-nav-icon @click="drawer = !drawer" />
-      <v-row align="center" style="min-width:200px;">
+      <v-row align="center" style="min-width:200px;" class="mx-auto">
         <v-img
           alt="Vuetify Logo"
           class="shrink mr-2 hidden-sm-and-down"
