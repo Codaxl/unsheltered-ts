@@ -131,8 +131,15 @@ export default class Covid extends Vue {
     }, 500);
   }
 
+  private sliderValue = 0;
+
   @Watch("slider")
   onPropertyChanged(value: number) {
+    const valueChange = value / 100;
+    this.container.circle.clones.each(function(clone: any) {
+      clone.radius += clone.radius;
+      console.log(clone.radius);
+    });
     return value;
   }
 
