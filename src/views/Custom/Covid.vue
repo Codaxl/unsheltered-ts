@@ -127,9 +127,9 @@ export default class Covid extends Vue {
 
   @Watch("slider")
   onPropertyChanged(value: number) {
-    this.container.events.on("rangechanged", function(event: any) {
-      console.log("test");
-    });
+    // console.log(value)
+
+    this.container.events.on("hit", console.log("hit"));
   }
 
   mounted() {
@@ -138,8 +138,6 @@ export default class Covid extends Vue {
       const covidTimeline: any = JSON.parse(
         JSON.stringify(covidStoreState.timeline)
       );
-
-      console.log(this.onPropertyChanged);
 
       const populations: any = CaPopulation;
 
