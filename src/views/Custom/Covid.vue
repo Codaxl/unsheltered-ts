@@ -36,6 +36,7 @@
         <v-col cols="9">
           <v-row>
             <v-col>
+              <div id="legend"></div>
               <div id="tools"></div>
               <div id="covid" ref="covid" class="hello"></div>
             </v-col>
@@ -1488,10 +1489,9 @@ export default class Covid extends Vue {
       /**
        * Country/state list on the right
        */
-      container.data = [covidStoreState.timeline];
-
       container.exporting.menu = new am4core.ExportMenu();
-      container.exporting.menu.container = document.getElementById("tools");
+      container.customLegend = document.getElementById("legend");
+      container.legend.innerHTML += "<div>testttttttttttttt</div>";
 
       this.container = container;
       this.isLoading = false;
