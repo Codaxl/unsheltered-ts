@@ -133,7 +133,7 @@ export default class Covid extends Vue {
 
   @Watch("slider")
   onPropertyChanged(value: number) {
-    console.log(value);
+    return value;
   }
 
   public init() {
@@ -610,6 +610,7 @@ export default class Covid extends Vue {
     ).properties.fill = confirmedColor;
     sizeSlider.horizontalCenter = "middle";
 
+    console.log(this.onPropertyChanged);
     // THIS WILL SLIDER EVENT WILL DETERMINE MAXE BUBBLE SIZE
     sizeSlider.events.on("rangechanged", function() {
       sizeSlider.startGrip.scale = 0.75 + sizeSlider.start;
