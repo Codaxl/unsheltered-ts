@@ -7,31 +7,6 @@
       <v-card-subtitle>
         California
       </v-card-subtitle>
-
-      <v-row class="px-4" no-gutters>
-        <v-col lg="2">
-          <div>
-            <v-subheader class="pl-0">Max bubble size</v-subheader>
-            <v-slider
-              v-model="slider"
-              :thumb-size="24"
-              thumb-label
-              color="primary"
-            ></v-slider>
-          </div>
-        </v-col>
-        <v-col lg="2">
-          <div>
-            <v-subheader class="pl-0">Filter max values</v-subheader>
-            <v-slider
-              v-model="slider"
-              :thumb-size="24"
-              thumb-label
-              color="primary"
-            ></v-slider>
-          </div>
-        </v-col>
-      </v-row>
       <v-row no-gutters class="px-2">
         <v-col cols="12" lg="9">
           <v-row>
@@ -52,12 +27,60 @@
               :items-per-page="itemsPerPage"
               hide-default-footer
               class="style"
-              style="min-height:710px;"
+              style="min-height:720px;"
               @page-count="pageCount = $event"
-            ></v-data-table>
+            >
+              <template v-slot:item.id="{ item }">
+                {{ item.id | toText(caCountyId) }}
+              </template>
+            </v-data-table>
             <div class="text-center pt-2">
               <v-pagination v-model="page" :length="pageCount"></v-pagination>
             </div>
+          </div>
+        </v-col>
+      </v-row>
+      <v-row class="px-4" no-gutters>
+        <v-col lg="2">
+          <div>
+            <v-subheader class="pl-0">Max bubble size</v-subheader>
+            <v-slider
+              v-model="slider"
+              :thumb-size="24"
+              thumb-label
+              color="primary"
+            >
+              <template v-slot:prepend>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on }">
+                    <v-icon class="mx-1" v-on="on">mdi-chart-bubble</v-icon>
+                  </template>
+                  <span>Max bubble size</span>
+                </v-tooltip>
+              </template>
+            </v-slider>
+          </div>
+        </v-col>
+        <v-col lg="2">
+          <div>
+            <v-subheader class="pl-0">Filter max values</v-subheader>
+            <v-slider
+              v-model="slider"
+              :thumb-size="24"
+              thumb-label
+              color="primary"
+            >
+              <template v-slot:prepend>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on }">
+                    <v-icon class="mx-1" v-on="on"
+                      >mdi-sort-numeric-variant</v-icon
+                    >
+                  </template>
+                  <span> Filter max values</span>
+                </v-tooltip>
+              </template>
+            </v-slider>
           </div>
         </v-col>
       </v-row>
@@ -70,7 +93,7 @@
               <v-icon>mdi-alert-circle</v-icon>
             </template>
           </v-expansion-panel-header>
-          <v-expansion-panel-content>
+          <v-expansion-panel-content class="style">
             Thank you to the California Department of Public Health for making
             this
             <a
@@ -108,18 +131,33 @@ const covidStoreState = getModule(CovidStore);
 
 import CountyGeo from "./data/json/CountyGeo.json";
 import CaPopulation from "./data/js/CaPopulation";
-
+import CaCountyId from "./data/js/CaCountyId";
 import { camelCase } from "@/mixins/format";
 
 // Themes begin
 am4core.useTheme(am4themesAnimated);
 
 // Themes end
-@Component({})
+@Component({
+  filters: {
+    //https://stackoverflow.com/questions/42828664/access-vue-instance-data-inside-filter-method
+    toText: function(item: number, variable: Array<any>) {
+      const idArr = [item];
+
+      const idValueMap: any = variable.reduce(
+        (acc, { value, text }) => ({ ...acc, [value]: text }),
+        {}
+      );
+      const output = idArr.map(value => idValueMap[value]);
+      return output.toString();
+    }
+  }
+})
 export default class Covid extends Vue {
   $refs!: {
     covid: HTMLElement;
   };
+  private caCountyId = CaCountyId;
   private container: any;
   private isLoading = false;
   private slider = 50;
@@ -140,7 +178,7 @@ export default class Covid extends Vue {
   private sliderValue = 0;
   private page = 1;
   private pageCount = 0;
-  private itemsPerPage = 28;
+  private itemsPerPage = 25;
   @Watch("slider")
   onPropertyChanged(slider: number) {
     // console.log(valueChange)
@@ -342,7 +380,7 @@ export default class Covid extends Vue {
 
       const polygonActiveState: any = polygonTemplate.states.create("active");
       polygonActiveState.properties.fill = activeCountryColor;
-      console.log(polygonTemplate.states);
+      // console.log(polygonTemplate.states)
 
       // Bubble series
       const bubbleSeries: any = mapChart.series.push(
@@ -644,6 +682,7 @@ export default class Covid extends Vue {
       // THIS WILL SLIDER EVENT WILL DETERMINE MAXE BUBBconst stepperStep = createElement('v-stepper-step', 'Some step')LE SIZE
       sizeSlider.events.on("rangechanged", function() {
         // THIS IS THE GRIP SCALE THAT CHANGES
+
         sizeSlider.startGrip.scale = 0.75 + sizeSlider.start;
         bubbleSeries.heatRules.getIndex(0).max = 30 + sizeSlider.start * 100;
         circle.clones.each(function(clone: any) {
@@ -1107,19 +1146,12 @@ export default class Covid extends Vue {
       // console.log(polygonTemplate)
       // handle button clikc
       function handleButtonClick(event: any) {
-        const t = polygonSeries.mapPolygons;
-        console.log(t);
-
-        const active = t.values[t.values.findIndex(x => x.isActive == true)];
+        //  const t = polygonSeries.mapPolygons
+        // const active = t.values[t.values.findIndex((x:any) => x.isActive == true)]
 
         // // make others inactive
         polygonSeries.mapPolygons.each(function(polygon: any) {
-          console.log(polygon);
-          if (!polygon.isActive) {
-            polygon.isActive = false;
-          } else {
-            polygon.isActive = true;
-          }
+          polygon.isActive = false;
         });
 
         // console.log(polygonSeries.mapPolygons.isActive)
