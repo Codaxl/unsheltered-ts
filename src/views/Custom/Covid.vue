@@ -33,7 +33,7 @@
         </v-col>
       </v-row>
       <v-row no-gutters class="px-2">
-        <v-col cols="12" md="9">
+        <v-col cols="12" lg="9">
           <v-row>
             <v-col>
               <div id="legend" ref="legend"></div>
@@ -42,9 +42,10 @@
             </v-col>
           </v-row>
         </v-col>
-        <v-col cols="12" md="3">
+        <v-col cols="12" lg="3">
           <div>
             <v-data-table
+              dense
               :headers="headers"
               :items="chartData"
               :page.sync="page"
@@ -139,7 +140,7 @@ export default class Covid extends Vue {
   private sliderValue = 0;
   private page = 1;
   private pageCount = 0;
-  private itemsPerPage = 13;
+  private itemsPerPage = 28;
   @Watch("slider")
   onPropertyChanged(slider: number) {
     // console.log(valueChange)
@@ -341,6 +342,7 @@ export default class Covid extends Vue {
 
       const polygonActiveState: any = polygonTemplate.states.create("active");
       polygonActiveState.properties.fill = activeCountryColor;
+      console.log(polygonTemplate.states);
 
       // Bubble series
       const bubbleSeries: any = mapChart.series.push(
@@ -1068,6 +1070,7 @@ export default class Covid extends Vue {
       function addButton(name: any, color: any) {
         const button = buttonsContainer.createChild(am4core.Button);
         button.label!.valign = "middle";
+
         button.label!.fill = am4core.color("#ffffff");
         //button.label.fontSize = "11px";
         button.background.cornerRadius(30, 30, 30, 30);
@@ -1101,10 +1104,26 @@ export default class Covid extends Vue {
 
         return button;
       }
-
+      // console.log(polygonTemplate)
       // handle button clikc
       function handleButtonClick(event: any) {
-        // we saved name to dummy data
+        const t = polygonSeries.mapPolygons;
+        console.log(t);
+
+        const active = t.values[t.values.findIndex(x => x.isActive == true)];
+
+        // // make others inactive
+        polygonSeries.mapPolygons.each(function(polygon: any) {
+          console.log(polygon);
+          if (!polygon.isActive) {
+            polygon.isActive = false;
+          } else {
+            polygon.isActive = true;
+          }
+        });
+
+        // console.log(polygonSeries.mapPolygons.isActive)
+
         changeDataType(event.target.dummyData);
       }
 
@@ -1479,6 +1498,12 @@ export default class Covid extends Vue {
           image.isHover = false;
         });
       }
+
+      container.events.on("layoutvalidated", function() {
+        dateAxis.tooltip!.hide();
+        lineChart.cursor.hide();
+        updateTotals(currentIndex);
+      });
 
       container.events.on("layoutvalidated", function() {
         dateAxis.tooltip!.hide();
