@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <div style="width:100%;height:100%;">
     <v-row align="center" justify="center">
       <v-col cols="12">
         <v-lazy
@@ -28,7 +28,7 @@
         </v-lazy>
       </v-col>
     </v-row>
-  </v-container>
+  </div>
 </template>
 
 <script lang="ts">

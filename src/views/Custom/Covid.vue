@@ -27,7 +27,7 @@
               :items-per-page="itemsPerPage"
               hide-default-footer
               class="style"
-              style="min-height:720px;"
+              style="min-height:700px;"
               @page-count="pageCount = $event"
             >
               <template v-slot:item.id="{ item }">
@@ -43,7 +43,6 @@
       <v-row class="px-4" no-gutters>
         <v-col lg="2">
           <div>
-            <v-subheader class="pl-0">Max bubble size</v-subheader>
             <v-slider
               v-model="slider"
               :thumb-size="24"
@@ -63,7 +62,6 @@
         </v-col>
         <v-col lg="2">
           <div>
-            <v-subheader class="pl-0">Filter max values</v-subheader>
             <v-slider
               v-model="slider"
               :thumb-size="24"
@@ -76,6 +74,25 @@
                     <v-icon class="mx-1" v-on="on"
                       >mdi-sort-numeric-variant</v-icon
                     >
+                  </template>
+                  <span> Filter max values</span>
+                </v-tooltip>
+              </template>
+            </v-slider>
+          </div>
+        </v-col>
+        <v-col lg="8">
+          <div>
+            <v-slider
+              v-model="slider"
+              :thumb-size="24"
+              thumb-label
+              color="primary"
+            >
+              <template v-slot:append>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on }">
+                    <v-icon class="mx-1" v-on="on">mdi-play</v-icon>
                   </template>
                   <span> Filter max values</span>
                 </v-tooltip>
@@ -178,7 +195,7 @@ export default class Covid extends Vue {
   private sliderValue = 0;
   private page = 1;
   private pageCount = 0;
-  private itemsPerPage = 25;
+  private itemsPerPage = 24;
   @Watch("slider")
   onPropertyChanged(slider: number) {
     // console.log(valueChange)
