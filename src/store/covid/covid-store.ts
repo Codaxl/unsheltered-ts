@@ -12,14 +12,14 @@ export default class CovidStore extends VuexModule {
   // States
   public timeline = [{}];
   // States
-  // public bubbleSlider = .50;
+  public countyTotal = [{}];
   // Mutations
   @Mutation
   public setTimeline(data: Array<object>) {
     this.timeline = data;
   }
-  // @Mutation
-  // public setBubbleSlider(data: number) {
-  //   this.bubbleSlider = data;
-  // }
+  @Mutation
+  public setCountyTotal(data: Array<object>) {
+    this.countyTotal = data;
+  }
 }

@@ -8,7 +8,7 @@
         California
       </v-card-subtitle>
 
-      <v-row class="px-2" no-gutters>
+      <v-row class="px-4" no-gutters>
         <v-col lg="2">
           <div>
             <v-subheader class="pl-0">Max bubble size</v-subheader>
@@ -32,8 +32,8 @@
           </div>
         </v-col>
       </v-row>
-      <v-row no-gutters>
-        <v-col cols="12" md="9" class="px-2">
+      <v-row no-gutters class="px-2">
+        <v-col cols="12" md="9">
           <v-row>
             <v-col>
               <div id="legend" ref="legend"></div>
@@ -43,16 +43,21 @@
           </v-row>
         </v-col>
         <v-col cols="12" md="3">
-          <v-data-table
-            dark
-            dense
-            hide-default-footer
-            :items-per-page="-1"
-            :headers="headers"
-            :items="chartData"
-            item-key="name"
-            class="style"
-          ></v-data-table>
+          <div>
+            <v-data-table
+              :headers="headers"
+              :items="chartData"
+              :page.sync="page"
+              :items-per-page="itemsPerPage"
+              hide-default-footer
+              class="style"
+              style="min-height:710px;"
+              @page-count="pageCount = $event"
+            ></v-data-table>
+            <div class="text-center pt-2">
+              <v-pagination v-model="page" :length="pageCount"></v-pagination>
+            </div>
+          </div>
         </v-col>
       </v-row>
       <v-expansion-panels>
@@ -117,22 +122,32 @@ export default class Covid extends Vue {
   private container: any;
   private isLoading = false;
   private slider = 50;
-  private chartData: any = JSON.parse(JSON.stringify(covidStoreState.timeline));
+  private chartData: any = [{}];
   private headers = [
     {
-      text: "Confirmed",
+      text: "County",
       align: "start",
-      sortable: false,
-      value: "confirmed"
+      sortable: true,
+      value: "id"
+    },
+    {
+      text: "COVID-19 Positive Patients",
+      sortable: true,
+      value: "recovered"
     }
   ];
   private sliderValue = 0;
-
+  private page = 1;
+  private pageCount = 0;
+  private itemsPerPage = 13;
   @Watch("slider")
   onPropertyChanged(slider: number) {
     // console.log(valueChange)
     const v = slider / 100;
-    console.log(v);
+    // console.log(v);
+  }
+  created() {
+    this.latest();
   }
 
   mounted() {
@@ -1498,6 +1513,17 @@ export default class Covid extends Vue {
     if (this.container) {
       this.container.dispose();
     }
+  }
+  private latest() {
+    const covidTimeline: any = JSON.parse(
+      JSON.stringify(covidStoreState.timeline)
+    );
+    this.chartData = covidTimeline.reduce(function(r: any, a: any) {
+      if (r.date > a.date) {
+        console.log("true");
+      }
+      return r.date > a.date ? r : a.list;
+    });
   }
 }
 </script>
