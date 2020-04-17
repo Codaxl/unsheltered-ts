@@ -31,6 +31,7 @@ export class ApiDataServices {
 
     return Promise.all([promise1]).then(values => {
       const covid: any = values[0];
+
       const timelineState = new Promise(function(resolve, reject) {
         // this gives an object with dates as keys
         const groups = covid.reduce((groups: any, doc: any) => {
@@ -79,6 +80,42 @@ export class ApiDataServices {
         // console.log(groupArrays);
         covidStoreState.setTimeline(groupArrays);
         resolve(covidStoreState);
+      });
+
+      const countyState = new Promise(function(resolve, reject) {
+        // Edit: to add it in the array format instead
+
+        //https://stackoverflow.com/questions/53826570/reduce-array-of-objects-by-user-id-and-sum-certain-values
+        const dataTotals = Object.values(
+          covid.reduce((a: any, c: any) => {
+            const newId = camelCase(c.CountyName);
+            if (!a[newId]) {
+              a[newId] = {
+                id: camelCase(c.CountyName),
+                confirmed: Number(c.TotalCountConfirmed),
+                deaths: Number(c.TotalCountDeaths),
+                recovered: Number(c.ICUCOVID19PositivePatients)
+              };
+            } else {
+              a[newId].confirmed += Number(c.TotalCountConfirmed);
+              a[newId].deaths += Number(c.TotalCountDeaths);
+              a[newId].recovered += Number(c.ICUCOVID19PositivePatients);
+            }
+            return a;
+          }, {})
+        );
+
+        // Sort Ascending by Date
+        // groupArrays.sort(function compare(a, b) {
+        //   const dateA: Date = new Date(a.date);
+        //   const dateB: Date = new Date(b.date);
+        //   // console.log(dateB)
+        //   return +dateA - +dateB;
+        // });
+
+        // console.log(groupArrays);
+        // covidStoreState.setTimeline(groupArrays);
+        resolve();
       });
     });
   }

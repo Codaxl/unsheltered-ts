@@ -11,9 +11,15 @@ import store from "@/store";
 export default class CovidStore extends VuexModule {
   // States
   public timeline = [{}];
+  // States
+  // public bubbleSlider = .50;
   // Mutations
   @Mutation
   public setTimeline(data: Array<object>) {
     this.timeline = data;
   }
+  // @Mutation
+  // public setBubbleSlider(data: number) {
+  //   this.bubbleSlider = data;
+  // }
 }

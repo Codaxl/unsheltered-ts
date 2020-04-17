@@ -8,7 +8,7 @@
         California
       </v-card-subtitle>
 
-      <v-row class="mx-auto">
+      <v-row class="px-2" no-gutters>
         <v-col lg="2">
           <div>
             <v-subheader class="pl-0">Max bubble size</v-subheader>
@@ -33,16 +33,16 @@
         </v-col>
       </v-row>
       <v-row no-gutters>
-        <v-col cols="9">
+        <v-col cols="12" md="9" class="px-2">
           <v-row>
             <v-col>
-              <div id="legend"></div>
-              <div id="tools"></div>
+              <div id="legend" ref="legend"></div>
+              <div id="mydiv" ref="mydiv"></div>
               <div id="covid" ref="covid" class="hello"></div>
             </v-col>
           </v-row>
         </v-col>
-        <v-col cols="3">
+        <v-col cols="12" md="3">
           <v-data-table
             dark
             dense
@@ -129,10 +129,10 @@ export default class Covid extends Vue {
   private sliderValue = 0;
 
   @Watch("slider")
-  onPropertyChanged(value: number) {
+  onPropertyChanged(slider: number) {
     // console.log(valueChange)
-    const valueChange = value / 100;
-    console.log(valueChange);
+    const v = slider / 100;
+    console.log(v);
   }
 
   mounted() {
@@ -624,12 +624,10 @@ export default class Covid extends Vue {
       ).properties.fill = confirmedColor;
       sizeSlider.horizontalCenter = "middle";
 
-      // THIS WILL SLIDER EVENT WILL DETERMINE MAXE BUBBLE SIZE
+      // THIS WILL SLIDER EVENT WILL DETERMINE MAXE BUBBconst stepperStep = createElement('v-stepper-step', 'Some step')LE SIZE
       sizeSlider.events.on("rangechanged", function() {
         // THIS IS THE GRIP SCALE THAT CHANGES
-        const valueChange = (sizeSlider.startGrip.scale =
-          0.75 + sizeSlider.start);
-
+        sizeSlider.startGrip.scale = 0.75 + sizeSlider.start;
         bubbleSeries.heatRules.getIndex(0).max = 30 + sizeSlider.start * 100;
         circle.clones.each(function(clone: any) {
           clone.radius += clone.radius;
@@ -1490,8 +1488,7 @@ export default class Covid extends Vue {
        * Country/state list on the right
        */
       container.exporting.menu = new am4core.ExportMenu();
-      container.customLegend = document.getElementById("legend");
-      container.legend.innerHTML += "<div>testttttttttttttt</div>";
+      // Create custom legend
 
       this.container = container;
       this.isLoading = false;

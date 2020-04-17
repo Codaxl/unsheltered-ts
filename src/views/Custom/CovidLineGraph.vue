@@ -42,7 +42,7 @@ export default class CovidLineGraph extends Vue {
     const covidTimeline: any = JSON.parse(
       JSON.stringify(covidStoreState.timeline)
     );
-    console.log(covidTimeline);
+    // console.log(covidTimeline);
     // END OF DATA
 
     //////////////////////////////////////////////////////////////////////////////

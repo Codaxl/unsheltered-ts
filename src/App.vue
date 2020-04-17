@@ -8,7 +8,7 @@
       color="white"
     >
       <v-app-bar-nav-icon @click="drawer = !drawer" />
-      <v-row align="center" style="min-width:200px;" class="mx-auto">
+      <v-row align="center" class="px-4">
         <v-img
           alt="Vuetify Logo"
           class="shrink mr-2 hidden-sm-and-down"
@@ -17,7 +17,7 @@
           transition="scale-transition"
           width="40"
         />
-        <span class="font-weight-bold grey--text">Unsheltered.io</span>
+        <span class="title font-weight-bold grey--text">Unsheltered.io</span>
       </v-row>
       <v-spacer></v-spacer>
 
@@ -30,7 +30,7 @@
       app
       floating
     >
-      <v-list rounded dense>
+      <v-list rounded>
         <v-list-item color="primary" to="/">
           <v-list-item-icon>
             <v-icon>mdi-home</v-icon>
@@ -167,7 +167,7 @@ export default class SiteHeader extends Vue {
       })
       .finally(() => (this.isLoading = false));
   }
-  private collapseOnScroll = false;
+  private collapseOnScroll = true;
   private isLoading = false;
   private items = [];
   private model = null;
@@ -218,7 +218,7 @@ export default class SiteHeader extends Vue {
   opacity: 0;
 }
 .v-toolbar.v-toolbar--collapsed {
-  max-width: 275px !important;
+  max-width: 265px !important;
   justify-content: center;
   overflow: hidden;
 }
