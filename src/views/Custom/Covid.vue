@@ -188,6 +188,7 @@ export default class Covid extends Vue {
   private page = 1;
   private pageCount = 0;
   private itemsPerPage = 24;
+  private cCounty = "";
   @Watch("slider")
   onPropertyChanged(slider: number) {
     // console.log(valueChange)
@@ -197,7 +198,7 @@ export default class Covid extends Vue {
   created() {
     this.latest();
   }
-  private cCountry = "";
+
   mounted() {
     this.isLoading = true;
     setTimeout(() => {
@@ -1244,6 +1245,7 @@ export default class Covid extends Vue {
         // }
       }
 
+      console.log(this.cCounty);
       // select a country
       function selectCountry(mapPolygon: any) {
         resetHover();
@@ -1262,8 +1264,7 @@ export default class Covid extends Vue {
 
         const countryIndex = countryIndexMap[mapPolygon.dataItem.id];
         currentCountry = mapPolygon.dataItem.dataContext.name;
-        this.cCountry = mapPolygon.dataItem.dataContext.name;
-        console.log(this.cCountry);
+
         // make others inactive
         polygonSeries.mapPolygons.each(function(polygon: any) {
           polygon.isActive = false;
