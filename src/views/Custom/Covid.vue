@@ -281,7 +281,7 @@ export default class Covid extends Vue {
       }
 
       const max: any = { confirmed: 0, deaths: 0 };
-      let maxPC = { confirmed: 0, deaths: 0 };
+      let maxPC: any = { confirmed: 0, deaths: 0 };
 
       // the last day will have most
       for (let i = 0; i < mapData.length; i++) {
@@ -1215,7 +1215,6 @@ export default class Covid extends Vue {
 
         // show series
         if (seriesTypeSwitch.isActive) {
-          console.log("columnSeries", columnSeries);
           const currentSeries = columnSeries[name];
           currentSeries.show();
           // hide other series
@@ -1226,11 +1225,10 @@ export default class Covid extends Vue {
           }
         } else {
           const currentSeries = series[name];
-          console.log("current", currentSeries);
+
           currentSeries.show();
           // hide other series
           for (const key in series) {
-            console.log("other", series[key]);
             if (series[key] != currentSeries) {
               series[key].hide();
             }
@@ -1249,6 +1247,7 @@ export default class Covid extends Vue {
       // select a country
       function selectCountry(mapPolygon: any) {
         resetHover();
+        resetActive();
         polygonSeries.hideTooltip();
 
         // if the same country is clicked show world
@@ -1544,6 +1543,7 @@ export default class Covid extends Vue {
       }
 
       function resetActive() {
+        console.log(polygonSeries.mapPolygons);
         polygonSeries.mapPolygons.each(function(polygon: any) {
           polygon.isActive = false;
         });
