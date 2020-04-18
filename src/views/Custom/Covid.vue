@@ -197,7 +197,7 @@ export default class Covid extends Vue {
   created() {
     this.latest();
   }
-
+  private cCountry = "";
   mounted() {
     this.isLoading = true;
     setTimeout(() => {
@@ -1247,7 +1247,7 @@ export default class Covid extends Vue {
       // select a country
       function selectCountry(mapPolygon: any) {
         resetHover();
-        resetActive();
+
         polygonSeries.hideTooltip();
 
         // if the same country is clicked show world
@@ -1262,6 +1262,8 @@ export default class Covid extends Vue {
 
         const countryIndex = countryIndexMap[mapPolygon.dataItem.id];
         currentCountry = mapPolygon.dataItem.dataContext.name;
+        this.cCountry = mapPolygon.dataItem.dataContext.name;
+        console.log(this.cCountry);
         // make others inactive
         polygonSeries.mapPolygons.each(function(polygon: any) {
           polygon.isActive = false;
@@ -1279,7 +1281,6 @@ export default class Covid extends Vue {
 
         updateTotals(currentIndex);
         updateCountryName();
-
         mapPolygon.isActive = true;
 
         // zoom to state
@@ -1358,6 +1359,7 @@ export default class Covid extends Vue {
         const image = bubbleSeries.getImageById(mapPolygon.dataItem.id);
 
         resetHover();
+
         if (image) {
           image.isHover = false;
         }
@@ -1543,7 +1545,6 @@ export default class Covid extends Vue {
       }
 
       function resetActive() {
-        console.log(polygonSeries.mapPolygons);
         polygonSeries.mapPolygons.each(function(polygon: any) {
           polygon.isActive = false;
         });
