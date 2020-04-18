@@ -43,8 +43,11 @@
       <v-row class="px-4" no-gutters>
         <v-col lg="2">
           <div>
+            <input id="input" type="text" />
+
             <v-slider
               id="vslider1"
+              ref="vslider1"
               v-model="slider"
               :thumb-size="24"
               thumb-label
@@ -703,12 +706,12 @@ export default class Covid extends Vue {
       // THIS WILL SLIDER EVENT WILL DETERMINE MAXE BUBBconst stepperStep = createElement('v-stepper-step', 'Some step')LE SIZE
 
       document
-        .getElementById("vslider1")
-        .addEventListener("rangeinput", updateBubble);
-
-      function updateBubble() {
-        console.log("event");
-      }
+        .querySelector("#vslider1")!
+        .addEventListener("click", function() {
+          const name = (document.querySelector("#vslider1") as HTMLInputElement)
+            .value;
+          console.log(name);
+        });
 
       sizeSlider.events.on("rangechanged", function() {
         // THIS IS THE GRIP SCALE THAT CHANGES
