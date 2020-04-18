@@ -707,8 +707,8 @@ export default class Covid extends Vue {
 
       document
         .querySelector("#vslider1")!
-        .addEventListener("click", function() {
-          const name = (document.querySelector("#vslider1") as HTMLInputElement)
+        .addEventListener("rangeinput", function() {
+          const name = (document.querySelector(this.slider) as HTMLInputElement)
             .value;
           console.log(name);
         });
