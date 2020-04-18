@@ -1245,10 +1245,10 @@ export default class Covid extends Vue {
         // }
       }
 
-      console.log(this.cCounty);
       // select a country
       function selectCountry(mapPolygon: any) {
         resetHover();
+        resetActive();
 
         polygonSeries.hideTooltip();
 
