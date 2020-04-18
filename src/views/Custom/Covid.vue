@@ -81,21 +81,13 @@
             </v-slider>
           </div>
         </v-col>
-        <v-col lg="8">
+        <v-col lg="5">
           <div>
-            <v-slider
-              v-model="slider"
-              :thumb-size="24"
-              thumb-label
-              color="primary"
-            >
+            <v-slider v-model="slider" :thumb-size="24" color="primary">
               <template v-slot:prepend>
-                <v-tooltip bottom>
-                  <template v-slot:activator="{ on }">
-                    <v-icon class="mx-1" v-on="on">mdi-play</v-icon>
-                  </template>
-                  <span>Play</span>
-                </v-tooltip>
+                <v-btn large icon outlined>
+                  <v-icon>mdi-play</v-icon>
+                </v-btn>
               </template>
             </v-slider>
           </div>
@@ -1268,6 +1260,10 @@ export default class Covid extends Vue {
 
         const countryIndex = countryIndexMap[mapPolygon.dataItem.id];
         currentCountry = mapPolygon.dataItem.dataContext.name;
+        // make others inactive
+        polygonSeries.mapPolygons.each(function(polygon: any) {
+          polygon.isActive = false;
+        });
 
         // clear timeout if there is one
         if (countryDataTimeout) {
