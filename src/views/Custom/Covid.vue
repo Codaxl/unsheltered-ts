@@ -169,6 +169,7 @@ am4core.useTheme(am4themesAnimated);
 export default class Covid extends Vue {
   $refs!: {
     covid: HTMLElement;
+    vslider1: HTMLInputElement;
   };
   private caCountyId = CaCountyId;
   private container: any;
@@ -707,10 +708,10 @@ export default class Covid extends Vue {
 
       document
         .querySelector("#vslider1")!
-        .addEventListener("rangeinput", function() {
-          const name = (document.querySelector(this.slider) as HTMLInputElement)
-            .value;
-          console.log(name);
+        .addEventListener("rangechanged", function() {
+          const name = document.querySelector("#vslider1") as HTMLInputElement;
+          console.log("test");
+          console.log(name.value);
         });
 
       sizeSlider.events.on("rangechanged", function() {
