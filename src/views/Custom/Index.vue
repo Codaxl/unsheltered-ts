@@ -1,5 +1,5 @@
 <template>
-  <div style="width:100%;height:100%;">
+  <div>
     <v-row align="center" justify="center">
       <v-col cols="12">
         <v-lazy

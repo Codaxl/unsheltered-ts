@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="pa-2">
     <v-card dark :loading="isLoading" class="mx-auto style">
       <v-card-title>
         COVID-19
@@ -75,7 +75,7 @@
                       >mdi-sort-numeric-variant</v-icon
                     >
                   </template>
-                  <span> Filter max values</span>
+                  <span>Filter max values</span>
                 </v-tooltip>
               </template>
             </v-slider>
@@ -89,12 +89,12 @@
               thumb-label
               color="primary"
             >
-              <template v-slot:append>
+              <template v-slot:prepend>
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on }">
                     <v-icon class="mx-1" v-on="on">mdi-play</v-icon>
                   </template>
-                  <span> Filter max values</span>
+                  <span>Play</span>
                 </v-tooltip>
               </template>
             </v-slider>
@@ -1268,10 +1268,6 @@ export default class Covid extends Vue {
 
         const countryIndex = countryIndexMap[mapPolygon.dataItem.id];
         currentCountry = mapPolygon.dataItem.dataContext.name;
-        // make others inactive
-        polygonSeries.mapPolygons.each(function(polygon: any) {
-          polygon.isActive = false;
-        });
 
         // clear timeout if there is one
         if (countryDataTimeout) {
