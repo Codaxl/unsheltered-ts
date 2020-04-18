@@ -700,8 +700,9 @@ export default class Covid extends Vue {
       ).properties.fill = confirmedColor;
       sizeSlider.horizontalCenter = "middle";
 
-      const start = document.getElementById("vslider1").value;
-      console.log(start);
+      const inputValue: HTMLElement | null = document.getElementById(
+        "vslider1"
+      );
 
       // THIS WILL SLIDER EVENT WILL DETERMINE MAXE BUBBconst stepperStep = createElement('v-stepper-step', 'Some step')LE SIZE
       sizeSlider.events.on("rangechanged", function() {
