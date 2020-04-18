@@ -43,11 +43,7 @@
       <v-row class="px-4" no-gutters>
         <v-col lg="2">
           <div>
-            <input id="input" type="text" />
-
             <v-slider
-              id="vslider1"
-              ref="vslider1"
               v-model="slider"
               :thumb-size="24"
               thumb-label
@@ -169,7 +165,6 @@ am4core.useTheme(am4themesAnimated);
 export default class Covid extends Vue {
   $refs!: {
     covid: HTMLElement;
-    vslider1: HTMLInputElement;
   };
   private caCountyId = CaCountyId;
   private container: any;
@@ -354,16 +349,7 @@ export default class Covid extends Vue {
       const polygonSeries: any = mapChart.series.push(
         new am4maps.MapPolygonSeries()
       );
-      function resetActive() {
-        console.log("reset triggered");
-        polygonSeries.mapPolygons.each(function(polygon: any) {
-          polygon.isActive = false;
-        });
 
-        bubbleSeries.mapImages.each(function(image: any) {
-          image.isActive = false;
-        });
-      }
       polygonSeries.dataFields.id = "id";
       polygonSeries.dataFields.value = "confirmedPC";
       polygonSeries.interpolationDuration = 0;
@@ -705,23 +691,9 @@ export default class Covid extends Vue {
       sizeSlider.horizontalCenter = "middle";
 
       // THIS WILL SLIDER EVENT WILL DETERMINE MAXE BUBBconst stepperStep = createElement('v-stepper-step', 'Some step')LE SIZE
-
-      document
-        .querySelector("#vslider1")!
-        .addEventListener("rangechanged", function() {
-          const name = document.querySelector("#vslider1") as HTMLInputElement;
-          console.log("test");
-          console.log(name.value);
-        });
-
       sizeSlider.events.on("rangechanged", function() {
         // THIS IS THE GRIP SCALE THAT CHANGES
 
-        const input = (document.getElementById("vslider1") as HTMLInputElement)
-          .value;
-
-        const inputValue = Number(input) / 100;
-        console.log(inputValue);
         sizeSlider.startGrip.scale = 0.75 + sizeSlider.start;
         bubbleSeries.heatRules.getIndex(0).max = 30 + sizeSlider.start * 100;
         circle.clones.each(function(clone: any) {
