@@ -85,7 +85,7 @@
           <div>
             <v-slider v-model="slider" :thumb-size="24" color="primary">
               <template v-slot:prepend>
-                <v-btn large icon outlined>
+                <v-btn icon outlined>
                   <v-icon>mdi-play</v-icon>
                 </v-btn>
               </template>
@@ -281,7 +281,7 @@ export default class Covid extends Vue {
       }
 
       const max: any = { confirmed: 0, deaths: 0 };
-      //const maxPC = { confirmed: 0, deaths: 0 };
+      let maxPC = { confirmed: 0, deaths: 0 };
 
       // the last day will have most
       for (let i = 0; i < mapData.length; i++) {
@@ -1159,9 +1159,9 @@ export default class Covid extends Vue {
         // const active = t.values[t.values.findIndex((x:any) => x.isActive == true)]
 
         // // make others inactive
-        polygonSeries.mapPolygons.each(function(polygon: any) {
-          polygon.isActive = false;
-        });
+        // polygonSeries.mapPolygons.each(function(polygon: any) {
+        //   polygon.isActive = false;
+        // });
 
         // console.log(polygonSeries.mapPolygons.isActive)
 
@@ -1215,6 +1215,7 @@ export default class Covid extends Vue {
 
         // show series
         if (seriesTypeSwitch.isActive) {
+          console.log("columnSeries", columnSeries);
           const currentSeries = columnSeries[name];
           currentSeries.show();
           // hide other series
@@ -1225,9 +1226,11 @@ export default class Covid extends Vue {
           }
         } else {
           const currentSeries = series[name];
+          console.log("current", currentSeries);
           currentSeries.show();
           // hide other series
           for (const key in series) {
+            console.log("other", series[key]);
             if (series[key] != currentSeries) {
               series[key].hide();
             }
@@ -1236,7 +1239,7 @@ export default class Covid extends Vue {
 
         // update heat rule's maxValue
         bubbleSeries.heatRules.getIndex(0).maxValue = max[currentType];
-        //polygonSeries.heatRules.getIndex(0).maxValue = maxPC[currentType];
+        polygonSeries.heatRules.getIndex(0).maxValue = maxPC[currentType];
         // if (perCapita) {
         //   polygonSeries.heatRules.getIndex(0).max = colors[name];
         //   updateCountryTooltip();
@@ -1465,7 +1468,7 @@ export default class Covid extends Vue {
           dataItem.dataContext.deaths = 0;
         });
 
-        //maxPC = { confirmed: 0, deaths: 0 };
+        maxPC = { confirmed: 0, deaths: 0 };
 
         for (let i = 0; i < data.length; i++) {
           const di = data[i];
@@ -1494,7 +1497,7 @@ export default class Covid extends Vue {
           }
 
           bubbleSeries.heatRules.getIndex(0).maxValue = max[currentType];
-          //polygonSeries.heatRules.getIndex(0).maxValue = maxPC[currentType];
+          polygonSeries.heatRules.getIndex(0).maxValue = maxPC[currentType];
 
           bubbleSeries.invalidateRawData();
           polygonSeries.invalidateRawData();
@@ -1537,6 +1540,16 @@ export default class Covid extends Vue {
 
         bubbleSeries.mapImages.each(function(image: any) {
           image.isHover = false;
+        });
+      }
+
+      function resetActive() {
+        polygonSeries.mapPolygons.each(function(polygon: any) {
+          polygon.isActive = false;
+        });
+
+        bubbleSeries.mapImages.each(function(image: any) {
+          image.isActive = false;
         });
       }
 
