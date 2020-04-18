@@ -700,14 +700,15 @@ export default class Covid extends Vue {
       ).properties.fill = confirmedColor;
       sizeSlider.horizontalCenter = "middle";
 
-      const inputValue: HTMLElement | null = document.getElementById(
-        "vslider1"
-      );
-
       // THIS WILL SLIDER EVENT WILL DETERMINE MAXE BUBBconst stepperStep = createElement('v-stepper-step', 'Some step')LE SIZE
       sizeSlider.events.on("rangechanged", function() {
         // THIS IS THE GRIP SCALE THAT CHANGES
 
+        const input = (document.getElementById("vslider1") as HTMLInputElement)
+          .value;
+
+        const inputValue = input / 100;
+        console.log(inputValue);
         sizeSlider.startGrip.scale = 0.75 + sizeSlider.start;
         bubbleSeries.heatRules.getIndex(0).max = 30 + sizeSlider.start * 100;
         circle.clones.each(function(clone: any) {
