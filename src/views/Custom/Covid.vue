@@ -44,6 +44,7 @@
         <v-col lg="2">
           <div>
             <v-slider
+              id="vslider1"
               v-model="slider"
               :thumb-size="24"
               thumb-label
@@ -349,6 +350,16 @@ export default class Covid extends Vue {
       const polygonSeries: any = mapChart.series.push(
         new am4maps.MapPolygonSeries()
       );
+      function resetActive() {
+        console.log("reset triggered");
+        polygonSeries.mapPolygons.each(function(polygon: any) {
+          polygon.isActive = false;
+        });
+
+        bubbleSeries.mapImages.each(function(image: any) {
+          image.isActive = false;
+        });
+      }
       polygonSeries.dataFields.id = "id";
       polygonSeries.dataFields.value = "confirmedPC";
       polygonSeries.interpolationDuration = 0;
@@ -688,6 +699,9 @@ export default class Covid extends Vue {
         "down"
       ).properties.fill = confirmedColor;
       sizeSlider.horizontalCenter = "middle";
+
+      const start = document.getElementById("vslider1").value;
+      console.log(start);
 
       // THIS WILL SLIDER EVENT WILL DETERMINE MAXE BUBBconst stepperStep = createElement('v-stepper-step', 'Some step')LE SIZE
       sizeSlider.events.on("rangechanged", function() {
@@ -1248,7 +1262,6 @@ export default class Covid extends Vue {
       // select a country
       function selectCountry(mapPolygon: any) {
         resetHover();
-        resetActive();
 
         polygonSeries.hideTooltip();
 
@@ -1542,16 +1555,6 @@ export default class Covid extends Vue {
 
         bubbleSeries.mapImages.each(function(image: any) {
           image.isHover = false;
-        });
-      }
-
-      function resetActive() {
-        polygonSeries.mapPolygons.each(function(polygon: any) {
-          polygon.isActive = false;
-        });
-
-        bubbleSeries.mapImages.each(function(image: any) {
-          image.isActive = false;
         });
       }
 
