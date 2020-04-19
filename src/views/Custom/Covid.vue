@@ -43,11 +43,9 @@
       <v-row class="px-4" no-gutters>
         <v-col lg="2">
           <div>
-            <input type="range" class="amcharts-input" :value="this.hide" />
             <v-slider
-              id="b1m"
-              type="range"
-              v-model="sliderValue"
+              ref="bubbleSlider"
+              v-model="bubbleValue"
               :thumb-size="24"
               thumb-label
               color="primary"
@@ -66,7 +64,8 @@
         <v-col lg="2">
           <div>
             <v-slider
-              v-model="slider"
+              ref="filterSlider"
+              v-model="filterSlider"
               :thumb-size="24"
               thumb-label
               color="primary"
@@ -168,6 +167,8 @@ am4core.useTheme(am4themesAnimated);
 export default class Covid extends Vue {
   $refs!: {
     covid: HTMLElement;
+    bubbleSlider: any;
+    filterSlider: any;
   };
   private caCountyId = CaCountyId;
   private container: any;
@@ -193,13 +194,8 @@ export default class Covid extends Vue {
   private pageCount = 0;
   private itemsPerPage = 24;
   private cCounty = "";
-  @Watch("sliderValue")
-  onPropertyChanged(v: number) {
-    console.log(v);
-    this.sliderValue = v;
-    return this.sliderValue;
-    // console.log(v);
-  }
+  private bubbleValue = 52.5;
+  private filterSlider = 100;
   created() {
     this.latest();
   }
@@ -663,128 +659,24 @@ export default class Covid extends Vue {
       slider.startGrip.icon.stroke = am4core.color("#ffffff");
       slider.startGrip.background.states.copyFrom(playButton.background.states);
 
-      // bubble size slider
-
-      const sizeSlider: any = container.createChild(am4core.Slider);
-      sizeSlider.orientation = "vertical";
-      sizeSlider.height = am4core.percent(12);
-      sizeSlider.marginLeft = 25;
-      sizeSlider.align = "left";
-      sizeSlider.valign = "top";
-      sizeSlider.verticalCenter = "middle";
-      sizeSlider.opacity = 0.7;
-      sizeSlider.start = 0.5;
-      sizeSlider.background.fill = am4core.color("#ffffff");
-      sizeSlider.adapter.add("y", function(y: any, target: any) {
-        return (
-          container.pixelHeight *
-          (1 - buttonsAndChartContainer.percentHeight / 100) *
-          0.25
-        );
-      });
-
-      sizeSlider.startGrip.background.fill = confirmedColor;
-      sizeSlider.startGrip.background.fillOpacity = 0.8;
-      sizeSlider.startGrip.background.strokeOpacity = 0;
-      sizeSlider.startGrip.icon.stroke = am4core.color("#ffffff");
-      sizeSlider.startGrip.background.states.getKey(
-        "hover"
-      ).properties.fill = confirmedColor;
-      sizeSlider.startGrip.background.states.getKey(
-        "down"
-      ).properties.fill = confirmedColor;
-      sizeSlider.horizontalCenter = "middle";
-
       // THIS WILL SLIDER EVENT WILL DETERMINE MAXE BUBBconst stepperStep = createElement('v-stepper-step', 'Some step')LE SIZE
       // https://stackoverflow.com/questions/18544890/onchange-event-on-input-type--is-not-triggering-in-firefox-while-dragging
       // https://www.amcharts.com/demos/stock-chart/
-      const slider1 = document.getElementById("b1m");
-      slider1?.addEventListener(
-        "change",
-        function(e) {
-          console.log("click");
-          console.log(e);
-          const value = (document.getElementById("b1m") as HTMLInputElement)
-            .value;
-          console.log(value);
-        },
-        true
-      );
+      //https://stackoverflow.com/questions/26915193/dom-element-to-corresponding-vue-js-component
+      //https://stackoverflow.com/questions/49311741/adding-eventlistener-to-blur-event-on-custom-component
 
-      sizeSlider.events.on("rangechanged", function() {
-        // THIS IS THE GRIP SCALE THAT CHANGES
+      this.$refs.bubbleSlider?.$on("input", function(e: any) {
+        const eValue = e / 100;
 
-        sizeSlider.startGrip.scale = 0.75 + sizeSlider.start;
-        bubbleSeries.heatRules.getIndex(0).max = 30 + sizeSlider.start * 100;
+        bubbleSeries.heatRules.getIndex(0).max = 30 + eValue * 100;
         circle.clones.each(function(clone: any) {
           clone.radius += clone.radius;
         });
       });
-
-      const sizeLabel = container.createChild(am4core.Label);
-      sizeLabel.text = "max bubble size *";
-      sizeLabel.fill = am4core.color("#ffffff");
-      sizeLabel.rotation = 90;
-      sizeLabel.fontSize = "10px";
-      sizeLabel.fillOpacity = 0.5;
-      sizeLabel.horizontalCenter = "middle";
-      sizeLabel.align = "left";
-      sizeLabel.paddingBottom = 40;
-      sizeLabel.tooltip.setBounds({
-        x: 0,
-        y: 0,
-        width: 200000,
-        height: 200000
-      });
-      sizeLabel.tooltip.label.wrap = true;
-      sizeLabel.tooltip.label.maxWidth = 300;
-      sizeLabel.tooltipText =
-        "Some counties have so many cases that bubbles for counties with smaller values often look the same even if there is a significant difference between them. This slider can be used to increase the maximum size of a bubble so that when you zoom in to a region with relatively small values you can compare them anyway.";
-      sizeLabel.fill = am4core.color("#ffffff");
-
-      sizeLabel.adapter.add("y", function(y: any, target: any) {
-        return (
-          container.pixelHeight *
-          (1 - buttonsAndChartContainer.percentHeight / 100) *
-          0.25
-        );
-      });
-
       // filter slider
-
-      // bubble size slider
-      const filterSlider = container.createChild(am4core.Slider);
-      filterSlider.orientation = "vertical";
-      filterSlider.height = am4core.percent(28);
-      filterSlider.marginLeft = 25;
-      filterSlider.align = "left";
-      filterSlider.valign = "top";
-      filterSlider.verticalCenter = "middle";
-      filterSlider.opacity = 0.7;
-      filterSlider.background.fill = am4core.color("#ffffff");
-      filterSlider.adapter.add("y", function(y: any, target: any) {
-        return (
-          container.pixelHeight *
-          (1 - buttonsAndChartContainer.percentHeight / 100) *
-          0.7
-        );
-      });
-
-      filterSlider.startGrip.background.fill = confirmedColor;
-      filterSlider.startGrip.background.fillOpacity = 0.8;
-      filterSlider.startGrip.background.strokeOpacity = 0;
-      filterSlider.startGrip.icon.stroke = am4core.color("#ffffff");
-      filterSlider.startGrip.background.states.getKey(
-        "hover"
-      ).properties.fill = confirmedColor;
-      filterSlider.startGrip.background.states.getKey(
-        "down"
-      ).properties.fill = confirmedColor;
-      filterSlider.horizontalCenter = "middle";
-      filterSlider.start = 1;
-
-      filterSlider.events.on("rangechanged", function() {
-        const maxValue = max[currentType] * filterSlider.start + 1;
+      this.$refs.filterSlider?.$on("input", function(e: any) {
+        const eValue = e / 100;
+        const maxValue = max[currentType] * eValue + 1;
         if (!isNaN(maxValue) && bubbleSeries.inited) {
           bubbleSeries.heatRules.getIndex(0).maxValue = maxValue;
           circle.clones.each(function(clone: any) {
@@ -796,30 +688,6 @@ export default class Covid extends Vue {
             clone.radius += clone.radius;
           });
         }
-      });
-
-      const filterLabel = container.createChild(am4core.Label);
-      filterLabel.text = "filter max values *";
-      filterLabel.rotation = 90;
-      filterLabel.fontSize = "10px";
-      filterLabel.fill = am4core.color("#ffffff");
-      filterLabel.fontSize = "0.8em";
-      filterLabel.fillOpacity = 0.5;
-      filterLabel.horizontalCenter = "middle";
-      filterLabel.align = "left";
-      filterLabel.paddingBottom = 40;
-      filterLabel.tooltip.label.wrap = true;
-      filterLabel.tooltip.label.maxWidth = 300;
-      filterLabel.tooltipText =
-        "This filter allows for the removal of counties with many cases from the map so that it is possible to compare counties with smaller number of cases.";
-      filterLabel.fill = am4core.color("#ffffff");
-
-      filterLabel.adapter.add("y", function(y: any, target: any) {
-        return (
-          container.pixelHeight *
-          (1 - buttonsAndChartContainer.percentHeight / 100) *
-          0.7
-        );
       });
 
       // play behavior
