@@ -1,16 +1,21 @@
 <template>
   <div class="pa-2">
     <v-card dark :loading="isLoading" class="style">
-      <v-row class="pa-2 ma-auto">
-        <p class="display-1">
-          be•nev•o•lent
-        </p>
-
-        <div>Word of the Day</div>
-        <v-spacer></v-spacer>
-        <v-btn icon>
-          <v-icon>mdi-share-variant</v-icon>
-        </v-btn>
+      <v-row class="ma-auto">
+        <v-col tile>
+          <p class="display-1">
+            COVID-19
+          </p>
+          <div class="subtitle-1">California</div>
+        </v-col>
+        <v-col tile>
+          <v-row class="px-4">
+            <v-spacer></v-spacer>
+            <v-btn icon>
+              <v-icon>mdi-filter-variant</v-icon>
+            </v-btn>
+          </v-row>
+        </v-col>
       </v-row>
 
       <v-row no-gutters class="px-2">
