@@ -43,8 +43,11 @@
       <v-row class="px-4" no-gutters>
         <v-col lg="2">
           <div>
+            <input type="range" class="amcharts-input" :value="this.hide" />
             <v-slider
-              v-model="slider"
+              id="b1m"
+              type="range"
+              v-bind:value="sliderValue"
               :thumb-size="24"
               thumb-label
               color="primary"
@@ -184,15 +187,17 @@ export default class Covid extends Vue {
       value: "recovered"
     }
   ];
-  private sliderValue = 0;
+  private sliderValue = 50;
+  private hide = 50;
   private page = 1;
   private pageCount = 0;
   private itemsPerPage = 24;
   private cCounty = "";
-  @Watch("slider")
-  onPropertyChanged(slider: number) {
-    // console.log(valueChange)
-    const v = slider / 100;
+  @Watch("sliderValue")
+  onPropertyChanged(v: number) {
+    console.log(v);
+    this.sliderValue = v;
+    return this.sliderValue;
     // console.log(v);
   }
   created() {
@@ -691,6 +696,17 @@ export default class Covid extends Vue {
       sizeSlider.horizontalCenter = "middle";
 
       // THIS WILL SLIDER EVENT WILL DETERMINE MAXE BUBBconst stepperStep = createElement('v-stepper-step', 'Some step')LE SIZE
+      // https://stackoverflow.com/questions/18544890/onchange-event-on-input-type--is-not-triggering-in-firefox-while-dragging
+      // https://www.amcharts.com/demos/stock-chart/
+      const slider1 = document.getElementById("b1m");
+      slider1?.addEventListener("change", function() {
+        console.log("click");
+
+        const value = (document.getElementById("b1m") as HTMLInputElement)
+          .value;
+        console.log(value);
+      });
+
       sizeSlider.events.on("rangechanged", function() {
         // THIS IS THE GRIP SCALE THAT CHANGES
 
