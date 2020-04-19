@@ -41,12 +41,11 @@
         </v-col>
       </v-row>
       <v-row class="px-4" no-gutters>
-        <v-col lg="2">
+        <v-col lg="2" class="px-2">
           <div>
             <v-slider
               ref="bubbleSlider"
               v-model="bubbleValue"
-              :thumb-size="24"
               thumb-label
               color="primary"
             >
@@ -61,12 +60,12 @@
             </v-slider>
           </div>
         </v-col>
-        <v-col lg="2">
+        <v-col lg="2" class="px-2">
           <div>
             <v-slider
               ref="filterSlider"
               v-model="filterSlider"
-              :thumb-size="24"
+              min="1"
               thumb-label
               color="primary"
             >
@@ -83,13 +82,11 @@
             </v-slider>
           </div>
         </v-col>
-        <v-col lg="5">
+        <v-col lg="5" class="px-2">
           <div>
-            <v-slider v-model="slider" :thumb-size="24" color="primary">
+            <v-slider v-model="slider" color="primary" @click:prepend="prepend">
               <template v-slot:prepend>
-                <v-btn icon outlined>
-                  <v-icon>mdi-play</v-icon>
-                </v-btn>
+                <v-icon class="mx-1">mdi-play</v-icon>
               </template>
             </v-slider>
           </div>
@@ -196,6 +193,10 @@ export default class Covid extends Vue {
   private cCounty = "";
   private bubbleValue = 52.5;
   private filterSlider = 100;
+
+  private prepend() {
+    console.log("click");
+  }
   created() {
     this.latest();
   }
@@ -629,11 +630,13 @@ export default class Covid extends Vue {
 
       // PLAY BUTTON SLIDER: THIS EVENT WILL TRIGGER DATE CHANGE ON LINE/BAR GRAPH
       // what to do when slider is dragged
+
       slider.events.on("rangechanged", function(event: any) {
         const index = Math.round((covidTimeline.length - 1) * slider.start);
         updateMapData(getSlideData(index).list);
         updateTotals(index);
       });
+
       // stop animation if dragged
       slider.startGrip.events.on("drag", () => {
         stop();
@@ -664,7 +667,7 @@ export default class Covid extends Vue {
       // https://www.amcharts.com/demos/stock-chart/
       //https://stackoverflow.com/questions/26915193/dom-element-to-corresponding-vue-js-component
       //https://stackoverflow.com/questions/49311741/adding-eventlistener-to-blur-event-on-custom-component
-
+      // bubble slider
       this.$refs.bubbleSlider?.$on("input", function(e: any) {
         const eValue = e / 100;
 
@@ -1493,7 +1496,7 @@ export default class Covid extends Vue {
 }
 .hello {
   max-width: 100%;
-  height: 750px;
+  height: 700px;
   background-color: #212327;
 }
 </style>
