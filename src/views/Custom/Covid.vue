@@ -1,12 +1,18 @@
 <template>
   <div class="pa-2">
-    <v-card dark :loading="isLoading" class="mx-auto style">
-      <v-card-title>
-        COVID-19
-      </v-card-title>
-      <v-card-subtitle>
-        California
-      </v-card-subtitle>
+    <v-card dark :loading="isLoading" class="style">
+      <v-row class="pa-2 ma-auto">
+        <p class="display-1">
+          be•nev•o•lent
+        </p>
+
+        <div>Word of the Day</div>
+        <v-spacer></v-spacer>
+        <v-btn icon>
+          <v-icon>mdi-share-variant</v-icon>
+        </v-btn>
+      </v-row>
+
       <v-row no-gutters class="px-2">
         <v-col cols="12" lg="9">
           <v-row>
@@ -14,6 +20,60 @@
               <div id="legend" ref="legend"></div>
               <div id="mydiv" ref="mydiv"></div>
               <div id="covid" ref="covid" class="hello"></div>
+            </v-col>
+          </v-row>
+          <v-row class="px-4" no-gutters>
+            <v-col lg="2" class="px-2">
+              <div>
+                <v-slider
+                  ref="bubbleSlider"
+                  v-model="bubbleValue"
+                  color="primary"
+                >
+                  <template v-slot:prepend>
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on }">
+                        <v-icon class="mx-1" v-on="on">mdi-chart-bubble</v-icon>
+                      </template>
+                      <span>Max bubble size</span>
+                    </v-tooltip>
+                  </template>
+                </v-slider>
+              </div>
+            </v-col>
+            <v-col lg="2" class="px-2">
+              <div>
+                <v-slider
+                  ref="filterSlider"
+                  v-model="filterSlider"
+                  min="1"
+                  color="primary"
+                >
+                  <template v-slot:prepend>
+                    <v-tooltip bottom>
+                      <template v-slot:activator="{ on }">
+                        <v-icon class="mx-1" v-on="on"
+                          >mdi-sort-numeric-variant</v-icon
+                        >
+                      </template>
+                      <span>Filter max values</span>
+                    </v-tooltip>
+                  </template>
+                </v-slider>
+              </div>
+            </v-col>
+            <v-col lg="5" class="px-2">
+              <div>
+                <v-slider
+                  v-model="slider"
+                  color="primary"
+                  @click:prepend="prepend"
+                >
+                  <template v-slot:prepend>
+                    <v-icon class="mx-1">mdi-play</v-icon>
+                  </template>
+                </v-slider>
+              </div>
             </v-col>
           </v-row>
         </v-col>
@@ -37,58 +97,6 @@
             <div class="text-center pt-2">
               <v-pagination v-model="page" :length="pageCount"></v-pagination>
             </div>
-          </div>
-        </v-col>
-      </v-row>
-      <v-row class="px-4" no-gutters>
-        <v-col lg="2" class="px-2">
-          <div>
-            <v-slider
-              ref="bubbleSlider"
-              v-model="bubbleValue"
-              thumb-label
-              color="primary"
-            >
-              <template v-slot:prepend>
-                <v-tooltip bottom>
-                  <template v-slot:activator="{ on }">
-                    <v-icon class="mx-1" v-on="on">mdi-chart-bubble</v-icon>
-                  </template>
-                  <span>Max bubble size</span>
-                </v-tooltip>
-              </template>
-            </v-slider>
-          </div>
-        </v-col>
-        <v-col lg="2" class="px-2">
-          <div>
-            <v-slider
-              ref="filterSlider"
-              v-model="filterSlider"
-              min="1"
-              thumb-label
-              color="primary"
-            >
-              <template v-slot:prepend>
-                <v-tooltip bottom>
-                  <template v-slot:activator="{ on }">
-                    <v-icon class="mx-1" v-on="on"
-                      >mdi-sort-numeric-variant</v-icon
-                    >
-                  </template>
-                  <span>Filter max values</span>
-                </v-tooltip>
-              </template>
-            </v-slider>
-          </div>
-        </v-col>
-        <v-col lg="5" class="px-2">
-          <div>
-            <v-slider v-model="slider" color="primary" @click:prepend="prepend">
-              <template v-slot:prepend>
-                <v-icon class="mx-1">mdi-play</v-icon>
-              </template>
-            </v-slider>
           </div>
         </v-col>
       </v-row>
