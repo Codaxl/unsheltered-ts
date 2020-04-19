@@ -47,7 +47,7 @@
             <v-slider
               id="b1m"
               type="range"
-              v-bind:value="sliderValue"
+              v-model="sliderValue"
               :thumb-size="24"
               thumb-label
               color="primary"
@@ -699,13 +699,17 @@ export default class Covid extends Vue {
       // https://stackoverflow.com/questions/18544890/onchange-event-on-input-type--is-not-triggering-in-firefox-while-dragging
       // https://www.amcharts.com/demos/stock-chart/
       const slider1 = document.getElementById("b1m");
-      slider1?.addEventListener("change", function() {
-        console.log("click");
-
-        const value = (document.getElementById("b1m") as HTMLInputElement)
-          .value;
-        console.log(value);
-      });
+      slider1?.addEventListener(
+        "change",
+        function(e) {
+          console.log("click");
+          console.log(e);
+          const value = (document.getElementById("b1m") as HTMLInputElement)
+            .value;
+          console.log(value);
+        },
+        true
+      );
 
       sizeSlider.events.on("rangechanged", function() {
         // THIS IS THE GRIP SCALE THAT CHANGES
