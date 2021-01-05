@@ -13,7 +13,7 @@
     "@amcharts/amcharts4": "^4.9.4",
     "@amcharts/amcharts4-geodata": "^4.1.12",
     "@types/d3-geo": "^1.11.1",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "core-js": "^3.6.4",
     "date-fns": "^2.11.0",
     "date-fns-tz": "^1.0.10",
